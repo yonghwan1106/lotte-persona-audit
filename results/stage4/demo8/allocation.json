@@ -1,0 +1,133 @@
+{
+ "total": 200,
+ "target_segment": "19-39",
+ "target_n": 140,
+ "rest_n": 60,
+ "cards": [
+  {
+   "card": "A",
+   "use": "방향 가설은 순서나 선택이 아니어서 담당자 선택이 필요한 후보"
+  },
+  {
+   "card": "B",
+   "use": "방향 가설은 순서나 선택이 아니어서 담당자 선택이 필요한 후보"
+  },
+  {
+   "card": "C",
+   "use": "방향 가설은 순서나 선택이 아니어서 담당자 선택이 필요한 후보"
+  }
+ ],
+ "benchmark_note": "기존 제품 기준 카드가 이 시연에는 없습니다. 담당자가 넣어야 합니다.",
+ "choose_note": "패널은 탈락을 확정하지 못합니다. 아래는 제안이며 실측 대상은 담당자가 고릅니다.",
+ "overall": {
+  "group": "total",
+  "n": 200,
+  "margin_pp": 6.9,
+  "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 200) x 100 = 6.9pp"
+ },
+ "target": {
+  "group": "target",
+  "n": 140,
+  "margin_pp": 8.3,
+  "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 140) x 100 = 8.3pp"
+ },
+ "rest": {
+  "group": "rest",
+  "n": 60,
+  "margin_pp": 12.7,
+  "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 60) x 100 = 12.7pp"
+ },
+ "cells": [
+  {
+   "cell": "19-39_m",
+   "group": "19-39_m",
+   "n": 70,
+   "margin_pp": 11.7,
+   "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 70) x 100 = 11.7pp"
+  },
+  {
+   "cell": "19-39_f",
+   "group": "19-39_f",
+   "n": 70,
+   "margin_pp": 11.7,
+   "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 70) x 100 = 11.7pp"
+  },
+  {
+   "cell": "40-59_m",
+   "group": "40-59_m",
+   "n": 15,
+   "margin_pp": 25.3,
+   "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 15) x 100 = 25.3pp"
+  },
+  {
+   "cell": "40-59_f",
+   "group": "40-59_f",
+   "n": 15,
+   "margin_pp": 25.3,
+   "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 15) x 100 = 25.3pp"
+  },
+  {
+   "cell": "60+_m",
+   "group": "60+_m",
+   "n": 15,
+   "margin_pp": 25.3,
+   "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 15) x 100 = 25.3pp"
+  },
+  {
+   "cell": "60+_f",
+   "group": "60+_f",
+   "n": 15,
+   "margin_pp": 25.3,
+   "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 15) x 100 = 25.3pp"
+  }
+ ],
+ "six_cells_even": {
+  "group": "6 cells even",
+  "n": 33,
+  "margin_pp": 17.1,
+  "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 33) x 100 = 17.1pp"
+ },
+ "twelve_cells_even": {
+  "group": "12 cells even",
+  "n": 16,
+  "margin_pp": 24.5,
+  "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 16) x 100 = 24.5pp"
+ },
+ "first_card_each": {
+  "group": "first card only, 4 cards",
+  "n": 50,
+  "margin_pp": 13.9,
+  "arithmetic": "1.96 x sqrt(0.5 x 0.5 / 50) x 100 = 13.9pp"
+ },
+ "design_effects": [
+  {
+   "item": "weekly",
+   "unit_size": 5,
+   "icc": 0.5,
+   "design_effect": 3.0,
+   "effective_n": 66.7,
+   "margin_pp": 12.0,
+   "arithmetic": "1 + (5 - 1) x 0.5 = 3.0; 200 / 3.0 = 66.7; 1.96 x sqrt(0.5 x 0.5 / 66.7) x 100 = 12.0pp"
+  },
+  {
+   "item": "ever",
+   "unit_size": 5,
+   "icc": 0.41,
+   "design_effect": 2.64,
+   "effective_n": 75.8,
+   "margin_pp": 11.3,
+   "arithmetic": "1 + (5 - 1) x 0.41 = 2.64; 200 / 2.64 = 75.8; 1.96 x sqrt(0.5 x 0.5 / 75.8) x 100 = 11.3pp"
+  },
+  {
+   "item": "carb",
+   "unit_size": 5,
+   "icc": 0.1,
+   "design_effect": 1.4,
+   "effective_n": 142.9,
+   "margin_pp": 8.2,
+   "arithmetic": "1 + (5 - 1) x 0.1 = 1.4; 200 / 1.4 = 142.9; 1.96 x sqrt(0.5 x 0.5 / 142.9) x 100 = 8.2pp"
+  }
+ ],
+ "weighting": "Weight the sample to read a national value. The target and rest split is a design choice, not a population share.",
+ "does_not_answer": "This plan answers whether a large gap has the right direction and where the panel is wrong. It does not measure 12 cells."
+}

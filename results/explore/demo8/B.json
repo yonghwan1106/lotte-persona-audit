@@ -1,0 +1,55 @@
+{
+ "status": "done",
+ "card": "B",
+ "marking": "아래는 LLM 출력입니다. 응답자의 말이 아닙니다. 모든 문장은 가설입니다. 이 표본에는 수치가 없지만, 코드는 나열된 형태만 걸러 내므로 도구가 모든 수치와 판정 표현을 막는다는 뜻은 아닙니다.",
+ "source": {
+  "model_of_reasons": "gpt-6.1-terra",
+  "reasons_read": 150,
+  "calls_this_card": 0,
+  "cost_usd": 0.0
+ },
+ "sections": {
+  "objections": [
+   "가설: 제시된 가격대가 부담스럽게 느껴질 수 있다.",
+   "가설: 탄산과 홍차의 조합이 낯설어 구매를 망설일 수 있다.",
+   "가설: 복숭아 향과 탄산 홍차의 조합이 취향에 맞을지 판단하기 어려울 수 있다."
+  ],
+  "attractions": [
+   "가설: 당류가 없다는 문구가 음료 선택에 매력으로 작용할 수 있다.",
+   "가설: 칼로리가 없다는 점이 관심을 끌 수 있다.",
+   "가설: 복숭아 향을 더했다는 설명이 관심을 끌 수 있다.",
+   "가설: 탄산과 홍차를 결합한 콘셉트가 호기심을 일으킬 수 있다."
+  ],
+  "segment_hypotheses": [
+   "가설: 젊은 층과 고령층은 탄산 홍차 조합의 친숙함에 대한 반응이 다를 수 있다.",
+   "가설: 중년층에서도 가격대에 대한 수용도와 구매 의향이 갈릴 수 있다.",
+   "가설: 평소 당류나 칼로리를 고려해 음료를 고르는 습관에 따라 제로 문구의 매력이 달라질 수 있다."
+  ],
+  "survey_questions": [
+   "가설: 평소 음료를 고를 때 어떤 기준을 고려하시나요?",
+   "가설: 제시된 음료의 당류가 없다는 설명을 어떻게 평가하시나요?",
+   "가설: 제시된 음료의 칼로리가 없다는 설명을 어떻게 평가하시나요?",
+   "가설: 복숭아 향을 더했다는 설명에 대해 어떻게 생각하시나요?",
+   "가설: 탄산과 홍차를 결합한 음료 콘셉트가 얼마나 친숙하게 느껴지나요?"
+  ]
+ },
+ "returned_by_model": {
+  "objections": 3,
+  "attractions": 4,
+  "segment_hypotheses": 4,
+  "survey_questions": 7
+ },
+ "dropped_by_code": {
+  "over_limit": 3
+ },
+ "echo_check": {
+  "sentences_checked": 15,
+  "personas_compared": 150,
+  "reasons_compared": 150,
+  "persona_echo": 0,
+  "reason_echo": 0,
+  "passed": true,
+  "persona_run_chars": 10,
+  "reason_run_chars": 15
+ }
+}

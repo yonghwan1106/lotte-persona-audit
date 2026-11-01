@@ -434,3 +434,30 @@ def test_the_call_ceiling_stops_calls_and_leaves_the_plan_check_alone(tmp_path, 
     budget.check(0.05, "fits")
     with pytest.raises(settings.BudgetExceeded):
         budget.check(0.2, "past the ceiling")
+
+
+def test_the_readme_quotes_the_post_hoc_file():
+    doc = posthoc()
+    readme = (paths.ROOT / "README.md").read_text(encoding="utf-8")
+    d0 = doc["same_sample"]["draw0"]["terra_C2"]
+    flips = doc["same_sample"]["all_draws"]
+    assert f"{100 * d0['pooled_keep_share']:.1f}%" in readme and f"{100 * flips['terra_C2']['share_draws_decision_changes']:.1f}%" in readme and f"{100 * flips['surrogate_terra_slot']['share_draws_decision_changes']:.1f}%" in readme
+    row = doc["unit_intact"]["row"]["keep_rate"]
+    for name in ("terra_C2", "terra_C1", "surrogate_terra_slot", "floor_no_llm", "control_s1.0"):
+        assert str(row[name]["mean"]) in readme, name
+    for name in ("terra_C1", "floor_no_llm"):
+        r = doc["row"][name]["pooled"]["panel_excluded"]
+        assert str(r["keep_rate"]) in readme and str(r["beats_rate"]) in readme, name
+    assert ingest.load_policy()["frozen_label"] in readme and STATUS in readme
+
+
+def test_scenarios_of_this_stage_passed_after_the_rerun():
+    root = paths.RESULTS / "stage4" / "scenarios"
+    if not (root / "results.json").exists():
+        pytest.skip("no scenarios")
+    first = json.loads((root / "results.json").read_text(encoding="utf-8"))["results"]
+    again = json.loads((root / "results_rerun7.json").read_text(encoding="utf-8"))["results"]
+    failed = {(r["scenario"], r["mode"]) for r in first if not r["passed"]}
+    assert failed == {(r["scenario"], r["mode"]) for r in again} and all(r["passed"] for r in again)
+    assert all("KeyError" in r["error"] for r in first if not r["passed"])
+

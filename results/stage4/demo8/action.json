@@ -1,0 +1,108 @@
+{
+ "rules_version": "config/prereg_stage4.json B_rules",
+ "action": {
+  "rows": [
+   {
+    "card": "A",
+    "action": "keep",
+    "label": "실측 후보 유지",
+    "reason": "대조안과는 갈렸습니다. 가장 높게 나온 안과의 차이(terra 4.1pp, luna 4.8pp)가 탈락 제안 기준 5pp에 못 미쳐 버릴 근거가 없습니다."
+   },
+   {
+    "card": "B",
+    "action": "keep",
+    "label": "실측 후보 유지",
+    "reason": "대조안과는 갈렸습니다. 가장 높게 나온 안과의 차이(terra 2.1pp, luna 2.9pp)가 탈락 제안 기준 5pp에 못 미쳐 버릴 근거가 없습니다."
+   },
+   {
+    "card": "C",
+    "action": "keep",
+    "label": "실측 후보 유지",
+    "reason": "대조안과는 갈렸습니다. 이 실행에서 높게 나왔다는 것은 선택을 뜻하지 않습니다. 패널 내부 값이고 실제 소비자에게서도 그렇다는 근거가 없습니다."
+   }
+  ],
+  "order": [
+   "방향 가설: C가 A보다 패널 내부 값에서 높게 나왔습니다(terra 4.1pp, luna 4.8pp, 두 모델 모두 잡음 초과). 선택이 아닙니다. 기존 음료 순서 시험(Terra C1, 15범주 점유 격차)에서 Terra 격차 3~5pp 구간의 쌍 정확도는 8/18 = 0.444 [0.316, 0.556]였습니다.",
+   "방향 가설: C가 B보다 패널 내부 값에서 높게 나왔습니다(terra 2.1pp, luna 2.9pp, 두 모델 모두 잡음 초과). 선택이 아닙니다. 기존 음료 순서 시험(Terra C1, 15범주 점유 격차)에서 Terra 격차 1~3pp 구간의 쌍 정확도는 29/36 = 0.806 [0.684, 0.849]였습니다."
+  ],
+  "order_hidden_pairs": [
+   "A, B"
+  ],
+  "order_notes": [
+   "쌍 정확도는 기존 음료의 점유 격차에서 잰 값이고 Luna 값이나 구매 의향 격차에서 잰 것이 아닙니다. 구간 사이가 단조롭지 않아 1~5pp를 합치면 37/54입니다. 구간 값 하나를 이 쌍의 신뢰도로 읽지 않습니다. 출처: results/stage3/option_ranking.json, merged_coffee_15, panel_C1."
+  ],
+  "notes": [
+   "탈락 제안 기준 5pp는 기존 음료 순서 시험에서 나온 사후 가설이고, 신제품에서 검증한 적이 없습니다. 탈락 제안이 실제로 쓸모 있는지는 재지 않았습니다.",
+   "이 실행에는 정답이 없습니다. 패널 값은 시장 수치나 판매 전망이 아닙니다.",
+   "기준값 민감도: 규칙은 시연 값을 본 뒤에 썼고 결론은 기준값에 달려 있습니다. 같은 진단에 기준을 바꿔 넣으면 5pp, 4.5pp는 세 안 모두 유지; 4pp, 3pp는 A 탈락 제안; 2pp는 A, B 탈락 제안입니다. 세 안 유지는 패널의 판단이 아니라 이 기준값의 결과입니다."
+  ],
+  "drop_gap_pp": 5.0,
+  "threshold_sensitivity": [
+   {
+    "limit_pp": 5.0,
+    "drop_proposed": []
+   },
+   {
+    "limit_pp": 4.5,
+    "drop_proposed": []
+   },
+   {
+    "limit_pp": 4.0,
+    "drop_proposed": [
+     "A"
+    ]
+   },
+   {
+    "limit_pp": 3.0,
+    "drop_proposed": [
+     "A"
+    ]
+   },
+   {
+    "limit_pp": 2.0,
+    "drop_proposed": [
+     "A",
+     "B"
+    ]
+   }
+  ]
+ },
+ "detectable": {
+  "alpha_two_sided": 0.05,
+  "power": 0.8,
+  "p": 0.5,
+  "n_total": 200,
+  "n_arm": 100,
+  "z_alpha": 1.96,
+  "z_power": 0.8416,
+  "between_mde_pp": 19.8,
+  "within_mde_pp": {
+   "0.0": 14.0,
+   "0.3": 11.7,
+   "0.5": 9.9
+  },
+  "needed": [
+   {
+    "gap_pp": 5,
+    "between_per_arm": 1570,
+    "between_total": 3140,
+    "within": {
+     "0.0": 1570,
+     "0.3": 1099,
+     "0.5": 785
+    }
+   },
+   {
+    "gap_pp": 10,
+    "between_per_arm": 393,
+    "between_total": 786,
+    "within": {
+     "0.0": 393,
+     "0.3": 275,
+     "0.5": 197
+    }
+   }
+  ],
+  "arithmetic": "(1.960 + 0.842) x sqrt(2 x 0.5 x 0.5 / 100) x 100"
+ }
+}

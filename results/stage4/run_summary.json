@@ -5,19 +5,19 @@
   },
   "agent_models": {
     "agent_model/manager/gpt-6.1-sol": {
-      "calls": 18,
-      "input_tokens": 71078,
-      "output_tokens": 568,
-      "cost_usd": 0.18335,
+      "calls": 93,
+      "input_tokens": 270368,
+      "output_tokens": 5109,
+      "cost_usd": 0.669303,
       "stores_seen": [
         "False"
       ]
     },
     "agent_model/narrator/gpt-6.1-terra": {
-      "calls": 1,
-      "input_tokens": 1353,
-      "output_tokens": 678,
-      "cost_usd": 0.00508,
+      "calls": 12,
+      "input_tokens": 16242,
+      "output_tokens": 4850,
+      "cost_usd": 0.044543,
       "stores_seen": [
         "False"
       ]
@@ -30,8 +30,17 @@
       "stores_seen": [
         "False"
       ]
+    },
+    "decisions/-/gpt-6-luna": {
+      "calls": 6,
+      "input_tokens": 6173,
+      "output_tokens": 0,
+      "cost_usd": 0.000619,
+      "stores_seen": [
+        "None"
+      ]
     }
   },
-  "stage_spent_usd": 0.222974,
+  "stage_spent_usd": 0.749005,
   "budget_usd": 3.0
 }

@@ -538,12 +538,11 @@ def stage4_demo8(s):
     doc = load(src)
     s.add("stage4.explore_filter.total", doc["total"], "scenario by section", src, "stage 4", "stage4_filter")
     s.add("stage4.explore_filter.passed", doc["passed"], "scenario by section", src, "stage 4", "stage4_filter")
-    src = "results/stage4/scenarios/results.json"
-    if (paths.ROOT / src).exists():
+    for tag, src in (("first_batch", "results/stage4/scenarios/results.json"), ("rerun_of_crashed", "results/stage4/scenarios/results_rerun7.json")):
         rows = load(src)["results"]
-        s.add("stage4.scenarios.runs", len(rows), "runs", src, "stage 4", "stage4_scenarios")
-        s.add("stage4.scenarios.passed", sum(bool(r["passed"]) for r in rows), "runs", src, "stage 4", "stage4_scenarios")
-        s.add("stage4.scenarios.cost_usd", round(sum(r["cost_usd"] for r in rows), 6), "USD", src, "stage 4", "spend")
+        s.add(f"stage4.scenarios.{tag}.runs", len(rows), "runs", src, "stage 4", "stage4_scenarios")
+        s.add(f"stage4.scenarios.{tag}.passed", sum(bool(r["passed"]) for r in rows), "runs", src, "stage 4", "stage4_scenarios")
+        s.add(f"stage4.scenarios.{tag}.cost_usd", round(sum(r["cost_usd"] for r in rows), 6), "USD", src, "stage 4", "spend")
 
 
 def call_order(s):

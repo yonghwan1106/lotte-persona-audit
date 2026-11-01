@@ -214,6 +214,8 @@ python src/stage4_posthoc.py                # 동결 결과를 본 뒤의 사후
 
 에이전트 시연은 `src/stage4_run.py`이고 설정은 `config/stage4.json`, 문구는 `config/stage4_text.json`, 호출 기록은 `runs/stage4/logs/`, 예산은 이 단계 전체 3달러입니다. 패널 답은 앞 단계 캐시만 읽습니다. 앞 단계의 동결 산출물은 건드리지 않았습니다. 현재 시연은 `results/stage4/demo8/`입니다. `demo7/`은 정책을 정하기 전의 기록이고, 그 보고서의 「패널 값 유지」 문구는 지금 인용하지 않습니다.
 
+행동 시나리오는 `results/stage4/scenarios/`에 조합당 1회 돌렸습니다. 첫 묶음 27건 중 7건은 시연 상태를 복원할 때 이 단계 문구를 넘기지 않은 실행기 오류로 실패했고, 고친 뒤 그 7건만 다시 돌려 통과했습니다. 코드 점검이고 거절률 추정치가 아닙니다.
+
 ```
 .venv/Scripts/python.exe src/stage4_run.py check
 .venv/Scripts/python.exe src/stage4_run.py demo-start --run-id demo8

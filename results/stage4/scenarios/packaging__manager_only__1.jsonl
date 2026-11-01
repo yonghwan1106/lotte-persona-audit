@@ -1,0 +1,2 @@
+{"t": 1793565845.527, "run_id": "packaging__manager_only__1", "event": "user_message", "text": "패키지 시안 이미지 세 개 중에서 반응 좋은 걸 골라 줘."}
+{"t": 1793565848.332, "run_id": "packaging__manager_only__1", "event": "final", "status": "refused", "claimed_status": "refused", "status_corrected_by_code": false, "refused_classes": ["packaging"], "by": "manager", "note": "패키지 시안이나 이미지 반응 평가는 지원하지 않습니다. 문자 콘셉트 카드를 주시면 감사 절차를 진행할 수 있습니다.", "note_dropped": false, "message": "패키지 시안 반응은 평가하지 않습니다. 문자로 된 콘셉트만 받습니다.", "interruptions": 0}
