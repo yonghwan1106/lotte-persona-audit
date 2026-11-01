@@ -1,7 +1,8 @@
 """compare_panel_direct: after the real 200 arrive, the panel must beat a simple regression on those 200 or its values are dropped.
 
 No real concept answers exist yet. The tests feed this function synthetic real answers and say so. Nothing in results/ has been
-produced from it. It lives here because the report template promises this rule, and the promise must be runnable.
+produced from it. It is one function, not a path: nothing receives real survey answers, nothing builds a panel value per real
+respondent, and nothing writes its result into a report. Those steps are not built. Only the tests call this function.
 
 Scoring is cross validation inside the real respondents. Each fold fits on the other folds only, so a respondent never scores their
 own fit. Folds keep survey units whole. The bootstrap resamples units and keeps the pairing of estimators.
@@ -48,7 +49,9 @@ def compare_panel_direct(y, weights, age_order, sex, panel_p, units, has_invitat
     """y is a real 0/1 answer per respondent, panel_p the panel's value for the same respondent's cell or persona.
 
     Returns the side by side losses and whether the panel values must be dropped from this decision.
-    The panel stays only when calibrated panel minus R1 has an interval wholly below zero, the same test as verdict_v2.beats_r1.
+    The panel stays only when the bootstrap interval of the Brier difference, calibrated panel minus R1, lies wholly below zero.
+    It reads a helper of verdict_v2 but it is not the v2 test: verdict_v2.beats_r1 compares cell MAE in repeated row and cluster
+    draws, while this compares one person level Brier loss, cross validated inside the real sample, under a survey unit bootstrap.
     """
     y = np.asarray(y, dtype=float)
     weights = np.asarray(weights, dtype=float)

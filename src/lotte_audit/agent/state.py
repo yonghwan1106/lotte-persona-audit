@@ -11,7 +11,7 @@ from pathlib import Path
 
 # The SDK runs plain function tools on worker threads, so parallel tool calls can write at the same moment.
 _WRITE_LOCK = threading.Lock()
-PERSISTED = ("run_id", "cards", "excluded", "removed", "plan", "approval", "run_doc", "diagnostics", "verdict", "catalog", "allocation", "questionnaire", "narration", "ledger_entry", "reason_tokens", "reasons_too_long", "panel_sha256", "demo", "refusals", "intake_cards")
+PERSISTED = ("run_id", "cards", "excluded", "removed", "plan", "approval", "run_doc", "diagnostics", "verdict", "catalog", "allocation", "questionnaire", "narration", "ledger_entry", "reason_tokens", "reasons_too_long", "panel_sha256", "demo", "refusals", "intake_cards", "anchor_reductions", "pending_confirmations", "leading_decisions", "leading_log")
 
 
 @dataclass
@@ -50,6 +50,10 @@ class AuditContext:
     planted: dict = field(default_factory=dict)
     tool_counts: dict = field(default_factory=dict)
     guardrail_fn: object = None
+    anchor_reductions: list = field(default_factory=list)
+    pending_confirmations: dict = field(default_factory=dict)
+    leading_decisions: dict = field(default_factory=dict)
+    leading_log: list = field(default_factory=list)
 
     def event(self, kind, **fields):
         row = {"t": round(time.time(), 3), "run_id": self.run_id, "event": kind, **fields}

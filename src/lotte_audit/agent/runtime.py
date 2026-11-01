@@ -130,6 +130,7 @@ def run_state_flags(ctx):
     """What is done, from the context. A run resumed in a new conversation has no other way to know."""
     return {
         "cards_validated": sorted(ctx.cards),
+        "cards_waiting_for_a_person": sorted(ctx.pending_confirmations),
         "plan_accepted": bool(ctx.plan),
         "approval_recorded": bool(ctx.approval),
         "panel_complete": bool(ctx.run_doc and ctx.run_doc.get("complete")),
@@ -157,7 +158,7 @@ def narrator_instructions(wrapper, _agent):
 
 @output_guardrail
 async def number_rule(wrapper, _agent, output):
-    """Rejects a digit or a Korean numeral word outside placeholders, an unknown metric id, and a market claim."""
+    """Rejects a numeral form listed in the rule outside placeholders, an unknown metric id, a market claim and a taste guess."""
     ctx = wrapper.context
     ctx.narration["attempts"] += 1
     guard = narration.Guard(ctx.text)
@@ -262,10 +263,20 @@ def refusal_message(text, classes):
     return " ".join(text["refusal"]["messages"][c] for c in classes if c in text["refusal"]["messages"])
 
 
+def checked_status(ctx, claimed):
+    """A claimed complete stands only when the ledger is written and nothing waits for a person. The model's word is not the record."""
+    if claimed == "complete" and (not ctx.ledger_entry or ctx.pending_confirmations):
+        return "stopped"
+    return claimed
+
+
 def outcome_from_final(ctx, reply):
     guard = narration.Guard(ctx.text)
+    status = checked_status(ctx, reply.status)
     return {
-        "status": reply.status,
+        "status": status,
+        "claimed_status": reply.status,
+        "status_corrected_by_code": status != reply.status,
         "refused_classes": list(reply.refused_classes),
         "by": "manager",
         "note": guard.clean_note(reply.note),

@@ -39,6 +39,26 @@ SHARED_REQUEST = ("reasoning_effort", "store", "service_tier", "prompt_cache_mod
 SEP = "|"
 
 
+FIX_CONFIG = paths.CONFIG / "fix_stage.json"
+_OVERLAY = None
+
+
+def activate_fix_stage():
+    """Move this process to the separate fix stage: its own logs, results, ledger and budget. The panel cache stays where it is, read through.
+
+    Call it before importing panel, scenarios or runtime, whose defaults bind these paths at import. The earlier stage's files stay untouched.
+    """
+    global STAGE, LOG_DIR, PANEL_LOG, MODEL_LOG, SAVED_DIR, RESULTS, LEDGER, _OVERLAY
+    _OVERLAY = json.loads(FIX_CONFIG.read_text(encoding="utf-8"))
+    STAGE = paths.ROOT / _OVERLAY["stage_dir"]
+    LOG_DIR = STAGE / "logs"
+    PANEL_LOG = LOG_DIR / "panel_calls.jsonl"
+    MODEL_LOG = LOG_DIR / "model_calls.jsonl"
+    SAVED_DIR = STAGE / "saved"
+    RESULTS = paths.ROOT / _OVERLAY["results_dir"]
+    LEDGER = RESULTS / "ledger.jsonl"
+
+
 class BudgetExceeded(RuntimeError):
     """A call would pass the stage budget, so it was not made."""
 
@@ -71,6 +91,8 @@ def load_config(check_prompt=True):
             raise RuntimeError(f"config/agent_run.json request differs from the gate on {field}")
     if check_prompt and template_sha256(load_prompt()) != cfg["prompt_sha256"]:
         raise RuntimeError("config/concept_prompt.json changed since config/agent_run.json was frozen")
+    if _OVERLAY:
+        cfg["limits"]["budget_usd"] = _OVERLAY["budget_usd"]
     return cfg
 
 
@@ -127,9 +149,9 @@ def spent_in(path):
 class StageBudget:
     """The stage's money. It reads the logs every time, so separate processes share one budget."""
 
-    def __init__(self, budget_usd, log_paths=(PANEL_LOG, MODEL_LOG)):
+    def __init__(self, budget_usd, log_paths=None):
         self.budget_usd = float(budget_usd)
-        self.log_paths = [Path(p) for p in log_paths]
+        self.log_paths = [Path(p) for p in (log_paths if log_paths is not None else (PANEL_LOG, MODEL_LOG))]
 
     def spent(self):
         return sum(spent_in(p) for p in self.log_paths)

@@ -5,6 +5,7 @@
   freeze                 write the prompt hash into the config and hash the frozen files, then commit
   demo-start             the manager validates and plans, then the run pauses for approval and its state is saved
   demo-resume --approver NAME   loads the saved run, records the approval, and goes on with the same run to the ledger
+  card-confirm --run-id NAME --card ID --decision remove|keep --approver NAME   a person decides on flagged fact style sentences
   scenarios --runs N     behaviour scenarios on the live API, results/agent/scenarios
   status                 spend per log
 
@@ -20,8 +21,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import panel_run  # noqa: E402
 from lotte_audit.agent import panel as panel_module  # noqa: E402
-from lotte_audit.agent import runtime, scenarios, settings  # noqa: E402
+from lotte_audit.agent import runtime, scenarios, settings, toolimpl  # noqa: E402
 from lotte_audit.agent.state import AuditContext  # noqa: E402
+
+BACKEND_CLASS = panel_module.RealBackend  # the fix stage replaces this with a backend that only reads the cache
 
 
 def demo_paths(run_id):
@@ -105,7 +108,7 @@ def demo_context(cfg, text, api_key, run_id):
     budget = settings.StageBudget(cfg["limits"]["budget_usd"])
     p = demo_paths(run_id)
     ctx = AuditContext(run_id=run_id, cfg=cfg, text=text, budget=budget, transcript_path=p["transcript"], demo=True, results_dir=p["dir"], progress=200)
-    ctx.backend = panel_module.RealBackend(cfg, api_key)
+    ctx.backend = BACKEND_CLASS(cfg, api_key)
 
     async def guard(c, request_text):
         from lotte_audit.agent import intake
@@ -154,6 +157,19 @@ def cmd_demo_resume(args):
     print(json.dumps({"outcome": outcome, "manifest": (ctx.ledger_entry or {}).get("manifest_sha256"), "stage_spent_usd": round(ctx.budget.spent(), 6)}, ensure_ascii=False, indent=2))
 
 
+def cmd_card_confirm(args):
+    """A person's decision on the fact style sentences of one card, recorded on the saved run. The model has no tool for this."""
+    cfg = settings.load_config()
+    text = settings.load_text()
+    budget = settings.StageBudget(cfg["limits"]["budget_usd"])
+    p = demo_paths(args.run_id)
+    ctx = AuditContext(run_id=args.run_id, cfg=cfg, text=text, budget=budget, transcript_path=p["transcript"], demo=True, results_dir=p["dir"])
+    ctx.restore(json.loads(p["ctx"].read_text(encoding="utf-8")))
+    out = toolimpl.record_leading_decision(ctx, args.card, args.decision, args.approver, args.note)
+    ctx.save(p["ctx"])
+    print(json.dumps(out, ensure_ascii=False, indent=2))
+
+
 def cmd_scenarios(args):
     cfg = settings.load_config()
     text = settings.load_text()
@@ -193,6 +209,13 @@ def main():
     r.add_argument("--approver", required=True)
     r.add_argument("--note", default=None)
     r.set_defaults(func=cmd_demo_resume)
+    c = sub.add_parser("card-confirm")
+    c.add_argument("--run-id", required=True)
+    c.add_argument("--card", required=True)
+    c.add_argument("--decision", required=True, choices=("remove", "keep"))
+    c.add_argument("--approver", required=True)
+    c.add_argument("--note", default=None)
+    c.set_defaults(func=cmd_card_confirm)
     s = sub.add_parser("scenarios")
     s.add_argument("--runs", type=int, default=1)
     s.add_argument("--demo-run", default="demo")

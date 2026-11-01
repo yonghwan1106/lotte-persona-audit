@@ -1,0 +1,6 @@
+{
+  "_note": "The stage that reruns the scenarios and the demo after the must_fix changes. It has its own logs, results, ledger and budget. The frozen agent stage config, its logs under runs/agent and its results under results/agent are not touched. Panel answers are read from the agent stage cache and no new panel call is allowed.",
+  "stage_dir": "runs/agent_fix",
+  "results_dir": "results/fix_stage",
+  "budget_usd": 3.0
+}

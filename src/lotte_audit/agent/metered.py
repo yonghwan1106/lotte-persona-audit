@@ -28,13 +28,13 @@ def append_row(path, row):
 
 
 class MeteredResponsesModel(OpenAIResponsesModel):
-    def __init__(self, model, client, cfg, budget, role, run_id, log_path=settings.MODEL_LOG):
+    def __init__(self, model, client, cfg, budget, role, run_id, log_path=None):
         super().__init__(model=model, openai_client=client)
         self.price = settings.price_of(cfg, model)
         self.budget = budget
         self.role = role
         self.run_id = run_id
-        self.log_path = log_path
+        self.log_path = log_path or settings.MODEL_LOG
         self.default_max_output = cfg["agent"]["max_output_tokens"]
 
     def worst_case(self, system_instructions, input, tools, model_settings):

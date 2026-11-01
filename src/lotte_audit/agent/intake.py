@@ -11,8 +11,12 @@ import panel_run
 from . import cards as card_rules, metered, settings
 
 
-async def ask_decisions(cfg, text_cfg, api_key, request_text, budget, run_id, client=None, log_path=settings.MODEL_LOG):
-    """{class: probability} from one Decisions call, or None when the call failed. A failure falls through to the manager."""
+async def ask_decisions(cfg, text_cfg, api_key, request_text, budget, run_id, client=None, log_path=None):
+    """{class: probability} from one Decisions call, or None when the call failed. A failure falls through to the manager.
+
+    The request carries no store field: the endpoint's reference lists none. See results/fix_stage/decisions_store_probe.json.
+    """
+    log_path = log_path or settings.MODEL_LOG
     questions = [{"type": "predicate", "name": name, "instructions": wording} for name, wording in text_cfg["refusal"]["decisions_questions"].items()]
     model = cfg["intake"]["decisions_model"]
     price = settings.price_of(cfg, model)

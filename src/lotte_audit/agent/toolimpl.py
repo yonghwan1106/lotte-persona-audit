@@ -20,17 +20,62 @@ def _plan_hash(doc):
     return settings.canonical_hash({k: v for k, v in doc.items() if k != "plan_hash"})
 
 
+def card_digest(ctx, card_ids=None):
+    """What the panel will read and what decides the label, per card. It goes into the plan hash, so an approval names these exact cards."""
+    out = {}
+    for c in card_ids if card_ids is not None else sorted(ctx.cards):
+        doc = ctx.cards.get(c)
+        out[c] = None if doc is None else settings.canonical_hash({k: doc.get(k) for k in ("clean_text", "anchor_items", "role", "paraphrase_of", "brand_of")})
+    return out
+
+
+def plan_cards_problem(ctx):
+    """A reason when the validated cards are no longer the cards of the plan, else None."""
+    digest = (ctx.plan or {}).get("card_digest")
+    if digest is None:
+        return "plan_has_no_card_digest"
+    return None if digest == card_digest(ctx, list(digest)) else "cards_changed_since_plan"
+
+
+def run_exists(ctx):
+    return bool((ctx.run_doc and ctx.run_doc.get("complete")) or ctx.diagnostics or ctx.verdict)
+
+
+def _take_card(ctx, card_id, doc, registered):
+    ctx.cards[card_id] = doc
+    ctx.run_doc = None  # only an incomplete record can be here, because a complete one blocks validation
+    ctx.plan = None  # a changed card set voids any plan and its approval
+    ctx.approval = None
+    reduced = [a for a in card_rules.ANCHORS if a not in doc["anchor_items"]]
+    ctx.anchor_reductions = [x for x in ctx.anchor_reductions if x["card_id"] != card_id]
+    if reduced and not registered:
+        ctx.anchor_reductions.append({"card_id": card_id, "anchor_items": doc["anchor_items"], "left_out": reduced})
+        ctx.event("anchor_reduced", card_id=card_id, anchor_items=doc["anchor_items"], left_out=reduced)
+
+
 def validate_card(ctx, card_id, fields=None, requested_outputs=None, suspected_instructions=None):
+    # After a run, a changed card or anchor would relabel answers the panel gave to other text. A new run is the only way.
+    if run_exists(ctx):
+        ctx.event("validate_after_run_blocked", card_id=card_id)
+        return blocked("validate_card", "run_exists_start_a_new_run", card_id=card_id)
     intake = card_rules.Intake(ctx.text)
-    if card_id in ctx.intake_cards:
+    registered = card_id in ctx.intake_cards
+    if registered:
         fields = ctx.intake_cards[card_id]
+        if suspected_instructions:
+            ctx.event("suspected_ignored_on_registered_card", card_id=card_id, suspected=list(suspected_instructions))
+        suspected_instructions = None  # the text of a registered card was frozen before any answer and the model cannot trim it
     elif fields is None:
         return {"status": "needs_input", "card_id": card_id, "reason": "card_not_registered", "next": "call validate_card again with fields filled from the card text in the message"}
-    status, doc = intake.check(card_id, fields, requested_outputs, suspected_instructions)
-    if status == "ok":
-        ctx.cards[card_id] = doc
-        ctx.plan = None  # a changed card set voids any plan and its approval
+    status, doc = intake.check(card_id, fields, requested_outputs, suspected_instructions, ctx.leading_decisions.get(card_id))
+    if status == "needs_human_confirmation":
+        ctx.cards.pop(card_id, None)
+        ctx.plan = None
         ctx.approval = None
+        ctx.pending_confirmations[card_id] = {"flagged": doc["flagged"], "fields": fields, "requested_outputs": list(requested_outputs or []), "registered": registered}
+        ctx.event("human_confirmation_needed", card_id=card_id, flagged=doc["flagged"])
+    if status == "ok":
+        _take_card(ctx, card_id, doc, registered)
     for item in doc.get("removed", []):
         ctx.removed.append({"card_id": card_id, **item})
     for item in doc.get("excluded", []):
@@ -39,9 +84,37 @@ def validate_card(ctx, card_id, fields=None, requested_outputs=None, suspected_i
     return {"status": status, **public}
 
 
+def record_leading_decision(ctx, card_id, decision, approver, note=None):
+    """Called by the application when a person has read the flagged sentences, never by the model. decision is remove or keep."""
+    pending = ctx.pending_confirmations.get(card_id)
+    if not pending:
+        raise ValueError(f"no sentence waits for a person on card {card_id}")
+    if decision not in ("remove", "keep"):
+        raise ValueError("decision must be remove or keep")
+    if not approver or not str(approver).strip():
+        raise ValueError("a person must be named")
+    stamp = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+    ctx.leading_decisions.setdefault(card_id, {}).update({s: decision for s in pending["flagged"]})
+    for sentence in pending["flagged"]:
+        ctx.leading_log.append({"card_id": card_id, "text": sentence, "decision": decision, "approver": approver, "note": note, "at": stamp})
+    ctx.event("leading_decision_recorded", card_id=card_id, decision=decision, approver=approver, sentences=pending["flagged"], note=note)
+    intake = card_rules.Intake(ctx.text)
+    status, doc = intake.check(card_id, pending["fields"], pending["requested_outputs"], None, ctx.leading_decisions[card_id])
+    if status == "ok":
+        del ctx.pending_confirmations[card_id]
+        _take_card(ctx, card_id, doc, pending["registered"])
+    for item in doc.get("removed", []):
+        ctx.removed.append({"card_id": card_id, **item})
+    for item in doc.get("excluded", []):
+        ctx.excluded.append({"card_id": card_id, **item})
+    return {"status": status, **{k: v for k, v in doc.items() if k != "clean_text"}}
+
+
 def plan_run(ctx, models, n_personas, include_c0):
     if not ctx.cards:
         return blocked("plan_run", "no_validated_card")
+    if ctx.pending_confirmations:
+        return blocked("plan_run", "card_pending_human_confirmation", cards=sorted(ctx.pending_confirmations))
     problems = card_rules.roles_problem(ctx.cards)
     if problems:
         return blocked("plan_run", "card_set_incomplete", problems=problems)
@@ -68,6 +141,7 @@ def plan_run(ctx, models, n_personas, include_c0):
     pilot = panel_cfg["pilot"]["model"] in models and all(c in ctx.cards for c in pilot_cards)
     plan = {
         "cards": card_ids,
+        "card_digest": card_digest(ctx, card_ids),
         "models": list(models),
         "n_personas": n_personas,
         "c0": c0,
@@ -83,8 +157,12 @@ def plan_run(ctx, models, n_personas, include_c0):
     reasons = []
     if money["cost_cap_usd"] >= remaining:
         reasons.append(f"cost cap {money['cost_cap_usd']} USD does not fit the remaining {round(remaining, 4)} USD")
-    if n_personas > panel_cfg["max_personas"]:
-        reasons.append(f"at most {panel_cfg['max_personas']} personas")
+    ceiling = min(panel_cfg["max_personas"], ctx.text["plan_limits"]["panel_pool_size"])
+    floor = panel_cfg["pilot"]["n_personas"]
+    if n_personas > ceiling:
+        reasons.append(f"at most {ceiling} personas, the panel holds no more")
+    if n_personas < floor:
+        reasons.append(f"at least {floor} personas, the pilot size")
     if reasons:
         ctx.plan = None
         ctx.approval = None
@@ -108,6 +186,9 @@ def run_panel_preconditions(ctx, plan_hash):
         return blocked("run_panel", "no_accepted_plan")
     if ctx.plan["plan_hash"] != plan_hash:
         return blocked("run_panel", "plan_hash_differs_from_current_plan")
+    problem = plan_cards_problem(ctx)
+    if problem:
+        return blocked("run_panel", problem)
     if not ctx.approval or ctx.approval["plan_hash"] != plan_hash:
         return blocked("run_panel", "no_human_approval_recorded")
     if not ctx.panel_allowed:
@@ -143,6 +224,9 @@ def diagnose_run(ctx):
         return blocked("diagnose_run", "panel_has_not_run")
     if not ctx.run_doc.get("complete"):
         return blocked("diagnose_run", "run_record_incomplete", stop_reason=ctx.run_doc.get("stop_reason"))
+    problem = plan_cards_problem(ctx)
+    if problem:
+        return blocked("diagnose_run", problem)
     loaded = ctx.backend.load_matrices(ctx, ctx.plan)
     # Sorted so that a pair's name and sign do not depend on the order the model happened to validate the cards in.
     roles = {c: {"role": ctx.cards[c]["role"], "paraphrase_of": ctx.cards[c].get("paraphrase_of"), "brand_of": ctx.cards[c].get("brand_of"), "anchor_items": ctx.cards[c]["anchor_items"]} for c in sorted(ctx.cards)}
@@ -175,6 +259,9 @@ def decide_verdict(ctx):
         return blocked("decide_verdict", "diagnostics_missing")
     if not ctx.run_doc or not ctx.run_doc.get("complete"):
         return blocked("decide_verdict", "run_record_incomplete")
+    problem = plan_cards_problem(ctx)
+    if problem:
+        return blocked("decide_verdict", problem)
     stored = json.loads((settings.paths.RESULTS / "stage3" / "verdict_v2.json").read_text(encoding="utf-8"))
     if stored["rule_version"] != verdict_v2.RULE_VERSION:
         return blocked("decide_verdict", "stored_rule_version_differs")

@@ -1,7 +1,11 @@
-"""Card intake rules. Pure functions. Refusal scope is enforced here in code, whatever the model decides."""
+"""Card intake rules. Pure functions. Refusal scope is enforced here in code, whatever the model decides.
+
+Patterns catch the forms that were tried and written down. A sentence in a form nobody tried still passes.
+"""
 import re
 
-SENTENCE_RE = re.compile(r"(?<=[.!?\u3002])\s+|\n+")
+# A sentence also ends where a Korean sentence end runs straight into the next word with no space. A decimal like 1.5 stays whole.
+SENTENCE_RE = re.compile(r"(?<=[.!?\u3002])\s+|\n+|(?<=[\uac00-\ud7a3][.!?\u3002])(?=[\uac00-\ud7a3A-Za-z0-9])")
 REQUIRED = ("description", "role", "target_segment", "anchor_items")
 ROLES = ("candidate", "paraphrase", "brand", "negative_control", "benchmark")
 TARGETS = ("all", "19-39", "40-59", "60+", "19-59")
@@ -20,18 +24,34 @@ class Intake:
         self.alcohol = re.compile(c["alcohol_patterns"])
         self.image = re.compile(c["image_patterns"], re.I)
         self.under19 = re.compile(c["under19_patterns"])
+        self.leading = [re.compile(p) for p in c["leading_fact_patterns"]]
 
     def classify_request(self, text):
         """Refusal classes named by a request, from fixed patterns."""
         return [k for k, rx in self.request.items() if rx.search(text or "")]
 
-    def sanitize(self, description, suspected):
+    def sentences(self, description):
+        return [s for s in SENTENCE_RE.split(description.strip()) if s and s.strip()]
+
+    def leading_sentences(self, description):
+        """Fact style sentences that could lead a respondent, such as a prior survey or most people buying. Only a person may clear them."""
+        out = []
+        for sentence in self.sentences(description):
+            if any(rx.search(sentence) for rx in self.card_request.values()) or self.injection.search(sentence):
+                continue  # already taken out by a fixed pattern, with a record
+            if any(rx.search(sentence) for rx in self.leading):
+                out.append(sentence)
+        return out
+
+    def sanitize(self, description, suspected, human=None):
         """Split the description into sentences and drop instructions and out of scope asks.
 
-        suspected comes from the model. It can only remove text that really is in the card, so it cannot add anything.
+        suspected comes from the model. It removes a sentence only when it names that whole sentence, so a word or a fragment does nothing.
+        human maps a flagged sentence to the person's decision, remove or keep. A kept sentence cannot be removed by the model.
         """
         kept, removed, excluded = [], [], []
-        for sentence in [s for s in SENTENCE_RE.split(description.strip()) if s.strip()]:
+        human = human or {}
+        for sentence in self.sentences(description):
             hit_class = next((k for k, rx in self.card_request.items() if rx.search(sentence)), None)
             if hit_class:
                 excluded.append({"class": hit_class, "text": sentence})
@@ -39,14 +59,20 @@ class Intake:
             if self.injection.search(sentence):
                 removed.append({"by": "pattern", "text": sentence})
                 continue
-            if any(q.strip() and (q.strip() in sentence or sentence in q) for q in suspected or []):
+            if human.get(sentence) == "remove":
+                removed.append({"by": "human", "text": sentence})
+                continue
+            if human.get(sentence) != "keep" and any(same_sentence(q, sentence) for q in suspected or []):
                 removed.append({"by": "model", "text": sentence})
                 continue
             kept.append(sentence)
         return " ".join(kept), removed, excluded
 
-    def check(self, card_id, fields, requested_outputs=(), suspected=()):
-        """(status, doc). status is ok, needs_input or refused. The doc holds the cleaned card and every removal."""
+    def check(self, card_id, fields, requested_outputs=(), suspected=(), decisions=None):
+        """(status, doc). status is ok, needs_input, needs_human_confirmation or refused. The doc holds the cleaned card and every removal.
+
+        decisions comes from the application, never from the model: {sentence: remove or keep} for sentences a person has looked at.
+        """
         missing = [f for f in REQUIRED if not fields.get(f)]
         if missing:
             return "needs_input", {"card_id": card_id, "missing": missing}
@@ -76,7 +102,12 @@ class Intake:
             refused.append({"class": "packaging", "why": "image attached"})
         if "{" in description or "}" in description:
             refused.append({"class": "out_of_scope", "why": "braces in card text"})
-        clean, removed, excluded = self.sanitize(description, suspected)
+        decisions = decisions or {}
+        if not refused:
+            pending = [s for s in self.leading_sentences(description) if s not in decisions]
+            if pending:
+                return "needs_human_confirmation", {"card_id": card_id, "flagged": pending, "next": "a person must decide remove or keep for each flagged sentence; the card stays out until then"}
+        clean, removed, excluded = self.sanitize(description, suspected, decisions)
         if role != "brand" and self.brand.search(clean):
             refused.append({"class": "out_of_scope", "why": "a real brand on a card that is not the brand card"})
         if not TEXT_MIN <= len(clean) <= TEXT_MAX:
@@ -99,7 +130,17 @@ class Intake:
             "brand_of": fields.get("brand_of"),
             "removed": removed,
             "excluded": excluded,
+            "leading_kept": [s for s, d in decisions.items() if d == "keep"],
         }
+
+
+def same_sentence(named, sentence):
+    """True when named is the whole sentence, apart from spacing and the closing mark."""
+
+    def norm(text):
+        return " ".join(str(text).split()).rstrip(".!?\u3002 ")
+
+    return bool(norm(named)) and norm(named) == norm(sentence)
 
 
 def roles_problem(cards):

@@ -814,7 +814,8 @@ def test_approved_run_records_the_approver_and_runs_once(tmp_path):
         return {"approved": True, "approver": "tester"}
 
     outcome = asyncio.run(runtime.drive(ctx, manager, "go", approve_fn=ok))
-    assert outcome["status"] == "complete" and backend.called == 1
+    # The scripted model claims complete, but no ledger exists yet, so the code reports stopped.
+    assert outcome["status"] == "stopped" and outcome["claimed_status"] == "complete" and backend.called == 1
     assert ctx.approval["approver"] == "tester" and ctx.run_doc["complete"] is True
 
 
@@ -837,7 +838,7 @@ def test_paused_run_survives_serialisation_and_resumes_as_the_same_run(tmp_path)
         return {"approved": True, "approver": "tester"}
 
     outcome = asyncio.run(runtime.resume_from_file(fresh, manager2, state_path, ok))
-    assert outcome["status"] == "complete" and backend.called == 1
+    assert outcome["status"] == "stopped" and outcome["claimed_status"] == "complete" and backend.called == 1
     assert fresh.approval["approver"] == "tester"
 
 

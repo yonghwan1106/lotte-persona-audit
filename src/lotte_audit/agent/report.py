@@ -26,6 +26,25 @@ def _sdk_versions():
     return versions
 
 
+HIDDEN_NOTE = "No absolute panel value is stored in this file, only paired differences. The full values stay in the saved run under runs/."
+
+
+def tracked_diagnostics(diag):
+    """The diagnostics that go into git: paired differences and flags, with every absolute panel value left out.
+
+    Differences stay, so with no absolute value in the file none can be worked back. The complete document stays in the saved context under runs/.
+    """
+    doc = json.loads(json.dumps(diag, default=str))
+    doc["absolute_values"] = HIDDEN_NOTE
+    for block in doc["by_model"].values():
+        block.pop("internal", None)
+        for seg in block.get("segments", {}).values():
+            seg.pop("t2b_pp", None)
+    if doc.get("c0"):
+        doc["c0"].pop("c0_internal", None)
+    return doc
+
+
 def manifest(ctx):
     """Everything a result depends on. Its hash goes on the report's first line."""
     return {
@@ -130,6 +149,12 @@ def render_report(ctx, manifest_sha):
     lines += [""]
     if ctx.removed:
         lines += [f"## {t['removed_title']}", ""] + [f"- {e['card_id']} ({e['by']}): {e['text']}" for e in ctx.removed] + [""]
+    if ctx.leading_log:
+        lines += [f"## {t['leading_title']}", ""] + [f"- {e['card_id']} ({e['decision']}, {e['approver']}): {e['text']}" for e in ctx.leading_log] + [""]
+        if any(e["decision"] == "keep" for e in ctx.leading_log):
+            lines += [t["leading_keep_note"], ""]
+    if ctx.anchor_reductions:
+        lines += [f"## {t['anchor_title']}", "", t["anchor_note"], ""] + [f"- {e['card_id']}: {', '.join(e['anchor_items'])} (left out {', '.join(e['left_out'])})" for e in ctx.anchor_reductions] + [""]
     lines += ["## verdict", "", ctx.verdict["header"], ""]
     lines += [f"- {s}" for s in ctx.verdict["sentences"]] + [""]
     lines += [verdict_table(ctx.verdict, segments=False), ""]
@@ -172,6 +197,8 @@ def ledger_entry(ctx, manifest_sha):
         "approval": ctx.approval,
         "verdict_overall": rows,
         "excluded": ctx.excluded,
+        "anchor_reductions": ctx.anchor_reductions,
+        "leading_sentences": ctx.leading_log,
         "narration_status": "accepted" if ctx.narration.get("accepted") else "none",
         "narration_rejections": len(ctx.narration.get("rejections", [])),
         "real_sample": {"proposed_cards": ctx.allocation["cards"], "status": "not sent, the system does not send surveys"},
@@ -188,7 +215,7 @@ def write_outputs(ctx):
     man = manifest(ctx)
     sha = settings.canonical_hash(man)
     _dump(out_dir / "manifest.json", {**man, "manifest_sha256": sha})
-    _dump(out_dir / "diagnostics.json", ctx.diagnostics)
+    _dump(out_dir / "diagnostics.json", tracked_diagnostics(ctx.diagnostics))
     _dump(out_dir / "verdict.json", ctx.verdict)
     _dump(out_dir / "allocation.json", ctx.allocation)
     _dump(out_dir / "questionnaire.json", ctx.questionnaire)

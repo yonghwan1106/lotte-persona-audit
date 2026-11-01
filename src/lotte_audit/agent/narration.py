@@ -1,14 +1,26 @@
 """The number rule. The narrator writes sentences with {{m:metric_id}} placeholders, and only this renderer fills values.
 
-check_sentence is a pure function, so the same rule runs as the SDK output guardrail, at the report writer, and in the tests.
+check_sentence is a pure function, so the same rule runs as the SDK output guardrail, at the report writer, in the tests and on
+the manager's note. Patterns catch the forms written in config/agent_text.json. A quantity worded in a form not listed there passes.
 """
 import re
+import unicodedata
 
 
 class NarrationRejected(ValueError):
     def __init__(self, reasons):
         super().__init__("; ".join(reasons))
         self.reasons = reasons
+
+
+def normalise(text):
+    """Compatibility forms folded and invisible format characters dropped, so a superscript, a vulgar fraction or a zero width joiner hides nothing."""
+    return "".join(ch for ch in unicodedata.normalize("NFKC", text) if unicodedata.category(ch) != "Cf")
+
+
+def numeric_char(text):
+    """The first character Unicode gives a numeric value, such as a Han numeral."""
+    return next((ch for ch in text if unicodedata.numeric(ch, None) is not None), None)
 
 
 class Guard:
@@ -30,7 +42,7 @@ class Guard:
     def check_sentence(self, sentence, known_ids, cited=None):
         """A list of reasons, empty when the sentence passes. Malformed placeholders stay in the text and so fail the digit or brace check."""
         reasons = []
-        outside = self.strip_placeholders(sentence)
+        outside = normalise(self.strip_placeholders(sentence))
         if "{" in outside or "}" in outside:
             reasons.append("malformed_placeholder")
         for rx in self.numerals:
@@ -38,6 +50,10 @@ class Guard:
             if hit:
                 reasons.append(f"numeral_outside_placeholder:{hit.group(0)}")
                 break
+        else:
+            ch = numeric_char(outside)
+            if ch:
+                reasons.append(f"numeral_outside_placeholder:{ch}")
         hit = self.claims.search(outside)
         if hit:
             reasons.append(f"forbidden_claim:{hit.group(0)}")
@@ -65,7 +81,7 @@ class Guard:
 
     def check_form(self, sentence):
         """A narrator sentence is a hypothesis about a cause. A restated verdict or a guess about taste is not, whatever mark it gets."""
-        outside = self.strip_placeholders(sentence).strip()
+        outside = normalise(self.strip_placeholders(sentence)).strip()
         reasons = []
         hit = self.restatement.search(outside)
         if hit:
@@ -90,7 +106,9 @@ class Guard:
         return out
 
     def clean_note(self, note):
-        """The manager's note, or None when it holds a number. The note is never the source of a value."""
+        """The manager's note, or None when it holds a number, a market claim or a taste word. The note is never the source of a value."""
         if not note:
             return None
-        return None if self.check_sentence(note, set()) else note
+        if self.check_sentence(note, set()) or self.taste.search(normalise(note)):
+            return None
+        return note
