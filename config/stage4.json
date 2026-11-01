@@ -1,0 +1,6 @@
+{
+  "_note": "Stage 4: the exploration tool, the survey ingestion path, the action table and demo7. It has its own logs, results, ledger and USD budget for the whole stage. Earlier stages' logs and results are not touched. The panel cache is read through; the demo reads the cache only, and only the person run command can make new panel calls.",
+  "stage_dir": "runs/stage4",
+  "results_dir": "results/stage4",
+  "budget_usd": 3.0
+}

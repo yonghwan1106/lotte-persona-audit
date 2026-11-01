@@ -40,6 +40,7 @@ SEP = "|"
 
 
 FIX_CONFIG = paths.CONFIG / "fix_stage.json"
+STAGE4_CONFIG = paths.CONFIG / "stage4.json"
 _OVERLAY = None
 
 
@@ -48,8 +49,17 @@ def activate_fix_stage():
 
     Call it before importing panel, scenarios or runtime, whose defaults bind these paths at import. The earlier stage's files stay untouched.
     """
+    _activate(FIX_CONFIG)
+
+
+def activate_stage4():
+    """The same move for stage 4, on config/stage4.json."""
+    _activate(STAGE4_CONFIG)
+
+
+def _activate(config_path):
     global STAGE, LOG_DIR, PANEL_LOG, MODEL_LOG, SAVED_DIR, RESULTS, LEDGER, _OVERLAY
-    _OVERLAY = json.loads(FIX_CONFIG.read_text(encoding="utf-8"))
+    _OVERLAY = json.loads(config_path.read_text(encoding="utf-8"))
     STAGE = paths.ROOT / _OVERLAY["stage_dir"]
     LOG_DIR = STAGE / "logs"
     PANEL_LOG = LOG_DIR / "panel_calls.jsonl"

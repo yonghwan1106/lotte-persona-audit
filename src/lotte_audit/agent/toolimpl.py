@@ -173,12 +173,14 @@ def plan_run(ctx, models, n_personas, include_c0):
     return {"status": "accepted", "plan": plan, "remaining_usd": round(remaining, 4), "needs_human_approval": True}
 
 
-def record_approval(ctx, plan_hash, approver, note=None):
-    """Called by the application when a person approves, never by the model."""
+def record_approval(ctx, plan_hash, approver, note=None, channel=None):
+    """Called by the application when a person approves, never by the model. channel says terminal only when a person typed it at one."""
     if not ctx.plan or ctx.plan["plan_hash"] != plan_hash:
         raise ValueError("approval names a plan that is not the current plan")
     ctx.approval = {"plan_hash": plan_hash, "approver": approver, "note": note, "at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"), "cost_cap_usd": ctx.plan["cost_cap_usd"]}
-    ctx.event("approval_recorded", plan_hash=plan_hash, approver=approver, note=note)
+    if channel:
+        ctx.approval["channel"] = channel
+    ctx.event("approval_recorded", plan_hash=plan_hash, approver=approver, note=note, channel=channel)
 
 
 def run_panel_preconditions(ctx, plan_hash):
@@ -286,11 +288,52 @@ def build_questionnaire(ctx):
     return {"status": "done", "items": len(ctx.questionnaire["items"])}
 
 
+def explore_card(ctx, card_id):
+    """Stage 4. Stored reason sentences of one candidate into hypotheses. Filtered by code, and the sentences stay out of the transcript."""
+    if not ctx.stage4:
+        return blocked("explore_card", "not_this_stage")
+    if not ctx.verdict:
+        return blocked("explore_card", "verdict_missing")
+    if ctx.cards.get(card_id, {}).get("role") != "candidate":
+        return blocked("explore_card", "only_a_validated_candidate", card_id=card_id)
+    if card_id in ctx.explore:
+        return blocked("explore_card", "already_explored", card_id=card_id)
+    if ctx.explorer is None:
+        return blocked("explore_card", "no_explorer_in_this_context")
+    from . import action, explore
+
+    doc = explore.run(ctx, card_id, action.load_rules())
+    if doc["status"] != "done":
+        return {"tool": "explore_card", **doc}
+    ctx.explore[card_id] = doc
+    return {"status": "done", "card": card_id, "kept": {s: len(v) for s, v in doc["sections"].items()}, "dropped_by_code": doc["dropped_by_code"], "echo_check_passed": doc["echo_check"]["passed"]}
+
+
+def ingest_real(ctx):
+    """Stage 4. The files and the name come from the application, never from the model."""
+    if not ctx.stage4:
+        return blocked("ingest_real", "not_this_stage")
+    if not ctx.real_input:
+        return blocked("ingest_real", "no_real_file_registered_by_the_system")
+    if not ctx.ledger_entry:
+        return blocked("ingest_real", "write_ledger_first")
+    from . import action, ingest
+
+    i = ctx.real_input
+    doc = ingest.ingest(i["real_csv"], i["panel_csv"], ctx.results_dir or settings.RESULTS / ctx.run_id, ctx.ledger_path or settings.LEDGER, i["source_label"], i["approver"], action.load_text())
+    ctx.real_results = doc
+    return {"status": "done", "decision": doc["decision"], "concept_duel": doc["concept_duel"], "source_label": doc["source_label"]}
+
+
 def write_ledger(ctx):
     if not (ctx.verdict and ctx.allocation and ctx.questionnaire):
         return blocked("write_ledger", "verdict_allocation_or_questionnaire_missing")
     if ctx.ledger_entry:
         return blocked("write_ledger", "already_written")
+    if ctx.stage4:
+        missing = sorted(c for c, v in ctx.cards.items() if v["role"] == "candidate" and c not in ctx.explore)
+        if missing:
+            return blocked("write_ledger", "explore_missing", cards=missing)
     out = report.write_outputs(ctx)
     ctx.ledger_entry = out["entry"]
     return {"status": "done", "manifest_sha256": out["entry"]["manifest_sha256"], "report": out["report_path"]}

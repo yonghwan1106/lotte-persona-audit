@@ -1,0 +1,97 @@
+{
+  "_note": "Korean wording of stage 4. Python source stays ASCII. Sentences here are rendered by code with values from code. Wording follows the banned claim lists of wf6_verify.md and wf7_skeptic.md.",
+  "manager_suffix": "[이 단계에서 더해진 도구] decide_verdict와 narrate_verdict 뒤, allocate_real_sample 앞에 explore_card를 후보 카드마다 한 번씩 호출한다. 후보가 아닌 카드에는 호출하지 않는다. ingest_real은 시스템이 실측 파일을 등록해 둔 경우에만 쓸 수 있고, 등록이 없으면 blocked를 그대로 보고한다. 탐색 출력은 가설이며 판정이 아니다.",
+  "tool_descriptions": {
+    "explore_card": "후보 카드 한 장의 저장된 패널 이유 문장을 묶어 반대 이유, 끌리는 점, 세그먼트 가설, 설문 문항 초안을 낸다. 모두 가설이고 수치가 없다. 판정 뒤에만 쓸 수 있다. 인자는 card_id뿐이다.",
+    "ingest_real": "시스템이 등록해 둔 실측 파일로 패널과 R1의 대결을 돌려 보고서와 원장에 적는다. 인자는 없다. 등록된 파일이 없으면 blocked를 돌려준다."
+  },
+  "demo_message": "시연 전용 감사입니다. 등록 카드 A, A_para, A_brand, B, C, N을 각각 validate_card로 점검하고, 150명, 두 모델(gpt-6.1-terra, gpt-6-luna), 페르소나 없는 조건 포함으로 plan_run을 호출한 뒤 run_panel을 요청해 주세요. 이어서 diagnose_run, decide_verdict, narrate_verdict를 하고, 후보 A, B, C에 explore_card를 각각 호출한 뒤, allocate_real_sample, build_questionnaire, write_ledger까지 진행하고 complete로 끝내 주세요.",
+  "explore": {
+    "banner": "아래는 LLM 출력입니다. 응답자의 말이 아닙니다. 모든 문장은 가설이며 수치가 없습니다.",
+    "label_prefix": "가설: ",
+    "age_words": {"19-39": "젊은 층", "40-59": "중년층", "60+": "고령층"},
+    "intent_words": {"low": "낮음", "mid": "중간", "high": "높음"},
+    "blocked_patterns": "남성|여성|남자|여자|성별|시장|매출|점유|성공|출시|흥행|실제 소비자|소비자들은|응답자|조사 결과|입증|검증|확인됐|틀림없|반드시|분명히|일부|많은|적은|여럿|상당수",
+    "question_ending": "[?？]$",
+    "sections": {"objections": "반대 이유", "attractions": "끌리는 점", "segment_hypotheses": "세그먼트 가설", "survey_questions": "설문 문항 초안"},
+    "title": "탐색 출력"
+  },
+  "action": {
+    "title": "안별 제안",
+    "intro": "패널은 탈락을 확정하지 못합니다. 아래는 제안이며 어느 안이 낫다는 뜻이 아닙니다. 실측 대상은 담당자가 고릅니다.",
+    "labels": {"drop": "탈락 제안", "keep": "실측 후보 유지", "cant_tell": "판단 불가"},
+    "columns": ["안", "제안", "이유"],
+    "reasons": {
+      "run_incomplete": "실행 기록이 완전하지 않아 어느 쪽으로도 말할 수 없습니다.",
+      "run_cannot_separate": "이 실행은 명백히 어설픈 대조안과 후보들을 가르지 못했습니다({model}). 패널 값으로 말할 수 있는 것이 없습니다.",
+      "leading_kept": "응답을 유도할 수 있는 문장을 사람이 유지하기로 했습니다. 이 안의 패널 값은 그 문장의 영향을 받았을 수 있습니다.",
+      "models_oppose": "두 모델이 {reference}와 비교한 방향을 반대로 냈고, 둘 다 잡음을 넘습니다({gaps}).",
+      "drop_negative": "두 모델 모두에서 명백히 어설픈 대조안과 갈리지 않았습니다. 다른 후보는 갈렸습니다. 사람이 확정하기 전까지는 제안입니다.",
+      "drop_gap": "두 모델 모두에서 가장 높게 나온 안보다 낮았고({gaps}), 탈락 제안 기준 {limit}pp를 넘습니다. 패널 내부 값이며 사람이 확정하기 전까지는 제안입니다.",
+      "keep_top": "대조안과는 갈렸습니다. 이 실행에서 높게 나왔다는 것은 선택을 뜻하지 않습니다. 패널 내부 값이고 실제 소비자에게서도 그렇다는 근거가 없습니다.",
+      "keep_gap": "대조안과는 갈렸습니다. 가장 높게 나온 안과의 차이({gaps})가 탈락 제안 기준 {limit}pp에 못 미쳐 버릴 근거가 없습니다."
+    },
+    "order_title": "안 사이의 방향",
+    "order_line": "방향 가설: {hi}가 {lo}보다 패널 내부 값에서 높게 나왔습니다({gaps}, 두 모델 모두 잡음 초과). 선택이 아닙니다. 기존 음료 순서 시험에서 패널 격차 {band} 구간의 쌍 정확도는 {accuracy} {ci}였습니다.",
+    "order_none": "두 모델 모두에서 잡음을 넘고 방향이 같은 쌍이 없어 안 사이의 방향을 적지 않습니다.",
+    "order_hidden": "두 모델의 방향이 맞지 않거나 잡음 안에 있는 쌍은 적지 않았습니다: {pairs}.",
+    "notes": [
+      "탈락 제안 기준 {limit}pp는 기존 음료 순서 시험에서 나온 사후 가설이고, 신제품에서 검증한 적이 없습니다. 탈락 제안이 실제로 쓸모 있는지는 재지 않았습니다.",
+      "이 실행에는 정답이 없습니다. 패널 값은 시장 수치나 판매 전망이 아닙니다."
+    ]
+  },
+  "detectable": {
+    "title": "작은 차이를 가려내려면",
+    "between": "200명을 두 안에 {n_arm}명씩 나누면, 95% 신뢰와 검정력 80%, p={p}에서 실제 차이가 {mde}pp보다 작을 때 가려내기 어렵습니다.",
+    "within": "한 사람이 두 안을 모두 보면 필요한 차이가 줄어듭니다. 두 안 응답의 상관이 {rho0}이면 {mde0}pp, {rho1}이면 {mde1}pp, {rho2}이면 {mde2}pp입니다. 실제 사람의 상관은 재지 않았습니다. 순서 효과를 막으려 첫 카드만 보면 다시 {mde}pp입니다.",
+    "unit": "조사 단위로 몰려 뽑으면 이 계산보다 불리합니다. 위 값은 단순 무작위 가정입니다.",
+    "gap_note": "이 실행의 후보 간 최대 차이 {gaps}는 패널 내부 값입니다. 실제 차이가 얼마인지는 모릅니다.",
+    "below_title": "실제 차이가 이보다 작을 때 할 일",
+    "below": [
+      "원가와 라인 구성 같은 다른 근거로 고릅니다. 설문이 답을 주지 못하는 구간입니다.",
+      "또는 표본을 늘립니다. 5pp와 10pp 차이를 같은 조건으로 보려면 아래 인원이 필요합니다."
+    ],
+    "table_head": ["실제 차이", "두 안 나눠 보기, 안당", "두 안 나눠 보기, 합계", "한 사람이 둘 다, 상관 0", "한 사람이 둘 다, 상관 0.3", "한 사람이 둘 다, 상관 0.5"]
+  },
+  "real": {
+    "title": "실측 대결 결과",
+    "none": "아직 회수한 실측이 없습니다. 실측 파일을 받으면 src/stage4_run.py ingest-real이 이 칸을 씁니다.",
+    "keep": "유지",
+    "drop": "제외",
+    "headline": "{label}: 패널 값 {decision}. 평균 개선 {mean} [{lo}, {hi}] (R1 손실 빼기 보정 패널 손실, 5겹 교차 검증, 앵커 {items}개 평균, 응답자 {n}명).",
+    "reason_keep": "구간 전체가 0 위에 있어 규칙대로 이번 결정에 패널 값을 남깁니다.",
+    "reason_drop": "구간 전체가 0 위에 있지 않아 규칙대로 이번 결정에서 패널 값을 뺍니다. 패널이 틀렸다는 증명은 아니고, 같은 인원의 나이·성별 회귀보다 낫다는 근거가 없다는 뜻입니다.",
+    "concept_not_run": "콘셉트 문항 대결은 돌리지 않았습니다. 이 파일에 콘셉트 문항 실측이 없습니다. 콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다.",
+    "concept_line": "콘셉트 {card}: 패널 값 {decision}. 평균 개선 {mean} [{lo}, {hi}].",
+    "standin_warning": "이것은 KREI 응답을 대신 넣은 것입니다. 실제 콘셉트 설문이 아니고, 앵커 문항만 있습니다.",
+    "grade_passed": "대결 규칙 등급: 동결한 시드에서 사전 기준을 넘었습니다(대체 패널 유지율 {surrogate}, 양성 대조 유지율 {positive}).",
+    "grade_failed": "대결 규칙 등급: 건강검진. 사전 기준을 넘지 못해 판정이 아니라 건강검진으로 읽습니다(대체 패널 유지율 {surrogate}, 양성 대조 유지율 {positive}).",
+    "grade_fragile": "다만 답을 본 뒤 다른 시드 {runs}개로 돌리자 {failed}개에서 대체 패널 유지율이 기준을 넘었습니다. 기준 근처에 있으니 확정 판정처럼 읽지 않습니다.",
+    "grade_limit": "유지가 나와도 칸 오차까지 낫다는 보장은 아닙니다. Terra C2에서 유지된 추출의 {false_keep}는 패널 밖 truth의 칸 오차로 R1을 이기지 못했고, 이긴 추출의 {missed}는 제외됐습니다.",
+    "approver": "기록자: {approver}. 코드는 이 이름이 누구인지 확인하지 못합니다.",
+    "not_grade": "대결 규칙 평가 파일이 없어 등급을 적지 않습니다."
+  },
+  "measures": {
+    "title": "이 단계에서 잰 것",
+    "allocation": "패널로 200명 배분: 비례 배분보다 나아지지 않았습니다. R1, 패널 밖 truth, 3항목 평균 칸 오차 차이 {panel} [{panel_lo}, {panel_hi}]pp. 이전 자료로 배분한 경우와의 차이 {ref} [{ref_lo}, {ref_hi}]pp. 사전 기준: 도움 {helps}, 이전 자료 대비 추가 효과 {adds}.",
+    "flags": "실측 전 틀린 칸 지목: 세 신호 중 사전 기준을 넘은 것 {count}개. 모델 간 차이 Spearman {tl}, 조건 간 차이 {cc}, 반복 편차 {sd}.",
+    "duel": "실측 대결 규칙: 양성 대조 유지율 {positive}, 대체 패널 유지율 {surrogate}, Terra C2 유지율 {terra}, Luna C1 유지율 {luna}.",
+    "source": "수치 출처: results/stage4/allocation.json, flags.json, duel_validity.json, duel_seed_sensitivity.json. 기존 음료 행동의 재현에서 잰 값입니다."
+  },
+  "report": {
+    "plan_title": "실측 200명 계획",
+    "appendix_title": "부록: 내부 점검 기록",
+    "appendix_note": "아래 라벨은 앞 단계 규칙의 기록입니다. 결정에 쓰지 않습니다. 규칙 v2는 답을 본 뒤에 썼고, 라벨 차이는 안의 차이가 아닙니다.",
+    "approval_person": "이 승인은 터미널에서 사람이 이름과 계획 해시를 입력한 기록입니다. 코드는 그 이름이 누구인지 확인하지 못합니다.",
+    "r1_lines": [
+      "실측이 오면 src/stage4_run.py ingest-real이 같은 응답자의 패널 값과 묶어 5겹 교차 검증으로 R1과 겨루고, 유지나 제외와 그 이유를 이 보고서와 원장에 적습니다.",
+      "규칙은 답을 보기 전에 고정했습니다(config/prereg_stage4.json). 평균 개선 구간 전체가 0 위일 때만 패널 값을 남깁니다.",
+      "콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다. 지금까지는 KREI 앵커 문항을 실측 대용으로 넣어 경로를 한 번 돌렸을 뿐입니다.",
+      "초대 명단이나 응답 여부를 받지 못하면 「보정 불가, 직접 추정만」으로 씁니다. 코드는 이 조건을 확인하지 못하고 담당자가 파일을 넣기 전에 확인합니다."
+    ],
+    "not_verified_extra": [
+      "탐색 출력의 문장은 LLM 출력이고 실제 소비자에게 확인하지 않았습니다.",
+      "콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다."
+    ]
+  }
+}

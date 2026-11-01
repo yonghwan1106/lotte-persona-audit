@@ -126,9 +126,24 @@ def build_tools(text):
     return [validate_card, plan_run, run_panel, diagnose_run, decide_verdict, allocate_real_sample, build_questionnaire, write_ledger]
 
 
+def build_stage4_tools(text):
+    d = text["stage4"]["tool_descriptions"]
+
+    @function_tool(name_override="explore_card", description_override=d["explore_card"], failure_error_function=_tool_failure)
+    def explore_card(ctx: RunContextWrapper[AuditContext], card_id: str) -> str:
+        return _logged(ctx, "explore_card", {"card_id": card_id}, lambda: toolimpl.explore_card(ctx.context, card_id))
+
+    @function_tool(name_override="ingest_real", description_override=d["ingest_real"], failure_error_function=_tool_failure)
+    def ingest_real(ctx: RunContextWrapper[AuditContext]) -> str:
+        return _logged(ctx, "ingest_real", {}, lambda: toolimpl.ingest_real(ctx.context))
+
+    return [explore_card, ingest_real]
+
+
 def run_state_flags(ctx):
     """What is done, from the context. A run resumed in a new conversation has no other way to know."""
     return {
+        **({"explored_cards": sorted(ctx.explore)} if ctx.stage4 else {}),
         "cards_validated": sorted(ctx.cards),
         "cards_waiting_for_a_person": sorted(ctx.pending_confirmations),
         "plan_accepted": bool(ctx.plan),
@@ -145,7 +160,8 @@ def run_state_flags(ctx):
 
 def manager_instructions(wrapper, _agent):
     ctx = wrapper.context
-    return ctx.text["manager_instructions"] + "\n\n" + ctx.text["manager_state_header"] + "\n" + json.dumps(run_state_flags(ctx), ensure_ascii=False)
+    suffix = "\n\n" + ctx.text["stage4"]["manager_suffix"] if ctx.stage4 else ""
+    return ctx.text["manager_instructions"] + suffix + "\n\n" + ctx.text["manager_state_header"] + "\n" + json.dumps(run_state_flags(ctx), ensure_ascii=False)
 
 
 def narrator_instructions(wrapper, _agent):
@@ -236,6 +252,7 @@ def build_agents(ctx, client, narrator_model=None, manager_model=None):
         model_settings=agent_settings(cfg),
         tools=[
             *build_tools(text),
+            *(build_stage4_tools(text) if ctx.stage4 else []),
             narrator.as_tool(
                 tool_name="narrate_verdict",
                 tool_description=text["narrate_tool_description"],

@@ -50,6 +50,7 @@ def manifest(ctx):
     return {
         "run_id": ctx.run_id,
         "config_files": {name: settings.file_hash(name) for name in settings.FROZEN_FILES},
+        **({"stage4_files": {name: settings.file_hash(name) for name in ("config/prereg_stage4.json", "config/stage4_text.json", "config/explore_prompt.json")}} if ctx.stage4 else {}),
         "agent_text_sha256": settings.file_hash("config/agent_text.json"),
         "prompt_sha256": ctx.cfg["prompt_sha256"],
         "cards_sha256": settings.canonical_hash({c: v["clean_text"] for c, v in ctx.cards.items()}),
@@ -219,10 +220,22 @@ def write_outputs(ctx):
     _dump(out_dir / "verdict.json", ctx.verdict)
     _dump(out_dir / "allocation.json", ctx.allocation)
     _dump(out_dir / "questionnaire.json", ctx.questionnaire)
-    text = render_report(ctx, sha)
+    if ctx.stage4:
+        from . import report4
+
+        action_doc = report4.action_doc(ctx)
+        _dump(out_dir / "action.json", action_doc)
+        report4.save_explore(ctx, Path(ctx.explore_dir or settings.paths.RESULTS / "explore" / ctx.run_id))
+        text = report4.render(ctx, sha, action_doc)
+    else:
+        action_doc = None
+        text = render_report(ctx, sha)
     report_path = out_dir / "report.md"
     report_path.write_text(text, encoding="utf-8")
     entry = ledger_entry(ctx, sha)
+    if action_doc:
+        entry["action_table"] = [{k: r[k] for k in ("card", "label")} for r in action_doc["action"]["rows"]]
+        entry["explored_cards"] = sorted(ctx.explore)
     ledger_path = Path(ctx.ledger_path or settings.LEDGER)
     ledger_path.parent.mkdir(parents=True, exist_ok=True)
     with ledger_path.open("a", encoding="utf-8") as fh:
