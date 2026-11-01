@@ -13,7 +13,7 @@ Use the project venv:
   .venv/Scripts/python.exe src/stage4_run.py status --write
 
 human-approve refuses without an interactive terminal. No demo or stage brief goes through it, and code still cannot tell who typed.
---budget-ceiling USD, before the command, lowers this process's stage budget, so a step can stop before its own limit.
+--budget-ceiling USD, before the command, stops this process's model calls once the stage has spent that much, so a step can stop before the stage budget.
 The API key is read by runner code only. Persona text, respondent codes and the row level files stay under runs/.
 """
 import argparse
@@ -271,7 +271,7 @@ def main():
     c.set_defaults(func=agent_run.cmd_scenarios)
     args = parser.parse_args()
     if args.budget_ceiling is not None:
-        settings.lower_budget(args.budget_ceiling)
+        settings.set_call_ceiling(args.budget_ceiling)
     args.func(args)
 
 

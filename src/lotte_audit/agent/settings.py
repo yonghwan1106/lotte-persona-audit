@@ -42,6 +42,7 @@ SEP = "|"
 FIX_CONFIG = paths.CONFIG / "fix_stage.json"
 STAGE4_CONFIG = paths.CONFIG / "stage4.json"
 _OVERLAY = None
+_CALL_CEILING = None
 
 
 def activate_fix_stage():
@@ -69,9 +70,10 @@ def _activate(config_path):
     LEDGER = RESULTS / "ledger.jsonl"
 
 
-def lower_budget(ceiling_usd):
-    """This process only: a stage budget below the configured one. It can only go down."""
-    _OVERLAY["budget_usd"] = min(float(ceiling_usd), float(_OVERLAY["budget_usd"]))
+def set_call_ceiling(ceiling_usd):
+    """This process only: no model call past this total spent in the stage. A plan's cost cap is still read against the stage budget, because a cached run spends nothing of it."""
+    global _CALL_CEILING
+    _CALL_CEILING = float(ceiling_usd)
 
 
 class BudgetExceeded(RuntimeError):
@@ -177,6 +179,8 @@ class StageBudget:
     def check(self, worst_case_usd, what):
         """Refuse before the call when its worst case does not fit."""
         left = self.remaining()
+        if _CALL_CEILING is not None:
+            left = min(left, _CALL_CEILING - self.spent())
         if worst_case_usd >= left:
             raise BudgetExceeded(f"{what}: worst case {worst_case_usd:.6f} USD does not fit the remaining {left:.6f} USD")
 

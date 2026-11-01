@@ -421,3 +421,16 @@ def test_demo8_stand_in_is_the_same_duel_as_demo7():
 
 def test_the_config_is_loaded_from_this_stage():
     assert CFG["models"]["main"]["id"] == TERRA
+
+
+def test_the_call_ceiling_stops_calls_and_leaves_the_plan_check_alone(tmp_path, monkeypatch):
+    from lotte_audit.agent import settings
+
+    log = tmp_path / "m.jsonl"
+    log.write_text(json.dumps({"cost_usd": 0.5}) + "\n", encoding="utf-8")
+    budget = settings.StageBudget(3.0, (log,))
+    monkeypatch.setattr(settings, "_CALL_CEILING", 0.6)
+    assert budget.remaining() == 2.5
+    budget.check(0.05, "fits")
+    with pytest.raises(settings.BudgetExceeded):
+        budget.check(0.2, "past the ceiling")
