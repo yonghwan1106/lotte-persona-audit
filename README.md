@@ -192,7 +192,7 @@ python src/stage4_measures.py duel          # 정답 없는 대결이 규칙으�
 python src/stage4_sensitivity.py            # 동결 결과를 본 뒤 돌린 시드 민감도, 규칙과 라벨을 바꾸지 않음
 ```
 
-읽는 법은 `allocation.md`, `flags.md`, `duel_validity.md`에 표와 함께 있습니다.
+값은 `results/stage4/allocation.json`, `flags.json`, `duel_validity.json`, `duel_seed_sensitivity.json`에 있습니다. 세 측정 명령이 같은 값의 표를 화면과 무시되는 md 파일로도 냅니다.
 
 - 200명 배분: 패널로 계산한 배분은 비례 배분보다 나아지지 않았고, 이전 자료로 계산한 배분보다도 낫지 않았습니다. 사전 기준으로 도움 없음입니다. 패널 배분과 비례 배분의 칸별 인원 차이는 2명 이하입니다.
 - 틀린 칸 사전 지목: 세 신호 모두 사전 기준을 넘지 못했습니다. 모델 간 차이는 점추정이 오차와 반대 부호이고 구간이 0을 겨우 포함합니다.
