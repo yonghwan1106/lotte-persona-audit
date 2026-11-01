@@ -433,6 +433,9 @@ def test_python_sources_are_ascii():
 
 
 def test_no_llm_client_is_used():
+    """Only the gate runner, src/panel_run.py, talks to an API. The scoring harness must stay offline."""
     pattern = re.compile(r"^\s*(import|from)\s+(openai|anthropic|httpx|requests|litellm)\b", re.M)
     for f in [ROOT / "audit.py", *ROOT.glob("src/**/*.py")]:
+        if f.name == "panel_run.py":
+            continue
         assert not pattern.search(f.read_text(encoding="utf-8")), f.name

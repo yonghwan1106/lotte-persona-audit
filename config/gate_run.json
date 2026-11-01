@@ -1,0 +1,46 @@
+{
+  "_note": "Frozen before the first persona call. panel_run.py refuses to run if the prompt no longer matches prompt_sha256. Not to be changed after answers are seen.",
+  "frozen_on": "2026-11-01",
+  "pricing_source": {
+    "urls_read": ["https://developers.openai.com/api/docs/pricing.md", "https://platform.openai.com/docs/pricing"],
+    "url_note": "platform.openai.com/docs/pricing served the same page. openai.com/api/pricing returned HTTP 403 to curl and was not needed.",
+    "read_at_utc": "2026-11-01T13:09Z",
+    "row_used": "Flagship models, Standard, short context. Prices per 1M tokens. Cache write rates are not expected to apply because caching is off for these requests."
+  },
+  "models": {
+    "main": {
+      "id": "gpt-6.1-terra",
+      "why": "Current tier below Sol and above Luna. Documented for clear, natural writing and supports Structured Outputs. At 1 and 5 USD per 1M it stays affordable for a repeated service.",
+      "usd_per_1m": {"input": 1.00, "cached_input": 0.05, "cache_write_30m": 1.25, "output": 5.00}
+    },
+    "cheap": {
+      "id": "gpt-6-luna",
+      "why": "Current cheapest GPT-6 model, ten times cheaper than Terra. Supports Structured Outputs. Shows what a low cost service would get.",
+      "usd_per_1m": {"input": 0.10, "cached_input": 0.01, "cache_write_30m": 0.125, "output": 0.50}
+    }
+  },
+  "endpoint": "https://api.openai.com/v1/responses",
+  "api_key_file": "C:/Users/user/.secrets/openai_api_key.txt",
+  "request": {
+    "reasoning_effort": "medium",
+    "reasoning_effort_why": "Documented default for both models, chosen before any call and the same for both.",
+    "temperature": "not sent. The guide says temperature and top_p must be removed when reasoning effort is not none.",
+    "store": false,
+    "store_why": "Row-derived persona text should not be retained as a stored response.",
+    "service_tier": "default",
+    "prompt_cache_mode": "explicit",
+    "prompt_cache_why": "Explicit mode with no breakpoints creates no cache reads or writes, so calls are independent and a long C2 persona is not billed at the 1.25x write rate.",
+    "max_output_tokens": 4000
+  },
+  "limits": {
+    "budget_usd": 20.0,
+    "concurrency": 8,
+    "max_attempts": 6,
+    "timeout_s": 180,
+    "persistent_failure_codes": 15
+  },
+  "codes_per_condition": {"C0": 100, "C1": 300, "C2": 300},
+  "prompt_file": "config/gate_prompt.json",
+  "prompt_sha256": "9690bc314a18ae9dd4914d31ad8c4f279352fc35d009716efe7a96d16f00319d",
+  "prompt_wording_source": "question_a19 and question_a15 are cut from pdftotext output of data/raw/questionnaire_adult_2025.pdf: A19 stem, item 1 and its five answer labels, A15 stem and all 17 options with their printed examples."
+}
