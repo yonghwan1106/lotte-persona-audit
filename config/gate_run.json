@@ -33,7 +33,7 @@
     "max_output_tokens": 4000
   },
   "limits": {
-    "budget_usd": 20.0,
+    "budget_usd": 8.0,
     "concurrency": 8,
     "max_attempts": 6,
     "timeout_s": 180,

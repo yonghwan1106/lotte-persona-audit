@@ -66,7 +66,7 @@ python src/gate_explore.py --answers runs/gate/answers_gpt-6.1-terra --out resul
 python src/panel_run.py status --write              # 집계 비용(results/gate_run_summary.json)
 ```
 
-총비용이 관문 전체 20달러에 닿기 전에 멈춥니다. 잔액 없음(429 insufficient_quota)이면 재시도 없이 바로 멈춥니다.
+총비용이 관문 전체 8달러에 닿기 전에 멈춥니다. 잔액 없음(429 insufficient_quota)이면 재시도 없이 바로 멈춥니다.
 
 ## 사전 등록
 
