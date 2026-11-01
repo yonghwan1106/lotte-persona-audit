@@ -1,0 +1,103 @@
+{
+  "models": {
+    "gpt-6.1-terra": {
+      "C2": {
+        "attempts": 1332,
+        "billed": 1332,
+        "statuses": {
+          "ok": 1332
+        },
+        "by_split_ok": {
+          "calibration": 632,
+          "test": 700
+        },
+        "retried_attempts": 0,
+        "input_tokens": 1931581,
+        "output_tokens": 125641,
+        "reasoning_tokens": 73697,
+        "cached_tokens": 0,
+        "cost_usd": 2.559786,
+        "cost_assumed_usd": 0.0,
+        "wall_clock_s": 384.4
+      },
+      "C1": {
+        "attempts": 1332,
+        "billed": 1332,
+        "statuses": {
+          "ok": 1332
+        },
+        "by_split_ok": {
+          "calibration": 632,
+          "test": 700
+        },
+        "retried_attempts": 0,
+        "input_tokens": 991782,
+        "output_tokens": 122555,
+        "reasoning_tokens": 70607,
+        "cached_tokens": 0,
+        "cost_usd": 1.604557,
+        "cost_assumed_usd": 0.0,
+        "wall_clock_s": 364.7
+      },
+      "stability": {
+        "attempts": 300,
+        "billed": 300,
+        "statuses": {
+          "ok": 300
+        },
+        "by_split_ok": {
+          "test": 300
+        },
+        "retried_attempts": 0,
+        "input_tokens": 435795,
+        "output_tokens": 27840,
+        "reasoning_tokens": 16144,
+        "cached_tokens": 0,
+        "cost_usd": 0.574995,
+        "cost_assumed_usd": 0.0,
+        "wall_clock_s": 87.7
+      }
+    },
+    "gpt-6-luna": {
+      "C2": {
+        "attempts": 1332,
+        "billed": 1332,
+        "statuses": {
+          "ok": 1332
+        },
+        "by_split_ok": {
+          "calibration": 632,
+          "test": 700
+        },
+        "retried_attempts": 0,
+        "input_tokens": 1931581,
+        "output_tokens": 450379,
+        "reasoning_tokens": 398431,
+        "cached_tokens": 0,
+        "cost_usd": 0.418348,
+        "cost_assumed_usd": 0.0,
+        "wall_clock_s": 780.3
+      },
+      "C1": {
+        "attempts": 1332,
+        "billed": 1332,
+        "statuses": {
+          "ok": 1332
+        },
+        "by_split_ok": {
+          "calibration": 632,
+          "test": 700
+        },
+        "retried_attempts": 0,
+        "input_tokens": 991782,
+        "output_tokens": 351938,
+        "reasoning_tokens": 299990,
+        "cached_tokens": 0,
+        "cost_usd": 0.275147,
+        "cost_assumed_usd": 0.0,
+        "wall_clock_s": 617.5
+      }
+    }
+  },
+  "stage_total_usd": 5.432833
+}
