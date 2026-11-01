@@ -170,9 +170,9 @@ def cmd_card_confirm(args):
     print(json.dumps(out, ensure_ascii=False, indent=2))
 
 
-def cmd_scenarios(args):
+def cmd_scenarios(args, text=None):
     cfg = settings.load_config()
-    text = settings.load_text()
+    text = text or settings.load_text()
     client, api_key = runtime.make_client(cfg)
     ctx_path = demo_paths(args.demo_run)["ctx"]
     demo_state = json.loads(ctx_path.read_text(encoding="utf-8")) if ctx_path.exists() else None

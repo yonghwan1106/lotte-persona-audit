@@ -268,7 +268,7 @@ def main():
     c.add_argument("--only", default=None)
     c.add_argument("--tag", default=None)
     c.add_argument("--probe", action="store_true")
-    c.set_defaults(func=agent_run.cmd_scenarios)
+    c.set_defaults(func=lambda a: agent_run.cmd_scenarios(a, stage_text()))
     args = parser.parse_args()
     if args.budget_ceiling is not None:
         settings.set_call_ceiling(args.budget_ceiling)

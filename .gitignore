@@ -13,3 +13,4 @@ __pycache__/
 
 # Rendered tables of the stage 4 measures. The JSON beside them holds the same values.
 results/stage4/*.md
+results/stage4/scenarios/*.md
