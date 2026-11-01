@@ -1,0 +1,102 @@
+{
+  "_note": "Frozen before the first demo call. Endpoint, key file and request equal config/gate_run.json apart from a smaller output cap, and src/agent_run.py refuses to run when they differ. Rules below are written before any concept answer exists. Budget, cache and logs are this stage's own, under runs/agent.",
+  "frozen_on": "2026-11-02",
+  "pricing_source": {
+    "url": "https://developers.openai.com/api/docs/pricing.md",
+    "read_at": "2026-11-02",
+    "row_used": "Standard tier, short context, per 1M tokens"
+  },
+  "models": {
+    "manager": {
+      "id": "gpt-6.1-sol",
+      "usd_per_1m": {"input": 2.00, "cached_input": 0.10, "cache_write_30m": 2.50, "output": 10.00}
+    },
+    "main": {
+      "id": "gpt-6.1-terra",
+      "usd_per_1m": {"input": 1.00, "cached_input": 0.05, "cache_write_30m": 1.25, "output": 5.00}
+    },
+    "cheap": {
+      "id": "gpt-6-luna",
+      "usd_per_1m": {"input": 0.10, "cached_input": 0.01, "cache_write_30m": 0.125, "output": 0.50}
+    }
+  },
+  "endpoint": "https://api.openai.com/v1/responses",
+  "decisions_endpoint": "https://api.openai.com/v1/decisions",
+  "api_key_file": "C:/Users/user/.secrets/openai_api_key.txt",
+  "request": {
+    "reasoning_effort": "medium",
+    "store": false,
+    "service_tier": "default",
+    "prompt_cache_mode": "explicit",
+    "max_output_tokens": 4000
+  },
+  "limits": {
+    "budget_usd": 5.0,
+    "concurrency": 8,
+    "max_attempts": 6,
+    "timeout_s": 180,
+    "persistent_failure_codes": 15
+  },
+  "agent": {
+    "max_turns": 30,
+    "narrator_max_turns": 2,
+    "narrator_max_attempts": 3,
+    "reasoning_effort": "medium",
+    "max_output_tokens": 6000,
+    "transcript_dir": "results/agent"
+  },
+  "panel": {
+    "condition": "C1",
+    "n_personas": 150,
+    "selection_seed": [42, 777],
+    "source": "runs/stage3/key.csv C1 rows: the gate's 300 test split respondents, stratified by age band and sex with largest remainder",
+    "pilot": {"model": "gpt-6-luna", "n_personas": 100, "cards": ["A", "N"], "why": "A negative control the cheap model cannot separate stops the run before the main spend. Pilot calls are cached and reused by the full run."},
+    "c0": {"model": "gpt-6.1-terra", "calls_per_card": 10, "cards": ["A", "A_para", "B", "C", "N"]},
+    "max_personas": 1000
+  },
+  "planning": {
+    "why": "Mean tokens per call from smoke on a card that is not part of the demo. Expected cost is calls times these means. The cost cap is expected times safety_factor, and the runner stops at it.",
+    "tokens_per_call": {
+      "gpt-6.1-terra": {"input": 480, "output": 180},
+      "gpt-6-luna": {"input": 480, "output": 220}
+    },
+    "safety_factor": 1.5,
+    "seconds_per_call": 5.0
+  },
+  "rules": {
+    "rule_version": "agent-1 on top of verdict_v2",
+    "metric": "t2b_pp: 100 x (p4 + p5) after normalising the five values, per persona, unweighted. It is a panel internal value and never a market number.",
+    "sum_tolerance": 0.05,
+    "bootstrap": {"draws": 2000, "seed": 20261102, "unit": "survey unit (vuid), paired across cards", "interval": "percentile 95"},
+    "min_segment_n": 20,
+    "noise": "noise_upper = larger absolute limit of the bootstrap interval of the mean paired difference A minus A_para, per model. Only one paraphrase is run, so it is assumed to hold for the other candidates.",
+    "gap": "A candidate pair is distinguishable only if the absolute mean paired difference exceeds noise_upper and its interval excludes zero. Otherwise it is 구분 불가.",
+    "negative_control": "A candidate is separated from N only if the mean paired difference exceeds noise_upper and the interval lies wholly above zero. A segment where any candidate is not separated is 무효 for that candidate.",
+    "brand": "The brand effect A_brand minus A exceeds noise only if the absolute mean exceeds noise_upper and the interval excludes zero. Then absolute values are hidden for that model.",
+    "model_disagreement": "Any candidate pair whose mean paired difference has opposite signs in the two models raises its measurement priority.",
+    "c0": "개인 정보가 일을 하지 않음 is flagged when the C0 order of candidates equals the C1 order and every pair's C1 gap minus C0 gap is within noise_upper. C0 uses calls_per_card calls per card on the main model only.",
+    "base_label": "The v2 labels of the card's anchor items for this model and condition, stored in results/stage3/verdict_v2.json and recomputed with verdict_v2.item_verdict. The lowest wins. No concept can reach 보정 후 참고 before real answers exist.",
+    "pilot_gate": "Stop before the full run if the pilot's interval of A minus N is not wholly above zero."
+  },
+  "segments": {
+    "age_groups": {"19-39": [4, 5], "40-59": [6, 7], "60+": [8, 9]},
+    "sex": {"1": "m", "2": "f"}
+  },
+  "intake": {
+    "decisions_model": "gpt-6-luna",
+    "refuse_at": 0.7,
+    "ask_human_at": 0.3
+  },
+  "allocation": {
+    "total": 200,
+    "target_n": 140,
+    "rest_n": 60,
+    "z": 1.96,
+    "p": 0.5,
+    "unit_size_examples": [5],
+    "icc_from_krei": {"weekly": 0.50, "ever": 0.41, "carb": 0.10},
+    "max_real_cards": 4
+  },
+  "prompt_file": "config/concept_prompt.json",
+  "prompt_sha256": "7da813dd01a0e5406dad0299e6e1c6be8c0111014c2c07303074806958297bed"
+}

@@ -1,0 +1,73 @@
+{
+  "_note": "시연 전용, 정답 없음. 모든 카드는 가상이다. A_brand는 같은 문장에 실제 칠성 브랜드 이름을 넣어 브랜드 효과만 재려는 측정용 문구이며, 해당 브랜드의 실제 제품이나 계획이 아니다. Frozen before the first demo call.",
+  "marking": "시연 전용, 정답 없음",
+  "decision": "어느 안을 실측 200명에 보낼지 고른다",
+  "request_note": "맛, 판매, 성패를 묻지 않는다. 문자 콘셉트에 대한 구매 의향 분포만 받는다.",
+  "cards": {
+    "A": {
+      "role": "candidate",
+      "description": "제로 슈거 탄산음료. 청귤과 로즈메리 향을 더한 맑은 탄산으로, 당류와 칼로리가 없고 대체 감미료로 가볍게 단맛을 냈다. 350mL 캔, 편의점 기준 1,800원대.",
+      "attributes": ["제로 슈거", "탄산", "청귤 로즈메리 향"],
+      "price_band": "편의점 1,800원대",
+      "alternatives": ["일반 탄산음료", "제로 콜라", "탄산수"],
+      "target_segment": "19-39",
+      "anchor_items": ["ever", "weekly", "carb"]
+    },
+    "A_para": {
+      "role": "paraphrase",
+      "paraphrase_of": "A",
+      "description": "설탕을 넣지 않은 칼로리 제로 스파클링 음료입니다. 풋귤과 로즈메리 향이 나는 깔끔한 탄산이며, 대체 감미료로 은은하게 달게 만들었습니다. 350mL 캔 하나가 편의점에서 1,800원 정도입니다.",
+      "attributes": ["제로 슈거", "탄산", "청귤 로즈메리 향"],
+      "price_band": "편의점 1,800원대",
+      "alternatives": ["일반 탄산음료", "제로 콜라", "탄산수"],
+      "target_segment": "19-39",
+      "anchor_items": ["ever", "weekly", "carb"]
+    },
+    "A_brand": {
+      "role": "brand",
+      "brand_of": "A",
+      "description": "칠성사이다 제로에서 나온 제로 슈거 탄산음료. 청귤과 로즈메리 향을 더한 맑은 탄산으로, 당류와 칼로리가 없고 대체 감미료로 가볍게 단맛을 냈다. 350mL 캔, 편의점 기준 1,800원대.",
+      "attributes": ["제로 슈거", "탄산", "청귤 로즈메리 향"],
+      "price_band": "편의점 1,800원대",
+      "alternatives": ["일반 탄산음료", "제로 콜라", "탄산수"],
+      "target_segment": "19-39",
+      "anchor_items": ["ever", "weekly", "carb"]
+    },
+    "B": {
+      "role": "candidate",
+      "description": "제로 슈거 스파클링 티. 홍차 추출액에 복숭아 향을 더하고 탄산을 넣은 음료로, 당류와 칼로리가 없다. 355mL 캔, 편의점 기준 2,000원대.",
+      "attributes": ["제로 슈거", "탄산", "홍차 복숭아 향"],
+      "price_band": "편의점 2,000원대",
+      "alternatives": ["아이스티", "제로 콜라", "탄산수"],
+      "target_segment": "19-39",
+      "anchor_items": ["ever", "weekly", "carb"]
+    },
+    "C": {
+      "role": "candidate",
+      "description": "탄산이 없는 제로 슈거 이온 음료. 유자 향이 나고 당류와 칼로리가 없으며, 운동 뒤나 일상에서 물처럼 마시도록 만들었다. 500mL 페트, 편의점 기준 1,900원대.",
+      "attributes": ["제로 슈거", "무탄산", "유자 향", "이온"],
+      "price_band": "편의점 1,900원대",
+      "alternatives": ["이온 음료", "생수", "제로 음료"],
+      "target_segment": "19-59",
+      "anchor_items": ["ever", "weekly"]
+    },
+    "N": {
+      "role": "negative_control",
+      "description": "미지근하게 데워 마시는 고등어 통조림 국물 맛 탄산음료. 비린 향이 강하고 캔을 열면 3분 안에 다 마셔야 한다. 180mL 한 캔에 19,000원이며, 우편으로 주문하면 한 달 뒤에 받는다.",
+      "attributes": ["비린 향", "미지근한 음용", "고가"],
+      "price_band": "한 캔 19,000원",
+      "alternatives": ["일반 탄산음료"],
+      "target_segment": "all",
+      "anchor_items": ["ever", "weekly", "carb"]
+    }
+  },
+  "smoke_card": {
+    "role": "candidate",
+    "description": "시험용 가상 카드. 레몬 향 무가당 탄산수. 350mL 캔, 편의점 기준 1,500원대.",
+    "attributes": ["무가당", "탄산"],
+    "price_band": "편의점 1,500원대",
+    "alternatives": ["탄산수"],
+    "target_segment": "all",
+    "anchor_items": ["carb"]
+  }
+}
