@@ -144,7 +144,8 @@ def diagnose_run(ctx):
     if not ctx.run_doc.get("complete"):
         return blocked("diagnose_run", "run_record_incomplete", stop_reason=ctx.run_doc.get("stop_reason"))
     loaded = ctx.backend.load_matrices(ctx, ctx.plan)
-    roles = {c: {"role": v["role"], "paraphrase_of": v.get("paraphrase_of"), "brand_of": v.get("brand_of"), "anchor_items": v["anchor_items"]} for c, v in ctx.cards.items()}
+    # Sorted so that a pair's name and sign do not depend on the order the model happened to validate the cards in.
+    roles = {c: {"role": ctx.cards[c]["role"], "paraphrase_of": ctx.cards[c].get("paraphrase_of"), "brand_of": ctx.cards[c].get("brand_of"), "anchor_items": ctx.cards[c]["anchor_items"]} for c in sorted(ctx.cards)}
     doc = diagnostics.compute(loaded["answers"], loaded["c0"], loaded["c0_model"], loaded["units"], loaded["segments"], roles, ctx.cfg["rules"])
     ctx.diagnostics = doc
     ctx.reason_tokens = loaded["reason_tokens"]
@@ -177,7 +178,7 @@ def decide_verdict(ctx):
     stored = json.loads((settings.paths.RESULTS / "stage3" / "verdict_v2.json").read_text(encoding="utf-8"))
     if stored["rule_version"] != verdict_v2.RULE_VERSION:
         return blocked("decide_verdict", "stored_rule_version_differs")
-    roles = {c: {"role": v["role"], "anchor_items": v["anchor_items"]} for c, v in ctx.cards.items()}
+    roles = {c: {"role": ctx.cards[c]["role"], "anchor_items": ctx.cards[c]["anchor_items"]} for c in sorted(ctx.cards)}
     ctx.verdict = verdict_rules.decide(ctx.diagnostics, roles, stored["answers"]["rows"], ctx.cfg["panel"]["condition"], ctx.text)
     ctx.catalog = verdict_rules.metric_catalog(ctx.diagnostics, ctx.verdict, ctx.text)
     return {"status": "done", "sentences": ctx.verdict["sentences"], "metric_ids": sorted(ctx.catalog)}
@@ -186,7 +187,7 @@ def decide_verdict(ctx):
 def allocate_real_sample(ctx):
     if not ctx.verdict:
         return blocked("allocate_real_sample", "verdict_missing")
-    roles = {c: {"role": v["role"], "target_segment": v["target_segment"]} for c, v in ctx.cards.items()}
+    roles = {c: {"role": ctx.cards[c]["role"], "target_segment": ctx.cards[c]["target_segment"]} for c in sorted(ctx.cards)}
     ctx.allocation = allocation.allocate(ctx.verdict, roles, ctx.diagnostics, ctx.cfg, ctx.text)
     return {"status": "done", "cards": ctx.allocation["cards"], "target_segment": ctx.allocation["target_segment"]}
 

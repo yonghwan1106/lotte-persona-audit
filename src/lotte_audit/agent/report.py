@@ -2,6 +2,7 @@
 import json
 import platform
 import time
+from importlib import metadata
 from pathlib import Path
 
 from . import narration, settings
@@ -16,13 +17,13 @@ def _dump(path, doc):
 
 
 def _sdk_versions():
-    try:
-        import agents
-        import openai
-
-        return {"openai_agents": agents.__version__, "openai": openai.__version__, "python": platform.python_version()}
-    except ImportError:
-        return {"python": platform.python_version()}
+    versions = {"python": platform.python_version()}
+    for name in ("openai-agents", "openai"):
+        try:
+            versions[name] = metadata.version(name)
+        except metadata.PackageNotFoundError:
+            versions[name] = None
+    return versions
 
 
 def manifest(ctx):
