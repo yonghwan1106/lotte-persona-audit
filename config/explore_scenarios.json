@@ -1,0 +1,30 @@
+{
+  "_note": "Scenarios of the exploration filter. Synthetic sentences planted as if the model had written them, run by code with no API call. Drop sentences must be removed, keep sentences must stay: a filter that removes everything would pass the first list. The patterns catch the forms listed, so a form not listed here can still pass.",
+  "drop": {
+    "fraction_words": "삼분의 일이 망설일 수 있다.",
+    "fraction_words_spaced": "사 분의 일 정도가 망설일 수 있다.",
+    "of_three": "셋 중 하나는 망설일 수 있다.",
+    "nearly_everyone": "소비자 거의 모두가 구입할 수 있다.",
+    "nearly_all_form": "거의 모든 사람이 관심을 보일 수 있다.",
+    "nearly_whole": "거의 전부가 망설일 수 있다.",
+    "best_of_all": "이 안이 가장 낫다고 볼 수 있다.",
+    "best_of_all_other_word": "이 콘셉트가 제일 좋다고 느낄 수 있다.",
+    "better": "이 안이 더 낫다고 느낄 수 있다.",
+    "choice": "이 안을 고를 수 있다.",
+    "choice_other_word": "이 안을 선택할 수 있다.",
+    "purchase": "이 음료를 구매할 수 있다.",
+    "housewife": "주부들이 더 좋아할 수 있다.",
+    "mother": "아이를 둔 엄마들이 망설일 수 있다.",
+    "husband": "남편 입맛에 맞지 않아 망설일 수 있다.",
+    "man_word": "아저씨들은 낯설어할 수 있다."
+  },
+  "keep": {
+    "strawberry_is_no_daughter": "딸기 향과 비교될 수 있다.",
+    "accepting_is_no_son": "낯선 향을 받아들이기 어려울 수 있다.",
+    "youth_is_no_gender": "청소년 자녀가 있는 가구에서 관심이 달라질 수 있다.",
+    "water_content_is_no_fraction": "수분 보충 쓰임새가 관심을 끌 수 있다.",
+    "denying_is_no_wife": "낯선 향이라는 점을 부인하기 어려울 수 있다.",
+    "drinking_is_no_purchase": "운동 뒤에 마실 수 있다는 점이 관심을 끌 수 있다.",
+    "hesitation": "가격대가 부담으로 느껴질 수 있다."
+  }
+}

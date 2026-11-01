@@ -320,9 +320,9 @@ def ingest_real(ctx):
     from . import action, ingest
 
     i = ctx.real_input
-    doc = ingest.ingest(i["real_csv"], i["panel_csv"], ctx.results_dir or settings.RESULTS / ctx.run_id, ctx.ledger_path or settings.LEDGER, i["source_label"], i["approver"], action.load_text())
+    doc = ingest.ingest(i["real_csv"], i["panel_csv"], ctx.results_dir or settings.RESULTS / ctx.run_id, ctx.ledger_path or settings.LEDGER, i["source_label"], i["approver"], action.load_text(), i.get("panel_model"), i.get("panel_condition"))
     ctx.real_results = doc
-    return {"status": "done", "decision": doc["decision"], "concept_duel": doc["concept_duel"], "source_label": doc["source_label"]}
+    return {"status": "done", "health_check_outcome": doc["duel_outcome"], "report_status": doc["report_status"], "panel": doc["panel"], "concept_duel": doc["concept_duel"], "source_label": doc["source_label"]}
 
 
 def write_ledger(ctx):

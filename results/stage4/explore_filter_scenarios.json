@@ -1,0 +1,656 @@
+{
+ "note": "Synthetic sentences, code checks, no API call. Patterns catch the forms listed. This is not a guarantee about forms not listed.",
+ "total": 69,
+ "passed": 69,
+ "failed": [],
+ "rows": [
+  {
+   "scenario": "fraction_words",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "fraction_words",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "fraction_words",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "fraction_words_spaced",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "number_or_claim": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "fraction_words_spaced",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "number_or_claim": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "fraction_words_spaced",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "number_or_claim": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "of_three",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "number_or_claim": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "of_three",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "number_or_claim": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "of_three",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "number_or_claim": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "nearly_everyone",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "nearly_everyone",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "nearly_everyone",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "nearly_all_form",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "nearly_all_form",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "nearly_all_form",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "nearly_whole",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "nearly_whole",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "nearly_whole",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "best_of_all",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "best_of_all",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "best_of_all",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "best_of_all_other_word",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "best_of_all_other_word",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "best_of_all_other_word",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "better",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "better",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "better",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "choice",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "choice",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "choice",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "choice_other_word",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "choice_other_word",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "choice_other_word",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "purchase",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "purchase",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "purchase",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "housewife",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "housewife",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "housewife",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "mother",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "mother",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "mother",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "husband",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "husband",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "husband",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "man_word",
+   "section": "objections",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "man_word",
+   "section": "attractions",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "man_word",
+   "section": "segment_hypotheses",
+   "expected": "dropped",
+   "outcome": "dropped",
+   "codes": {
+    "blocked_pattern": 1
+   },
+   "passed": true
+  },
+  {
+   "scenario": "strawberry_is_no_daughter",
+   "section": "objections",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "strawberry_is_no_daughter",
+   "section": "attractions",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "strawberry_is_no_daughter",
+   "section": "segment_hypotheses",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "accepting_is_no_son",
+   "section": "objections",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "accepting_is_no_son",
+   "section": "attractions",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "accepting_is_no_son",
+   "section": "segment_hypotheses",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "youth_is_no_gender",
+   "section": "objections",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "youth_is_no_gender",
+   "section": "attractions",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "youth_is_no_gender",
+   "section": "segment_hypotheses",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "water_content_is_no_fraction",
+   "section": "objections",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "water_content_is_no_fraction",
+   "section": "attractions",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "water_content_is_no_fraction",
+   "section": "segment_hypotheses",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "denying_is_no_wife",
+   "section": "objections",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "denying_is_no_wife",
+   "section": "attractions",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "denying_is_no_wife",
+   "section": "segment_hypotheses",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "drinking_is_no_purchase",
+   "section": "objections",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "drinking_is_no_purchase",
+   "section": "attractions",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "drinking_is_no_purchase",
+   "section": "segment_hypotheses",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "hesitation",
+   "section": "objections",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "hesitation",
+   "section": "attractions",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  },
+  {
+   "scenario": "hesitation",
+   "section": "segment_hypotheses",
+   "expected": "kept",
+   "outcome": "kept",
+   "codes": {},
+   "passed": true
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+{
+  "_note": "Product decision on panel values in reports. It was made after the frozen stage 4 result was seen, so it is post hoc. It changes no frozen file, no frozen number and no frozen label. Source of the wording: wf10_verify.md must_fix item 1.",
+  "decided_on": "2026-11-02",
+  "decided_by": "Advisor of this project, after the frozen pass and the checks that followed it",
+  "post_hoc": true,
+  "default": "excluded",
+  "duel_role": "health_check",
+  "fold_kind_counted": "unit_intact",
+  "consecutive_keeps_required": null,
+  "consecutive_keeps_required_note": "The run length is for the project to agree. null means not agreed yet, so panel values enter no report. Stand-in files and runs without a survey unit column are not counted.",
+  "frozen_label": "decision_rule",
+  "frozen_label_caveat": "동결 시드에서 사전 기준을 넘어 나온 기록상 라벨입니다. 통과를 본 뒤의 사후 결정으로 대결은 건강검진으로 내렸고, 이 라벨을 확정 판정으로 읽지 않습니다. 근거는 같은 표본에서 접힘 시드만 바꿔도 결정이 뒤집히는 것과 조사 단위를 온전히 둔 접힘의 keep rate입니다(results/stage4/duel_post_hoc.json).",
+  "needed_before_real_use": "A new preregistration committed before computing: repeated folds, unit-intact folds, Terra C1, the no-LLM floor and a constant panel in the slots, several noise seeds with the bar read on their mean. The frozen plan is not edited."
+}

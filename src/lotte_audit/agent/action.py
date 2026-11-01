@@ -11,6 +11,9 @@ from .. import paths
 CANDIDATE = "candidate"
 DROP, KEEP, CANT_TELL = "drop", "keep", "cant_tell"
 BANDS = ((1.0, "under_1pp", "1pp \ubbf8\ub9cc"), (3.0, "1_to_3pp", "1~3pp"), (5.0, "3_to_5pp", "3~5pp"), (float("inf"), "5pp_and_over", "5pp \uc774\uc0c1"))
+SENSITIVITY_LIMITS = (5.0, 4.5, 4.0, 3.0, 2.0)
+JOINED_BANDS = ("1_to_3pp", "3_to_5pp")
+RANKING_SOURCE = "results/stage3/option_ranking.json"
 
 
 def load_rules():
@@ -50,8 +53,10 @@ def decide_card(card, candidates, diagnostics, limit, run_complete, leading_kept
             return CANT_TELL, t["run_cannot_separate"].format(model=short(m))
     if card in leading_kept:
         return CANT_TELL, t["leading_kept"]
-    reference = by_model[models[0]]["rank"][0]
-    if card != reference and len(models) > 1:
+    # Every model's top candidate is a reference, so the answer does not depend on which model is listed first.
+    for reference in sorted({by_model[m]["rank"][0] for m in models}):
+        if card == reference or len(models) < 2:
+            continue
         pairs = [(m, *gap(by_model[m], card, reference)) for m in models]
         beyond = [abs(v) > by_model[m]["noise_upper"] for m, v, _ in pairs if v is not None and by_model[m]["noise_upper"] is not None]
         signs = {v > 0 for _, v, _ in pairs if v is not None}
@@ -71,10 +76,41 @@ def decide_card(card, candidates, diagnostics, limit, run_complete, leading_kept
 
 
 def ranking_accuracy(band_key):
-    """Pair accuracy of the concept condition's panel on existing drinks, for the band of the panel's own gap."""
-    doc = json.loads((paths.RESULTS / "stage3" / "option_ranking.json").read_text(encoding="utf-8"))
-    e = doc["sets"]["merged_coffee_15"]["groups"]["overall"]["estimators"]["panel_C1"][f"estimated_gap|{band_key}|accuracy"]
-    return e["value"], e.get("ci95")
+    """(pair accuracy, its interval, pairs in the band) of the concept condition's panel on existing drinks, for the band of the panel's own gap."""
+    doc = json.loads((paths.ROOT / RANKING_SOURCE).read_text(encoding="utf-8"))
+    panel = doc["sets"]["merged_coffee_15"]["groups"]["overall"]["estimators"]["panel_C1"]
+    e = panel[f"estimated_gap|{band_key}|accuracy"]
+    return e["value"], e.get("ci95"), panel[f"estimated_gap|{band_key}|n_pairs"]["value"]
+
+
+def pair_counts(value, n):
+    """Pairs right out of pairs in the band. The stored accuracy is that share, rounded."""
+    return round(value * n), n
+
+
+def threshold_sensitivity(card_ids, diagnostics, run_complete, leading_kept, text, limits=SENSITIVITY_LIMITS):
+    """The labels of this run with the drop gap at other values. Same rule, same diagnostics, nothing fitted. The limit in force is one of the rows."""
+    rows = []
+    for limit in limits:
+        drops = [c for c in card_ids if decide_card(c, card_ids, diagnostics, limit, run_complete, leading_kept, text)[0] == DROP]
+        rows.append({"limit_pp": limit, "drop_proposed": drops})
+    return rows
+
+
+def sensitivity_line(rows, text):
+    """Limits that give the same result are named together, so the sentence is the code's reading of the rows."""
+    t = text["action"]
+    groups = []
+    for row in rows:
+        if groups and groups[-1][1] == row["drop_proposed"]:
+            groups[-1][0].append(row["limit_pp"])
+        else:
+            groups.append(([row["limit_pp"]], row["drop_proposed"]))
+    parts = []
+    for limits, drops in groups:
+        names = ", ".join(f"{x:g}pp" for x in limits)
+        parts.append(t["sensitivity_keep_all"].format(limits=names) if not drops else t["sensitivity_drop"].format(limits=names, cards=", ".join(drops)))
+    return t["sensitivity"].format(parts="; ".join(parts))
 
 
 def band_of(value):
@@ -90,6 +126,9 @@ def order_lines(candidates, diagnostics, text, accuracy=ranking_accuracy):
     by_model = diagnostics["by_model"]
     models = list(by_model)
     shown, hidden = [], []
+    joined = [accuracy(k) for k in JOINED_BANDS]
+    right = sum(pair_counts(v, n)[0] for v, _, n in joined)
+    pairs_total = sum(n for _, _, n in joined)
     for i, a in enumerate(candidates):
         for b in candidates[i + 1 :]:
             pairs = [(m, *gap(by_model[m], a, b)) for m in models]
@@ -99,9 +138,11 @@ def order_lines(candidates, diagnostics, text, accuracy=ranking_accuracy):
                 continue
             hi, lo = (a, b) if signs == {True} else (b, a)
             key, label = band_of(pairs[0][1])
-            value, ci = accuracy(key)
-            shown.append(t["order_line"].format(hi=hi, lo=lo, gaps=_gaps_text([(m, v) for m, v, _ in pairs]), band=label, accuracy=f"{value:.3f}", ci=f"[{ci[0]:.3f}, {ci[1]:.3f}]" if ci else ""))
-    return {"lines": shown or [t["order_none"]], "hidden_pairs": hidden}
+            value, ci, n = accuracy(key)
+            good, _ = pair_counts(value, n)
+            shown.append(t["order_line"].format(hi=hi, lo=lo, gaps=_gaps_text([(m, v) for m, v, _ in pairs]), band=label, good=good, n=n, accuracy=f"{value:.3f}", ci=f"[{ci[0]:.3f}, {ci[1]:.3f}]" if ci else ""))
+    notes = [t["order_note"].format(right=right, total=pairs_total, source=RANKING_SOURCE)] if shown else []
+    return {"lines": shown or [t["order_none"]], "hidden_pairs": hidden, "notes": notes}
 
 
 def action_table(diagnostics, roles, run_complete, leading_log, rules, text, accuracy=ranking_accuracy):
@@ -113,8 +154,10 @@ def action_table(diagnostics, roles, run_complete, leading_log, rules, text, acc
     for card in candidates:
         code, reason = decide_card(card, candidates, diagnostics, limit, run_complete, kept, text)
         rows.append({"card": card, "action": code, "label": labels[code], "reason": reason})
-    order = order_lines(candidates, diagnostics, text, accuracy) if run_complete else {"lines": [text["action"]["order_none"]], "hidden_pairs": []}
-    return {"rows": rows, "order": order["lines"], "order_hidden_pairs": order["hidden_pairs"], "notes": [n.format(limit=f"{limit:g}") for n in text["action"]["notes"]], "drop_gap_pp": limit}
+    order = order_lines(candidates, diagnostics, text, accuracy) if run_complete else {"lines": [text["action"]["order_none"]], "hidden_pairs": [], "notes": []}
+    sensitivity = threshold_sensitivity(candidates, diagnostics, run_complete, kept, text)
+    notes = [n.format(limit=f"{limit:g}") for n in text["action"]["notes"]] + [sensitivity_line(sensitivity, text)]
+    return {"rows": rows, "order": order["lines"], "order_hidden_pairs": order["hidden_pairs"], "order_notes": order["notes"], "notes": notes, "drop_gap_pp": limit, "threshold_sensitivity": sensitivity}
 
 
 def detectable(rules):

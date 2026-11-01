@@ -1,16 +1,19 @@
-"""Stage 4 runner: demo7 from cached panel answers, the survey ingestion path, and the command with which a person approves one small run.
+"""Stage 4 runner: the demo from cached panel answers, the survey ingestion path, and the command with which a person approves one small run.
 
 Use the project venv:
   .venv/Scripts/python.exe src/stage4_run.py check
-  .venv/Scripts/python.exe src/stage4_run.py demo-start --run-id demo7
-  .venv/Scripts/python.exe src/stage4_run.py demo-resume --run-id demo7 --approver "NAME"
+  .venv/Scripts/python.exe src/stage4_run.py demo-start --run-id demo8
+  .venv/Scripts/python.exe src/stage4_run.py demo-resume --run-id demo8 --approver "NAME"
   .venv/Scripts/python.exe src/stage4_run.py make-standin --name krei_draw0      writes row level stand-in files under runs/stage4/ingest
-  .venv/Scripts/python.exe src/stage4_run.py ingest-real --run-id demo7 --real FILE --panel FILE --source-label LABEL --approver "NAME"
+  .venv/Scripts/python.exe src/stage4_run.py ingest-real --run-id demo8 --real FILE --panel FILE --panel-model MODEL --panel-condition C1 --source-label LABEL --approver "NAME"
+  .venv/Scripts/python.exe src/stage4_run.py explore-scenarios                   the exploration filter on planted sentences, no API call
+  .venv/Scripts/python.exe src/stage4_run.py scenarios --runs 1 --demo-run demo8 behaviour scenarios on the live API
   .venv/Scripts/python.exe src/stage4_run.py human-plan --run-id human1          a person's small run, step one: the plan, no call
   .venv/Scripts/python.exe src/stage4_run.py human-approve --run-id human1       step two, at a terminal: a person types name and plan hash, then it runs
   .venv/Scripts/python.exe src/stage4_run.py status --write
 
 human-approve refuses without an interactive terminal. No demo or stage brief goes through it, and code still cannot tell who typed.
+--budget-ceiling USD, before the command, lowers this process's stage budget, so a step can stop before its own limit.
 The API key is read by runner code only. Persona text, respondent codes and the row level files stay under runs/.
 """
 import argparse
@@ -35,7 +38,7 @@ from lotte_audit.agent.state import AuditContext  # noqa: E402
 
 agent_run.BACKEND_CLASS = fixstage.CacheOnlyBackend
 INGEST_DIR = settings.STAGE / "ingest"
-COMMITTED = ("config/stage4.json", "config/stage4_text.json", "config/explore_prompt.json", "config/prereg_stage4.json", "src/lotte_audit/agent/action.py", "src/lotte_audit/agent/explore.py", "src/lotte_audit/agent/human.py", "src/lotte_audit/agent/ingest.py", "src/lotte_audit/agent/report4.py", "src/stage4_run.py")
+COMMITTED = ("config/stage4.json", "config/stage4_text.json", "config/explore_prompt.json", "config/explore_scenarios.json", "config/panel_value_policy.json", "config/prereg_stage4.json", "src/lotte_audit/duel_units.py", "src/lotte_audit/agent/action.py", "src/lotte_audit/agent/explore.py", "src/lotte_audit/agent/human.py", "src/lotte_audit/agent/ingest.py", "src/lotte_audit/agent/report4.py", "src/stage4_run.py")
 SMALL_RUN = {"n_personas": 100, "cards": ("A", "A_para", "B", "C", "N")}
 
 
@@ -51,6 +54,7 @@ def require_committed():
 def stage_text():
     text = settings.load_text()
     text["stage4"] = action.load_text()
+    text["allocation_text"] = {**text["allocation_text"], "manual": text["stage4"]["allocation_manual"]}
     return text
 
 
@@ -148,8 +152,15 @@ def cmd_ingest_real(args):
     run_dir = settings.RESULTS / args.run_id
     if not (run_dir / "manifest.json").exists():
         raise SystemExit(f"no finished run {args.run_id}")
-    doc = ingest.ingest(args.real, args.panel, run_dir, settings.LEDGER, args.source_label, args.approver, text)
-    print(json.dumps({k: doc[k] for k in ("source_label", "is_real_concept_survey", "n_respondents", "decision", "concept_duel", "anchors", "duel_grade", "seed_runs", "seed_runs_failed", "approver", "lines")}, ensure_ascii=False, indent=1))
+    doc = ingest.ingest(args.real, args.panel, run_dir, settings.LEDGER, args.source_label, args.approver, text, args.panel_model, args.panel_condition)
+    print(json.dumps({k: doc[k] for k in ("source_label", "panel", "is_real_concept_survey", "n_respondents", "report_status", "panel_values_in_report", "duel_outcome", "health_check", "concept_duel", "anchors", "duel_grade", "seed_runs", "seed_runs_failed", "approver", "lines")}, ensure_ascii=False, indent=1))
+
+
+def cmd_explore_scenarios(_args):
+    doc = explore.filter_scenarios(settings.load_text(), action.load_text(), action.load_rules()["explore"]["limits"])
+    settings.RESULTS.mkdir(parents=True, exist_ok=True)
+    (settings.RESULTS / "explore_filter_scenarios.json").write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(json.dumps({k: doc[k] for k in ("total", "passed", "failed")}, ensure_ascii=False))
 
 
 def human_paths(run_id):
@@ -217,14 +228,15 @@ def cmd_detectable(_args):
 def main():
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--budget-ceiling", type=float, default=None)
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("check").set_defaults(func=cmd_check)
     sub.add_parser("detectable").set_defaults(func=cmd_detectable)
     d = sub.add_parser("demo-start")
-    d.add_argument("--run-id", default="demo7")
+    d.add_argument("--run-id", default="demo8")
     d.set_defaults(func=cmd_demo_start)
     r = sub.add_parser("demo-resume")
-    r.add_argument("--run-id", default="demo7")
+    r.add_argument("--run-id", default="demo8")
     r.add_argument("--approver", required=True)
     r.add_argument("--note", default=None)
     r.set_defaults(func=cmd_demo_resume)
@@ -232,9 +244,11 @@ def main():
     m.add_argument("--name", default="krei_draw0")
     m.set_defaults(func=cmd_make_standin)
     i = sub.add_parser("ingest-real")
-    i.add_argument("--run-id", default="demo7")
+    i.add_argument("--run-id", default="demo8")
     i.add_argument("--real", required=True)
     i.add_argument("--panel", required=True)
+    i.add_argument("--panel-model", required=True)
+    i.add_argument("--panel-condition", required=True)
     i.add_argument("--source-label", required=True)
     i.add_argument("--approver", required=True)
     i.set_defaults(func=cmd_ingest_real)
@@ -247,7 +261,17 @@ def main():
     t = sub.add_parser("status")
     t.add_argument("--write", action="store_true")
     t.set_defaults(func=agent_run.cmd_status)
+    sub.add_parser("explore-scenarios").set_defaults(func=cmd_explore_scenarios)
+    c = sub.add_parser("scenarios")
+    c.add_argument("--runs", type=int, default=1)
+    c.add_argument("--demo-run", default="demo8")
+    c.add_argument("--only", default=None)
+    c.add_argument("--tag", default=None)
+    c.add_argument("--probe", action="store_true")
+    c.set_defaults(func=agent_run.cmd_scenarios)
     args = parser.parse_args()
+    if args.budget_ceiling is not None:
+        settings.lower_budget(args.budget_ceiling)
     args.func(args)
 
 

@@ -38,7 +38,7 @@ def diag(terra, luna):
 
 SEP = {c: {"separated": True} for c in "ABC"}
 ROLES = {"A": {"role": "candidate"}, "B": {"role": "candidate"}, "C": {"role": "candidate"}, "N": {"role": "negative_control"}, "A_para": {"role": "paraphrase"}}
-ACC = lambda key: (0.5, [0.4, 0.6])  # noqa: E731
+ACC = lambda key: (0.5, [0.4, 0.6], 10)  # noqa: E731
 
 
 def table(terra, luna, complete=True, leading=()):
@@ -439,24 +439,28 @@ def run_dir(tmp_path):
 
 
 def validity(tmp_path, passed=True, surrogate=0.05):
-    doc = {"acceptance": {"passed": passed, "label": "decision_rule" if passed else "health_check", "surrogate_keep_rates": {"s": surrogate}, "positive_keep_rate": 0.9}, "row": {"terra_C2": {"pooled": {"panel_excluded": {"keep_rate": 0.3, "false_keep_rate": 0.4, "missed_keep_rate": 0.6}}}, "luna_C1": {"pooled": {"panel_excluded": {"keep_rate": 0.02}}}}}
+    doc = {"acceptance": {"passed": passed, "label": "decision_rule" if passed else "health_check", "surrogate_keep_rates": {"s": surrogate}, "positive_keep_rate": 0.9}, "row": {"terra_C2": {"pooled": {"panel_excluded": {"keep_rate": 0.3, "false_keep_rate": 0.4, "missed_keep_rate": 0.6}}}, "luna_C1": {"pooled": {"panel_excluded": {"keep_rate": 0.02, "false_keep_rate": 0.1, "missed_keep_rate": 0.9}}}}}
     v = tmp_path / "v.json"
     v.write_text(json.dumps(doc), encoding="utf-8")
     return v
 
 
+def run_ingest(tmp_path, real, panel, d, ledger, label, who="tester", model=TERRA, condition="C2", **kw):
+    return ingest.ingest(real, panel, d, ledger, label, who, STAGE, model, condition, validity_path=validity(tmp_path), seed_path=tmp_path / "none.json", post_hoc_path=tmp_path / "none2.json", **kw)
+
+
 def test_ingest_writes_the_report_block_the_ledger_and_real_results(tmp_path):
     real, panel = write_files(tmp_path)
     d = run_dir(tmp_path)
-    doc = ingest.ingest(real, panel, d, tmp_path / "ledger.jsonl", ingest.STANDIN_LABEL, "tester", STAGE, validity_path=validity(tmp_path), seed_path=tmp_path / "none.json")
-    assert doc["decision"] == "keep" and doc["source_label"] == ingest.STANDIN_LABEL
+    doc = run_ingest(tmp_path, real, panel, d, tmp_path / "ledger.jsonl", ingest.STANDIN_LABEL)
+    assert doc["duel_outcome"] == "keep" and doc["source_label"] == ingest.STANDIN_LABEL
     assert doc["is_real_concept_survey"] is False and doc["concept_duel"] == "not_run_no_real_concept_answers"
     text = (d / "report.md").read_text(encoding="utf-8")
     assert "old" not in text and text.startswith("head") and text.endswith("tail\n")
     assert ingest.STANDIN_LABEL in text and "\uc2e4\uc81c \uc124\ubb38\uc744 \ub9cc\ub09c \uc801\uc774 \uc5c6\uc2b5\ub2c8\ub2e4" in text and "tester" in text
     row = json.loads((tmp_path / "ledger.jsonl").read_text(encoding="utf-8"))
     assert row["kind"] == "real_results" and row["approver"] == "tester" and row["manifest_sha256"] == "abc"
-    assert row["real_results"]["decision"] == "keep" and row["human_decision"] is None
+    assert row["real_results"]["duel_outcome"] == "keep" and row["human_decision"] is None
     blob = (tmp_path / "ledger.jsonl").read_text(encoding="utf-8") + (d / "real_results.json").read_text(encoding="utf-8") + text
     assert "R0001" not in blob
 
@@ -464,33 +468,33 @@ def test_ingest_writes_the_report_block_the_ledger_and_real_results(tmp_path):
 def test_ingest_drops_a_panel_with_no_signal_and_says_why(tmp_path):
     real, panel = write_files(tmp_path, signal=0.0)
     d = run_dir(tmp_path)
-    doc = ingest.ingest(real, panel, d, tmp_path / "l.jsonl", "field survey", "tester", STAGE, validity_path=validity(tmp_path), seed_path=tmp_path / "none.json")
-    assert doc["decision"] == "drop"
+    doc = run_ingest(tmp_path, real, panel, d, tmp_path / "l.jsonl", "field survey")
+    assert doc["duel_outcome"] == "drop"
     assert STAGE["real"]["reason_drop"] in doc["lines"]
 
 
 def test_a_concept_column_runs_its_own_duel_and_only_a_real_label_counts_as_a_survey(tmp_path):
     real, panel = write_files(tmp_path, concept=True)
     d = run_dir(tmp_path)
-    doc = ingest.ingest(real, panel, d, tmp_path / "l.jsonl", "field survey", "tester", STAGE, validity_path=validity(tmp_path), seed_path=tmp_path / "none.json")
+    doc = run_ingest(tmp_path, real, panel, d, tmp_path / "l.jsonl", "field survey")
     assert doc["concept_duel"] == "ran" and doc["is_real_concept_survey"] is True and doc["concepts"]["A"]["keep"] is True
     d2 = tmp_path / "second"
     d2.mkdir()
     (d2 / "manifest.json").write_text(json.dumps({"run_id": "r", "manifest_sha256": "abc"}), encoding="utf-8")
     (d2 / "report.md").write_text(f"{ingest.MARK_START}\n{ingest.MARK_END}\n", encoding="utf-8")
-    doc2 = ingest.ingest(real, panel, d2, tmp_path / "l.jsonl", ingest.STANDIN_LABEL, "tester", STAGE, validity_path=validity(tmp_path), seed_path=tmp_path / "none.json")
+    doc2 = run_ingest(tmp_path, real, panel, d2, tmp_path / "l.jsonl", ingest.STANDIN_LABEL)
     assert doc2["is_real_concept_survey"] is False
 
 
-def test_a_failed_acceptance_is_labelled_a_health_check(tmp_path):
-    got = ingest.grade(STAGE, validity(tmp_path, passed=False, surrogate=0.3), tmp_path / "none.json")
-    assert got["label"] == "health_check" and "\uac74\uac15\uac80\uc9c4" in got["lines"][0]
+def test_a_failed_acceptance_keeps_its_label_in_the_record(tmp_path):
+    got = ingest.grade(STAGE, "terra_C2", validity(tmp_path, passed=False, surrogate=0.3), tmp_path / "none.json", tmp_path / "none2.json")
+    assert got["label"] == "health_check" and "health_check" in got["lines"][0]
 
 
 def test_seed_failures_are_named_next_to_a_passed_acceptance(tmp_path):
     seeds = tmp_path / "s.json"
     seeds.write_text(json.dumps({"runs": {"a": {"acceptance_passed": False}, "b": {"acceptance_passed": True}}}), encoding="utf-8")
-    got = ingest.grade(STAGE, validity(tmp_path), seeds)
+    got = ingest.grade(STAGE, "terra_C2", validity(tmp_path), seeds, tmp_path / "none2.json")
     assert got["seed_runs_failed"] == 1
     assert any("2\uac1c\ub85c" in x and "1\uac1c" in x for x in got["lines"])
 
@@ -500,7 +504,7 @@ def test_ingest_refuses_files_it_cannot_read_as_stated(tmp_path, kw, needle):
     real, panel = write_files(tmp_path, **kw)
     d = run_dir(tmp_path)
     with pytest.raises(ingest.IngestRefused, match=needle):
-        ingest.ingest(real, panel, d, tmp_path / "l.jsonl", "field survey", "tester", STAGE, validity_path=validity(tmp_path), seed_path=tmp_path / "none.json")
+        run_ingest(tmp_path, real, panel, d, tmp_path / "l.jsonl", "field survey")
     assert not (tmp_path / "l.jsonl").exists() and "old" in (d / "report.md").read_text(encoding="utf-8")
 
 
@@ -512,7 +516,7 @@ def test_ingest_refuses_a_row_level_file_in_a_tracked_folder():
 def test_ingest_needs_a_name_and_a_source(tmp_path):
     real, panel = write_files(tmp_path)
     with pytest.raises(ingest.IngestRefused):
-        ingest.ingest(real, panel, run_dir(tmp_path), tmp_path / "l.jsonl", "field survey", " ", STAGE)
+        ingest.ingest(real, panel, run_dir(tmp_path), tmp_path / "l.jsonl", "field survey", " ", STAGE, TERRA, "C2")
 
 
 def test_a_bad_anchor_value_is_refused(tmp_path):
@@ -600,7 +604,7 @@ def test_runner_refuses_new_panel_calls_for_the_demo_by_default():
 
 
 def test_new_product_sources_are_ascii():
-    for rel in ("src/stage4_run.py", "src/stage4_sensitivity.py", "src/lotte_audit/agent/action.py", "src/lotte_audit/agent/explore.py", "src/lotte_audit/agent/human.py", "src/lotte_audit/agent/ingest.py", "src/lotte_audit/agent/report4.py", "tests/test_stage4_product.py"):
+    for rel in ("src/stage4_run.py", "src/stage4_sensitivity.py", "src/stage4_posthoc.py", "src/lotte_audit/duel_units.py", "tests/test_stage4_policy.py", "src/lotte_audit/agent/action.py", "src/lotte_audit/agent/explore.py", "src/lotte_audit/agent/human.py", "src/lotte_audit/agent/ingest.py", "src/lotte_audit/agent/report4.py", "tests/test_stage4_product.py"):
         (paths.ROOT / rel).read_bytes().decode("ascii")
 
 
@@ -646,7 +650,7 @@ def test_no_person_is_claimed_for_the_demo_or_the_stand_in():
         pytest.skip("no ledger")
     rows = [json.loads(x) for x in ledger.read_text(encoding="utf-8").splitlines() if x.strip()]
     for row in rows:
-        if row.get("run_id") == "demo7":
+        if row.get("run_id") in ("demo7", "demo8"):
             who = row.get("approver") or (row.get("approval") or {}).get("approver")
             assert "no person" in who
             assert (row.get("approval") or {}).get("channel") is None

@@ -69,6 +69,11 @@ def _activate(config_path):
     LEDGER = RESULTS / "ledger.jsonl"
 
 
+def lower_budget(ceiling_usd):
+    """This process only: a stage budget below the configured one. It can only go down."""
+    _OVERLAY["budget_usd"] = min(float(ceiling_usd), float(_OVERLAY["budget_usd"]))
+
+
 class BudgetExceeded(RuntimeError):
     """A call would pass the stage budget, so it was not made."""
 

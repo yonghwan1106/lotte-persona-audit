@@ -1,7 +1,7 @@
 """explore_card: stored panel reason sentences of a candidate card, grouped by one Terra call into hypotheses for a person writing a survey.
 
-These are LLM outputs, not respondent text. Every sentence is labelled a hypothesis and holds no number. Code removes what breaks the number rule or
-the blocked patterns, and what shares a long run of characters with a persona or with a stored reason. Persona text and reason sentences stay in memory
+These are LLM outputs, not respondent text. Every sentence is labelled a hypothesis. Code removes what breaks the number rule or the blocked patterns in the
+forms listed, and what shares a long run of characters with a persona or with a stored reason. A form not listed passes, so this is no guarantee of a sentence's content. Persona text and reason sentences stay in memory
 and under runs/. What leaves is the filtered sentences and counts, with no code.
 """
 import hashlib
@@ -26,6 +26,7 @@ SCHEMA = {
     "additionalProperties": False,
 }
 PROMPT = paths.CONFIG / "explore_prompt.json"
+SCENARIOS = paths.CONFIG / "explore_scenarios.json"
 MIN_REASONS = 30
 PERSONA_RUN = 10
 REASON_RUN = 15
@@ -141,6 +142,20 @@ def filter_output(raw, agent_text, stage_text, limits, personas, reasons, card_t
                 dropped["over_limit"] = dropped.get("over_limit", 0) + 1
         out[section] = kept
     return {"sections": out, "returned": returned, "dropped": dropped}
+
+
+def filter_scenarios(agent_text, stage_text, limits, doc=None):
+    """Planted sentences through the filter, no API. Each section is tried, since the filter treats questions apart. Pass or fail comes from code."""
+    doc = doc or json.loads(SCENARIOS.read_text(encoding="utf-8"))
+    rows = []
+    for expected, group in (("dropped", doc["drop"]), ("kept", doc["keep"])):
+        for name, sentence in group.items():
+            for section in ("objections", "attractions", "segment_hypotheses"):
+                got = filter_output({section: [sentence]}, agent_text, stage_text, limits, [], [], "")
+                outcome = "kept" if got["sections"][section] else "dropped"
+                rows.append({"scenario": name, "section": section, "expected": expected, "outcome": outcome, "codes": got["dropped"], "passed": outcome == expected})
+    failed = sorted({r["scenario"] for r in rows if not r["passed"]})
+    return {"note": "Synthetic sentences, code checks, no API call. Patterns catch the forms listed. This is not a guarantee about forms not listed.", "total": len(rows), "passed": sum(r["passed"] for r in rows), "failed": failed, "rows": rows}
 
 
 def echo_check(sections, personas, reasons, card_text, prefix):

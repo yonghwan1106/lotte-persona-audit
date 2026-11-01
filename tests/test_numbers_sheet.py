@@ -85,6 +85,22 @@ def test_the_named_groups_are_all_there(sheet):
         "stage4.demo7.action.A",
         "stage4.ingest.decision",
         "stage4.explore.A.objections.kept",
+        "stage4.posthoc.row.terra_C1.keep_rate",
+        "stage4.posthoc.row.terra_C1.beats_rate",
+        "stage4.posthoc.row.floor_no_llm.keep_rate",
+        "stage4.posthoc.row.floor_no_llm.beats_rate",
+        "stage4.posthoc.unit_intact.row.terra_C2.keep_rate_mean",
+        "stage4.posthoc.unit_intact.cluster.surrogate_terra_slot.keep_rate_mean",
+        "stage4.posthoc.same_sample.draw0.terra_C2.pooled_keep_share",
+        "stage4.posthoc.same_sample.all_draws.terra_C2.share_draws_decision_changes",
+        "stage4.policy.default",
+        "stage4.pair_accuracy.1_to_3pp.pairs_right",
+        "stage4.demo8.action.A",
+        "stage4.demo8.threshold.2pp.drop_proposed",
+        "stage4.demo8.ingest.report_status",
+        "stage4.demo8.ingest.panel_condition",
+        "stage4.explore8.A.objections.kept",
+        "stage4.explore_filter.passed",
     ):
         assert needed in keys, needed
 
@@ -123,3 +139,21 @@ def test_stage4_values_equal_their_source_files(sheet):
     duel = json.loads((paths.RESULTS / "stage4" / "duel_validity.json").read_text(encoding="utf-8"))
     assert rows["stage4.duel.row.terra_C2.pooled.panel_excluded.keep_rate"]["value"] == duel["row"]["terra_C2"]["pooled"]["panel_excluded"]["keep_rate"]
     assert rows["stage4.duel.acceptance.label"]["value"] == duel["acceptance"]["label"]
+
+
+def test_post_hoc_values_equal_their_source_file_and_carry_the_caveat(sheet):
+    rows = by_key(sheet)
+    doc = json.loads((paths.RESULTS / "stage4" / "duel_post_hoc.json").read_text(encoding="utf-8"))
+    assert rows["stage4.posthoc.row.terra_C1.keep_rate"]["value"] == doc["row"]["terra_C1"]["pooled"]["panel_excluded"]["keep_rate"]
+    assert rows["stage4.posthoc.row.floor_no_llm.beats_rate"]["value"] == doc["row"]["floor_no_llm"]["pooled"]["panel_excluded"]["beats_rate"]
+    assert rows["stage4.posthoc.unit_intact.row.terra_C2.keep_rate_mean"]["value"] == doc["unit_intact"]["row"]["keep_rate"]["terra_C2"]["mean"]
+    assert rows["stage4.posthoc.same_sample.draw0.terra_C2.pooled_keep_share"]["value"] == doc["same_sample"]["draw0"]["terra_C2"]["pooled_keep_share"]
+    assert rows["stage4.posthoc.same_sample.all_draws.terra_C2.share_draws_decision_changes"]["value"] == doc["same_sample"]["all_draws"]["terra_C2"]["share_draws_decision_changes"]
+    assert "\uc0ac\ud6c4" in rows["stage4.posthoc.row.terra_C1.keep_rate"]["caveat"]
+
+
+def test_the_frozen_label_goes_out_only_with_its_caveat(sheet):
+    rows = by_key(sheet)
+    assert rows["stage4.duel.acceptance.label"]["value"] == "decision_rule"
+    assert "\uac74\uac15\uac80\uc9c4" in rows["stage4.duel.acceptance.label"]["caveat"]
+    assert "\uac74\uac15\uac80\uc9c4" in rows["stage4.duel.acceptance.passed"]["caveat"]

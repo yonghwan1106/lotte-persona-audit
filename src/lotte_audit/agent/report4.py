@@ -16,19 +16,46 @@ def measure_lines(text):
     if (root / "allocation.json").exists():
         r = json.loads((root / "allocation.json").read_text(encoding="utf-8"))["reading"]
         p, q = r["panel_minus_proportional_r1_average"], r["panel_minus_reference_r1_average"]
-        lines.append(t["allocation"].format(panel=f"{p['mean_diff']:+.2f}", panel_lo=f"{p['ci95'][0]:+.2f}", panel_hi=f"{p['ci95'][1]:+.2f}", ref=f"{q['mean_diff']:+.2f}", ref_lo=f"{q['ci95'][0]:+.2f}", ref_hi=f"{q['ci95'][1]:+.2f}", helps=r["panel_helps_over_proportional"], adds=r["panel_adds_over_reference"]))
+        lines.append(t["allocation"].format(panel=f"{p['mean_diff']:+.2f}", panel_lo=f"{p['ci95'][0]:+.2f}", panel_hi=f"{p['ci95'][1]:+.2f}", ref=f"{q['mean_diff']:+.2f}", ref_lo=f"{q['ci95'][0]:+.2f}", ref_hi=f"{q['ci95'][1]:+.2f}"))
+        lines.append(t["allocation_bar"].format(helps=r["panel_helps_over_proportional"], adds=r["panel_adds_over_reference"]))
     if (root / "flags.json").exists():
         s = json.loads((root / "flags.json").read_text(encoding="utf-8"))["signals"]
         names = ("terra_minus_luna", "c1_minus_c2", "repeat_sd")
-        lines.append(t["flags"].format(count=sum(bool(s[n]["names_wrong_cells"]) for n in names), tl=f"{s[names[0]]['spearman']:+.2f}", cc=f"{s[names[1]]['spearman']:+.2f}", sd=f"{s[names[2]]['spearman']:+.2f}"))
+        overlap = ", ".join(str(s[n]["overlap_top9"]["observed"]) for n in names)
+        lines.append(t["flags"].format(count=sum(bool(s[n]["names_wrong_cells"]) for n in names), tl=f"{s[names[0]]['spearman']:+.2f}", cc=f"{s[names[1]]['spearman']:+.2f}", sd=f"{s[names[2]]['spearman']:+.2f}", overlap=overlap, random=s[names[0]]["overlap_top9"]["random_95"]))
     if (root / "duel_validity.json").exists():
         d = json.loads((root / "duel_validity.json").read_text(encoding="utf-8"))
         a = d["acceptance"]
         rows = d["row"]
         lines.append(t["duel"].format(positive=a["positive_keep_rate"], surrogate=max(a["surrogate_keep_rates"].values()), terra=rows["terra_C2"]["pooled"]["panel_excluded"]["keep_rate"], luna=rows["luna_C1"]["pooled"]["panel_excluded"]["keep_rate"]))
+    if ingest.POST_HOC.exists():
+        lines += post_hoc_lines(t, json.loads(ingest.POST_HOC.read_text(encoding="utf-8")))
     if lines:
         lines.append(t["source"])
     return lines
+
+
+def post_hoc_lines(t, doc):
+    """Floor, Terra C1, fold seed instability and unit-intact folds, read from the post hoc file."""
+    row = {name: block["pooled"]["panel_excluded"] for name, block in doc["row"].items()}
+    terra1, floor = row["terra_C1"], row["floor_no_llm"]
+    d0, flips = doc["same_sample"]["draw0"]["terra_C2"], doc["same_sample"]["all_draws"]
+    flip = flips["terra_C2"]
+    u, c = doc["unit_intact"]["row"], doc["unit_intact"]["cluster"]["keep_rate"]
+    k = u["keep_rate"]
+    return [
+        t["duel_post_hoc"].format(terra1=terra1["keep_rate"], terra1_beats=terra1["beats_rate"], floor=floor["keep_rate"], floor_beats=floor["beats_rate"]),
+        t["unstable"].format(seeds=d0["fold_seeds"], draw0=f"{100 * d0['pooled_keep_share']:.1f}%", draws=flip["draws"], per_draw=flip["fold_seeds_per_draw"], changes=f"{100 * flip['share_draws_decision_changes']:.1f}%", surrogate_changes=f"{100 * flips['surrogate_terra_slot']['share_draws_decision_changes']:.1f}%"),
+        t["unit_intact"].format(seeds=len(u["fold_seeds"]), terra2=k["terra_C2"]["mean"], terra1=k["terra_C1"]["mean"], surrogate=k["surrogate_terra_slot"]["mean"], floor=k["floor_no_llm"]["mean"], positive=k["control_s1.0"]["mean"], c_terra2=c["terra_C2"]["mean"], c_surrogate=c["surrogate_terra_slot"]["mean"], c_floor=c["floor_no_llm"]["mean"], c_positive=c["control_s1.0"]["mean"]),
+    ]
+
+
+def policy_lines(text, policy=None):
+    """What the report says about panel values, from config/panel_value_policy.json."""
+    r = text["real"]
+    policy = policy or ingest.load_policy()
+    required = policy["consecutive_keeps_required"]
+    return [x.format(required=r["required_not_agreed"] if required is None else required, label=policy["frozen_label"]) for x in r["policy_lines"]]
 
 
 def action_doc(ctx):
@@ -52,6 +79,7 @@ def render(ctx, manifest_sha, doc):
     lines += ["", f"### {t['order_title']}", ""] + [f"- {x}" for x in table["order"]]
     if table["order_hidden_pairs"]:
         lines.append("- " + t["order_hidden"].format(pairs="; ".join(table["order_hidden_pairs"])))
+    lines += [f"- {x}" for x in table.get("order_notes", [])]
     lines += [""] + [f"- {n}" for n in table["notes"]] + [""]
     d = text["detectable"]
     lines += [f"## {d['title']}", ""] + [f"- {x}" for x in action.detectable_lines(doc["detectable"], ctx.diagnostics, text)]
@@ -63,11 +91,11 @@ def render(ctx, manifest_sha, doc):
         for section, label in e["sections"].items():
             lines += [f"**{label}**", ""] + ([f"- {s}" for s in block["sections"][section]] or ["- -"]) + [""]
     r = text["real"]
-    lines += [f"## {r['title']}", "", ingest.MARK_START, "", f"- {r['none']}", "", ingest.MARK_END, ""]
+    lines += [f"## {r['title']}", ""] + [f"- {x}" for x in policy_lines(text)] + ["", ingest.MARK_START, "", f"- {r['none']}", "", ingest.MARK_END, ""]
     lines += [f"## {text['report']['plan_title']}", "", report.allocation_section(ctx.allocation), ""]
     lines += [ctx.questionnaire["intro"], "", ctx.questionnaire["anchor_note"], ""]
     lines += [f"- {x['id']} ({x['kind']})" for x in ctx.questionnaire["items"]] + [""]
-    lines += [f"- {x}" for x in ctx.questionnaire["fieldwork_rules"]] + [""]
+    lines += [f"- {x}" for x in ctx.questionnaire["fieldwork_rules"]] + ["", text["report"]["questionnaire_gap"], ""]
     lines += [f"## {agent['r1_title']}", ""] + [f"- {x}" for x in text["report"]["r1_lines"]] + [""]
     m = measure_lines(text)
     if m:

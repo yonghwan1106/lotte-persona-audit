@@ -190,39 +190,54 @@ python src/stage4_measures.py allocation    # 패널이 200명 배분을 돕는�
 python src/stage4_measures.py flags         # 실측 전에 틀린 칸을 지목하는가
 python src/stage4_measures.py duel          # 정답 없는 대결이 규칙으로 쓸 만한가
 python src/stage4_sensitivity.py            # 동결 결과를 본 뒤 돌린 시드 민감도, 규칙과 라벨을 바꾸지 않음
+python src/stage4_posthoc.py                # 동결 결과를 본 뒤의 사후 계산: Terra C1, LLM 없는 floor, 조사 단위 온전 접힘, 같은 표본의 접힘 시드 불안정
 ```
 
-값은 `results/stage4/allocation.json`, `flags.json`, `duel_validity.json`, `duel_seed_sensitivity.json`에 있습니다. 세 측정 명령이 같은 값의 표를 화면과 무시되는 md 파일로도 냅니다.
+값은 `results/stage4/allocation.json`, `flags.json`, `duel_validity.json`, `duel_seed_sensitivity.json`, `duel_post_hoc.json`에 있습니다. 세 측정 명령이 같은 값의 표를 화면과 무시되는 md 파일로도 냅니다.
 
-- 200명 배분: 패널로 계산한 배분은 비례 배분보다 나아지지 않았고, 이전 자료로 계산한 배분보다도 낫지 않았습니다. 사전 기준으로 도움 없음입니다. 패널 배분과 비례 배분의 칸별 인원 차이는 2명 이하입니다.
-- 틀린 칸 사전 지목: 세 신호 모두 사전 기준을 넘지 못했습니다. 모델 간 차이는 점추정이 오차와 반대 부호이고 구간이 0을 겨우 포함합니다.
-- 정답 없는 대결: 200명 안의 5겹 교차 검증에서 보정 패널과 R1의 로그 손실을 비교하고, 평균 개선 구간 전체가 0 위일 때만 패널 값을 남깁니다. 답을 일부 알려 준 양성 대조와 LLM이 아닌 대체 패널을 동결 시드에서 사전 기준대로 갈랐습니다. 다만 대체 패널 유지율이 기준 바로 아래이고, 동결 결과를 본 뒤 다른 시드 4개로 돌리자 2개에서 기준을 넘었습니다. 유지가 칸 오차의 승리를 뜻하지도 않습니다. Terra C2에서 R1을 패널 밖 truth 칸 오차로 이긴 비율은 유지된 추출이 62건 중 35건, 제외된 추출이 138건 중 69건입니다. 그래서 확정 판정이 아니라 기준 근처의 규칙으로 읽습니다.
+- 200명 배분: 패널 배분과 비례 배분은 칸별 인원 차이가 2명 이하이고, R1 3항목 평균 칸 오차 차이 평균은 +0.010pp로 실질적 차이가 없습니다. 구간 [-0.339, +0.415]는 평균의 신뢰구간이 아니라 추출별 차이의 95% 범위입니다. 그래서 동결 기준은 정답을 아는 oracle 배분도 넘지 못합니다(사후 검증 계산이며 이 저장소의 결과 파일에는 없습니다). 기준의 False를 패널 실패의 증거로 읽지 않고 평균 차이 크기를 봅니다. 비교 기준 reference의 p_h는 carb만 2024년 자료이고 ever와 weekly는 2025년 train 분할입니다.
+- 틀린 칸 사전 지목: 세 신호 모두 사전 기준을 넘지 못했습니다. 모델 간 차이는 점추정이 오차와 반대 부호이고 구간이 0을 겨우 포함합니다. 36칸에 칸마다 truth 응답자가 적어 이 시험은 검정력이 낮습니다. 지목한다는 증거가 없다는 뜻이고 신호가 쓸모없다는 증명은 아닙니다.
+- 정답 없는 대결: 200명 안의 5겹 교차 검증에서 보정 패널과 R1의 로그 손실을 비교하는 건강검진입니다. 평균 개선 구간 전체가 0 위면 keep, 아니면 drop입니다. 답을 일부 알려 준 양성 대조와 LLM이 아닌 대체 패널을 동결 시드에서 사전 기준대로 갈랐고, 기록상 라벨은 `decision_rule`입니다. 다만 대체 패널 keep rate가 기준 바로 아래이고, 동결 결과를 본 뒤 다른 시드 4개로 돌리자 2개에서 기준을 넘었습니다. keep이 칸 오차의 승리를 뜻하지도 않습니다. Terra C2에서 R1을 패널 밖 truth 칸 오차로 이긴 비율은 keep인 추출이 62건 중 35건, drop인 추출이 138건 중 69건입니다.
+
+### 패널 값 정책
+
+**패널 값은 보고서에서 기본 제외입니다. 대결은 실행마다 원장에 남는 건강검진이고, 한 번의 keep은 패널 값을 보고서에 넣지 않습니다.** 패널 값은 조사 단위를 온전히 둔 접힘에서 프로젝트가 합의한 횟수만큼 연속 keep이 나온 뒤에만 넣을 수 있습니다. 합의 횟수는 아직 없습니다(`config/panel_value_policy.json`의 `consecutive_keeps_required`가 null). 그때까지 보고서는 「패널 값 제외, 건강검진 기록만」이라고 씁니다. 횟수를 채워도 코드가 패널 값을 넣지는 않습니다. 담당자가 정합니다.
+
+이 결정은 **동결 결과가 사전 기준을 통과한 것을 본 뒤에 내린 사후 결정**입니다. 사전 기준 통과와 동결 라벨 `decision_rule`은 `results/stage4/duel_validity.json`에 그대로 두고, 기록을 인용할 때 경고를 함께 붙입니다. 동결 파일과 측정 코드는 바꾸지 않았습니다. 근거는 같은 규칙으로 잰 사후 계산입니다(`results/stage4/duel_post_hoc.json`, 저장된 답, 새 호출 없음). 사전 계획에 없던 값이고 동결 기준을 대체하지 않습니다.
+
+- 접힘 시드 불안정: 같은 표본에서 접힘 시드만 바꿔도 결정이 뒤집힙니다. Terra C2의 draw 0은 접힘 시드 500개 중 49.0%만 keep이고, 200회 추출에 접힘 시드 30개씩 적용하면 93.5%의 추출에서 결정이 바뀝니다. 대체 패널도 72.5%입니다.
+- 조사 단위를 온전히 둔 접힘(접힘 시드 5개 평균, row 추출): Terra C2 0.06, Terra C1 0.027, 대체 패널 0.067, LLM 없는 floor 0.07, 양성 대조 0.987입니다. 이 접힘에서 Terra C2와 대체 패널은 구별되지 않습니다. 규칙의 검정력은 양성 대조에서 유지됩니다.
+- 동결 추출과 접힘 시드의 다른 조건: 시연 조건인 Terra C1은 keep rate 0.13, R1을 칸 오차로 이긴 비율 0.365입니다. LLM 없는 나이·성별 floor는 keep rate 0.19, 이긴 비율 0.635입니다. keep은 LLM 신호만으로 나오는 값이 아닙니다.
+- 실제 설문에 대결을 쓰려면 반복 접힘, 조사 단위를 온전히 둔 접힘, Terra C1, floor, 상수 패널을 넣은 새 사전 등록을 계산 전에 커밋해야 합니다. 동결 계획은 고치지 않습니다.
 
 ### 제품 기능
 
-에이전트 시연은 `src/stage4_run.py`이고 설정은 `config/stage4.json`, 문구는 `config/stage4_text.json`, 호출 기록은 `runs/stage4/logs/`, 예산은 이 단계 전체 3달러입니다. 패널 답은 앞 단계 캐시만 읽습니다. 앞 단계의 동결 산출물은 건드리지 않았습니다. 시연은 `results/stage4/demo7/`입니다.
+에이전트 시연은 `src/stage4_run.py`이고 설정은 `config/stage4.json`, 문구는 `config/stage4_text.json`, 호출 기록은 `runs/stage4/logs/`, 예산은 이 단계 전체 3달러입니다. 패널 답은 앞 단계 캐시만 읽습니다. 앞 단계의 동결 산출물은 건드리지 않았습니다. 현재 시연은 `results/stage4/demo8/`입니다. `demo7/`은 정책을 정하기 전의 기록이고, 그 보고서의 「패널 값 유지」 문구는 지금 인용하지 않습니다.
 
 ```
 .venv/Scripts/python.exe src/stage4_run.py check
-.venv/Scripts/python.exe src/stage4_run.py demo-start --run-id demo7
-.venv/Scripts/python.exe src/stage4_run.py demo-resume --run-id demo7 --approver "이름"
+.venv/Scripts/python.exe src/stage4_run.py demo-start --run-id demo8
+.venv/Scripts/python.exe src/stage4_run.py demo-resume --run-id demo8 --approver "이름"
 .venv/Scripts/python.exe src/stage4_run.py make-standin --name krei_draw0
-.venv/Scripts/python.exe src/stage4_run.py ingest-real --run-id demo7 --real 파일 --panel 파일 --source-label "라벨" --approver "이름"
+.venv/Scripts/python.exe src/stage4_run.py ingest-real --run-id demo8 --real 파일 --panel 파일 --panel-model 모델 --panel-condition C1 --source-label "라벨" --approver "이름"
+.venv/Scripts/python.exe src/stage4_run.py explore-scenarios               # 탐색 필터에 합성 문장을 심는 시험, 호출 없음
 .venv/Scripts/python.exe src/stage4_run.py status --write
 ```
 
-**탐색 출력** `explore_card`: 후보 카드의 저장된 패널 이유 문장(LLM 출력)을 Terra 호출 한 번으로 묶어 반대 이유, 끌리는 점, 세그먼트 가설, 설문 문항 초안을 냅니다. 모두 「가설」 표시가 붙고 수치가 없습니다. 숫자 규칙과 차단 패턴에 걸리는 문장, 페르소나 문장이나 이유 원문과 긴 조각을 공유하는 문장은 코드가 뺍니다. 패턴은 나열된 형태만 잡습니다. 표본은 `results/explore/demo7/`에 있습니다. 응답자의 말이 아니고 실제 소비자에게 확인하지 않았습니다. 이유 문장이 캐시에 없는 카드에는 `blocked`를 돌려줍니다. 지시에 있던 60회 이내 새 실행 분기는 시연 카드에 필요 없어 만들지 않았습니다.
+**탐색 출력** `explore_card`: 후보 카드의 저장된 패널 이유 문장(LLM 출력)을 Terra 호출 한 번으로 묶어 반대 이유, 끌리는 점, 세그먼트 가설, 설문 문항 초안을 냅니다. 모두 「가설」 표시가 붙습니다. 숫자 규칙과 차단 패턴에 걸리는 문장, 페르소나 문장이나 이유 원문과 긴 조각을 공유하는 문장은 코드가 뺍니다. 패턴은 나열된 형태만 잡습니다(`config/explore_scenarios.json`이 분수, 「거의 모두」, 「가장 낫다」, 「고를 수 있다」, 성별 대리어를 심어 시험합니다). 「수치 없음」은 이 표본의 사실이고 도구의 보장이 아닙니다. 표본은 `results/explore/demo8/`에 있고 앞 단계 캐시를 읽어 새 호출이 없습니다. 응답자의 말이 아니고 실제 소비자에게 확인하지 않았습니다. 이유 문장이 캐시에 없는 카드에는 `blocked`를 돌려줍니다. 지시에 있던 60회 이내 새 실행 분기는 시연 카드에 필요 없어 만들지 않았습니다.
 
-**실측 회수** `ingest_real`: 앵커 문항과 콘셉트 문항의 실측 CSV를 받아 같은 응답자의 패널 값과 묶고, 위 대결을 돌려 유지나 제외와 이유를 보고서와 원장의 `real_results`에 씁니다. 행 단위 파일이 추적 폴더에 있으면 거부합니다. 패널 값이 없는 응답자가 있으면 멈추고 조용히 빼지 않습니다.
+**실측 회수** `ingest_real`: 앵커 문항과 콘셉트 문항의 실측 CSV를 받아 같은 응답자의 패널 값과 묶고, 위 대결을 돌려 규칙 결과(keep이나 drop)와 이유를 건강검진으로 보고서와 원장의 `real_results`에 씁니다. 보고서에는 「패널 값 제외, 건강검진 기록만」으로 적습니다. 패널 모델과 조건은 입력으로 받아 기록하며(`--panel-model`, `--panel-condition`), 없으면 거부합니다. 실측 파일에 `unit_id` 열이 있으면 조사 단위를 온전히 둔 접힘으로 돌리고 연속 keep 횟수에 셉니다. 그 열이 없는 실행과 대용 자료는 기록만 하고 세지 않습니다. 행 단위 파일이 추적 폴더에 있으면 거부합니다. 패널 값이 없는 응답자가 있으면 멈추고 조용히 빼지 않습니다.
 
 ```
-respondent_id,age_band,sex,weight,ever,weekly,carb,concept_A     # age_band는 SQ2_range 4~9, sex는 1, 2, 앵커는 0과 1, 콘셉트는 1~5
+respondent_id,age_band,sex,weight,ever,weekly,carb,concept_A     # age_band는 SQ2_range 4~9, sex는 1, 2, 앵커는 0과 1, 콘셉트는 1~5, 선택 열 unit_id는 조사 단위
 respondent_id,p_ever,p_weekly,p_carb,p_concept_A                 # 같은 응답자의 패널 확률, p_concept는 보기 4와 5의 합
 ```
 
-한 번 돌린 결과는 `results/stage4/demo7/real_results.json`이고 라벨은 「실측 대용 KREI」입니다. KREI 보정 풀의 한 추출을 앵커 문항에만 넣었고 실제 콘셉트 설문이 아니며, 기록자도 사람이 아닙니다. **콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다.** 콘셉트 열은 합성 답으로만 시험했습니다. 실제 응답자의 패널 값을 만들려면 그 응답자의 허용 문항으로 페르소나를 만들어 패널을 돌려야 하며, 이 단계는 그 파일을 받는 데까지입니다.
+결과는 `results/stage4/demo8/real_results.json`이고 라벨은 「실측 대용 KREI」입니다. KREI 보정 풀의 한 추출을 앵커 문항에만 넣었고 실제 콘셉트 설문이 아니며, 기록자도 사람이 아닙니다. 패널은 Terra C2이고 시연 패널은 C1입니다. C1이면 이 추출의 규칙 결과는 drop입니다. **콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다.** 콘셉트 열은 합성 답으로만 시험했습니다.
 
-**판단표**: 보고서 맨 앞에 안마다 탈락 제안, 실측 후보 유지, 판단 불가 중 하나와 코드가 쓴 이유를 냅니다(`action.py`). 규칙 라벨은 부록으로 옮겼고 결정에 쓰지 않습니다. 이 규칙은 시연 값을 본 뒤에 썼고 시연에는 정답이 없습니다. 탈락 제안 기준 5pp는 기존 음료에서 나온 사후 가설이며 탈락 제안의 효용은 재지 않았습니다. 안 사이의 순서는 두 모델 모두 잡음을 넘고 방향이 같을 때만 「방향 가설」로 적고, 선택이 아니라고 함께 적습니다. 200명을 두 안에 나눌 때 가려낼 수 있는 차이와 5pp, 10pp 차이에 필요한 인원은 코드가 계산합니다(`detectable.json`). 그보다 작은 차이는 원가와 라인 근거로 고르거나 표본을 늘립니다.
+**이 문항지로는 응답자 단위 패널 값을 만들 수 없습니다.** 문항지의 인구 항목은 연령대, 성별, 거주 지역, 가구원 수뿐이고, 패널의 C1 페르소나 변수 9개 중 동 구분, 직업, 학력, 혼인 상태, 소득이 없으며 C2 허용 문항도 없습니다. 패널 값을 만드는 단계도 코드에 없습니다. 이 단계는 그 파일을 받는 데까지이므로, 설문을 회수해도 바로 대결을 돌릴 수 없습니다. 실측과 패널 값을 같은 응답자로 묶으려면 이 변수를 문항지에 더해야 합니다.
+
+**판단표**: 보고서 맨 앞에 안마다 탈락 제안, 실측 후보 유지, 판단 불가 중 하나와 코드가 쓴 이유를 냅니다(`action.py`). 규칙 라벨은 부록으로 옮겼고 결정에 쓰지 않습니다. 이 규칙은 시연 값을 본 뒤에 썼고 시연에는 정답이 없습니다. 탈락 제안 기준 5pp는 기존 음료에서 나온 사후 가설이며 탈락 제안의 효용은 재지 않았습니다. 결론은 기준값에 달려 있습니다. 같은 진단에 기준 4.5와 5를 넣으면 세 안 모두 유지, 3과 4는 A 탈락 제안, 2는 A와 B 탈락 제안입니다. 안 사이의 순서는 두 모델 모두 잡음을 넘고 방향이 같을 때만 「방향 가설」로 적고, 선택이 아니라고 함께 적습니다. 곁들인 쌍 정확도는 기존 음료 15범주 점유 격차의 Terra C1 값이고 건수(3~5pp 8/18, 1~3pp 29/36, 합계 37/54)와 출처 `results/stage3/option_ranking.json`을 함께 적습니다. 모델 순서가 바뀌어도 판단 불가 결과가 같도록 모델 반대 규칙을 대칭으로 고쳤습니다. 시연 결과는 그대로입니다. 200명을 두 안에 나눌 때 가려낼 수 있는 차이와 5pp, 10pp 차이에 필요한 인원은 코드가 계산합니다(`detectable.json`). 그보다 작은 차이는 원가와 라인 근거로 고르거나 표본을 늘립니다.
 
 ### 사람 승인 명령
 
@@ -249,7 +264,7 @@ respondent_id,p_ever,p_weekly,p_carb,p_concept_A                 # 같은 응답
 | `src/agent_run.py` | 감사 에이전트 실행기 |
 | `src/agent_fix_run.py` | 수정 단계 실행기 |
 | `src/verdict_v3_run.py` | 규칙 v3와 대조군, API 호출 없음 |
-| `src/stage4_measures.py`, `src/stage4_sensitivity.py` | 4단계 측정, API 호출 없음 |
+| `src/stage4_measures.py`, `src/stage4_sensitivity.py`, `src/stage4_posthoc.py` | 4단계 측정과 사후 계산, API 호출 없음 |
 | `src/stage4_run.py` | 4단계 시연, 실측 회수, 사람 승인 명령 |
 | `src/make_numbers_sheet.py` | 수치 시트 생성 |
 | `config/` | 한국어 문구, 누출 정규식, 허용 목록, 사전 등록 |
