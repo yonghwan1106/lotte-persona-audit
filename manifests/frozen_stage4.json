@@ -1,0 +1,11 @@
+{
+  "files": {
+    "config/prereg_stage4.json": "762d87809310c95a37a9b276b76d212307379f226a1e7f8d6f2bfaa18de02ec6",
+    "src/stage4_measures.py": "14bbbeb36ceb90bbdbced0bc5e42658f50f11da3f39a3674788df86aac459d9a",
+    "src/lotte_audit/stage4.py": "a019ffb40f5f7b6c8ac52a96e6cb0660f25b18df2860a30617bcc7f438f48c99",
+    "src/lotte_audit/duel.py": "d37aaf25ff5488a948400a79306dbbb917f2f9dc80e47f94245352afcf55e46c",
+    "src/lotte_audit/calibration.py": "c22f0d9aad2d51b01b325543f11a1e1d770a9fdfbbab551a3e9f902de6cd100b",
+    "src/lotte_audit/verdict_study.py": "9751b21cfe17493b921bef8974d4f9a45024adf0dc3892ff6924887972e2fadb",
+    "src/lotte_audit/main_score.py": "ba182313d7d554a1eacc656b2b9a84fa3b4605334652871d0a06eff71574d3d0"
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "_note": "Written and committed before any stage 4 measure is computed. manifests/frozen_stage4.json stores this file's hash and the hashes of the measure code; src/stage4_measures.py refuses to compute when a hash differs or a frozen file is uncommitted. No new persona call in part A: every number comes from answers stored by earlier stages. Results are reported as they come, with no tuning after they are seen. If a defect forces a change it is recorded with the result and the hash is redone in its own commit.",
+  "frozen_on": "2026-11-02",
+  "seen_before_freeze": "All stage 2 and stage 3 answers and results, the test truth since the gate, all demo values. Column presence and code sets of a2023, a2024, a2025 were read for this plan: A19_1 exists only in a2025, a2024 has a differently built variable A19, A15_1, SQ1, SQ2_range and psfwt exist in all three. No allocation, no flag signal and no duel result had been computed. Tests of this code ran on synthetic numbers only.",
+  "common": {
+    "cells": "12 cells of age band SQ2_range by sex SQ1, the universe of main_score.build_context.",
+    "panel_excluded_truth": "ctx truth_outside_panel: psfwt weighted cell means over test split rows outside the 1000 panel (1321 rows). The whole test truth is the sensitivity.",
+    "items": ["ever", "weekly", "carb"],
+    "interval_limits": "All intervals across draws hold the 51 unit pool and the test panel fixed. They do not carry the sampling uncertainty of those. No correction across comparisons.",
+    "row_note": "Rows are drawn without keeping survey units whole unless a draw kind says cluster. Real fieldwork that clusters by unit has a smaller effective sample."
+  },
+  "A1_allocation": {
+    "question": "Does the panel help spend 200 real respondents better than a simple allocation?",
+    "population": "The calibration pool, 632 rows in 51 survey units, stands in for the population people are drawn from.",
+    "n": 200,
+    "draws": 200,
+    "seed": 42,
+    "cell_share": "W_h = train split psfwt in cell h over the train split psfwt total. It never reads the test split.",
+    "allocations": {
+      "equal": "n/12 per cell.",
+      "proportional": "Share W_h.",
+      "panel_neyman": "Per item, share proportional to W_h*sqrt(p_h(1-p_h)) with p_h the Terra C2 cell mean on the test panel with its analysis weights (the raw panel E3). The 3 item shares are averaged into one allocation, because one survey has one allocation.",
+      "reference_neyman": "Same formula with p_h from the 2024 KREI wave, psfwt weighted, when the item exists there, else from the train split. carb reads a2024 A15_1 in {7,8}. ever and weekly read the train split, because A19_1 does not exist in a2024 and a2024 A19 was not checked to be the same question."
+    },
+    "sensitivity_allocations": {
+      "panel_neyman_by_item": "The item's own panel Neyman shares, scored on that item only. A survey cannot use three allocations, so this only shows how much the averaging costs.",
+      "reference_neyman_by_item": "Same for the reference."
+    },
+    "caps": "n_h is at most the pool rows of cell h. Redistribution: a cell whose target passes its cap is fixed at the cap, its surplus goes to the free cells in proportion to their shares, repeated until no free cell passes its cap. Then largest remainder rounding over the targets, ties to the lower cell index, never past a cap. No floor is added.",
+    "draw": "Common random numbers. For each of the 200 draws one random order of the pool rows inside each cell, from one numpy Generator seeded 42. An allocation takes the first n_h rows of the cell's order, so all allocations of a draw share rows and differences are paired.",
+    "weights": "Within a cell rows are equally likely, so psfwt alone is the within cell weight. Each row's weight is psfwt scaled so the cell's sampled weights add up to W_h. R1 and the national mean use these weights. This differs from the stage 2 row draws, so numbers here are not comparable digit for digit with stage 2.",
+    "estimators": {
+      "direct": "Weighted cell mean; an empty cell takes the sample national mean. calibration.direct_and_shrunk.",
+      "shrink": "K=30 toward the sample national mean, calibration.direct_and_shrunk.",
+      "R1": "Weighted logistic on age band order and sex, calibration.age_sex_model_cells."
+    },
+    "truths": {
+      "panel_excluded": "Primary.",
+      "whole_test": "Sensitivity.",
+      "pool_own": "Sensitivity added by the worker before computing: the pool's own psfwt weighted cell means. The pool of 51 units differs from the test split, and that fixed bias is shared by every allocation and can hide allocation effects. Against the pool's own means only sampling error is left."
+    },
+    "metrics": {
+      "cell_mae": "3 item average and per item, percentage points, unweighted over 12 cells.",
+      "national_error": "Absolute error of the sum over cells of W_h times the cell estimate, against the sum over cells of W_h times the truth cell mean, same W_h on both sides. Percentage points, 3 item average and per item.",
+      "paired": "Allocation minus proportional per draw, same estimator, same item. Mean and percentile 95 percent interval. Panel Neyman minus reference Neyman the same way."
+    },
+    "reading_fixed_now": "The panel helps spend the 200 only if panel_neyman minus proportional on the 3 item average cell MAE, estimator R1, panel excluded truth, has an interval wholly below zero. It adds something beyond prior data only if panel_neyman minus reference_neyman on the same metric has an interval wholly below zero. Anything else is reported as no shown help. Direct and shrink and the national error are reported next to it."
+  },
+  "A2_flags": {
+    "question": "Can in-run signals name where the panel is wrong before real data?",
+    "units": "36 item by cell units.",
+    "panel_scored": "gpt-6.1-terra C2.",
+    "error": "For each item and cell: absolute difference between the E4 cell value and the panel excluded truth, averaged over the 200 stage 2 row draws of n=200 from the pool (calibration.make_draws, repeats 200, seed [42,200,0], pi_draws 20000, pi_seed 43, the same draws as stage 2). E4 is the global offset fit on the draw, applied to test panel answers, cell means with the panel analysis weights.",
+    "signals": {
+      "terra_minus_luna": "Absolute difference of raw panel cell means, Terra C2 minus Luna C2, percentage points.",
+      "c1_minus_c2": "Absolute difference of raw panel cell means, Terra C1 minus Terra C2, percentage points.",
+      "repeat_sd": "Mean over the stability respondents in the cell of the person's SD across 4 answers of Terra C2 (100 respondents in all). A unit with no stability respondent is left out and the number of usable units is stated."
+    },
+    "comparator_added_by_worker": {
+      "panel_level": "sqrt(p(1-p)) of the raw Terra C2 cell mean, percentage points. It needs no second model and no repeat. A signal that does no better than this adds nothing beyond the mechanics of probabilities. Not one of the three signals."
+    },
+    "metrics": {
+      "spearman": "Over the units, with a survey unit bootstrap over the test split units, 2000 resamples, seed 42, percentile 95 percent interval. Each resample recomputes the panel cell means, the truth outside the panel and the signals. The offsets from the 200 draws stay fixed.",
+      "within_item_spearman": "Mean of the 3 Spearman values computed inside each item over 12 cells, same bootstrap. Added by the worker because items differ in error size and in signal size, and that alone can make the 36 unit Spearman positive.",
+      "overlap": "Overlap of the top 9 by signal and the top 9 by error, ties to the lower unit index. Random expectation by permutation of the signal across usable units, 20000 permutations, seed 42: mean overlap and one sided p = (1 + count(perm >= observed))/(N + 1).",
+      "minus_level": "Signal Spearman minus panel_level Spearman per resample, percentile 95 percent interval."
+    },
+    "sensitivity": "The same error against the whole test truth.",
+    "reading_fixed_now": "A signal counts as naming wrong cells only if its 36 unit Spearman interval lies wholly above zero, its overlap permutation p is below 0.05, its within item Spearman interval lies wholly above zero, and its Spearman minus panel_level interval lies wholly above zero. No correction across the 3 signals. Anything else is reported as not shown."
+  },
+  "A3_duel": {
+    "question": "Is the duel with no outside truth a valid decision rule?",
+    "duel_rule_fixed_now": {
+      "sample": "One real sample of about 200.",
+      "folds": "5 fold cross validation stratified by cell: inside each cell in ascending order the rows are shuffled and dealt to folds in turn, continuing the fold counter across cells. Survey units are not kept whole, as asked.",
+      "calibrated_panel": "E4 at person level: offset d fit on the 4 training folds, expit(logit(p) + d) on the held out fold.",
+      "r1": "Age and sex logistic R1 fit on the 4 training folds, the modelled cell value on the held out fold.",
+      "loss": "Weighted log loss in the held out fold with the sample weights, probabilities clipped to [1e-6, 1-1e-6].",
+      "improvement": "Per fold: R1 loss minus calibrated panel loss. Positive favours the panel. For the pooled decision the fold value is the mean over the 3 anchor items.",
+      "interval": "Mean of the 5 fold improvements plus or minus t(0.975, df 4) times their SD over sqrt(5).",
+      "keep": "Keep panel values only if the interval's lower limit is above zero. Everything else is drop, including an interval wholly below zero.",
+      "decision_unit": "The pooled 3 item decision is primary. Per item decisions are reported. A concept item, when real concept answers exist, is decided alone by the same rule."
+    },
+    "panels": {
+      "terra_C2": "Stored answers.",
+      "luna_C1": "Stored answers.",
+      "positive_control": "verdict_study.known_signal_answers, real answers on the logit with noise: train split age and sex logistic plus 1.2, plus s*(2y-1), plus normal noise SD 0.3, rng [1,2]. s=1.0 is the control named by the acceptance. s in 0.25, 0.5, 2.0 are shown as a power curve. No one can hold such answers in practice.",
+      "surrogate_terra_slot": "verdict_study.surrogate_answers slot gpt-6.1-terra|C2: train split age and sex logistic plus shift 1.2 and noise SD 0.3, rng seed 1. No LLM and no information beyond age and sex, though its age and sex model was fit on far more rows than 200.",
+      "surrogate_luna_slot": "Same function, slot gpt-6-luna|C1, shift 0.8, noise SD 0.5."
+    },
+    "draws": "The 200 stage 2 row draws of n=200 from the pool, with their repaired weights. Fold seed per draw numpy default_rng([42, 5, draw index]). Cluster draws, seed [42,200,1], are a sensitivity and are not read by the acceptance.",
+    "truth_check": "For that draw: E4 fit on all 200 and R1 fit on all 200, 3 item average cell MAE against the panel excluded truth (per item for per item decisions). The panel beats R1 for that draw when its cell MAE is strictly lower. Whole test truth is the sensitivity.",
+    "reported": {
+      "keep_rate": "Kept draws over 200.",
+      "false_keep": "Kept although the panel does not beat R1 on the truth. Reported three ways with the counts: over kept draws (named false_keep_rate), over draws where it does not beat, over all draws.",
+      "missed_keep": "Dropped although the panel beats R1 on the truth. Reported over beating draws (named missed_keep_rate) and over all draws.",
+      "beats_rate": "Draws where the panel beats R1 on the truth over 200.",
+      "keep_rate_interval": "Percentile 95 percent interval from 2000 resamples of the 200 draws, seed 42."
+    },
+    "acceptance_stated_in_advance": {
+      "surrogate_bar": "Both surrogate slots have a pooled keep rate of at most 0.12, which is how about 10 percent is read here: 0.10 plus about one binomial standard error at 200 draws.",
+      "positive_bar": "Positive control s=1.0 pooled keep rate minus the higher surrogate keep rate is at least 0.30, and the paired resampled interval of that difference lies wholly above zero.",
+      "if_it_passes": "The duel may be called a decision rule for the anchor items, row draws, this pool.",
+      "if_it_fails": "Say so. The duel is labelled 건강검진, a health check rather than a verdict, in the report and in ingest output."
+    },
+    "not_measured": "This measures the duel on anchor items with KREI answers. No concept question has met a real survey, so nothing here measures a duel on a concept question."
+  },
+  "B_rules": {
+    "note": "The demo values were already seen when these rules were written. They are not pre-registered with respect to the demo, and the demo has no truth to score them against.",
+    "action_table": {
+      "labels": ["탈락 제안", "실측 후보 유지", "판단 불가"],
+      "scope": "Candidate cards. Uses both models of the run and the run's own noise limit.",
+      "cant_tell": "판단 불가 when the run record is incomplete, when every candidate fails to separate from the negative control on some model (the run does not tell anything apart), when a person chose to keep a leading sentence on that card, or when the two models give the card's gap to the top candidate opposite signs and both gaps exceed that model's noise limit.",
+      "drop": "탈락 제안 when, in both models, the card is not separated from the negative control while another candidate is; or when, in both models, it sits below the top candidate by a distinguishable gap of at least drop_gap_pp.",
+      "drop_gap_pp": 5.0,
+      "drop_gap_source": "The stage 3 band of panel gap 5pp and over on existing drinks. That band was a post hoc hypothesis and was never validated on new products. The report says so.",
+      "keep": "실측 후보 유지 otherwise.",
+      "order": "An order between two candidates appears only when the gap exceeds noise and is distinguishable with the same sign in both models, and then it is marked 방향 가설, not a choice."
+    },
+    "detectable": {
+      "alpha_two_sided": 0.05,
+      "power": 0.8,
+      "p": 0.5,
+      "n_total": 200,
+      "between": "Two independent arms of n_total/2: (z_alpha + z_power)*sqrt(2p(1-p)/n_arm).",
+      "within": "All n_total see both cards: (z_alpha + z_power)*sqrt(2p(1-p)(1-rho)/n_total), shown at rho 0, 0.3, 0.5. rho between cards among real people is not measured.",
+      "n_needed_gaps_pp": [5, 10]
+    },
+    "explore": {
+      "cards": "Candidate cards of the demo.",
+      "source": "Stored reason sentences of the Terra concept answers in the agent stage cache. The new run branch of at most 60 calls exists only if the cache lacks them.",
+      "calls": "One Terra call per card to group the sentences, store false, no persona text in the prompt.",
+      "limits": {"objections": 5, "attractions": 5, "segment_hypotheses": 3, "survey_questions": 5},
+      "budget_usd_whole_stage": 3.0
+    },
+    "ingest": {
+      "standin_draw_index": 0,
+      "standin_label": "실측 대용 KREI"
+    }
+  }
+}
