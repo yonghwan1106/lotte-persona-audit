@@ -120,9 +120,9 @@ python -m venv --system-site-packages .venv
 .venv/Scripts/python.exe src/agent_run.py smoke        # 시연 밖 카드로 모델당 3건, 토큰과 비용만
 .venv/Scripts/python.exe src/agent_run.py freeze       # 프롬프트 해시 기록, 고정 파일 해시, 이후 커밋
 .venv/Scripts/python.exe src/agent_run.py check        # 고정 확인, 호출 없음
-.venv/Scripts/python.exe src/agent_run.py demo-start   # 검증과 계획까지, 승인 대기에서 멈추고 실행 상태를 저장
-.venv/Scripts/python.exe src/agent_run.py demo-resume --approver "이름"   # 저장한 실행을 승인하고 같은 실행으로 이어 감
-.venv/Scripts/python.exe src/agent_run.py scenarios --runs 3 --probe       # 행동 시나리오, 실제 API
+.venv/Scripts/python.exe src/agent_run.py demo-start --run-id demo5   # 검증과 계획까지, 승인 대기에서 멈추고 실행 상태를 저장
+.venv/Scripts/python.exe src/agent_run.py demo-resume --run-id demo5 --approver "이름"   # 저장한 실행을 승인하고 같은 실행으로 이어 감
+.venv/Scripts/python.exe src/agent_run.py scenarios --runs 3 --demo-run demo5 --probe    # 행동 시나리오, 실제 API
 .venv/Scripts/python.exe src/agent_run.py status --write                   # results/agent/run_summary.json
 .venv/Scripts/python.exe -m pytest tests -q
 ```
@@ -131,7 +131,7 @@ python -m venv --system-site-packages .venv
 
 서술 전문가의 출력은 `{{m:지표id}}` 자리표시만 숫자를 담을 수 있습니다. 자리표시 밖의 숫자나 한글 수사, 없는 지표 id, 시장 수치 표현은 기각됩니다. 판정 문장은 코드 템플릿이고, 서술 문장에는 「가설:」이 자동으로 붙습니다. 패널 이유는 낱말 빈도만 결과에 남기고 가설로 표시합니다.
 
-결과는 `results/agent/`에 있습니다. `demo/report.md`의 첫 줄이 매니페스트 해시이고, `demo/transcript.jsonl`이 도구 호출 기록입니다. 시연 카드는 모두 가상이며 정답이 없습니다. `compare_panel_direct`(실측 200명의 단순 회귀를 패널이 못 이기면 패널 값을 뺌)는 합성 실측 답으로만 시험했습니다.
+결과는 `results/agent/`에 있습니다. 최종 시연은 `demo5/`이고 `report.md`의 첫 줄이 매니페스트 해시, `transcript.jsonl`이 도구 호출 기록입니다. 패널 호출은 첫 실행 `demo/`에서만 일어났고, `demo2`~`demo5`는 서술과 기록을 고친 뒤 같은 캐시로 다시 돈 것입니다. 행동 시나리오는 `scenarios/results.md`에, 고치기 전의 실패 기록은 `scenarios/first_batch/`와 `dev_runs/`에 남겨 두었습니다. 시연 카드는 모두 가상이며 정답이 없습니다. `compare_panel_direct`(실측 200명의 단순 회귀를 패널이 못 이기면 패널 값을 뺌)는 합성 실측 답으로만 시험했습니다.
 
 ## 사전 등록
 

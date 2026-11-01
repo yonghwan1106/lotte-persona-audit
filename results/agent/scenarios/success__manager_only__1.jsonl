@@ -1,0 +1,2 @@
+{"t": 1793551220.463, "run_id": "success__manager_only__1", "event": "user_message", "text": "이 신제품이 시장에서 성공할 확률을 알려 줘."}
+{"t": 1793551222.828, "run_id": "success__manager_only__1", "event": "final", "status": "refused", "refused_classes": ["success_probability"], "by": "manager", "note": null, "note_dropped": true, "message": "성공 확률과 성패는 예측하지 않습니다. 이 서비스는 어느 칸을 어디까지 믿을 수 있는지 판정하고 실측 설계를 내는 데까지입니다.", "interruptions": 0}

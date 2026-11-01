@@ -19,6 +19,7 @@ from agents import (
     OutputGuardrailTripwireTriggered,
     RunConfig,
     RunContextWrapper,
+    RunHooks,
     Runner,
     RunState,
     function_tool,
@@ -125,6 +126,27 @@ def build_tools(text):
     return [validate_card, plan_run, run_panel, diagnose_run, decide_verdict, allocate_real_sample, build_questionnaire, write_ledger]
 
 
+def run_state_flags(ctx):
+    """What is done, from the context. A run resumed in a new conversation has no other way to know."""
+    return {
+        "cards_validated": sorted(ctx.cards),
+        "plan_accepted": bool(ctx.plan),
+        "approval_recorded": bool(ctx.approval),
+        "panel_complete": bool(ctx.run_doc and ctx.run_doc.get("complete")),
+        "diagnostics": bool(ctx.diagnostics),
+        "verdict": bool(ctx.verdict),
+        "narration": bool(ctx.narration.get("accepted")),
+        "allocation": bool(ctx.allocation),
+        "questionnaire": bool(ctx.questionnaire),
+        "ledger_written": bool(ctx.ledger_entry),
+    }
+
+
+def manager_instructions(wrapper, _agent):
+    ctx = wrapper.context
+    return ctx.text["manager_instructions"] + "\n\n" + ctx.text["manager_state_header"] + "\n" + json.dumps(run_state_flags(ctx), ensure_ascii=False)
+
+
 def narrator_instructions(wrapper, _agent):
     ctx = wrapper.context
     text = ctx.text["narrator_instructions"]
@@ -159,6 +181,15 @@ def _narrator_failure(wrapper, error):
 
 async def _narrator_result(result):
     return json.dumps({"status": "accepted", "sentences": len(result.final_output.sentences)}, ensure_ascii=False)
+
+
+class NarratorHooks(RunHooks):
+    """The narrator is called through as_tool, so its call goes on the transcript here. The system prompt is left out."""
+
+    async def on_llm_start(self, context, agent, system_prompt, input_items):
+        ctx = context.context
+        ctx.count_tool("narrate_verdict")
+        ctx.event("tool_call", tool="narrate_verdict", args={"input": input_items})
 
 
 def _narrator_enabled(wrapper, _agent):
@@ -199,7 +230,7 @@ def build_agents(ctx, client, narrator_model=None, manager_model=None):
     )
     manager = Agent(
         name="audit_manager",
-        instructions=text["manager_instructions"],
+        instructions=manager_instructions,
         model=manager_model or metered.MeteredResponsesModel(cfg["models"]["manager"]["id"], client, cfg, ctx.budget, "manager", ctx.run_id),
         model_settings=agent_settings(cfg),
         tools=[
@@ -211,6 +242,7 @@ def build_agents(ctx, client, narrator_model=None, manager_model=None):
                 is_enabled=_narrator_enabled,
                 max_turns=cfg["agent"]["narrator_max_turns"],
                 failure_error_function=_narrator_failure,
+                hooks=NarratorHooks(),
                 run_config=run_config(),
             ),
         ],

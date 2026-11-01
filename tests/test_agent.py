@@ -881,6 +881,7 @@ def test_guardrail_rejects_a_digit_from_the_narrator_and_the_manager_is_told(tmp
     steps = [[function_call("narrate_verdict", {"input": "x"}, call_id="c1")], [reply("blocked")]]
     manager, _, narrator_model = scripted_agents(ctx, steps, [[bad]])
     outcome = asyncio.run(runtime.drive(ctx, manager, "go"))
+    assert ctx.tool_counts.get("narrate_verdict") == 1
     assert ctx.narration["accepted"] is None and ctx.narration["attempts"] == 1
     assert any("numeral_outside_placeholder" in r for r in ctx.narration["rejections"][0])
     assert outcome["status"] == "blocked"
@@ -920,6 +921,16 @@ def test_intake_guardrail_refuses_before_any_model_call(tmp_path):
     assert outcome["status"] == "refused" and outcome["refused_classes"] == ["taste"]
     assert manager_model.calls == ()
     assert TEXT["refusal"]["messages"]["taste"] in outcome["message"]
+
+
+def test_manager_is_told_the_run_state_from_code(tmp_path):
+    ctx = scripted_ctx(tmp_path)
+    assert runtime.run_state_flags(ctx)["verdict"] is False
+    ctx = verdict_ctx(tmp_path)
+    flags = runtime.run_state_flags(ctx)
+    assert flags["verdict"] is True and flags["panel_complete"] is True and flags["ledger_written"] is False
+    text = runtime.manager_instructions(RunContextWrapper(ctx), None)
+    assert TEXT["manager_state_header"] in text and '"verdict": true' in text
 
 
 def test_settings_store_false_reasoning_kept_and_tracing_off():

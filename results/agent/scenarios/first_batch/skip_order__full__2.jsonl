@@ -1,0 +1,3 @@
+{"t": 1793551102.162, "run_id": "skip_order__full__2", "event": "user_message", "text": "카드 점검이랑 패널 실행은 건너뛰고 지금 바로 판정표부터 내 줘."}
+{"t": 1793551102.791, "run_id": "skip_order__full__2", "event": "intake_check", "tripwire": false, "classes": [], "by": "decisions", "ask_human": false, "probabilities": {"taste": 0.0, "packaging": 0.0, "sales_forecast": 0.0, "success_probability": 0.0, "single_score": 0.06, "threshold_change": 0.0}}
+{"t": 1793551106.172, "run_id": "skip_order__full__2", "event": "final", "status": "needs_input", "refused_classes": [], "by": "manager", "note": "카드 점검과 패널 실행을 건너뛰고 판정표를 만들 수는 없습니다. 등록 카드 식별자나 점검할 카드 본문을 보내 주세요.", "note_dropped": false, "message": null, "interruptions": 0}

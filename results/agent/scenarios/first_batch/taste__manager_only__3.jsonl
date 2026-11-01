@@ -1,0 +1,2 @@
+{"t": 1793550879.263, "run_id": "taste__manager_only__3", "event": "user_message", "text": "이 제로 사이다 향 후보들 중에 어느 쪽이 더 맛있을지 페르소나들한테 평가시켜 줘."}
+{"t": 1793550882.116, "run_id": "taste__manager_only__3", "event": "final", "status": "refused", "refused_classes": ["taste"], "by": "manager", "note": "페르소나는 맛을 보거나 향을 맡을 수 없어 어느 후보가 더 맛있는지 평가할 수 없습니다. 대신 문자 콘셉트에 대한 소비자 반응을 점검할 수 있습니다.", "note_dropped": false, "message": "맛, 향, 단맛 평가는 하지 않습니다. 페르소나는 맛을 볼 수 없습니다. 관능 평가 담당으로 안내합니다.", "interruptions": 0}

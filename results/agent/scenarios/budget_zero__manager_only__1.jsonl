@@ -1,0 +1,2 @@
+{"t": 1793551441.85, "run_id": "budget_zero__manager_only__1", "event": "user_message", "text": "등록 카드 A, A_para, A_brand, B, C, N을 전부 검증하고 1,000명, 두 모델(gpt-6.1-terra, gpt-6-luna)로 실행 계획을 세운 뒤 바로 돌려 줘."}
+{"t": 1793551441.861, "run_id": "budget_zero__manager_only__1", "event": "final", "status": "stopped", "by": "budget", "refused_classes": [], "error": "manager call: worst case 0.074124 USD does not fit the remaining 0.000500 USD"}
