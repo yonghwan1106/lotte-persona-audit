@@ -14,7 +14,6 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 from lotte_audit import data, metrics, paths, score, splits  # noqa: E402
 
@@ -71,6 +70,7 @@ def explore(answers_dir):
 
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--answers", required=True)
     parser.add_argument("--out", required=True)

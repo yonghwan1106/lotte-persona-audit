@@ -258,7 +258,9 @@ class Runner:
                 err = {}
             code = str(err.get("code") or err.get("type") or "")
             self.log(**base, status=f"http_{resp.status_code}", http_status=resp.status_code, error=scrub(code), latency_s=latency, cost_usd=0.0)
-            if code == "insufficient_quota":
+            # No credit is an account state, so retries cannot help. The 429 carries type insufficient_quota
+            # with code credit_balance_exhausted when the balance is empty.
+            if err.get("type") == "insufficient_quota" or code in ("insufficient_quota", "credit_balance_exhausted"):
                 self.halt("insufficient_quota")
                 return None, None
             if resp.status_code not in RETRY_STATUS:

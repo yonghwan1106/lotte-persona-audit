@@ -1,0 +1,50 @@
+{
+  "models": {
+    "gpt-6.1-terra": {
+      "attempts": 42,
+      "statuses": {
+        "http_429": 36,
+        "gave_up": 6
+      },
+      "retried_attempts": 36,
+      "codes_ok": 0,
+      "cost_usd": 0.0,
+      "cost_assumed_usd": 0,
+      "latency_s_median": null,
+      "latency_s_max": null,
+      "wall_clock_s": 130.3,
+      "served_models": [],
+      "service_tiers": [],
+      "by_condition": {
+        "C0": {
+          "calls_billed": 0,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0
+        },
+        "C1": {
+          "calls_billed": 0,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0
+        },
+        "C2": {
+          "calls_billed": 0,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0
+        }
+      }
+    }
+  },
+  "gate_total_usd": 0.0
+}

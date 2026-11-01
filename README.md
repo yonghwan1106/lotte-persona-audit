@@ -1,6 +1,6 @@
 # lotte-persona-audit
 
-소비자 패널 감사기의 평가 도구입니다. LLM 페르소나가 실제 한국인 응답자의 숨긴 답을 얼마나 재현하는지 잽니다. 이 단계에는 LLM 호출이 없고 API 키도 필요 없습니다.
+소비자 패널 감사기의 평가 도구입니다. LLM 페르소나가 실제 한국인 응답자의 숨긴 답을 얼마나 재현하는지 잽니다. 채점에는 LLM 호출이 없고 API 키도 필요 없습니다. 답을 만드는 단계는 아래 「관문 실행」에 있습니다.
 
 대상은 기존 음료 행동의 재현입니다. 신제품 성패는 재지 않습니다.
 
@@ -50,6 +50,23 @@ XXXXXXXX,0.42,0.08,0.05
 값은 0 이상 1 이하의 확률입니다. C0, C1, C2의 모든 코드가 한 번씩 있어야 합니다. 빠진 코드, 모르는 코드, 중복, 범위 밖 값이 있으면 멈춥니다. 다른 답 폴더는 `--answers`, 결과 폴더는 `--out`으로 지정합니다.
 
 결과는 `results/gate_score.json`과 `results/gate_score.md`에 쓰고, 마지막 줄에 `SWITCH` 또는 `NO SWITCH`를 출력합니다.
+
+## 관문 실행
+
+평가 도구(`audit.py`)는 API를 부르지 않습니다. API를 부르는 코드는 `src/panel_run.py`뿐입니다. 응답자 코드 하나당 호출 한 번이고, 코드는 모델에 보이지 않습니다. 모델, 가격, 설정, 프롬프트 해시는 `config/gate_run.json`에, 프롬프트는 `config/gate_prompt.json`에 고정돼 있습니다. API 키는 실행할 때 저장소 밖 파일에서 읽습니다. 답, 캐시, 호출 기록은 `runs/` 아래에 두며 커밋하지 않습니다.
+
+```
+python src/panel_run.py check                       # 고정 설정 확인, 호출 없음
+python src/panel_run.py smoke                       # 주 모델 C1 3건, C2 3건, 전체 비용 추정(results/gate_smoke.json)
+python src/panel_run.py run --model gpt-6.1-terra   # 전체 700코드, 캐시된 코드는 다시 호출하지 않음
+python src/panel_run.py run --model gpt-6-luna
+python audit.py score --answers runs/gate/answers_gpt-6.1-terra --out results/gate --name gate_score_gpt-6.1-terra
+python audit.py score --answers runs/gate/answers_gpt-6-luna --out results/gate --name gate_score_gpt-6-luna
+python src/gate_explore.py --answers runs/gate/answers_gpt-6.1-terra --out results/gate --name gate_explore_gpt-6.1-terra   # 탐색용, 규칙과 무관
+python src/panel_run.py status --write              # 집계 비용(results/gate_run_summary.json)
+```
+
+총비용이 관문 전체 20달러에 닿기 전에 멈춥니다. 잔액 없음(429 insufficient_quota)이면 재시도 없이 바로 멈춥니다.
 
 ## 사전 등록
 

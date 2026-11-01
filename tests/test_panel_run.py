@@ -6,8 +6,11 @@ import subprocess
 from pathlib import Path
 
 import httpx
+import numpy as np
 import pytest
+from conftest import answers_from
 
+import gate_explore
 import panel_run
 from lotte_audit import paths
 
@@ -206,12 +209,13 @@ def test_gives_up_after_max_attempts_and_does_not_invent_an_answer(frozen, tmp_p
     assert not list((tmp_path / "cache").rglob("*.json"))
 
 
-def test_insufficient_quota_stops_at_once(frozen, tmp_path):
+@pytest.mark.parametrize("error", [{"code": "insufficient_quota"}, {"type": "insufficient_quota", "code": "credit_balance_exhausted"}])
+def test_no_credit_stops_at_once(frozen, tmp_path, error):
     calls = []
 
     def handler(request):
         calls.append(1)
-        return httpx.Response(429, json={"error": {"code": "insufficient_quota"}})
+        return httpx.Response(429, json={"error": error})
 
     r = make_runner(frozen, tmp_path, handler, concurrency=1)
     s = r.run(items(5))
@@ -310,6 +314,19 @@ def test_answers_are_one_csv_per_condition_and_refuse_partial_sets(frozen, tmp_p
     assert n == 3
     assert sorted(p.name for p in out.glob("*.csv")) == ["C1.csv", "C2.csv"]
     assert (out / "C1.csv").read_text(encoding="utf-8").splitlines()[0] == "code,p_zero_ever,p_zero_weekly,p_carb_top1"
+
+
+def test_exploratory_script_runs_on_synthetic_answers(real, key, tmp_path):
+    """Constant synthetic answers. Exercises the script only; these numbers are not results."""
+    frame = answers_from(key, lambda rows, t: np.full(len(rows), {"ever": 0.3, "weekly": 0.4, "carb": 0.1}[t]), c0_value=0.2)
+    frame.to_csv(tmp_path / "all.csv", index=False, encoding="utf-8")
+    out = gate_explore.explore(tmp_path)
+    assert out["_note"].startswith("EXPLORATORY")
+    assert out["conditions"]["C1"]["share_weekly_above_ever"] == 1.0
+    assert out["conditions"]["C0"]["share_weekly_above_ever"] == 0.0
+    item = out["conditions"]["C2"]["items"]["ever"]
+    assert len(item["by_age_band_pct"]) == 6 and len(item["cell_means_pct"]) == 12
+    assert set(item["by_sex_pct"]) == {"male", "female"}
 
 
 # ---------- repo hygiene ----------
