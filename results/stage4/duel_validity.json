@@ -1,0 +1,2824 @@
+{
+ "plan": {
+  "resamples": 2000,
+  "seed": 42,
+  "fold_seed": [
+   42,
+   5
+  ]
+ },
+ "bar": {
+  "surrogate_max_keep": 0.12,
+  "positive_min_margin": 0.3
+ },
+ "row": {
+  "terra_C2": {
+   "pooled": {
+    "mean_improvement": 0.02088,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.31,
+     "keep_rate_ci95": [
+      0.25,
+      0.37
+     ],
+     "beats_rate": 0.52,
+     "counts": {
+      "kept_and_beats": 35,
+      "kept_not_beats": 27,
+      "dropped_and_beats": 69,
+      "dropped_not_beats": 69
+     },
+     "false_keep_rate": 0.4355,
+     "false_keep_over_not_beating": 0.2812,
+     "false_keep_over_all_draws": 0.135,
+     "missed_keep_rate": 0.6635,
+     "missed_keep_over_all_draws": 0.345
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.31,
+     "keep_rate_ci95": [
+      0.25,
+      0.37
+     ],
+     "beats_rate": 0.59,
+     "counts": {
+      "kept_and_beats": 37,
+      "kept_not_beats": 25,
+      "dropped_and_beats": 81,
+      "dropped_not_beats": 57
+     },
+     "false_keep_rate": 0.4032,
+     "false_keep_over_not_beating": 0.3049,
+     "false_keep_over_all_draws": 0.125,
+     "missed_keep_rate": 0.6864,
+     "missed_keep_over_all_draws": 0.405
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.01508,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.065,
+     "keep_rate_ci95": [
+      0.035,
+      0.1
+     ],
+     "beats_rate": 0.115,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 13,
+      "dropped_and_beats": 23,
+      "dropped_not_beats": 164
+     },
+     "false_keep_rate": 1.0,
+     "false_keep_over_not_beating": 0.0734,
+     "false_keep_over_all_draws": 0.065,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.115
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.065,
+     "keep_rate_ci95": [
+      0.035,
+      0.1
+     ],
+     "beats_rate": 0.155,
+     "counts": {
+      "kept_and_beats": 2,
+      "kept_not_beats": 11,
+      "dropped_and_beats": 29,
+      "dropped_not_beats": 158
+     },
+     "false_keep_rate": 0.8462,
+     "false_keep_over_not_beating": 0.0651,
+     "false_keep_over_all_draws": 0.055,
+     "missed_keep_rate": 0.9355,
+     "missed_keep_over_all_draws": 0.145
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.02795,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.515,
+     "keep_rate_ci95": [
+      0.445,
+      0.585
+     ],
+     "beats_rate": 0.875,
+     "counts": {
+      "kept_and_beats": 90,
+      "kept_not_beats": 13,
+      "dropped_and_beats": 85,
+      "dropped_not_beats": 12
+     },
+     "false_keep_rate": 0.1262,
+     "false_keep_over_not_beating": 0.52,
+     "false_keep_over_all_draws": 0.065,
+     "missed_keep_rate": 0.4857,
+     "missed_keep_over_all_draws": 0.425
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.515,
+     "keep_rate_ci95": [
+      0.445,
+      0.585
+     ],
+     "beats_rate": 0.96,
+     "counts": {
+      "kept_and_beats": 98,
+      "kept_not_beats": 5,
+      "dropped_and_beats": 94,
+      "dropped_not_beats": 3
+     },
+     "false_keep_rate": 0.0485,
+     "false_keep_over_not_beating": 0.625,
+     "false_keep_over_all_draws": 0.025,
+     "missed_keep_rate": 0.4896,
+     "missed_keep_over_all_draws": 0.47
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.01961,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.045,
+     "keep_rate_ci95": [
+      0.02,
+      0.075
+     ],
+     "beats_rate": 0.95,
+     "counts": {
+      "kept_and_beats": 9,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 181,
+      "dropped_not_beats": 10
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.9526,
+     "missed_keep_over_all_draws": 0.905
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.045,
+     "keep_rate_ci95": [
+      0.02,
+      0.075
+     ],
+     "beats_rate": 0.68,
+     "counts": {
+      "kept_and_beats": 5,
+      "kept_not_beats": 4,
+      "dropped_and_beats": 131,
+      "dropped_not_beats": 60
+     },
+     "false_keep_rate": 0.4444,
+     "false_keep_over_not_beating": 0.0625,
+     "false_keep_over_all_draws": 0.02,
+     "missed_keep_rate": 0.9632,
+     "missed_keep_over_all_draws": 0.655
+    }
+   }
+  },
+  "luna_C1": {
+   "pooled": {
+    "mean_improvement": 0.00837,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.015,
+     "keep_rate_ci95": [
+      0.0,
+      0.035
+     ],
+     "beats_rate": 0.425,
+     "counts": {
+      "kept_and_beats": 2,
+      "kept_not_beats": 1,
+      "dropped_and_beats": 83,
+      "dropped_not_beats": 114
+     },
+     "false_keep_rate": 0.3333,
+     "false_keep_over_not_beating": 0.0087,
+     "false_keep_over_all_draws": 0.005,
+     "missed_keep_rate": 0.9765,
+     "missed_keep_over_all_draws": 0.415
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.015,
+     "keep_rate_ci95": [
+      0.0,
+      0.035
+     ],
+     "beats_rate": 0.29,
+     "counts": {
+      "kept_and_beats": 2,
+      "kept_not_beats": 1,
+      "dropped_and_beats": 56,
+      "dropped_not_beats": 141
+     },
+     "false_keep_rate": 0.3333,
+     "false_keep_over_not_beating": 0.007,
+     "false_keep_over_all_draws": 0.005,
+     "missed_keep_rate": 0.9655,
+     "missed_keep_over_all_draws": 0.28
+    }
+   },
+   "ever": {
+    "mean_improvement": -0.01156,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.13,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 26,
+      "dropped_not_beats": 174
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.13
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.105,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 21,
+      "dropped_not_beats": 179
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.105
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.01567,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.125,
+     "keep_rate_ci95": [
+      0.08,
+      0.175
+     ],
+     "beats_rate": 0.555,
+     "counts": {
+      "kept_and_beats": 13,
+      "kept_not_beats": 12,
+      "dropped_and_beats": 98,
+      "dropped_not_beats": 77
+     },
+     "false_keep_rate": 0.48,
+     "false_keep_over_not_beating": 0.1348,
+     "false_keep_over_all_draws": 0.06,
+     "missed_keep_rate": 0.8829,
+     "missed_keep_over_all_draws": 0.49
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.125,
+     "keep_rate_ci95": [
+      0.08,
+      0.175
+     ],
+     "beats_rate": 0.71,
+     "counts": {
+      "kept_and_beats": 17,
+      "kept_not_beats": 8,
+      "dropped_and_beats": 125,
+      "dropped_not_beats": 50
+     },
+     "false_keep_rate": 0.32,
+     "false_keep_over_not_beating": 0.1379,
+     "false_keep_over_all_draws": 0.04,
+     "missed_keep_rate": 0.8803,
+     "missed_keep_over_all_draws": 0.625
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.02099,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.045,
+     "keep_rate_ci95": [
+      0.02,
+      0.075
+     ],
+     "beats_rate": 0.85,
+     "counts": {
+      "kept_and_beats": 4,
+      "kept_not_beats": 5,
+      "dropped_and_beats": 166,
+      "dropped_not_beats": 25
+     },
+     "false_keep_rate": 0.5556,
+     "false_keep_over_not_beating": 0.1667,
+     "false_keep_over_all_draws": 0.025,
+     "missed_keep_rate": 0.9765,
+     "missed_keep_over_all_draws": 0.83
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.045,
+     "keep_rate_ci95": [
+      0.02,
+      0.075
+     ],
+     "beats_rate": 0.52,
+     "counts": {
+      "kept_and_beats": 2,
+      "kept_not_beats": 7,
+      "dropped_and_beats": 102,
+      "dropped_not_beats": 89
+     },
+     "false_keep_rate": 0.7778,
+     "false_keep_over_not_beating": 0.0729,
+     "false_keep_over_all_draws": 0.035,
+     "missed_keep_rate": 0.9808,
+     "missed_keep_over_all_draws": 0.51
+    }
+   }
+  },
+  "control_s0.25": {
+   "pooled": {
+    "mean_improvement": 0.07315,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.955,
+     "keep_rate_ci95": [
+      0.925,
+      0.98
+     ],
+     "beats_rate": 0.865,
+     "counts": {
+      "kept_and_beats": 166,
+      "kept_not_beats": 25,
+      "dropped_and_beats": 7,
+      "dropped_not_beats": 2
+     },
+     "false_keep_rate": 0.1309,
+     "false_keep_over_not_beating": 0.9259,
+     "false_keep_over_all_draws": 0.125,
+     "missed_keep_rate": 0.0405,
+     "missed_keep_over_all_draws": 0.035
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.955,
+     "keep_rate_ci95": [
+      0.925,
+      0.98
+     ],
+     "beats_rate": 0.955,
+     "counts": {
+      "kept_and_beats": 182,
+      "kept_not_beats": 9,
+      "dropped_and_beats": 9,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0471,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.045,
+     "missed_keep_rate": 0.0471,
+     "missed_keep_over_all_draws": 0.045
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.10404,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.99,
+     "keep_rate_ci95": [
+      0.975,
+      1.0
+     ],
+     "beats_rate": 0.725,
+     "counts": {
+      "kept_and_beats": 143,
+      "kept_not_beats": 55,
+      "dropped_and_beats": 2,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.2778,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.275,
+     "missed_keep_rate": 0.0138,
+     "missed_keep_over_all_draws": 0.01
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.99,
+     "keep_rate_ci95": [
+      0.975,
+      1.0
+     ],
+     "beats_rate": 0.8,
+     "counts": {
+      "kept_and_beats": 158,
+      "kept_not_beats": 40,
+      "dropped_and_beats": 2,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.202,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.2,
+     "missed_keep_rate": 0.0125,
+     "missed_keep_over_all_draws": 0.01
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.07453,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.95,
+     "keep_rate_ci95": [
+      0.92,
+      0.98
+     ],
+     "beats_rate": 0.335,
+     "counts": {
+      "kept_and_beats": 58,
+      "kept_not_beats": 132,
+      "dropped_and_beats": 9,
+      "dropped_not_beats": 1
+     },
+     "false_keep_rate": 0.6947,
+     "false_keep_over_not_beating": 0.9925,
+     "false_keep_over_all_draws": 0.66,
+     "missed_keep_rate": 0.1343,
+     "missed_keep_over_all_draws": 0.045
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.95,
+     "keep_rate_ci95": [
+      0.92,
+      0.98
+     ],
+     "beats_rate": 0.71,
+     "counts": {
+      "kept_and_beats": 132,
+      "kept_not_beats": 58,
+      "dropped_and_beats": 10,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.3053,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.29,
+     "missed_keep_rate": 0.0704,
+     "missed_keep_over_all_draws": 0.05
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.04089,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.38,
+     "keep_rate_ci95": [
+      0.315,
+      0.45
+     ],
+     "beats_rate": 0.945,
+     "counts": {
+      "kept_and_beats": 73,
+      "kept_not_beats": 3,
+      "dropped_and_beats": 116,
+      "dropped_not_beats": 8
+     },
+     "false_keep_rate": 0.0395,
+     "false_keep_over_not_beating": 0.2727,
+     "false_keep_over_all_draws": 0.015,
+     "missed_keep_rate": 0.6138,
+     "missed_keep_over_all_draws": 0.58
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.38,
+     "keep_rate_ci95": [
+      0.315,
+      0.45
+     ],
+     "beats_rate": 0.995,
+     "counts": {
+      "kept_and_beats": 76,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 123,
+      "dropped_not_beats": 1
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.6181,
+     "missed_keep_over_all_draws": 0.615
+    }
+   }
+  },
+  "control_s0.5": {
+   "pooled": {
+    "mean_improvement": 0.12321,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.99,
+     "keep_rate_ci95": [
+      0.975,
+      1.0
+     ],
+     "beats_rate": 0.945,
+     "counts": {
+      "kept_and_beats": 188,
+      "kept_not_beats": 10,
+      "dropped_and_beats": 1,
+      "dropped_not_beats": 1
+     },
+     "false_keep_rate": 0.0505,
+     "false_keep_over_not_beating": 0.9091,
+     "false_keep_over_all_draws": 0.05,
+     "missed_keep_rate": 0.0053,
+     "missed_keep_over_all_draws": 0.005
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.99,
+     "keep_rate_ci95": [
+      0.975,
+      1.0
+     ],
+     "beats_rate": 0.99,
+     "counts": {
+      "kept_and_beats": 196,
+      "kept_not_beats": 2,
+      "dropped_and_beats": 2,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0101,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.01,
+     "missed_keep_rate": 0.0101,
+     "missed_keep_over_all_draws": 0.01
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.18008,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.88,
+     "counts": {
+      "kept_and_beats": 176,
+      "kept_not_beats": 24,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.12,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.12,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.93,
+     "counts": {
+      "kept_and_beats": 186,
+      "kept_not_beats": 14,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.07,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.07,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.12604,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.99,
+     "keep_rate_ci95": [
+      0.975,
+      1.0
+     ],
+     "beats_rate": 0.44,
+     "counts": {
+      "kept_and_beats": 86,
+      "kept_not_beats": 112,
+      "dropped_and_beats": 2,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.5657,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.56,
+     "missed_keep_rate": 0.0227,
+     "missed_keep_over_all_draws": 0.01
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.99,
+     "keep_rate_ci95": [
+      0.975,
+      1.0
+     ],
+     "beats_rate": 0.855,
+     "counts": {
+      "kept_and_beats": 169,
+      "kept_not_beats": 29,
+      "dropped_and_beats": 2,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.1465,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.145,
+     "missed_keep_rate": 0.0117,
+     "missed_keep_over_all_draws": 0.01
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.06351,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.575,
+     "keep_rate_ci95": [
+      0.505,
+      0.64
+     ],
+     "beats_rate": 0.915,
+     "counts": {
+      "kept_and_beats": 103,
+      "kept_not_beats": 12,
+      "dropped_and_beats": 80,
+      "dropped_not_beats": 5
+     },
+     "false_keep_rate": 0.1043,
+     "false_keep_over_not_beating": 0.7059,
+     "false_keep_over_all_draws": 0.06,
+     "missed_keep_rate": 0.4372,
+     "missed_keep_over_all_draws": 0.4
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.575,
+     "keep_rate_ci95": [
+      0.505,
+      0.64
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 115,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 85,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.425,
+     "missed_keep_over_all_draws": 0.425
+    }
+   }
+  },
+  "control_s1.0": {
+   "pooled": {
+    "mean_improvement": 0.21118,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.965,
+     "counts": {
+      "kept_and_beats": 193,
+      "kept_not_beats": 7,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.035,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.035,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 200,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.31435,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.955,
+     "counts": {
+      "kept_and_beats": 191,
+      "kept_not_beats": 9,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.045,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.045,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.995,
+     "counts": {
+      "kept_and_beats": 199,
+      "kept_not_beats": 1,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.005,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.005,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.21682,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.45,
+     "counts": {
+      "kept_and_beats": 90,
+      "kept_not_beats": 110,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.55,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.55,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.865,
+     "counts": {
+      "kept_and_beats": 173,
+      "kept_not_beats": 27,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.135,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.135,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.10238,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.765,
+     "keep_rate_ci95": [
+      0.705,
+      0.82
+     ],
+     "beats_rate": 0.895,
+     "counts": {
+      "kept_and_beats": 136,
+      "kept_not_beats": 17,
+      "dropped_and_beats": 43,
+      "dropped_not_beats": 4
+     },
+     "false_keep_rate": 0.1111,
+     "false_keep_over_not_beating": 0.8095,
+     "false_keep_over_all_draws": 0.085,
+     "missed_keep_rate": 0.2402,
+     "missed_keep_over_all_draws": 0.215
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.765,
+     "keep_rate_ci95": [
+      0.705,
+      0.82
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 153,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 47,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.235,
+     "missed_keep_over_all_draws": 0.235
+    }
+   }
+  },
+  "control_s2.0": {
+   "pooled": {
+    "mean_improvement": 0.32148,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.995,
+     "counts": {
+      "kept_and_beats": 199,
+      "kept_not_beats": 1,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.005,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.005,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 200,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.47016,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.95,
+     "counts": {
+      "kept_and_beats": 190,
+      "kept_not_beats": 10,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.05,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.05,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 200,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.32742,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.845,
+     "counts": {
+      "kept_and_beats": 169,
+      "kept_not_beats": 31,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.155,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.155,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.995,
+     "counts": {
+      "kept_and_beats": 199,
+      "kept_not_beats": 1,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.005,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.005,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.16685,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.785,
+     "keep_rate_ci95": [
+      0.725,
+      0.84
+     ],
+     "beats_rate": 0.945,
+     "counts": {
+      "kept_and_beats": 147,
+      "kept_not_beats": 10,
+      "dropped_and_beats": 42,
+      "dropped_not_beats": 1
+     },
+     "false_keep_rate": 0.0637,
+     "false_keep_over_not_beating": 0.9091,
+     "false_keep_over_all_draws": 0.05,
+     "missed_keep_rate": 0.2222,
+     "missed_keep_over_all_draws": 0.21
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.785,
+     "keep_rate_ci95": [
+      0.725,
+      0.84
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 157,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 43,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.215,
+     "missed_keep_over_all_draws": 0.215
+    }
+   }
+  },
+  "surrogate_terra_slot": {
+   "pooled": {
+    "mean_improvement": 0.01262,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.115,
+     "keep_rate_ci95": [
+      0.07,
+      0.16
+     ],
+     "beats_rate": 0.665,
+     "counts": {
+      "kept_and_beats": 13,
+      "kept_not_beats": 10,
+      "dropped_and_beats": 120,
+      "dropped_not_beats": 57
+     },
+     "false_keep_rate": 0.4348,
+     "false_keep_over_not_beating": 0.1493,
+     "false_keep_over_all_draws": 0.05,
+     "missed_keep_rate": 0.9023,
+     "missed_keep_over_all_draws": 0.6
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.115,
+     "keep_rate_ci95": [
+      0.07,
+      0.16
+     ],
+     "beats_rate": 0.665,
+     "counts": {
+      "kept_and_beats": 16,
+      "kept_not_beats": 7,
+      "dropped_and_beats": 117,
+      "dropped_not_beats": 60
+     },
+     "false_keep_rate": 0.3043,
+     "false_keep_over_not_beating": 0.1045,
+     "false_keep_over_all_draws": 0.035,
+     "missed_keep_rate": 0.8797,
+     "missed_keep_over_all_draws": 0.585
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.00346,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.025,
+     "keep_rate_ci95": [
+      0.005,
+      0.045
+     ],
+     "beats_rate": 0.585,
+     "counts": {
+      "kept_and_beats": 3,
+      "kept_not_beats": 2,
+      "dropped_and_beats": 114,
+      "dropped_not_beats": 81
+     },
+     "false_keep_rate": 0.4,
+     "false_keep_over_not_beating": 0.0241,
+     "false_keep_over_all_draws": 0.01,
+     "missed_keep_rate": 0.9744,
+     "missed_keep_over_all_draws": 0.57
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.025,
+     "keep_rate_ci95": [
+      0.005,
+      0.045
+     ],
+     "beats_rate": 0.37,
+     "counts": {
+      "kept_and_beats": 1,
+      "kept_not_beats": 4,
+      "dropped_and_beats": 73,
+      "dropped_not_beats": 122
+     },
+     "false_keep_rate": 0.8,
+     "false_keep_over_not_beating": 0.0317,
+     "false_keep_over_all_draws": 0.02,
+     "missed_keep_rate": 0.9865,
+     "missed_keep_over_all_draws": 0.365
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.01499,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.09,
+     "keep_rate_ci95": [
+      0.05,
+      0.13
+     ],
+     "beats_rate": 0.23,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 18,
+      "dropped_and_beats": 46,
+      "dropped_not_beats": 136
+     },
+     "false_keep_rate": 1.0,
+     "false_keep_over_not_beating": 0.1169,
+     "false_keep_over_all_draws": 0.09,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.23
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.09,
+     "keep_rate_ci95": [
+      0.05,
+      0.13
+     ],
+     "beats_rate": 0.59,
+     "counts": {
+      "kept_and_beats": 6,
+      "kept_not_beats": 12,
+      "dropped_and_beats": 112,
+      "dropped_not_beats": 70
+     },
+     "false_keep_rate": 0.6667,
+     "false_keep_over_not_beating": 0.1463,
+     "false_keep_over_all_draws": 0.06,
+     "missed_keep_rate": 0.9492,
+     "missed_keep_over_all_draws": 0.56
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.01942,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.045,
+     "keep_rate_ci95": [
+      0.02,
+      0.075
+     ],
+     "beats_rate": 0.875,
+     "counts": {
+      "kept_and_beats": 7,
+      "kept_not_beats": 2,
+      "dropped_and_beats": 168,
+      "dropped_not_beats": 23
+     },
+     "false_keep_rate": 0.2222,
+     "false_keep_over_not_beating": 0.08,
+     "false_keep_over_all_draws": 0.01,
+     "missed_keep_rate": 0.96,
+     "missed_keep_over_all_draws": 0.84
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.045,
+     "keep_rate_ci95": [
+      0.02,
+      0.075
+     ],
+     "beats_rate": 0.955,
+     "counts": {
+      "kept_and_beats": 8,
+      "kept_not_beats": 1,
+      "dropped_and_beats": 183,
+      "dropped_not_beats": 8
+     },
+     "false_keep_rate": 0.1111,
+     "false_keep_over_not_beating": 0.1111,
+     "false_keep_over_all_draws": 0.005,
+     "missed_keep_rate": 0.9581,
+     "missed_keep_over_all_draws": 0.915
+    }
+   }
+  },
+  "surrogate_luna_slot": {
+   "pooled": {
+    "mean_improvement": -0.0168,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.305,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 61,
+      "dropped_not_beats": 139
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.305
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.28,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 56,
+      "dropped_not_beats": 144
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.28
+    }
+   },
+   "ever": {
+    "mean_improvement": -0.02987,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.345,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 69,
+      "dropped_not_beats": 131
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.345
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.135,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 27,
+      "dropped_not_beats": 173
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.135
+    }
+   },
+   "weekly": {
+    "mean_improvement": -0.02199,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.12,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 24,
+      "dropped_not_beats": 176
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.12
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.445,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 89,
+      "dropped_not_beats": 111
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.445
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.00147,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.845,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 169,
+      "dropped_not_beats": 31
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.845
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.905,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 181,
+      "dropped_not_beats": 19
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.905
+    }
+   }
+  }
+ },
+ "cluster": {
+  "terra_C2": {
+   "pooled": {
+    "mean_improvement": 0.02423,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.32,
+     "keep_rate_ci95": [
+      0.255,
+      0.39
+     ],
+     "beats_rate": 0.57,
+     "counts": {
+      "kept_and_beats": 34,
+      "kept_not_beats": 30,
+      "dropped_and_beats": 80,
+      "dropped_not_beats": 56
+     },
+     "false_keep_rate": 0.4688,
+     "false_keep_over_not_beating": 0.3488,
+     "false_keep_over_all_draws": 0.15,
+     "missed_keep_rate": 0.7018,
+     "missed_keep_over_all_draws": 0.4
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.32,
+     "keep_rate_ci95": [
+      0.255,
+      0.39
+     ],
+     "beats_rate": 0.605,
+     "counts": {
+      "kept_and_beats": 36,
+      "kept_not_beats": 28,
+      "dropped_and_beats": 85,
+      "dropped_not_beats": 51
+     },
+     "false_keep_rate": 0.4375,
+     "false_keep_over_not_beating": 0.3544,
+     "false_keep_over_all_draws": 0.14,
+     "missed_keep_rate": 0.7025,
+     "missed_keep_over_all_draws": 0.425
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.01681,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.085,
+     "keep_rate_ci95": [
+      0.05,
+      0.13
+     ],
+     "beats_rate": 0.2,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 17,
+      "dropped_and_beats": 40,
+      "dropped_not_beats": 143
+     },
+     "false_keep_rate": 1.0,
+     "false_keep_over_not_beating": 0.1062,
+     "false_keep_over_all_draws": 0.085,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.2
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.085,
+     "keep_rate_ci95": [
+      0.05,
+      0.13
+     ],
+     "beats_rate": 0.205,
+     "counts": {
+      "kept_and_beats": 1,
+      "kept_not_beats": 16,
+      "dropped_and_beats": 40,
+      "dropped_not_beats": 143
+     },
+     "false_keep_rate": 0.9412,
+     "false_keep_over_not_beating": 0.1006,
+     "false_keep_over_all_draws": 0.08,
+     "missed_keep_rate": 0.9756,
+     "missed_keep_over_all_draws": 0.2
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.03284,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.445,
+     "keep_rate_ci95": [
+      0.38,
+      0.515
+     ],
+     "beats_rate": 0.92,
+     "counts": {
+      "kept_and_beats": 82,
+      "kept_not_beats": 7,
+      "dropped_and_beats": 102,
+      "dropped_not_beats": 9
+     },
+     "false_keep_rate": 0.0787,
+     "false_keep_over_not_beating": 0.4375,
+     "false_keep_over_all_draws": 0.035,
+     "missed_keep_rate": 0.5543,
+     "missed_keep_over_all_draws": 0.51
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.445,
+     "keep_rate_ci95": [
+      0.38,
+      0.515
+     ],
+     "beats_rate": 0.935,
+     "counts": {
+      "kept_and_beats": 85,
+      "kept_not_beats": 4,
+      "dropped_and_beats": 102,
+      "dropped_not_beats": 9
+     },
+     "false_keep_rate": 0.0449,
+     "false_keep_over_not_beating": 0.3077,
+     "false_keep_over_all_draws": 0.02,
+     "missed_keep_rate": 0.5455,
+     "missed_keep_over_all_draws": 0.51
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.02303,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.04,
+     "keep_rate_ci95": [
+      0.015,
+      0.07
+     ],
+     "beats_rate": 0.86,
+     "counts": {
+      "kept_and_beats": 6,
+      "kept_not_beats": 2,
+      "dropped_and_beats": 166,
+      "dropped_not_beats": 26
+     },
+     "false_keep_rate": 0.25,
+     "false_keep_over_not_beating": 0.0714,
+     "false_keep_over_all_draws": 0.01,
+     "missed_keep_rate": 0.9651,
+     "missed_keep_over_all_draws": 0.83
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.04,
+     "keep_rate_ci95": [
+      0.015,
+      0.07
+     ],
+     "beats_rate": 0.64,
+     "counts": {
+      "kept_and_beats": 5,
+      "kept_not_beats": 3,
+      "dropped_and_beats": 123,
+      "dropped_not_beats": 69
+     },
+     "false_keep_rate": 0.375,
+     "false_keep_over_not_beating": 0.0417,
+     "false_keep_over_all_draws": 0.015,
+     "missed_keep_rate": 0.9609,
+     "missed_keep_over_all_draws": 0.615
+    }
+   }
+  },
+  "luna_C1": {
+   "pooled": {
+    "mean_improvement": 0.01149,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.025,
+     "keep_rate_ci95": [
+      0.005,
+      0.05
+     ],
+     "beats_rate": 0.415,
+     "counts": {
+      "kept_and_beats": 1,
+      "kept_not_beats": 4,
+      "dropped_and_beats": 82,
+      "dropped_not_beats": 113
+     },
+     "false_keep_rate": 0.8,
+     "false_keep_over_not_beating": 0.0342,
+     "false_keep_over_all_draws": 0.02,
+     "missed_keep_rate": 0.988,
+     "missed_keep_over_all_draws": 0.41
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.025,
+     "keep_rate_ci95": [
+      0.005,
+      0.05
+     ],
+     "beats_rate": 0.325,
+     "counts": {
+      "kept_and_beats": 1,
+      "kept_not_beats": 4,
+      "dropped_and_beats": 64,
+      "dropped_not_beats": 131
+     },
+     "false_keep_rate": 0.8,
+     "false_keep_over_not_beating": 0.0296,
+     "false_keep_over_all_draws": 0.02,
+     "missed_keep_rate": 0.9846,
+     "missed_keep_over_all_draws": 0.32
+    }
+   },
+   "ever": {
+    "mean_improvement": -0.01016,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.01,
+     "keep_rate_ci95": [
+      0.0,
+      0.025
+     ],
+     "beats_rate": 0.18,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 2,
+      "dropped_and_beats": 36,
+      "dropped_not_beats": 162
+     },
+     "false_keep_rate": 1.0,
+     "false_keep_over_not_beating": 0.0122,
+     "false_keep_over_all_draws": 0.01,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.18
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.01,
+     "keep_rate_ci95": [
+      0.0,
+      0.025
+     ],
+     "beats_rate": 0.145,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 2,
+      "dropped_and_beats": 29,
+      "dropped_not_beats": 169
+     },
+     "false_keep_rate": 1.0,
+     "false_keep_over_not_beating": 0.0117,
+     "false_keep_over_all_draws": 0.01,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.145
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.02023,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.115,
+     "keep_rate_ci95": [
+      0.075,
+      0.16
+     ],
+     "beats_rate": 0.735,
+     "counts": {
+      "kept_and_beats": 14,
+      "kept_not_beats": 9,
+      "dropped_and_beats": 133,
+      "dropped_not_beats": 44
+     },
+     "false_keep_rate": 0.3913,
+     "false_keep_over_not_beating": 0.1698,
+     "false_keep_over_all_draws": 0.045,
+     "missed_keep_rate": 0.9048,
+     "missed_keep_over_all_draws": 0.665
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.115,
+     "keep_rate_ci95": [
+      0.075,
+      0.16
+     ],
+     "beats_rate": 0.715,
+     "counts": {
+      "kept_and_beats": 15,
+      "kept_not_beats": 8,
+      "dropped_and_beats": 128,
+      "dropped_not_beats": 49
+     },
+     "false_keep_rate": 0.3478,
+     "false_keep_over_not_beating": 0.1404,
+     "false_keep_over_all_draws": 0.04,
+     "missed_keep_rate": 0.8951,
+     "missed_keep_over_all_draws": 0.64
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.0244,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.04,
+     "keep_rate_ci95": [
+      0.015,
+      0.07
+     ],
+     "beats_rate": 0.76,
+     "counts": {
+      "kept_and_beats": 6,
+      "kept_not_beats": 2,
+      "dropped_and_beats": 146,
+      "dropped_not_beats": 46
+     },
+     "false_keep_rate": 0.25,
+     "false_keep_over_not_beating": 0.0417,
+     "false_keep_over_all_draws": 0.01,
+     "missed_keep_rate": 0.9605,
+     "missed_keep_over_all_draws": 0.73
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.04,
+     "keep_rate_ci95": [
+      0.015,
+      0.07
+     ],
+     "beats_rate": 0.45,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 8,
+      "dropped_and_beats": 90,
+      "dropped_not_beats": 102
+     },
+     "false_keep_rate": 1.0,
+     "false_keep_over_not_beating": 0.0727,
+     "false_keep_over_all_draws": 0.04,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.45
+    }
+   }
+  },
+  "control_s0.25": {
+   "pooled": {
+    "mean_improvement": 0.07664,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.935,
+     "keep_rate_ci95": [
+      0.9,
+      0.97
+     ],
+     "beats_rate": 0.83,
+     "counts": {
+      "kept_and_beats": 155,
+      "kept_not_beats": 32,
+      "dropped_and_beats": 11,
+      "dropped_not_beats": 2
+     },
+     "false_keep_rate": 0.1711,
+     "false_keep_over_not_beating": 0.9412,
+     "false_keep_over_all_draws": 0.16,
+     "missed_keep_rate": 0.0663,
+     "missed_keep_over_all_draws": 0.055
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.935,
+     "keep_rate_ci95": [
+      0.9,
+      0.97
+     ],
+     "beats_rate": 0.89,
+     "counts": {
+      "kept_and_beats": 167,
+      "kept_not_beats": 20,
+      "dropped_and_beats": 11,
+      "dropped_not_beats": 2
+     },
+     "false_keep_rate": 0.107,
+     "false_keep_over_not_beating": 0.9091,
+     "false_keep_over_all_draws": 0.1,
+     "missed_keep_rate": 0.0618,
+     "missed_keep_over_all_draws": 0.055
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.10602,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.96,
+     "keep_rate_ci95": [
+      0.93,
+      0.985
+     ],
+     "beats_rate": 0.76,
+     "counts": {
+      "kept_and_beats": 145,
+      "kept_not_beats": 47,
+      "dropped_and_beats": 7,
+      "dropped_not_beats": 1
+     },
+     "false_keep_rate": 0.2448,
+     "false_keep_over_not_beating": 0.9792,
+     "false_keep_over_all_draws": 0.235,
+     "missed_keep_rate": 0.0461,
+     "missed_keep_over_all_draws": 0.035
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.96,
+     "keep_rate_ci95": [
+      0.93,
+      0.985
+     ],
+     "beats_rate": 0.775,
+     "counts": {
+      "kept_and_beats": 149,
+      "kept_not_beats": 43,
+      "dropped_and_beats": 6,
+      "dropped_not_beats": 2
+     },
+     "false_keep_rate": 0.224,
+     "false_keep_over_not_beating": 0.9556,
+     "false_keep_over_all_draws": 0.215,
+     "missed_keep_rate": 0.0387,
+     "missed_keep_over_all_draws": 0.03
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.07974,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.82,
+     "keep_rate_ci95": [
+      0.765,
+      0.87
+     ],
+     "beats_rate": 0.54,
+     "counts": {
+      "kept_and_beats": 75,
+      "kept_not_beats": 89,
+      "dropped_and_beats": 33,
+      "dropped_not_beats": 3
+     },
+     "false_keep_rate": 0.5427,
+     "false_keep_over_not_beating": 0.9674,
+     "false_keep_over_all_draws": 0.445,
+     "missed_keep_rate": 0.3056,
+     "missed_keep_over_all_draws": 0.165
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.82,
+     "keep_rate_ci95": [
+      0.765,
+      0.87
+     ],
+     "beats_rate": 0.71,
+     "counts": {
+      "kept_and_beats": 108,
+      "kept_not_beats": 56,
+      "dropped_and_beats": 34,
+      "dropped_not_beats": 2
+     },
+     "false_keep_rate": 0.3415,
+     "false_keep_over_not_beating": 0.9655,
+     "false_keep_over_all_draws": 0.28,
+     "missed_keep_rate": 0.2394,
+     "missed_keep_over_all_draws": 0.17
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.04417,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.3,
+     "keep_rate_ci95": [
+      0.235,
+      0.365
+     ],
+     "beats_rate": 0.93,
+     "counts": {
+      "kept_and_beats": 50,
+      "kept_not_beats": 10,
+      "dropped_and_beats": 136,
+      "dropped_not_beats": 4
+     },
+     "false_keep_rate": 0.1667,
+     "false_keep_over_not_beating": 0.7143,
+     "false_keep_over_all_draws": 0.05,
+     "missed_keep_rate": 0.7312,
+     "missed_keep_over_all_draws": 0.68
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.3,
+     "keep_rate_ci95": [
+      0.235,
+      0.365
+     ],
+     "beats_rate": 0.92,
+     "counts": {
+      "kept_and_beats": 50,
+      "kept_not_beats": 10,
+      "dropped_and_beats": 134,
+      "dropped_not_beats": 6
+     },
+     "false_keep_rate": 0.1667,
+     "false_keep_over_not_beating": 0.625,
+     "false_keep_over_all_draws": 0.05,
+     "missed_keep_rate": 0.7283,
+     "missed_keep_over_all_draws": 0.67
+    }
+   }
+  },
+  "control_s0.5": {
+   "pooled": {
+    "mean_improvement": 0.12544,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.98,
+     "keep_rate_ci95": [
+      0.96,
+      0.995
+     ],
+     "beats_rate": 0.98,
+     "counts": {
+      "kept_and_beats": 192,
+      "kept_not_beats": 4,
+      "dropped_and_beats": 4,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0204,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.02,
+     "missed_keep_rate": 0.0204,
+     "missed_keep_over_all_draws": 0.02
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.98,
+     "keep_rate_ci95": [
+      0.96,
+      0.995
+     ],
+     "beats_rate": 0.99,
+     "counts": {
+      "kept_and_beats": 194,
+      "kept_not_beats": 2,
+      "dropped_and_beats": 4,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0102,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.01,
+     "missed_keep_rate": 0.0202,
+     "missed_keep_over_all_draws": 0.02
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.17984,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.885,
+     "counts": {
+      "kept_and_beats": 177,
+      "kept_not_beats": 23,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.115,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.115,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.9,
+     "counts": {
+      "kept_and_beats": 180,
+      "kept_not_beats": 20,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.1,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.1,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.13124,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.935,
+     "keep_rate_ci95": [
+      0.9,
+      0.965
+     ],
+     "beats_rate": 0.645,
+     "counts": {
+      "kept_and_beats": 116,
+      "kept_not_beats": 71,
+      "dropped_and_beats": 13,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.3797,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.355,
+     "missed_keep_rate": 0.1008,
+     "missed_keep_over_all_draws": 0.065
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.935,
+     "keep_rate_ci95": [
+      0.9,
+      0.965
+     ],
+     "beats_rate": 0.865,
+     "counts": {
+      "kept_and_beats": 160,
+      "kept_not_beats": 27,
+      "dropped_and_beats": 13,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.1444,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.135,
+     "missed_keep_rate": 0.0751,
+     "missed_keep_over_all_draws": 0.065
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.06525,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.475,
+     "keep_rate_ci95": [
+      0.405,
+      0.545
+     ],
+     "beats_rate": 0.875,
+     "counts": {
+      "kept_and_beats": 74,
+      "kept_not_beats": 21,
+      "dropped_and_beats": 101,
+      "dropped_not_beats": 4
+     },
+     "false_keep_rate": 0.2211,
+     "false_keep_over_not_beating": 0.84,
+     "false_keep_over_all_draws": 0.105,
+     "missed_keep_rate": 0.5771,
+     "missed_keep_over_all_draws": 0.505
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.475,
+     "keep_rate_ci95": [
+      0.405,
+      0.545
+     ],
+     "beats_rate": 0.935,
+     "counts": {
+      "kept_and_beats": 83,
+      "kept_not_beats": 12,
+      "dropped_and_beats": 104,
+      "dropped_not_beats": 1
+     },
+     "false_keep_rate": 0.1263,
+     "false_keep_over_not_beating": 0.9231,
+     "false_keep_over_all_draws": 0.06,
+     "missed_keep_rate": 0.5561,
+     "missed_keep_over_all_draws": 0.52
+    }
+   }
+  },
+  "control_s1.0": {
+   "pooled": {
+    "mean_improvement": 0.21321,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.995,
+     "keep_rate_ci95": [
+      0.985,
+      1.0
+     ],
+     "beats_rate": 0.995,
+     "counts": {
+      "kept_and_beats": 198,
+      "kept_not_beats": 1,
+      "dropped_and_beats": 1,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.005,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.005,
+     "missed_keep_rate": 0.005,
+     "missed_keep_over_all_draws": 0.005
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.995,
+     "keep_rate_ci95": [
+      0.985,
+      1.0
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 199,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 1,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.005,
+     "missed_keep_over_all_draws": 0.005
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.31566,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.965,
+     "counts": {
+      "kept_and_beats": 193,
+      "kept_not_beats": 7,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.035,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.035,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.975,
+     "counts": {
+      "kept_and_beats": 195,
+      "kept_not_beats": 5,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.025,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.025,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.2221,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.935,
+     "keep_rate_ci95": [
+      0.9,
+      0.965
+     ],
+     "beats_rate": 0.77,
+     "counts": {
+      "kept_and_beats": 141,
+      "kept_not_beats": 46,
+      "dropped_and_beats": 13,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.246,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.23,
+     "missed_keep_rate": 0.0844,
+     "missed_keep_over_all_draws": 0.065
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.935,
+     "keep_rate_ci95": [
+      0.9,
+      0.965
+     ],
+     "beats_rate": 0.915,
+     "counts": {
+      "kept_and_beats": 170,
+      "kept_not_beats": 17,
+      "dropped_and_beats": 13,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0909,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.085,
+     "missed_keep_rate": 0.071,
+     "missed_keep_over_all_draws": 0.065
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.10186,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.67,
+     "keep_rate_ci95": [
+      0.605,
+      0.735
+     ],
+     "beats_rate": 0.865,
+     "counts": {
+      "kept_and_beats": 109,
+      "kept_not_beats": 25,
+      "dropped_and_beats": 64,
+      "dropped_not_beats": 2
+     },
+     "false_keep_rate": 0.1866,
+     "false_keep_over_not_beating": 0.9259,
+     "false_keep_over_all_draws": 0.125,
+     "missed_keep_rate": 0.3699,
+     "missed_keep_over_all_draws": 0.32
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.67,
+     "keep_rate_ci95": [
+      0.605,
+      0.735
+     ],
+     "beats_rate": 0.955,
+     "counts": {
+      "kept_and_beats": 125,
+      "kept_not_beats": 9,
+      "dropped_and_beats": 66,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0672,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.045,
+     "missed_keep_rate": 0.3455,
+     "missed_keep_over_all_draws": 0.33
+    }
+   }
+  },
+  "control_s2.0": {
+   "pooled": {
+    "mean_improvement": 0.32236,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 200,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 200,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.47019,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.935,
+     "counts": {
+      "kept_and_beats": 187,
+      "kept_not_beats": 13,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.065,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.065,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 1.0,
+     "keep_rate_ci95": [
+      1.0,
+      1.0
+     ],
+     "beats_rate": 0.995,
+     "counts": {
+      "kept_and_beats": 199,
+      "kept_not_beats": 1,
+      "dropped_and_beats": 0,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.005,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.005,
+     "missed_keep_rate": 0.0,
+     "missed_keep_over_all_draws": 0.0
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.33253,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.955,
+     "keep_rate_ci95": [
+      0.925,
+      0.98
+     ],
+     "beats_rate": 0.9,
+     "counts": {
+      "kept_and_beats": 172,
+      "kept_not_beats": 19,
+      "dropped_and_beats": 8,
+      "dropped_not_beats": 1
+     },
+     "false_keep_rate": 0.0995,
+     "false_keep_over_not_beating": 0.95,
+     "false_keep_over_all_draws": 0.095,
+     "missed_keep_rate": 0.0444,
+     "missed_keep_over_all_draws": 0.04
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.955,
+     "keep_rate_ci95": [
+      0.925,
+      0.98
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 191,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 9,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.045,
+     "missed_keep_over_all_draws": 0.045
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.16435,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.71,
+     "keep_rate_ci95": [
+      0.645,
+      0.77
+     ],
+     "beats_rate": 0.865,
+     "counts": {
+      "kept_and_beats": 115,
+      "kept_not_beats": 27,
+      "dropped_and_beats": 58,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.1901,
+     "false_keep_over_not_beating": 1.0,
+     "false_keep_over_all_draws": 0.135,
+     "missed_keep_rate": 0.3353,
+     "missed_keep_over_all_draws": 0.29
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.71,
+     "keep_rate_ci95": [
+      0.645,
+      0.77
+     ],
+     "beats_rate": 1.0,
+     "counts": {
+      "kept_and_beats": 142,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 58,
+      "dropped_not_beats": 0
+     },
+     "false_keep_rate": 0.0,
+     "false_keep_over_not_beating": null,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 0.29,
+     "missed_keep_over_all_draws": 0.29
+    }
+   }
+  },
+  "surrogate_terra_slot": {
+   "pooled": {
+    "mean_improvement": 0.01646,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.1,
+     "keep_rate_ci95": [
+      0.06,
+      0.1401
+     ],
+     "beats_rate": 0.56,
+     "counts": {
+      "kept_and_beats": 8,
+      "kept_not_beats": 12,
+      "dropped_and_beats": 104,
+      "dropped_not_beats": 76
+     },
+     "false_keep_rate": 0.6,
+     "false_keep_over_not_beating": 0.1364,
+     "false_keep_over_all_draws": 0.06,
+     "missed_keep_rate": 0.9286,
+     "missed_keep_over_all_draws": 0.52
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.1,
+     "keep_rate_ci95": [
+      0.06,
+      0.1401
+     ],
+     "beats_rate": 0.54,
+     "counts": {
+      "kept_and_beats": 9,
+      "kept_not_beats": 11,
+      "dropped_and_beats": 99,
+      "dropped_not_beats": 81
+     },
+     "false_keep_rate": 0.55,
+     "false_keep_over_not_beating": 0.1196,
+     "false_keep_over_all_draws": 0.055,
+     "missed_keep_rate": 0.9167,
+     "missed_keep_over_all_draws": 0.495
+    }
+   },
+   "ever": {
+    "mean_improvement": 0.00545,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.47,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 94,
+      "dropped_not_beats": 106
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.47
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.31,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 62,
+      "dropped_not_beats": 138
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.31
+    }
+   },
+   "weekly": {
+    "mean_improvement": 0.0206,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.135,
+     "keep_rate_ci95": [
+      0.09,
+      0.185
+     ],
+     "beats_rate": 0.385,
+     "counts": {
+      "kept_and_beats": 3,
+      "kept_not_beats": 24,
+      "dropped_and_beats": 74,
+      "dropped_not_beats": 99
+     },
+     "false_keep_rate": 0.8889,
+     "false_keep_over_not_beating": 0.1951,
+     "false_keep_over_all_draws": 0.12,
+     "missed_keep_rate": 0.961,
+     "missed_keep_over_all_draws": 0.37
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.135,
+     "keep_rate_ci95": [
+      0.09,
+      0.185
+     ],
+     "beats_rate": 0.56,
+     "counts": {
+      "kept_and_beats": 8,
+      "kept_not_beats": 19,
+      "dropped_and_beats": 104,
+      "dropped_not_beats": 69
+     },
+     "false_keep_rate": 0.7037,
+     "false_keep_over_not_beating": 0.2159,
+     "false_keep_over_all_draws": 0.095,
+     "missed_keep_rate": 0.9286,
+     "missed_keep_over_all_draws": 0.52
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.02334,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.045,
+     "keep_rate_ci95": [
+      0.02,
+      0.075
+     ],
+     "beats_rate": 0.855,
+     "counts": {
+      "kept_and_beats": 7,
+      "kept_not_beats": 2,
+      "dropped_and_beats": 164,
+      "dropped_not_beats": 27
+     },
+     "false_keep_rate": 0.2222,
+     "false_keep_over_not_beating": 0.069,
+     "false_keep_over_all_draws": 0.01,
+     "missed_keep_rate": 0.9591,
+     "missed_keep_over_all_draws": 0.82
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.045,
+     "keep_rate_ci95": [
+      0.02,
+      0.075
+     ],
+     "beats_rate": 0.86,
+     "counts": {
+      "kept_and_beats": 6,
+      "kept_not_beats": 3,
+      "dropped_and_beats": 166,
+      "dropped_not_beats": 25
+     },
+     "false_keep_rate": 0.3333,
+     "false_keep_over_not_beating": 0.1071,
+     "false_keep_over_all_draws": 0.015,
+     "missed_keep_rate": 0.9651,
+     "missed_keep_over_all_draws": 0.83
+    }
+   }
+  },
+  "surrogate_luna_slot": {
+   "pooled": {
+    "mean_improvement": -0.01329,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.34,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 68,
+      "dropped_not_beats": 132
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.34
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.335,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 67,
+      "dropped_not_beats": 133
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.335
+    }
+   },
+   "ever": {
+    "mean_improvement": -0.02747,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.29,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 58,
+      "dropped_not_beats": 142
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.29
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.225,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 45,
+      "dropped_not_beats": 155
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.225
+    }
+   },
+   "weekly": {
+    "mean_improvement": -0.01846,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.005,
+     "keep_rate_ci95": [
+      0.0,
+      0.015
+     ],
+     "beats_rate": 0.295,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 1,
+      "dropped_and_beats": 59,
+      "dropped_not_beats": 140
+     },
+     "false_keep_rate": 1.0,
+     "false_keep_over_not_beating": 0.0071,
+     "false_keep_over_all_draws": 0.005,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.295
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.005,
+     "keep_rate_ci95": [
+      0.0,
+      0.015
+     ],
+     "beats_rate": 0.5,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 1,
+      "dropped_and_beats": 100,
+      "dropped_not_beats": 99
+     },
+     "false_keep_rate": 1.0,
+     "false_keep_over_not_beating": 0.01,
+     "false_keep_over_all_draws": 0.005,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.5
+    }
+   },
+   "carb": {
+    "mean_improvement": 0.00607,
+    "panel_excluded": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.835,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 167,
+      "dropped_not_beats": 33
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.835
+    },
+    "whole_test": {
+     "draws": 200,
+     "keep_rate": 0.0,
+     "keep_rate_ci95": [
+      0.0,
+      0.0
+     ],
+     "beats_rate": 0.765,
+     "counts": {
+      "kept_and_beats": 0,
+      "kept_not_beats": 0,
+      "dropped_and_beats": 153,
+      "dropped_not_beats": 47
+     },
+     "false_keep_rate": null,
+     "false_keep_over_not_beating": 0.0,
+     "false_keep_over_all_draws": 0.0,
+     "missed_keep_rate": 1.0,
+     "missed_keep_over_all_draws": 0.765
+    }
+   }
+  }
+ },
+ "acceptance": {
+  "bar": {
+   "surrogate_max_keep": 0.12,
+   "positive_min_margin": 0.3
+  },
+  "positive_control": "control_s1.0",
+  "positive_keep_rate": 1.0,
+  "surrogate_keep_rates": {
+   "surrogate_terra_slot": 0.115,
+   "surrogate_luna_slot": 0.0
+  },
+  "margin": 0.885,
+  "margin_ci95": [
+   0.84,
+   0.93
+  ],
+  "surrogate_bar_met": true,
+  "positive_bar_met": true,
+  "passed": true,
+  "label": "decision_rule"
+ },
+ "reading": "The acceptance passed. The duel may be called a decision rule for the anchor items under row draws from this pool. No concept question has met a real survey."
+}

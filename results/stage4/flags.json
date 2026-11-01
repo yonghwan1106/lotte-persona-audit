@@ -1,0 +1,230 @@
+{
+ "plan": {
+  "bootstrap": 2000,
+  "permutations": 20000,
+  "seed": 42,
+  "top_k": 9
+ },
+ "panel_scored": "gpt-6.1-terra C2",
+ "stability_respondents": 100,
+ "bootstrap": 2000,
+ "permutations": 20000,
+ "units_per_item": 12,
+ "signals": {
+  "terra_minus_luna": {
+   "usable_units": 36,
+   "spearman": -0.278,
+   "spearman_ci": {
+    "ci95": [
+     -0.489,
+     0.002
+    ],
+    "resamples_used": 2000
+   },
+   "within_item_spearman": -0.182,
+   "within_item_ci": {
+    "ci95": [
+     -0.326,
+     0.219
+    ],
+    "resamples_used": 2000
+   },
+   "overlap_top9": {
+    "usable_units": 36,
+    "k": 9,
+    "observed": 1,
+    "random_mean": 2.247,
+    "random_95": [
+     0,
+     5
+    ],
+    "p_one_sided": 0.94705
+   },
+   "whole_test_truth": {
+    "spearman": -0.18,
+    "overlap_top9": {
+     "usable_units": 36,
+     "k": 9,
+     "observed": 1,
+     "random_mean": 2.256,
+     "random_95": [
+      0,
+      5
+     ],
+     "p_one_sided": 0.9499
+    }
+   },
+   "minus_level_ci": {
+    "ci95": [
+     -0.719,
+     -0.09
+    ],
+    "resamples_used": 2000
+   },
+   "names_wrong_cells": false
+  },
+  "c1_minus_c2": {
+   "usable_units": 36,
+   "spearman": 0.188,
+   "spearman_ci": {
+    "ci95": [
+     -0.147,
+     0.432
+    ],
+    "resamples_used": 2000
+   },
+   "within_item_spearman": -0.049,
+   "within_item_ci": {
+    "ci95": [
+     -0.329,
+     0.289
+    ],
+    "resamples_used": 2000
+   },
+   "overlap_top9": {
+    "usable_units": 36,
+    "k": 9,
+    "observed": 3,
+    "random_mean": 2.247,
+    "random_95": [
+     0,
+     5
+    ],
+    "p_one_sided": 0.40093
+   },
+   "whole_test_truth": {
+    "spearman": -0.009,
+    "overlap_top9": {
+     "usable_units": 36,
+     "k": 9,
+     "observed": 2,
+     "random_mean": 2.256,
+     "random_95": [
+      0,
+      5
+     ],
+     "p_one_sided": 0.74011
+    }
+   },
+   "minus_level_ci": {
+    "ci95": [
+     -0.337,
+     0.263
+    ],
+    "resamples_used": 2000
+   },
+   "names_wrong_cells": false
+  },
+  "repeat_sd": {
+   "usable_units": 36,
+   "spearman": 0.263,
+   "spearman_ci": {
+    "ci95": [
+     -0.077,
+     0.448
+    ],
+    "resamples_used": 2000
+   },
+   "within_item_spearman": 0.042,
+   "within_item_ci": {
+    "ci95": [
+     -0.238,
+     0.364
+    ],
+    "resamples_used": 2000
+   },
+   "overlap_top9": {
+    "usable_units": 36,
+    "k": 9,
+    "observed": 2,
+    "random_mean": 2.247,
+    "random_95": [
+     0,
+     5
+    ],
+    "p_one_sided": 0.73561
+   },
+   "whole_test_truth": {
+    "spearman": 0.255,
+    "overlap_top9": {
+     "usable_units": 36,
+     "k": 9,
+     "observed": 2,
+     "random_mean": 2.256,
+     "random_95": [
+      0,
+      5
+     ],
+     "p_one_sided": 0.74011
+    }
+   },
+   "minus_level_ci": {
+    "ci95": [
+     -0.207,
+     0.23
+    ],
+    "resamples_used": 2000
+   },
+   "names_wrong_cells": false
+  },
+  "panel_level": {
+   "usable_units": 36,
+   "spearman": 0.154,
+   "spearman_ci": {
+    "ci95": [
+     -0.088,
+     0.439
+    ],
+    "resamples_used": 2000
+   },
+   "within_item_spearman": 0.002,
+   "within_item_ci": {
+    "ci95": [
+     -0.175,
+     0.401
+    ],
+    "resamples_used": 2000
+   },
+   "overlap_top9": {
+    "usable_units": 36,
+    "k": 9,
+    "observed": 3,
+    "random_mean": 2.247,
+    "random_95": [
+     0,
+     5
+    ],
+    "p_one_sided": 0.40093
+   },
+   "whole_test_truth": {
+    "spearman": 0.184,
+    "overlap_top9": {
+     "usable_units": 36,
+     "k": 9,
+     "observed": 2,
+     "random_mean": 2.256,
+     "random_95": [
+      0,
+      5
+     ],
+     "p_one_sided": 0.74011
+    }
+   },
+   "names_wrong_cells": null
+  }
+ },
+ "error": {
+  "ever": {
+   "mean_pp": 7.588,
+   "max_pp": 15.881
+  },
+  "weekly": {
+   "mean_pp": 6.651,
+   "max_pp": 15.185
+  },
+  "carb": {
+   "mean_pp": 4.011,
+   "max_pp": 11.126
+  }
+ }
+}

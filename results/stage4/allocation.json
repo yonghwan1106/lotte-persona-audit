@@ -1,0 +1,4674 @@
+{
+ "plan": {
+  "n": 200,
+  "draws": 200,
+  "seed": 42
+ },
+ "cell_names": [
+  "41",
+  "42",
+  "51",
+  "52",
+  "61",
+  "62",
+  "71",
+  "72",
+  "81",
+  "82",
+  "91",
+  "92"
+ ],
+ "cell_share": [
+  0.0718,
+  0.057,
+  0.0886,
+  0.0729,
+  0.098,
+  0.0845,
+  0.0944,
+  0.0893,
+  0.0952,
+  0.0857,
+  0.0677,
+  0.0949
+ ],
+ "reference_sources": {
+  "ever": "train split",
+  "weekly": "train split",
+  "carb": "a2024 A15_1 in {7,8}"
+ },
+ "allocations": {
+  "equal": [
+   17,
+   17,
+   17,
+   17,
+   17,
+   17,
+   17,
+   17,
+   16,
+   16,
+   16,
+   16
+  ],
+  "proportional": [
+   14,
+   11,
+   18,
+   15,
+   20,
+   17,
+   19,
+   18,
+   19,
+   17,
+   13,
+   19
+  ],
+  "panel_neyman": [
+   15,
+   11,
+   18,
+   15,
+   21,
+   17,
+   20,
+   18,
+   19,
+   16,
+   13,
+   17
+  ],
+  "reference_neyman": [
+   18,
+   13,
+   21,
+   16,
+   23,
+   19,
+   20,
+   18,
+   18,
+   16,
+   7,
+   11
+  ],
+  "panel_neyman_by_item": {
+   "ever": [
+    10,
+    8,
+    15,
+    12,
+    18,
+    17,
+    20,
+    20,
+    22,
+    20,
+    16,
+    22
+   ],
+   "weekly": [
+    17,
+    13,
+    20,
+    16,
+    22,
+    18,
+    19,
+    18,
+    18,
+    15,
+    11,
+    13
+   ],
+   "carb": [
+    18,
+    13,
+    21,
+    15,
+    22,
+    17,
+    19,
+    16,
+    18,
+    14,
+    12,
+    15
+   ]
+  },
+  "reference_neyman_by_item": {
+   "ever": [
+    13,
+    9,
+    17,
+    13,
+    21,
+    19,
+    21,
+    20,
+    20,
+    18,
+    13,
+    16
+   ],
+   "weekly": [
+    23,
+    16,
+    23,
+    17,
+    24,
+    20,
+    21,
+    19,
+    17,
+    15,
+    0,
+    5
+   ],
+   "carb": [
+    19,
+    14,
+    25,
+    16,
+    23,
+    17,
+    19,
+    16,
+    17,
+    14,
+    9,
+    11
+   ]
+  }
+ },
+ "caps": [
+  26,
+  28,
+  37,
+  50,
+  40,
+  52,
+  82,
+  91,
+  70,
+  110,
+  22,
+  24
+ ],
+ "estimators": {
+  "direct": {
+   "panel_excluded": {
+    "cell_mae": {
+     "mean": {
+      "equal": {
+       "ever": 12.844,
+       "weekly": 9.017,
+       "carb": 7.572,
+       "average": 9.811
+      },
+      "proportional": {
+       "ever": 12.924,
+       "weekly": 9.529,
+       "carb": 7.738,
+       "average": 10.064
+      },
+      "panel_neyman": {
+       "ever": 12.921,
+       "weekly": 9.506,
+       "carb": 7.714,
+       "average": 10.047
+      },
+      "reference_neyman": {
+       "ever": 12.625,
+       "weekly": 9.178,
+       "carb": 7.585,
+       "average": 9.796
+      },
+      "panel_neyman_by_item": {
+       "ever": 13.259,
+       "weekly": 9.264,
+       "carb": 7.667,
+       "average": 10.063
+      },
+      "reference_neyman_by_item": {
+       "ever": 13.157,
+       "weekly": 10.063,
+       "carb": 7.594,
+       "average": 10.271
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": -0.08,
+        "ci95": [
+         -2.343,
+         2.487
+        ],
+        "share_below_zero": 0.545
+       },
+       "weekly": {
+        "mean_diff": -0.512,
+        "ci95": [
+         -2.894,
+         1.498
+        ],
+        "share_below_zero": 0.605
+       },
+       "carb": {
+        "mean_diff": -0.167,
+        "ci95": [
+         -1.639,
+         1.319
+        ],
+        "share_below_zero": 0.615
+       },
+       "average": {
+        "mean_diff": -0.253,
+        "ci95": [
+         -1.341,
+         0.988
+        ],
+        "share_below_zero": 0.64
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": -0.002,
+        "ci95": [
+         -0.991,
+         1.244
+        ],
+        "share_below_zero": 0.525
+       },
+       "weekly": {
+        "mean_diff": -0.023,
+        "ci95": [
+         -1.482,
+         1.144
+        ],
+        "share_below_zero": 0.61
+       },
+       "carb": {
+        "mean_diff": -0.024,
+        "ci95": [
+         -0.531,
+         0.525
+        ],
+        "share_below_zero": 0.68
+       },
+       "average": {
+        "mean_diff": -0.016,
+        "ci95": [
+         -0.63,
+         0.607
+        ],
+        "share_below_zero": 0.535
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.299,
+        "ci95": [
+         -2.337,
+         1.806
+        ],
+        "share_below_zero": 0.645
+       },
+       "weekly": {
+        "mean_diff": -0.351,
+        "ci95": [
+         -2.583,
+         1.469
+        ],
+        "share_below_zero": 0.65
+       },
+       "carb": {
+        "mean_diff": -0.153,
+        "ci95": [
+         -1.291,
+         1.063
+        ],
+        "share_below_zero": 0.62
+       },
+       "average": {
+        "mean_diff": -0.268,
+        "ci95": [
+         -1.321,
+         0.676
+        ],
+        "share_below_zero": 0.68
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.335,
+        "ci95": [
+         -2.389,
+         2.923
+        ],
+        "share_below_zero": 0.405
+       },
+       "weekly": {
+        "mean_diff": -0.265,
+        "ci95": [
+         -2.276,
+         1.454
+        ],
+        "share_below_zero": 0.635
+       },
+       "carb": {
+        "mean_diff": -0.072,
+        "ci95": [
+         -1.336,
+         1.063
+        ],
+        "share_below_zero": 0.56
+       },
+       "average": {
+        "mean_diff": -0.0,
+        "ci95": [
+         -1.023,
+         1.213
+        ],
+        "share_below_zero": 0.52
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.233,
+        "ci95": [
+         -2.114,
+         2.589
+        ],
+        "share_below_zero": 0.43
+       },
+       "weekly": {
+        "mean_diff": 0.534,
+        "ci95": [
+         -2.102,
+         3.167
+        ],
+        "share_below_zero": 0.325
+       },
+       "carb": {
+        "mean_diff": -0.144,
+        "ci95": [
+         -1.646,
+         1.212
+        ],
+        "share_below_zero": 0.57
+       },
+       "average": {
+        "mean_diff": 0.208,
+        "ci95": [
+         -1.029,
+         1.557
+        ],
+        "share_below_zero": 0.355
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.297,
+       "ci95": [
+        -1.43,
+        2.222
+       ],
+       "share_below_zero": 0.365
+      },
+      "weekly": {
+       "mean_diff": 0.328,
+       "ci95": [
+        -1.24,
+        2.276
+       ],
+       "share_below_zero": 0.335
+      },
+      "carb": {
+       "mean_diff": 0.129,
+       "ci95": [
+        -0.992,
+        1.179
+       ],
+       "share_below_zero": 0.36
+      },
+      "average": {
+       "mean_diff": 0.251,
+       "ci95": [
+        -0.585,
+        1.163
+       ],
+       "share_below_zero": 0.295
+      }
+     }
+    },
+    "national_error": {
+     "mean": {
+      "equal": {
+       "ever": 4.314,
+       "weekly": 5.923,
+       "carb": 3.45,
+       "average": 4.562
+      },
+      "proportional": {
+       "ever": 4.198,
+       "weekly": 6.041,
+       "carb": 3.421,
+       "average": 4.554
+      },
+      "panel_neyman": {
+       "ever": 4.23,
+       "weekly": 6.029,
+       "carb": 3.426,
+       "average": 4.562
+      },
+      "reference_neyman": {
+       "ever": 4.163,
+       "weekly": 6.067,
+       "carb": 3.423,
+       "average": 4.551
+      },
+      "panel_neyman_by_item": {
+       "ever": 4.22,
+       "weekly": 6.038,
+       "carb": 3.418,
+       "average": 4.559
+      },
+      "reference_neyman_by_item": {
+       "ever": 4.198,
+       "weekly": 7.127,
+       "carb": 3.448,
+       "average": 4.924
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": 0.116,
+        "ci95": [
+         -2.274,
+         3.024
+        ],
+        "share_below_zero": 0.505
+       },
+       "weekly": {
+        "mean_diff": -0.118,
+        "ci95": [
+         -3.001,
+         2.511
+        ],
+        "share_below_zero": 0.505
+       },
+       "carb": {
+        "mean_diff": 0.029,
+        "ci95": [
+         -1.388,
+         1.635
+        ],
+        "share_below_zero": 0.49
+       },
+       "average": {
+        "mean_diff": 0.009,
+        "ci95": [
+         -1.048,
+         1.094
+        ],
+        "share_below_zero": 0.515
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.032,
+        "ci95": [
+         -0.99,
+         1.143
+        ],
+        "share_below_zero": 0.51
+       },
+       "weekly": {
+        "mean_diff": -0.012,
+        "ci95": [
+         -1.476,
+         1.334
+        ],
+        "share_below_zero": 0.645
+       },
+       "carb": {
+        "mean_diff": 0.004,
+        "ci95": [
+         -0.587,
+         0.459
+        ],
+        "share_below_zero": 0.35
+       },
+       "average": {
+        "mean_diff": 0.008,
+        "ci95": [
+         -0.43,
+         0.432
+        ],
+        "share_below_zero": 0.515
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.035,
+        "ci95": [
+         -2.316,
+         2.307
+        ],
+        "share_below_zero": 0.515
+       },
+       "weekly": {
+        "mean_diff": 0.025,
+        "ci95": [
+         -2.404,
+         2.521
+        ],
+        "share_below_zero": 0.48
+       },
+       "carb": {
+        "mean_diff": 0.002,
+        "ci95": [
+         -1.271,
+         1.069
+        ],
+        "share_below_zero": 0.455
+       },
+       "average": {
+        "mean_diff": -0.003,
+        "ci95": [
+         -1.087,
+         0.945
+        ],
+        "share_below_zero": 0.505
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.022,
+        "ci95": [
+         -3.085,
+         2.643
+        ],
+        "share_below_zero": 0.485
+       },
+       "weekly": {
+        "mean_diff": -0.003,
+        "ci95": [
+         -2.064,
+         2.476
+        ],
+        "share_below_zero": 0.52
+       },
+       "carb": {
+        "mean_diff": -0.003,
+        "ci95": [
+         -1.339,
+         1.049
+        ],
+        "share_below_zero": 0.495
+       },
+       "average": {
+        "mean_diff": 0.005,
+        "ci95": [
+         -1.244,
+         1.293
+        ],
+        "share_below_zero": 0.47
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.0,
+        "ci95": [
+         -2.355,
+         2.186
+        ],
+        "share_below_zero": 0.48
+       },
+       "weekly": {
+        "mean_diff": 1.085,
+        "ci95": [
+         -1.841,
+         4.05
+        ],
+        "share_below_zero": 0.235
+       },
+       "carb": {
+        "mean_diff": 0.026,
+        "ci95": [
+         -1.416,
+         1.899
+        ],
+        "share_below_zero": 0.49
+       },
+       "average": {
+        "mean_diff": 0.371,
+        "ci95": [
+         -0.893,
+         1.692
+        ],
+        "share_below_zero": 0.3
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.067,
+       "ci95": [
+        -2.244,
+        1.982
+       ],
+       "share_below_zero": 0.49
+      },
+      "weekly": {
+       "mean_diff": -0.037,
+       "ci95": [
+        -2.183,
+        1.74
+       ],
+       "share_below_zero": 0.485
+      },
+      "carb": {
+       "mean_diff": 0.003,
+       "ci95": [
+        -0.836,
+        0.977
+       ],
+       "share_below_zero": 0.52
+      },
+      "average": {
+       "mean_diff": 0.011,
+       "ci95": [
+        -0.982,
+        0.91
+       ],
+       "share_below_zero": 0.485
+      }
+     }
+    }
+   },
+   "whole_test": {
+    "cell_mae": {
+     "mean": {
+      "equal": {
+       "ever": 13.838,
+       "weekly": 8.524,
+       "carb": 6.483,
+       "average": 9.615
+      },
+      "proportional": {
+       "ever": 13.852,
+       "weekly": 9.066,
+       "carb": 6.725,
+       "average": 9.881
+      },
+      "panel_neyman": {
+       "ever": 13.849,
+       "weekly": 9.077,
+       "carb": 6.683,
+       "average": 9.87
+      },
+      "reference_neyman": {
+       "ever": 13.545,
+       "weekly": 8.68,
+       "carb": 6.505,
+       "average": 9.577
+      },
+      "panel_neyman_by_item": {
+       "ever": 14.191,
+       "weekly": 8.795,
+       "carb": 6.589,
+       "average": 9.858
+      },
+      "reference_neyman_by_item": {
+       "ever": 14.071,
+       "weekly": 8.941,
+       "carb": 6.506,
+       "average": 9.839
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": -0.014,
+        "ci95": [
+         -2.537,
+         2.532
+        ],
+        "share_below_zero": 0.49
+       },
+       "weekly": {
+        "mean_diff": -0.542,
+        "ci95": [
+         -3.276,
+         1.706
+        ],
+        "share_below_zero": 0.655
+       },
+       "carb": {
+        "mean_diff": -0.242,
+        "ci95": [
+         -1.624,
+         1.043
+        ],
+        "share_below_zero": 0.655
+       },
+       "average": {
+        "mean_diff": -0.266,
+        "ci95": [
+         -1.525,
+         0.953
+        ],
+        "share_below_zero": 0.65
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": -0.003,
+        "ci95": [
+         -0.991,
+         1.244
+        ],
+        "share_below_zero": 0.5
+       },
+       "weekly": {
+        "mean_diff": 0.011,
+        "ci95": [
+         -1.191,
+         1.123
+        ],
+        "share_below_zero": 0.51
+       },
+       "carb": {
+        "mean_diff": -0.042,
+        "ci95": [
+         -0.567,
+         0.502
+        ],
+        "share_below_zero": 0.67
+       },
+       "average": {
+        "mean_diff": -0.011,
+        "ci95": [
+         -0.701,
+         0.607
+        ],
+        "share_below_zero": 0.485
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.307,
+        "ci95": [
+         -2.549,
+         1.684
+        ],
+        "share_below_zero": 0.625
+       },
+       "weekly": {
+        "mean_diff": -0.386,
+        "ci95": [
+         -2.629,
+         1.602
+        ],
+        "share_below_zero": 0.645
+       },
+       "carb": {
+        "mean_diff": -0.221,
+        "ci95": [
+         -1.357,
+         0.744
+        ],
+        "share_below_zero": 0.65
+       },
+       "average": {
+        "mean_diff": -0.305,
+        "ci95": [
+         -1.482,
+         0.699
+        ],
+        "share_below_zero": 0.665
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.338,
+        "ci95": [
+         -2.433,
+         3.011
+        ],
+        "share_below_zero": 0.41
+       },
+       "weekly": {
+        "mean_diff": -0.271,
+        "ci95": [
+         -2.195,
+         1.52
+        ],
+        "share_below_zero": 0.605
+       },
+       "carb": {
+        "mean_diff": -0.136,
+        "ci95": [
+         -1.366,
+         0.919
+        ],
+        "share_below_zero": 0.56
+       },
+       "average": {
+        "mean_diff": -0.023,
+        "ci95": [
+         -1.011,
+         1.182
+        ],
+        "share_below_zero": 0.5
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.219,
+        "ci95": [
+         -2.166,
+         2.529
+        ],
+        "share_below_zero": 0.445
+       },
+       "weekly": {
+        "mean_diff": -0.125,
+        "ci95": [
+         -2.67,
+         2.826
+        ],
+        "share_below_zero": 0.565
+       },
+       "carb": {
+        "mean_diff": -0.219,
+        "ci95": [
+         -1.621,
+         1.031
+        ],
+        "share_below_zero": 0.615
+       },
+       "average": {
+        "mean_diff": -0.042,
+        "ci95": [
+         -1.414,
+         1.299
+        ],
+        "share_below_zero": 0.535
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.304,
+       "ci95": [
+        -1.429,
+        2.125
+       ],
+       "share_below_zero": 0.36
+      },
+      "weekly": {
+       "mean_diff": 0.397,
+       "ci95": [
+        -1.409,
+        2.401
+       ],
+       "share_below_zero": 0.305
+      },
+      "carb": {
+       "mean_diff": 0.178,
+       "ci95": [
+        -0.8,
+        1.253
+       ],
+       "share_below_zero": 0.36
+      },
+      "average": {
+       "mean_diff": 0.293,
+       "ci95": [
+        -0.715,
+        1.359
+       ],
+       "share_below_zero": 0.29
+      }
+     }
+    },
+    "national_error": {
+     "mean": {
+      "equal": {
+       "ever": 6.837,
+       "weekly": 3.42,
+       "carb": 3.201,
+       "average": 4.486
+      },
+      "proportional": {
+       "ever": 6.707,
+       "weekly": 3.447,
+       "carb": 3.185,
+       "average": 4.446
+      },
+      "panel_neyman": {
+       "ever": 6.724,
+       "weekly": 3.41,
+       "carb": 3.187,
+       "average": 4.44
+      },
+      "reference_neyman": {
+       "ever": 6.736,
+       "weekly": 3.411,
+       "carb": 3.177,
+       "average": 4.441
+      },
+      "panel_neyman_by_item": {
+       "ever": 6.775,
+       "weekly": 3.381,
+       "carb": 3.178,
+       "average": 4.445
+      },
+      "reference_neyman_by_item": {
+       "ever": 6.734,
+       "weekly": 4.365,
+       "carb": 3.204,
+       "average": 4.768
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": 0.131,
+        "ci95": [
+         -2.344,
+         3.024
+        ],
+        "share_below_zero": 0.49
+       },
+       "weekly": {
+        "mean_diff": -0.027,
+        "ci95": [
+         -3.001,
+         2.292
+        ],
+        "share_below_zero": 0.475
+       },
+       "carb": {
+        "mean_diff": 0.016,
+        "ci95": [
+         -1.388,
+         1.55
+        ],
+        "share_below_zero": 0.495
+       },
+       "average": {
+        "mean_diff": 0.04,
+        "ci95": [
+         -0.938,
+         1.341
+        ],
+        "share_below_zero": 0.52
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.017,
+        "ci95": [
+         -0.99,
+         1.243
+        ],
+        "share_below_zero": 0.525
+       },
+       "weekly": {
+        "mean_diff": -0.037,
+        "ci95": [
+         -1.476,
+         1.234
+        ],
+        "share_below_zero": 0.63
+       },
+       "carb": {
+        "mean_diff": 0.002,
+        "ci95": [
+         -0.587,
+         0.413
+        ],
+        "share_below_zero": 0.35
+       },
+       "average": {
+        "mean_diff": -0.006,
+        "ci95": [
+         -0.412,
+         0.432
+        ],
+        "share_below_zero": 0.52
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": 0.029,
+        "ci95": [
+         -2.316,
+         2.674
+        ],
+        "share_below_zero": 0.505
+       },
+       "weekly": {
+        "mean_diff": -0.036,
+        "ci95": [
+         -2.468,
+         2.362
+        ],
+        "share_below_zero": 0.505
+       },
+       "carb": {
+        "mean_diff": -0.008,
+        "ci95": [
+         -1.271,
+         1.069
+        ],
+        "share_below_zero": 0.465
+       },
+       "average": {
+        "mean_diff": -0.005,
+        "ci95": [
+         -1.086,
+         0.811
+        ],
+        "share_below_zero": 0.48
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.068,
+        "ci95": [
+         -3.168,
+         2.679
+        ],
+        "share_below_zero": 0.455
+       },
+       "weekly": {
+        "mean_diff": -0.066,
+        "ci95": [
+         -2.25,
+         2.476
+        ],
+        "share_below_zero": 0.52
+       },
+       "carb": {
+        "mean_diff": -0.007,
+        "ci95": [
+         -1.339,
+         1.063
+        ],
+        "share_below_zero": 0.505
+       },
+       "average": {
+        "mean_diff": -0.002,
+        "ci95": [
+         -1.145,
+         1.255
+        ],
+        "share_below_zero": 0.475
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.027,
+        "ci95": [
+         -2.355,
+         2.269
+        ],
+        "share_below_zero": 0.47
+       },
+       "weekly": {
+        "mean_diff": 0.918,
+        "ci95": [
+         -1.845,
+         3.929
+        ],
+        "share_below_zero": 0.27
+       },
+       "carb": {
+        "mean_diff": 0.019,
+        "ci95": [
+         -1.416,
+         1.899
+        ],
+        "share_below_zero": 0.485
+       },
+       "average": {
+        "mean_diff": 0.321,
+        "ci95": [
+         -0.815,
+         1.542
+        ],
+        "share_below_zero": 0.325
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": -0.013,
+       "ci95": [
+        -2.582,
+        1.982
+       ],
+       "share_below_zero": 0.5
+      },
+      "weekly": {
+       "mean_diff": -0.0,
+       "ci95": [
+        -1.914,
+        1.74
+       ],
+       "share_below_zero": 0.465
+      },
+      "carb": {
+       "mean_diff": 0.011,
+       "ci95": [
+        -0.911,
+        0.977
+       ],
+       "share_below_zero": 0.51
+      },
+      "average": {
+       "mean_diff": -0.001,
+       "ci95": [
+        -0.692,
+        0.93
+       ],
+       "share_below_zero": 0.53
+      }
+     }
+    }
+   },
+   "pool_own": {
+    "cell_mae": {
+     "mean": {
+      "equal": {
+       "ever": 8.32,
+       "weekly": 6.608,
+       "carb": 3.714,
+       "average": 6.214
+      },
+      "proportional": {
+       "ever": 8.37,
+       "weekly": 6.849,
+       "carb": 3.99,
+       "average": 6.403
+      },
+      "panel_neyman": {
+       "ever": 8.373,
+       "weekly": 6.816,
+       "carb": 3.933,
+       "average": 6.374
+      },
+      "reference_neyman": {
+       "ever": 8.118,
+       "weekly": 6.338,
+       "carb": 3.617,
+       "average": 6.024
+      },
+      "panel_neyman_by_item": {
+       "ever": 8.653,
+       "weekly": 6.5,
+       "carb": 3.718,
+       "average": 6.29
+      },
+      "reference_neyman_by_item": {
+       "ever": 8.628,
+       "weekly": 7.122,
+       "carb": 3.582,
+       "average": 6.444
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": -0.05,
+        "ci95": [
+         -2.454,
+         2.413
+        ],
+        "share_below_zero": 0.515
+       },
+       "weekly": {
+        "mean_diff": -0.241,
+        "ci95": [
+         -2.992,
+         2.002
+        ],
+        "share_below_zero": 0.555
+       },
+       "carb": {
+        "mean_diff": -0.276,
+        "ci95": [
+         -1.526,
+         1.127
+        ],
+        "share_below_zero": 0.68
+       },
+       "average": {
+        "mean_diff": -0.189,
+        "ci95": [
+         -1.59,
+         1.062
+        ],
+        "share_below_zero": 0.61
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.003,
+        "ci95": [
+         -0.947,
+         0.977
+        ],
+        "share_below_zero": 0.495
+       },
+       "weekly": {
+        "mean_diff": -0.033,
+        "ci95": [
+         -0.985,
+         1.162
+        ],
+        "share_below_zero": 0.55
+       },
+       "carb": {
+        "mean_diff": -0.058,
+        "ci95": [
+         -0.617,
+         0.418
+        ],
+        "share_below_zero": 0.51
+       },
+       "average": {
+        "mean_diff": -0.029,
+        "ci95": [
+         -0.521,
+         0.588
+        ],
+        "share_below_zero": 0.575
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.252,
+        "ci95": [
+         -2.136,
+         1.811
+        ],
+        "share_below_zero": 0.59
+       },
+       "weekly": {
+        "mean_diff": -0.511,
+        "ci95": [
+         -2.414,
+         1.191
+        ],
+        "share_below_zero": 0.69
+       },
+       "carb": {
+        "mean_diff": -0.373,
+        "ci95": [
+         -1.462,
+         0.512
+        ],
+        "share_below_zero": 0.75
+       },
+       "average": {
+        "mean_diff": -0.379,
+        "ci95": [
+         -1.453,
+         0.745
+        ],
+        "share_below_zero": 0.79
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.283,
+        "ci95": [
+         -2.291,
+         2.708
+        ],
+        "share_below_zero": 0.435
+       },
+       "weekly": {
+        "mean_diff": -0.349,
+        "ci95": [
+         -2.42,
+         1.403
+        ],
+        "share_below_zero": 0.63
+       },
+       "carb": {
+        "mean_diff": -0.273,
+        "ci95": [
+         -1.337,
+         0.572
+        ],
+        "share_below_zero": 0.66
+       },
+       "average": {
+        "mean_diff": -0.113,
+        "ci95": [
+         -1.195,
+         0.941
+        ],
+        "share_below_zero": 0.63
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.258,
+        "ci95": [
+         -1.845,
+         2.389
+        ],
+        "share_below_zero": 0.4
+       },
+       "weekly": {
+        "mean_diff": 0.273,
+        "ci95": [
+         -2.112,
+         2.899
+        ],
+        "share_below_zero": 0.46
+       },
+       "carb": {
+        "mean_diff": -0.408,
+        "ci95": [
+         -1.767,
+         0.823
+        ],
+        "share_below_zero": 0.695
+       },
+       "average": {
+        "mean_diff": 0.041,
+        "ci95": [
+         -1.084,
+         1.295
+        ],
+        "share_below_zero": 0.485
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.255,
+       "ci95": [
+        -1.495,
+        1.764
+       ],
+       "share_below_zero": 0.355
+      },
+      "weekly": {
+       "mean_diff": 0.479,
+       "ci95": [
+        -1.167,
+        2.042
+       ],
+       "share_below_zero": 0.275
+      },
+      "carb": {
+       "mean_diff": 0.316,
+       "ci95": [
+        -0.452,
+        1.246
+       ],
+       "share_below_zero": 0.25
+      },
+      "average": {
+       "mean_diff": 0.35,
+       "ci95": [
+        -0.557,
+        1.302
+       ],
+       "share_below_zero": 0.225
+      }
+     }
+    },
+    "national_error": {
+     "mean": {
+      "equal": {
+       "ever": 2.652,
+       "weekly": 2.34,
+       "carb": 1.412,
+       "average": 2.134
+      },
+      "proportional": {
+       "ever": 2.56,
+       "weekly": 2.234,
+       "carb": 1.52,
+       "average": 2.105
+      },
+      "panel_neyman": {
+       "ever": 2.606,
+       "weekly": 2.226,
+       "carb": 1.481,
+       "average": 2.104
+      },
+      "reference_neyman": {
+       "ever": 2.445,
+       "weekly": 2.145,
+       "carb": 1.363,
+       "average": 1.985
+      },
+      "panel_neyman_by_item": {
+       "ever": 2.507,
+       "weekly": 2.145,
+       "carb": 1.424,
+       "average": 2.025
+      },
+      "reference_neyman_by_item": {
+       "ever": 2.578,
+       "weekly": 2.19,
+       "carb": 1.353,
+       "average": 2.041
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": 0.092,
+        "ci95": [
+         -2.184,
+         2.812
+        ],
+        "share_below_zero": 0.485
+       },
+       "weekly": {
+        "mean_diff": 0.106,
+        "ci95": [
+         -2.391,
+         2.524
+        ],
+        "share_below_zero": 0.495
+       },
+       "carb": {
+        "mean_diff": -0.109,
+        "ci95": [
+         -1.608,
+         1.116
+        ],
+        "share_below_zero": 0.55
+       },
+       "average": {
+        "mean_diff": 0.03,
+        "ci95": [
+         -1.262,
+         1.224
+        ],
+        "share_below_zero": 0.485
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.046,
+        "ci95": [
+         -0.948,
+         1.14
+        ],
+        "share_below_zero": 0.485
+       },
+       "weekly": {
+        "mean_diff": -0.008,
+        "ci95": [
+         -1.357,
+         1.147
+        ],
+        "share_below_zero": 0.49
+       },
+       "carb": {
+        "mean_diff": -0.039,
+        "ci95": [
+         -0.571,
+         0.402
+        ],
+        "share_below_zero": 0.535
+       },
+       "average": {
+        "mean_diff": -0.0,
+        "ci95": [
+         -0.594,
+         0.651
+        ],
+        "share_below_zero": 0.525
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.115,
+        "ci95": [
+         -2.437,
+         2.316
+        ],
+        "share_below_zero": 0.53
+       },
+       "weekly": {
+        "mean_diff": -0.089,
+        "ci95": [
+         -2.164,
+         1.805
+        ],
+        "share_below_zero": 0.56
+       },
+       "carb": {
+        "mean_diff": -0.157,
+        "ci95": [
+         -1.268,
+         0.749
+        ],
+        "share_below_zero": 0.625
+       },
+       "average": {
+        "mean_diff": -0.12,
+        "ci95": [
+         -1.401,
+         1.023
+        ],
+        "share_below_zero": 0.535
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": -0.053,
+        "ci95": [
+         -2.386,
+         2.671
+        ],
+        "share_below_zero": 0.525
+       },
+       "weekly": {
+        "mean_diff": -0.089,
+        "ci95": [
+         -1.952,
+         1.662
+        ],
+        "share_below_zero": 0.5
+       },
+       "carb": {
+        "mean_diff": -0.097,
+        "ci95": [
+         -1.521,
+         0.86
+        ],
+        "share_below_zero": 0.525
+       },
+       "average": {
+        "mean_diff": -0.08,
+        "ci95": [
+         -1.291,
+         1.072
+        ],
+        "share_below_zero": 0.52
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.018,
+        "ci95": [
+         -2.049,
+         2.142
+        ],
+        "share_below_zero": 0.455
+       },
+       "weekly": {
+        "mean_diff": -0.044,
+        "ci95": [
+         -3.04,
+         3.022
+        ],
+        "share_below_zero": 0.51
+       },
+       "carb": {
+        "mean_diff": -0.167,
+        "ci95": [
+         -2.14,
+         0.997
+        ],
+        "share_below_zero": 0.56
+       },
+       "average": {
+        "mean_diff": -0.064,
+        "ci95": [
+         -1.4,
+         1.222
+        ],
+        "share_below_zero": 0.52
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.16,
+       "ci95": [
+        -2.027,
+        2.271
+       ],
+       "share_below_zero": 0.43
+      },
+      "weekly": {
+       "mean_diff": 0.081,
+       "ci95": [
+        -1.618,
+        1.878
+       ],
+       "share_below_zero": 0.465
+      },
+      "carb": {
+       "mean_diff": 0.118,
+       "ci95": [
+        -0.677,
+        1.341
+       ],
+       "share_below_zero": 0.455
+      },
+      "average": {
+       "mean_diff": 0.12,
+       "ci95": [
+        -0.98,
+        1.366
+       ],
+       "share_below_zero": 0.455
+      }
+     }
+    }
+   }
+  },
+  "shrink": {
+   "panel_excluded": {
+    "cell_mae": {
+     "mean": {
+      "equal": {
+       "ever": 13.892,
+       "weekly": 7.19,
+       "carb": 4.787,
+       "average": 8.623
+      },
+      "proportional": {
+       "ever": 14.424,
+       "weekly": 7.448,
+       "carb": 4.862,
+       "average": 8.911
+      },
+      "panel_neyman": {
+       "ever": 14.484,
+       "weekly": 7.477,
+       "carb": 4.852,
+       "average": 8.938
+      },
+      "reference_neyman": {
+       "ever": 14.923,
+       "weekly": 7.686,
+       "carb": 4.698,
+       "average": 9.103
+      },
+      "panel_neyman_by_item": {
+       "ever": 14.643,
+       "weekly": 7.541,
+       "carb": 4.787,
+       "average": 8.99
+      },
+      "reference_neyman_by_item": {
+       "ever": 14.867,
+       "weekly": 8.41,
+       "carb": 4.694,
+       "average": 9.323
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": -0.532,
+        "ci95": [
+         -1.663,
+         0.55
+        ],
+        "share_below_zero": 0.81
+       },
+       "weekly": {
+        "mean_diff": -0.258,
+        "ci95": [
+         -2.283,
+         1.147
+        ],
+        "share_below_zero": 0.585
+       },
+       "carb": {
+        "mean_diff": -0.075,
+        "ci95": [
+         -0.983,
+         0.637
+        ],
+        "share_below_zero": 0.54
+       },
+       "average": {
+        "mean_diff": -0.289,
+        "ci95": [
+         -1.119,
+         0.354
+        ],
+        "share_below_zero": 0.76
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.06,
+        "ci95": [
+         -0.346,
+         0.444
+        ],
+        "share_below_zero": 0.345
+       },
+       "weekly": {
+        "mean_diff": 0.029,
+        "ci95": [
+         -1.068,
+         0.981
+        ],
+        "share_below_zero": 0.595
+       },
+       "carb": {
+        "mean_diff": -0.01,
+        "ci95": [
+         -0.446,
+         0.179
+        ],
+        "share_below_zero": 0.32
+       },
+       "average": {
+        "mean_diff": 0.026,
+        "ci95": [
+         -0.463,
+         0.462
+        ],
+        "share_below_zero": 0.395
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": 0.499,
+        "ci95": [
+         -0.507,
+         1.52
+        ],
+        "share_below_zero": 0.185
+       },
+       "weekly": {
+        "mean_diff": 0.239,
+        "ci95": [
+         -1.253,
+         2.001
+        ],
+        "share_below_zero": 0.395
+       },
+       "carb": {
+        "mean_diff": -0.164,
+        "ci95": [
+         -1.146,
+         0.399
+        ],
+        "share_below_zero": 0.63
+       },
+       "average": {
+        "mean_diff": 0.191,
+        "ci95": [
+         -0.52,
+         0.95
+        ],
+        "share_below_zero": 0.275
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.218,
+        "ci95": [
+         -1.009,
+         1.397
+        ],
+        "share_below_zero": 0.35
+       },
+       "weekly": {
+        "mean_diff": 0.093,
+        "ci95": [
+         -1.431,
+         1.433
+        ],
+        "share_below_zero": 0.45
+       },
+       "carb": {
+        "mean_diff": -0.075,
+        "ci95": [
+         -0.966,
+         0.423
+        ],
+        "share_below_zero": 0.475
+       },
+       "average": {
+        "mean_diff": 0.079,
+        "ci95": [
+         -0.6,
+         0.675
+        ],
+        "share_below_zero": 0.395
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.443,
+        "ci95": [
+         -0.655,
+         1.363
+        ],
+        "share_below_zero": 0.195
+       },
+       "weekly": {
+        "mean_diff": 0.962,
+        "ci95": [
+         -0.905,
+         3.343
+        ],
+        "share_below_zero": 0.19
+       },
+       "carb": {
+        "mean_diff": -0.168,
+        "ci95": [
+         -1.116,
+         0.446
+        ],
+        "share_below_zero": 0.615
+       },
+       "average": {
+        "mean_diff": 0.412,
+        "ci95": [
+         -0.239,
+         1.33
+        ],
+        "share_below_zero": 0.155
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": -0.439,
+       "ci95": [
+        -1.229,
+        0.605
+       ],
+       "share_below_zero": 0.825
+      },
+      "weekly": {
+       "mean_diff": -0.21,
+       "ci95": [
+        -1.484,
+        0.895
+       ],
+       "share_below_zero": 0.6
+      },
+      "carb": {
+       "mean_diff": 0.154,
+       "ci95": [
+        -0.306,
+        1.048
+       ],
+       "share_below_zero": 0.335
+      },
+      "average": {
+       "mean_diff": -0.165,
+       "ci95": [
+        -0.692,
+        0.395
+       ],
+       "share_below_zero": 0.72
+      }
+     }
+    },
+    "national_error": {
+     "mean": {
+      "equal": {
+       "ever": 4.215,
+       "weekly": 5.944,
+       "carb": 3.435,
+       "average": 4.531
+      },
+      "proportional": {
+       "ever": 4.395,
+       "weekly": 6.007,
+       "carb": 3.477,
+       "average": 4.626
+      },
+      "panel_neyman": {
+       "ever": 4.306,
+       "weekly": 6.049,
+       "carb": 3.448,
+       "average": 4.601
+      },
+      "reference_neyman": {
+       "ever": 3.491,
+       "weekly": 6.421,
+       "carb": 3.31,
+       "average": 4.408
+      },
+      "panel_neyman_by_item": {
+       "ever": 5.191,
+       "weekly": 6.249,
+       "carb": 3.356,
+       "average": 4.932
+      },
+      "reference_neyman_by_item": {
+       "ever": 4.482,
+       "weekly": 7.553,
+       "carb": 3.309,
+       "average": 5.115
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": -0.18,
+        "ci95": [
+         -2.498,
+         2.756
+        ],
+        "share_below_zero": 0.585
+       },
+       "weekly": {
+        "mean_diff": -0.063,
+        "ci95": [
+         -3.041,
+         2.488
+        ],
+        "share_below_zero": 0.495
+       },
+       "carb": {
+        "mean_diff": -0.042,
+        "ci95": [
+         -1.414,
+         1.641
+        ],
+        "share_below_zero": 0.53
+       },
+       "average": {
+        "mean_diff": -0.095,
+        "ci95": [
+         -1.146,
+         1.214
+        ],
+        "share_below_zero": 0.615
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": -0.088,
+        "ci95": [
+         -1.111,
+         1.167
+        ],
+        "share_below_zero": 0.605
+       },
+       "weekly": {
+        "mean_diff": 0.042,
+        "ci95": [
+         -1.404,
+         1.417
+        ],
+        "share_below_zero": 0.63
+       },
+       "carb": {
+        "mean_diff": -0.03,
+        "ci95": [
+         -0.617,
+         0.401
+        ],
+        "share_below_zero": 0.37
+       },
+       "average": {
+        "mean_diff": -0.025,
+        "ci95": [
+         -0.456,
+         0.387
+        ],
+        "share_below_zero": 0.565
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.903,
+        "ci95": [
+         -3.427,
+         2.3
+        ],
+        "share_below_zero": 0.74
+       },
+       "weekly": {
+        "mean_diff": 0.414,
+        "ci95": [
+         -1.936,
+         2.824
+        ],
+        "share_below_zero": 0.35
+       },
+       "carb": {
+        "mean_diff": -0.168,
+        "ci95": [
+         -1.462,
+         0.853
+        ],
+        "share_below_zero": 0.575
+       },
+       "average": {
+        "mean_diff": -0.219,
+        "ci95": [
+         -1.168,
+         1.195
+        ],
+        "share_below_zero": 0.715
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.797,
+        "ci95": [
+         -2.223,
+         3.501
+        ],
+        "share_below_zero": 0.25
+       },
+       "weekly": {
+        "mean_diff": 0.242,
+        "ci95": [
+         -1.831,
+         2.672
+        ],
+        "share_below_zero": 0.425
+       },
+       "carb": {
+        "mean_diff": -0.122,
+        "ci95": [
+         -1.406,
+         0.967
+        ],
+        "share_below_zero": 0.545
+       },
+       "average": {
+        "mean_diff": 0.306,
+        "ci95": [
+         -0.967,
+         1.575
+        ],
+        "share_below_zero": 0.3
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.087,
+        "ci95": [
+         -2.112,
+         2.314
+        ],
+        "share_below_zero": 0.47
+       },
+       "weekly": {
+        "mean_diff": 1.545,
+        "ci95": [
+         -1.326,
+         4.525
+        ],
+        "share_below_zero": 0.145
+       },
+       "carb": {
+        "mean_diff": -0.168,
+        "ci95": [
+         -1.545,
+         1.699
+        ],
+        "share_below_zero": 0.58
+       },
+       "average": {
+        "mean_diff": 0.488,
+        "ci95": [
+         -0.69,
+         1.752
+        ],
+        "share_below_zero": 0.23
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.815,
+       "ci95": [
+        -1.81,
+        2.89
+       ],
+       "share_below_zero": 0.25
+      },
+      "weekly": {
+       "mean_diff": -0.372,
+       "ci95": [
+        -2.42,
+        1.4
+       ],
+       "share_below_zero": 0.63
+      },
+      "carb": {
+       "mean_diff": 0.138,
+       "ci95": [
+        -0.701,
+        1.122
+       ],
+       "share_below_zero": 0.425
+      },
+      "average": {
+       "mean_diff": 0.194,
+       "ci95": [
+        -1.019,
+        1.005
+       ],
+       "share_below_zero": 0.285
+      }
+     }
+    }
+   },
+   "whole_test": {
+    "cell_mae": {
+     "mean": {
+      "equal": {
+       "ever": 14.195,
+       "weekly": 6.482,
+       "carb": 4.478,
+       "average": 8.385
+      },
+      "proportional": {
+       "ever": 14.697,
+       "weekly": 6.747,
+       "carb": 4.573,
+       "average": 8.672
+      },
+      "panel_neyman": {
+       "ever": 14.746,
+       "weekly": 6.767,
+       "carb": 4.566,
+       "average": 8.693
+      },
+      "reference_neyman": {
+       "ever": 15.161,
+       "weekly": 6.964,
+       "carb": 4.488,
+       "average": 8.871
+      },
+      "panel_neyman_by_item": {
+       "ever": 14.923,
+       "weekly": 6.807,
+       "carb": 4.495,
+       "average": 8.742
+      },
+      "reference_neyman_by_item": {
+       "ever": 15.126,
+       "weekly": 7.525,
+       "carb": 4.476,
+       "average": 9.042
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": -0.502,
+        "ci95": [
+         -1.63,
+         0.57
+        ],
+        "share_below_zero": 0.785
+       },
+       "weekly": {
+        "mean_diff": -0.265,
+        "ci95": [
+         -2.044,
+         0.851
+        ],
+        "share_below_zero": 0.625
+       },
+       "carb": {
+        "mean_diff": -0.095,
+        "ci95": [
+         -1.069,
+         0.698
+        ],
+        "share_below_zero": 0.56
+       },
+       "average": {
+        "mean_diff": -0.287,
+        "ci95": [
+         -0.934,
+         0.442
+        ],
+        "share_below_zero": 0.76
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.049,
+        "ci95": [
+         -0.4,
+         0.493
+        ],
+        "share_below_zero": 0.405
+       },
+       "weekly": {
+        "mean_diff": 0.019,
+        "ci95": [
+         -0.753,
+         0.739
+        ],
+        "share_below_zero": 0.46
+       },
+       "carb": {
+        "mean_diff": -0.007,
+        "ci95": [
+         -0.435,
+         0.194
+        ],
+        "share_below_zero": 0.36
+       },
+       "average": {
+        "mean_diff": 0.021,
+        "ci95": [
+         -0.334,
+         0.367
+        ],
+        "share_below_zero": 0.37
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": 0.463,
+        "ci95": [
+         -0.736,
+         1.625
+        ],
+        "share_below_zero": 0.23
+       },
+       "weekly": {
+        "mean_diff": 0.216,
+        "ci95": [
+         -1.149,
+         1.737
+        ],
+        "share_below_zero": 0.375
+       },
+       "carb": {
+        "mean_diff": -0.084,
+        "ci95": [
+         -1.168,
+         0.466
+        ],
+        "share_below_zero": 0.515
+       },
+       "average": {
+        "mean_diff": 0.198,
+        "ci95": [
+         -0.497,
+         0.868
+        ],
+        "share_below_zero": 0.26
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.226,
+        "ci95": [
+         -1.31,
+         1.431
+        ],
+        "share_below_zero": 0.335
+       },
+       "weekly": {
+        "mean_diff": 0.06,
+        "ci95": [
+         -1.141,
+         1.106
+        ],
+        "share_below_zero": 0.43
+       },
+       "carb": {
+        "mean_diff": -0.078,
+        "ci95": [
+         -1.066,
+         0.473
+        ],
+        "share_below_zero": 0.49
+       },
+       "average": {
+        "mean_diff": 0.069,
+        "ci95": [
+         -0.528,
+         0.605
+        ],
+        "share_below_zero": 0.41
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.429,
+        "ci95": [
+         -0.792,
+         1.403
+        ],
+        "share_below_zero": 0.22
+       },
+       "weekly": {
+        "mean_diff": 0.777,
+        "ci95": [
+         -0.696,
+         2.771
+        ],
+        "share_below_zero": 0.17
+       },
+       "carb": {
+        "mean_diff": -0.096,
+        "ci95": [
+         -1.216,
+         0.592
+        ],
+        "share_below_zero": 0.52
+       },
+       "average": {
+        "mean_diff": 0.37,
+        "ci95": [
+         -0.345,
+         1.027
+        ],
+        "share_below_zero": 0.155
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": -0.414,
+       "ci95": [
+        -1.428,
+        0.63
+       ],
+       "share_below_zero": 0.79
+      },
+      "weekly": {
+       "mean_diff": -0.197,
+       "ci95": [
+        -1.213,
+        0.641
+       ],
+       "share_below_zero": 0.66
+      },
+      "carb": {
+       "mean_diff": 0.078,
+       "ci95": [
+        -0.421,
+        1.025
+       ],
+       "share_below_zero": 0.515
+      },
+      "average": {
+       "mean_diff": -0.178,
+       "ci95": [
+        -0.678,
+        0.365
+       ],
+       "share_below_zero": 0.785
+      }
+     }
+    },
+    "national_error": {
+     "mean": {
+      "equal": {
+       "ever": 6.715,
+       "weekly": 3.436,
+       "carb": 3.186,
+       "average": 4.445
+      },
+      "proportional": {
+       "ever": 6.952,
+       "weekly": 3.42,
+       "carb": 3.24,
+       "average": 4.537
+      },
+      "panel_neyman": {
+       "ever": 6.806,
+       "weekly": 3.423,
+       "carb": 3.208,
+       "average": 4.479
+      },
+      "reference_neyman": {
+       "ever": 5.862,
+       "weekly": 3.716,
+       "carb": 3.069,
+       "average": 4.216
+      },
+      "panel_neyman_by_item": {
+       "ever": 7.887,
+       "weekly": 3.556,
+       "carb": 3.116,
+       "average": 4.853
+      },
+      "reference_neyman_by_item": {
+       "ever": 7.068,
+       "weekly": 4.758,
+       "carb": 3.072,
+       "average": 4.966
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": -0.237,
+        "ci95": [
+         -2.702,
+         2.716
+        ],
+        "share_below_zero": 0.59
+       },
+       "weekly": {
+        "mean_diff": 0.016,
+        "ci95": [
+         -3.041,
+         2.249
+        ],
+        "share_below_zero": 0.455
+       },
+       "carb": {
+        "mean_diff": -0.054,
+        "ci95": [
+         -1.414,
+         1.617
+        ],
+        "share_below_zero": 0.535
+       },
+       "average": {
+        "mean_diff": -0.092,
+        "ci95": [
+         -1.039,
+         1.118
+        ],
+        "share_below_zero": 0.63
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": -0.146,
+        "ci95": [
+         -1.175,
+         1.171
+        ],
+        "share_below_zero": 0.67
+       },
+       "weekly": {
+        "mean_diff": 0.003,
+        "ci95": [
+         -1.594,
+         1.367
+        ],
+        "share_below_zero": 0.62
+       },
+       "carb": {
+        "mean_diff": -0.032,
+        "ci95": [
+         -0.617,
+         0.383
+        ],
+        "share_below_zero": 0.375
+       },
+       "average": {
+        "mean_diff": -0.058,
+        "ci95": [
+         -0.469,
+         0.374
+        ],
+        "share_below_zero": 0.615
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -1.09,
+        "ci95": [
+         -3.519,
+         1.321
+        ],
+        "share_below_zero": 0.78
+       },
+       "weekly": {
+        "mean_diff": 0.297,
+        "ci95": [
+         -2.097,
+         2.664
+        ],
+        "share_below_zero": 0.395
+       },
+       "carb": {
+        "mean_diff": -0.171,
+        "ci95": [
+         -1.462,
+         0.853
+        ],
+        "share_below_zero": 0.575
+       },
+       "average": {
+        "mean_diff": -0.321,
+        "ci95": [
+         -1.405,
+         0.469
+        ],
+        "share_below_zero": 0.74
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.935,
+        "ci95": [
+         -2.325,
+         3.538
+        ],
+        "share_below_zero": 0.23
+       },
+       "weekly": {
+        "mean_diff": 0.136,
+        "ci95": [
+         -2.246,
+         2.672
+        ],
+        "share_below_zero": 0.45
+       },
+       "carb": {
+        "mean_diff": -0.124,
+        "ci95": [
+         -1.406,
+         1.074
+        ],
+        "share_below_zero": 0.55
+       },
+       "average": {
+        "mean_diff": 0.316,
+        "ci95": [
+         -0.872,
+         1.487
+        ],
+        "share_below_zero": 0.265
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.116,
+        "ci95": [
+         -2.162,
+         2.405
+        ],
+        "share_below_zero": 0.45
+       },
+       "weekly": {
+        "mean_diff": 1.338,
+        "ci95": [
+         -1.61,
+         4.276
+        ],
+        "share_below_zero": 0.185
+       },
+       "carb": {
+        "mean_diff": -0.168,
+        "ci95": [
+         -1.545,
+         1.652
+        ],
+        "share_below_zero": 0.575
+       },
+       "average": {
+        "mean_diff": 0.429,
+        "ci95": [
+         -0.748,
+         1.689
+        ],
+        "share_below_zero": 0.255
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.944,
+       "ci95": [
+        -1.507,
+        2.961
+       ],
+       "share_below_zero": 0.22
+      },
+      "weekly": {
+       "mean_diff": -0.293,
+       "ci95": [
+        -2.28,
+        1.428
+       ],
+       "share_below_zero": 0.615
+      },
+      "carb": {
+       "mean_diff": 0.139,
+       "ci95": [
+        -0.701,
+        1.122
+       ],
+       "share_below_zero": 0.42
+      },
+      "average": {
+       "mean_diff": 0.263,
+       "ci95": [
+        -0.509,
+        1.317
+       ],
+       "share_below_zero": 0.28
+      }
+     }
+    }
+   },
+   "pool_own": {
+    "cell_mae": {
+     "mean": {
+      "equal": {
+       "ever": 15.078,
+       "weekly": 6.682,
+       "carb": 3.482,
+       "average": 8.414
+      },
+      "proportional": {
+       "ever": 15.398,
+       "weekly": 6.654,
+       "carb": 3.615,
+       "average": 8.556
+      },
+      "panel_neyman": {
+       "ever": 15.401,
+       "weekly": 6.641,
+       "carb": 3.598,
+       "average": 8.547
+      },
+      "reference_neyman": {
+       "ever": 15.755,
+       "weekly": 6.726,
+       "carb": 3.565,
+       "average": 8.682
+      },
+      "panel_neyman_by_item": {
+       "ever": 15.651,
+       "weekly": 6.647,
+       "carb": 3.535,
+       "average": 8.611
+      },
+      "reference_neyman_by_item": {
+       "ever": 15.727,
+       "weekly": 7.036,
+       "carb": 3.538,
+       "average": 8.767
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": -0.32,
+        "ci95": [
+         -1.312,
+         0.575
+        ],
+        "share_below_zero": 0.755
+       },
+       "weekly": {
+        "mean_diff": 0.029,
+        "ci95": [
+         -1.015,
+         1.161
+        ],
+        "share_below_zero": 0.44
+       },
+       "carb": {
+        "mean_diff": -0.133,
+        "ci95": [
+         -0.97,
+         0.422
+        ],
+        "share_below_zero": 0.635
+       },
+       "average": {
+        "mean_diff": -0.141,
+        "ci95": [
+         -0.823,
+         0.389
+        ],
+        "share_below_zero": 0.635
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.003,
+        "ci95": [
+         -0.451,
+         0.356
+        ],
+        "share_below_zero": 0.515
+       },
+       "weekly": {
+        "mean_diff": -0.013,
+        "ci95": [
+         -0.661,
+         0.349
+        ],
+        "share_below_zero": 0.335
+       },
+       "carb": {
+        "mean_diff": -0.016,
+        "ci95": [
+         -0.257,
+         0.162
+        ],
+        "share_below_zero": 0.48
+       },
+       "average": {
+        "mean_diff": -0.009,
+        "ci95": [
+         -0.313,
+         0.183
+        ],
+        "share_below_zero": 0.485
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": 0.357,
+        "ci95": [
+         -0.654,
+         1.277
+        ],
+        "share_below_zero": 0.21
+       },
+       "weekly": {
+        "mean_diff": 0.073,
+        "ci95": [
+         -0.833,
+         0.91
+        ],
+        "share_below_zero": 0.405
+       },
+       "carb": {
+        "mean_diff": -0.05,
+        "ci95": [
+         -0.773,
+         0.411
+        ],
+        "share_below_zero": 0.575
+       },
+       "average": {
+        "mean_diff": 0.127,
+        "ci95": [
+         -0.428,
+         0.589
+        ],
+        "share_below_zero": 0.265
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.253,
+        "ci95": [
+         -0.988,
+         1.363
+        ],
+        "share_below_zero": 0.315
+       },
+       "weekly": {
+        "mean_diff": -0.006,
+        "ci95": [
+         -0.839,
+         0.674
+        ],
+        "share_below_zero": 0.475
+       },
+       "carb": {
+        "mean_diff": -0.08,
+        "ci95": [
+         -0.794,
+         0.348
+        ],
+        "share_below_zero": 0.575
+       },
+       "average": {
+        "mean_diff": 0.055,
+        "ci95": [
+         -0.452,
+         0.504
+        ],
+        "share_below_zero": 0.405
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.329,
+        "ci95": [
+         -0.668,
+         1.16
+        ],
+        "share_below_zero": 0.23
+       },
+       "weekly": {
+        "mean_diff": 0.383,
+        "ci95": [
+         -0.714,
+         1.395
+        ],
+        "share_below_zero": 0.27
+       },
+       "carb": {
+        "mean_diff": -0.077,
+        "ci95": [
+         -0.971,
+         0.492
+        ],
+        "share_below_zero": 0.57
+       },
+       "average": {
+        "mean_diff": 0.211,
+        "ci95": [
+         -0.28,
+         0.712
+        ],
+        "share_below_zero": 0.21
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": -0.354,
+       "ci95": [
+        -1.178,
+        0.525
+       ],
+       "share_below_zero": 0.81
+      },
+      "weekly": {
+       "mean_diff": -0.085,
+       "ci95": [
+        -0.838,
+        0.759
+       ],
+       "share_below_zero": 0.615
+      },
+      "carb": {
+       "mean_diff": 0.033,
+       "ci95": [
+        -0.377,
+        0.669
+       ],
+       "share_below_zero": 0.495
+      },
+      "average": {
+       "mean_diff": -0.135,
+       "ci95": [
+        -0.501,
+        0.37
+       ],
+       "share_below_zero": 0.745
+      }
+     }
+    },
+    "national_error": {
+     "mean": {
+      "equal": {
+       "ever": 2.641,
+       "weekly": 2.33,
+       "carb": 1.411,
+       "average": 2.127
+      },
+      "proportional": {
+       "ever": 2.596,
+       "weekly": 2.254,
+       "carb": 1.518,
+       "average": 2.123
+      },
+      "panel_neyman": {
+       "ever": 2.629,
+       "weekly": 2.237,
+       "carb": 1.482,
+       "average": 2.116
+      },
+      "reference_neyman": {
+       "ever": 2.562,
+       "weekly": 2.157,
+       "carb": 1.392,
+       "average": 2.037
+      },
+      "panel_neyman_by_item": {
+       "ever": 2.724,
+       "weekly": 2.138,
+       "carb": 1.435,
+       "average": 2.099
+      },
+      "reference_neyman_by_item": {
+       "ever": 2.642,
+       "weekly": 2.301,
+       "carb": 1.364,
+       "average": 2.103
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": 0.045,
+        "ci95": [
+         -2.236,
+         2.701
+        ],
+        "share_below_zero": 0.515
+       },
+       "weekly": {
+        "mean_diff": 0.076,
+        "ci95": [
+         -2.332,
+         2.467
+        ],
+        "share_below_zero": 0.5
+       },
+       "carb": {
+        "mean_diff": -0.107,
+        "ci95": [
+         -1.516,
+         1.061
+        ],
+        "share_below_zero": 0.56
+       },
+       "average": {
+        "mean_diff": 0.005,
+        "ci95": [
+         -1.307,
+         1.263
+        ],
+        "share_below_zero": 0.495
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.033,
+        "ci95": [
+         -0.869,
+         1.184
+        ],
+        "share_below_zero": 0.53
+       },
+       "weekly": {
+        "mean_diff": -0.017,
+        "ci95": [
+         -1.397,
+         1.113
+        ],
+        "share_below_zero": 0.485
+       },
+       "carb": {
+        "mean_diff": -0.036,
+        "ci95": [
+         -0.595,
+         0.383
+        ],
+        "share_below_zero": 0.515
+       },
+       "average": {
+        "mean_diff": -0.007,
+        "ci95": [
+         -0.539,
+         0.727
+        ],
+        "share_below_zero": 0.515
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.034,
+        "ci95": [
+         -2.867,
+         2.945
+        ],
+        "share_below_zero": 0.51
+       },
+       "weekly": {
+        "mean_diff": -0.096,
+        "ci95": [
+         -2.212,
+         1.861
+        ],
+        "share_below_zero": 0.505
+       },
+       "carb": {
+        "mean_diff": -0.126,
+        "ci95": [
+         -1.363,
+         0.765
+        ],
+        "share_below_zero": 0.575
+       },
+       "average": {
+        "mean_diff": -0.085,
+        "ci95": [
+         -1.403,
+         1.219
+        ],
+        "share_below_zero": 0.55
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.128,
+        "ci95": [
+         -2.745,
+         2.617
+        ],
+        "share_below_zero": 0.45
+       },
+       "weekly": {
+        "mean_diff": -0.116,
+        "ci95": [
+         -1.985,
+         1.466
+        ],
+        "share_below_zero": 0.54
+       },
+       "carb": {
+        "mean_diff": -0.083,
+        "ci95": [
+         -1.623,
+         0.882
+        ],
+        "share_below_zero": 0.49
+       },
+       "average": {
+        "mean_diff": -0.024,
+        "ci95": [
+         -1.458,
+         1.157
+        ],
+        "share_below_zero": 0.485
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.046,
+        "ci95": [
+         -1.93,
+         2.156
+        ],
+        "share_below_zero": 0.465
+       },
+       "weekly": {
+        "mean_diff": 0.047,
+        "ci95": [
+         -3.158,
+         3.343
+        ],
+        "share_below_zero": 0.505
+       },
+       "carb": {
+        "mean_diff": -0.154,
+        "ci95": [
+         -1.933,
+         1.143
+        ],
+        "share_below_zero": 0.575
+       },
+       "average": {
+        "mean_diff": -0.02,
+        "ci95": [
+         -1.402,
+         1.309
+        ],
+        "share_below_zero": 0.51
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.067,
+       "ci95": [
+        -2.318,
+        2.692
+       ],
+       "share_below_zero": 0.495
+      },
+      "weekly": {
+       "mean_diff": 0.079,
+       "ci95": [
+        -1.724,
+        2.202
+       ],
+       "share_below_zero": 0.515
+      },
+      "carb": {
+       "mean_diff": 0.09,
+       "ci95": [
+        -0.721,
+        1.411
+       ],
+       "share_below_zero": 0.5
+      },
+      "average": {
+       "mean_diff": 0.079,
+       "ci95": [
+        -1.092,
+        1.421
+       ],
+       "share_below_zero": 0.47
+      }
+     }
+    }
+   }
+  },
+  "R1": {
+   "panel_excluded": {
+    "cell_mae": {
+     "mean": {
+      "equal": {
+       "ever": 7.75,
+       "weekly": 7.036,
+       "carb": 5.295,
+       "average": 6.693
+      },
+      "proportional": {
+       "ever": 7.741,
+       "weekly": 7.218,
+       "carb": 5.352,
+       "average": 6.77
+      },
+      "panel_neyman": {
+       "ever": 7.779,
+       "weekly": 7.231,
+       "carb": 5.331,
+       "average": 6.78
+      },
+      "reference_neyman": {
+       "ever": 7.676,
+       "weekly": 7.228,
+       "carb": 5.27,
+       "average": 6.725
+      },
+      "panel_neyman_by_item": {
+       "ever": 7.905,
+       "weekly": 7.226,
+       "carb": 5.312,
+       "average": 6.815
+      },
+      "reference_neyman_by_item": {
+       "ever": 7.833,
+       "weekly": 7.985,
+       "carb": 5.325,
+       "average": 7.048
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": 0.009,
+        "ci95": [
+         -1.57,
+         2.256
+        ],
+        "share_below_zero": 0.525
+       },
+       "weekly": {
+        "mean_diff": -0.183,
+        "ci95": [
+         -2.731,
+         1.811
+        ],
+        "share_below_zero": 0.505
+       },
+       "carb": {
+        "mean_diff": -0.057,
+        "ci95": [
+         -1.109,
+         2.063
+        ],
+        "share_below_zero": 0.62
+       },
+       "average": {
+        "mean_diff": -0.077,
+        "ci95": [
+         -1.203,
+         1.237
+        ],
+        "share_below_zero": 0.555
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.038,
+        "ci95": [
+         -0.692,
+         1.201
+        ],
+        "share_below_zero": 0.585
+       },
+       "weekly": {
+        "mean_diff": 0.012,
+        "ci95": [
+         -0.993,
+         1.223
+        ],
+        "share_below_zero": 0.62
+       },
+       "carb": {
+        "mean_diff": -0.021,
+        "ci95": [
+         -0.489,
+         0.29
+        ],
+        "share_below_zero": 0.565
+       },
+       "average": {
+        "mean_diff": 0.01,
+        "ci95": [
+         -0.339,
+         0.415
+        ],
+        "share_below_zero": 0.53
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.064,
+        "ci95": [
+         -1.768,
+         1.754
+        ],
+        "share_below_zero": 0.525
+       },
+       "weekly": {
+        "mean_diff": 0.01,
+        "ci95": [
+         -1.826,
+         1.972
+        ],
+        "share_below_zero": 0.5
+       },
+       "carb": {
+        "mean_diff": -0.082,
+        "ci95": [
+         -1.002,
+         0.829
+        ],
+        "share_below_zero": 0.625
+       },
+       "average": {
+        "mean_diff": -0.046,
+        "ci95": [
+         -0.967,
+         0.743
+        ],
+        "share_below_zero": 0.525
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.164,
+        "ci95": [
+         -2.664,
+         2.504
+        ],
+        "share_below_zero": 0.42
+       },
+       "weekly": {
+        "mean_diff": 0.008,
+        "ci95": [
+         -1.798,
+         1.627
+        ],
+        "share_below_zero": 0.485
+       },
+       "carb": {
+        "mean_diff": -0.04,
+        "ci95": [
+         -0.911,
+         0.985
+        ],
+        "share_below_zero": 0.605
+       },
+       "average": {
+        "mean_diff": 0.044,
+        "ci95": [
+         -1.103,
+         1.09
+        ],
+        "share_below_zero": 0.46
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.093,
+        "ci95": [
+         -1.72,
+         1.706
+        ],
+        "share_below_zero": 0.47
+       },
+       "weekly": {
+        "mean_diff": 0.767,
+        "ci95": [
+         -2.144,
+         4.068
+        ],
+        "share_below_zero": 0.325
+       },
+       "carb": {
+        "mean_diff": -0.027,
+        "ci95": [
+         -1.166,
+         1.962
+        ],
+        "share_below_zero": 0.6
+       },
+       "average": {
+        "mean_diff": 0.277,
+        "ci95": [
+         -0.861,
+         1.59
+        ],
+        "share_below_zero": 0.345
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.103,
+       "ci95": [
+        -1.65,
+        1.675
+       ],
+       "share_below_zero": 0.49
+      },
+      "weekly": {
+       "mean_diff": 0.003,
+       "ci95": [
+        -1.571,
+        1.414
+       ],
+       "share_below_zero": 0.49
+      },
+      "carb": {
+       "mean_diff": 0.061,
+       "ci95": [
+        -0.828,
+        0.8
+       ],
+       "share_below_zero": 0.4
+      },
+      "average": {
+       "mean_diff": 0.056,
+       "ci95": [
+        -0.719,
+        0.904
+       ],
+       "share_below_zero": 0.485
+      }
+     }
+    },
+    "national_error": {
+     "mean": {
+      "equal": {
+       "ever": 4.314,
+       "weekly": 5.923,
+       "carb": 3.45,
+       "average": 4.562
+      },
+      "proportional": {
+       "ever": 4.198,
+       "weekly": 6.041,
+       "carb": 3.421,
+       "average": 4.554
+      },
+      "panel_neyman": {
+       "ever": 4.23,
+       "weekly": 6.029,
+       "carb": 3.426,
+       "average": 4.562
+      },
+      "reference_neyman": {
+       "ever": 4.163,
+       "weekly": 6.067,
+       "carb": 3.423,
+       "average": 4.551
+      },
+      "panel_neyman_by_item": {
+       "ever": 4.22,
+       "weekly": 6.038,
+       "carb": 3.418,
+       "average": 4.559
+      },
+      "reference_neyman_by_item": {
+       "ever": 4.198,
+       "weekly": 6.842,
+       "carb": 3.448,
+       "average": 4.829
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": 0.116,
+        "ci95": [
+         -2.274,
+         3.024
+        ],
+        "share_below_zero": 0.505
+       },
+       "weekly": {
+        "mean_diff": -0.118,
+        "ci95": [
+         -3.001,
+         2.511
+        ],
+        "share_below_zero": 0.505
+       },
+       "carb": {
+        "mean_diff": 0.029,
+        "ci95": [
+         -1.388,
+         1.635
+        ],
+        "share_below_zero": 0.49
+       },
+       "average": {
+        "mean_diff": 0.009,
+        "ci95": [
+         -1.048,
+         1.094
+        ],
+        "share_below_zero": 0.515
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.032,
+        "ci95": [
+         -0.99,
+         1.143
+        ],
+        "share_below_zero": 0.51
+       },
+       "weekly": {
+        "mean_diff": -0.012,
+        "ci95": [
+         -1.476,
+         1.334
+        ],
+        "share_below_zero": 0.645
+       },
+       "carb": {
+        "mean_diff": 0.004,
+        "ci95": [
+         -0.587,
+         0.459
+        ],
+        "share_below_zero": 0.35
+       },
+       "average": {
+        "mean_diff": 0.008,
+        "ci95": [
+         -0.43,
+         0.432
+        ],
+        "share_below_zero": 0.515
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.035,
+        "ci95": [
+         -2.316,
+         2.307
+        ],
+        "share_below_zero": 0.515
+       },
+       "weekly": {
+        "mean_diff": 0.025,
+        "ci95": [
+         -2.404,
+         2.521
+        ],
+        "share_below_zero": 0.48
+       },
+       "carb": {
+        "mean_diff": 0.002,
+        "ci95": [
+         -1.271,
+         1.069
+        ],
+        "share_below_zero": 0.455
+       },
+       "average": {
+        "mean_diff": -0.003,
+        "ci95": [
+         -1.087,
+         0.945
+        ],
+        "share_below_zero": 0.505
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.022,
+        "ci95": [
+         -3.085,
+         2.643
+        ],
+        "share_below_zero": 0.485
+       },
+       "weekly": {
+        "mean_diff": -0.003,
+        "ci95": [
+         -2.064,
+         2.476
+        ],
+        "share_below_zero": 0.52
+       },
+       "carb": {
+        "mean_diff": -0.003,
+        "ci95": [
+         -1.339,
+         1.049
+        ],
+        "share_below_zero": 0.495
+       },
+       "average": {
+        "mean_diff": 0.005,
+        "ci95": [
+         -1.244,
+         1.293
+        ],
+        "share_below_zero": 0.47
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.0,
+        "ci95": [
+         -2.355,
+         2.186
+        ],
+        "share_below_zero": 0.48
+       },
+       "weekly": {
+        "mean_diff": 0.801,
+        "ci95": [
+         -2.196,
+         4.205
+        ],
+        "share_below_zero": 0.315
+       },
+       "carb": {
+        "mean_diff": 0.026,
+        "ci95": [
+         -1.416,
+         1.899
+        ],
+        "share_below_zero": 0.49
+       },
+       "average": {
+        "mean_diff": 0.276,
+        "ci95": [
+         -0.987,
+         1.681
+        ],
+        "share_below_zero": 0.37
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.067,
+       "ci95": [
+        -2.244,
+        1.982
+       ],
+       "share_below_zero": 0.49
+      },
+      "weekly": {
+       "mean_diff": -0.037,
+       "ci95": [
+        -2.183,
+        1.74
+       ],
+       "share_below_zero": 0.485
+      },
+      "carb": {
+       "mean_diff": 0.003,
+       "ci95": [
+        -0.836,
+        0.977
+       ],
+       "share_below_zero": 0.52
+      },
+      "average": {
+       "mean_diff": 0.011,
+       "ci95": [
+        -0.982,
+        0.91
+       ],
+       "share_below_zero": 0.485
+      }
+     }
+    }
+   },
+   "whole_test": {
+    "cell_mae": {
+     "mean": {
+      "equal": {
+       "ever": 8.852,
+       "weekly": 5.334,
+       "carb": 4.412,
+       "average": 6.199
+      },
+      "proportional": {
+       "ever": 8.821,
+       "weekly": 5.436,
+       "carb": 4.438,
+       "average": 6.232
+      },
+      "panel_neyman": {
+       "ever": 8.852,
+       "weekly": 5.43,
+       "carb": 4.424,
+       "average": 6.235
+      },
+      "reference_neyman": {
+       "ever": 8.716,
+       "weekly": 5.406,
+       "carb": 4.359,
+       "average": 6.16
+      },
+      "panel_neyman_by_item": {
+       "ever": 8.953,
+       "weekly": 5.414,
+       "carb": 4.412,
+       "average": 6.26
+      },
+      "reference_neyman_by_item": {
+       "ever": 8.883,
+       "weekly": 6.149,
+       "carb": 4.415,
+       "average": 6.482
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": 0.031,
+        "ci95": [
+         -1.952,
+         2.533
+        ],
+        "share_below_zero": 0.515
+       },
+       "weekly": {
+        "mean_diff": -0.102,
+        "ci95": [
+         -2.524,
+         2.052
+        ],
+        "share_below_zero": 0.46
+       },
+       "carb": {
+        "mean_diff": -0.026,
+        "ci95": [
+         -1.081,
+         1.554
+        ],
+        "share_below_zero": 0.575
+       },
+       "average": {
+        "mean_diff": -0.032,
+        "ci95": [
+         -1.092,
+         1.2
+        ],
+        "share_below_zero": 0.555
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.031,
+        "ci95": [
+         -0.862,
+         1.483
+        ],
+        "share_below_zero": 0.61
+       },
+       "weekly": {
+        "mean_diff": -0.006,
+        "ci95": [
+         -0.965,
+         1.072
+        ],
+        "share_below_zero": 0.57
+       },
+       "carb": {
+        "mean_diff": -0.014,
+        "ci95": [
+         -0.561,
+         0.304
+        ],
+        "share_below_zero": 0.465
+       },
+       "average": {
+        "mean_diff": 0.004,
+        "ci95": [
+         -0.409,
+         0.5
+        ],
+        "share_below_zero": 0.54
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.105,
+        "ci95": [
+         -2.027,
+         1.873
+        ],
+        "share_below_zero": 0.575
+       },
+       "weekly": {
+        "mean_diff": -0.03,
+        "ci95": [
+         -1.714,
+         1.69
+        ],
+        "share_below_zero": 0.53
+       },
+       "carb": {
+        "mean_diff": -0.079,
+        "ci95": [
+         -1.226,
+         0.733
+        ],
+        "share_below_zero": 0.565
+       },
+       "average": {
+        "mean_diff": -0.071,
+        "ci95": [
+         -0.874,
+         0.765
+        ],
+        "share_below_zero": 0.57
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.132,
+        "ci95": [
+         -2.999,
+         2.471
+        ],
+        "share_below_zero": 0.44
+       },
+       "weekly": {
+        "mean_diff": -0.021,
+        "ci95": [
+         -1.545,
+         1.371
+        ],
+        "share_below_zero": 0.515
+       },
+       "carb": {
+        "mean_diff": -0.026,
+        "ci95": [
+         -1.035,
+         0.969
+        ],
+        "share_below_zero": 0.545
+       },
+       "average": {
+        "mean_diff": 0.028,
+        "ci95": [
+         -1.072,
+         1.042
+        ],
+        "share_below_zero": 0.49
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.061,
+        "ci95": [
+         -2.287,
+         2.013
+        ],
+        "share_below_zero": 0.455
+       },
+       "weekly": {
+        "mean_diff": 0.713,
+        "ci95": [
+         -1.897,
+         3.907
+        ],
+        "share_below_zero": 0.355
+       },
+       "carb": {
+        "mean_diff": -0.023,
+        "ci95": [
+         -1.3,
+         1.527
+        ],
+        "share_below_zero": 0.555
+       },
+       "average": {
+        "mean_diff": 0.251,
+        "ci95": [
+         -0.857,
+         1.347
+        ],
+        "share_below_zero": 0.355
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.136,
+       "ci95": [
+        -1.825,
+        1.775
+       ],
+       "share_below_zero": 0.395
+      },
+      "weekly": {
+       "mean_diff": 0.024,
+       "ci95": [
+        -1.285,
+        1.407
+       ],
+       "share_below_zero": 0.49
+      },
+      "carb": {
+       "mean_diff": 0.065,
+       "ci95": [
+        -0.567,
+        0.948
+       ],
+       "share_below_zero": 0.41
+      },
+      "average": {
+       "mean_diff": 0.075,
+       "ci95": [
+        -0.655,
+        0.777
+       ],
+       "share_below_zero": 0.43
+      }
+     }
+    },
+    "national_error": {
+     "mean": {
+      "equal": {
+       "ever": 6.837,
+       "weekly": 3.42,
+       "carb": 3.201,
+       "average": 4.486
+      },
+      "proportional": {
+       "ever": 6.707,
+       "weekly": 3.447,
+       "carb": 3.185,
+       "average": 4.446
+      },
+      "panel_neyman": {
+       "ever": 6.724,
+       "weekly": 3.41,
+       "carb": 3.187,
+       "average": 4.44
+      },
+      "reference_neyman": {
+       "ever": 6.736,
+       "weekly": 3.411,
+       "carb": 3.177,
+       "average": 4.441
+      },
+      "panel_neyman_by_item": {
+       "ever": 6.775,
+       "weekly": 3.381,
+       "carb": 3.178,
+       "average": 4.445
+      },
+      "reference_neyman_by_item": {
+       "ever": 6.734,
+       "weekly": 4.148,
+       "carb": 3.204,
+       "average": 4.696
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": 0.131,
+        "ci95": [
+         -2.344,
+         3.024
+        ],
+        "share_below_zero": 0.49
+       },
+       "weekly": {
+        "mean_diff": -0.027,
+        "ci95": [
+         -3.001,
+         2.292
+        ],
+        "share_below_zero": 0.475
+       },
+       "carb": {
+        "mean_diff": 0.016,
+        "ci95": [
+         -1.388,
+         1.55
+        ],
+        "share_below_zero": 0.495
+       },
+       "average": {
+        "mean_diff": 0.04,
+        "ci95": [
+         -0.938,
+         1.341
+        ],
+        "share_below_zero": 0.52
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.017,
+        "ci95": [
+         -0.99,
+         1.243
+        ],
+        "share_below_zero": 0.525
+       },
+       "weekly": {
+        "mean_diff": -0.037,
+        "ci95": [
+         -1.476,
+         1.234
+        ],
+        "share_below_zero": 0.63
+       },
+       "carb": {
+        "mean_diff": 0.002,
+        "ci95": [
+         -0.587,
+         0.413
+        ],
+        "share_below_zero": 0.35
+       },
+       "average": {
+        "mean_diff": -0.006,
+        "ci95": [
+         -0.412,
+         0.432
+        ],
+        "share_below_zero": 0.52
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": 0.029,
+        "ci95": [
+         -2.316,
+         2.674
+        ],
+        "share_below_zero": 0.505
+       },
+       "weekly": {
+        "mean_diff": -0.036,
+        "ci95": [
+         -2.468,
+         2.362
+        ],
+        "share_below_zero": 0.505
+       },
+       "carb": {
+        "mean_diff": -0.008,
+        "ci95": [
+         -1.271,
+         1.069
+        ],
+        "share_below_zero": 0.465
+       },
+       "average": {
+        "mean_diff": -0.005,
+        "ci95": [
+         -1.086,
+         0.811
+        ],
+        "share_below_zero": 0.48
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.068,
+        "ci95": [
+         -3.168,
+         2.679
+        ],
+        "share_below_zero": 0.455
+       },
+       "weekly": {
+        "mean_diff": -0.066,
+        "ci95": [
+         -2.25,
+         2.476
+        ],
+        "share_below_zero": 0.52
+       },
+       "carb": {
+        "mean_diff": -0.007,
+        "ci95": [
+         -1.339,
+         1.063
+        ],
+        "share_below_zero": 0.505
+       },
+       "average": {
+        "mean_diff": -0.002,
+        "ci95": [
+         -1.145,
+         1.255
+        ],
+        "share_below_zero": 0.475
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.027,
+        "ci95": [
+         -2.355,
+         2.269
+        ],
+        "share_below_zero": 0.47
+       },
+       "weekly": {
+        "mean_diff": 0.701,
+        "ci95": [
+         -1.962,
+         4.065
+        ],
+        "share_below_zero": 0.33
+       },
+       "carb": {
+        "mean_diff": 0.019,
+        "ci95": [
+         -1.416,
+         1.899
+        ],
+        "share_below_zero": 0.485
+       },
+       "average": {
+        "mean_diff": 0.249,
+        "ci95": [
+         -0.798,
+         1.543
+        ],
+        "share_below_zero": 0.37
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": -0.013,
+       "ci95": [
+        -2.582,
+        1.982
+       ],
+       "share_below_zero": 0.5
+      },
+      "weekly": {
+       "mean_diff": -0.0,
+       "ci95": [
+        -1.914,
+        1.74
+       ],
+       "share_below_zero": 0.465
+      },
+      "carb": {
+       "mean_diff": 0.011,
+       "ci95": [
+        -0.911,
+        0.977
+       ],
+       "share_below_zero": 0.51
+      },
+      "average": {
+       "mean_diff": -0.001,
+       "ci95": [
+        -0.692,
+        0.93
+       ],
+       "share_below_zero": 0.53
+      }
+     }
+    }
+   },
+   "pool_own": {
+    "cell_mae": {
+     "mean": {
+      "equal": {
+       "ever": 7.673,
+       "weekly": 7.371,
+       "carb": 3.174,
+       "average": 6.073
+      },
+      "proportional": {
+       "ever": 7.669,
+       "weekly": 7.454,
+       "carb": 3.344,
+       "average": 6.156
+      },
+      "panel_neyman": {
+       "ever": 7.671,
+       "weekly": 7.452,
+       "carb": 3.318,
+       "average": 6.147
+      },
+      "reference_neyman": {
+       "ever": 7.583,
+       "weekly": 7.372,
+       "carb": 3.209,
+       "average": 6.054
+      },
+      "panel_neyman_by_item": {
+       "ever": 7.772,
+       "weekly": 7.393,
+       "carb": 3.251,
+       "average": 6.139
+      },
+      "reference_neyman_by_item": {
+       "ever": 7.749,
+       "weekly": 7.471,
+       "carb": 3.188,
+       "average": 6.136
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": 0.004,
+        "ci95": [
+         -1.261,
+         1.224
+        ],
+        "share_below_zero": 0.52
+       },
+       "weekly": {
+        "mean_diff": -0.083,
+        "ci95": [
+         -1.484,
+         1.368
+        ],
+        "share_below_zero": 0.51
+       },
+       "carb": {
+        "mean_diff": -0.17,
+        "ci95": [
+         -1.566,
+         0.818
+        ],
+        "share_below_zero": 0.59
+       },
+       "average": {
+        "mean_diff": -0.083,
+        "ci95": [
+         -0.762,
+         0.643
+        ],
+        "share_below_zero": 0.605
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.002,
+        "ci95": [
+         -0.498,
+         0.559
+        ],
+        "share_below_zero": 0.52
+       },
+       "weekly": {
+        "mean_diff": -0.002,
+        "ci95": [
+         -0.435,
+         0.65
+        ],
+        "share_below_zero": 0.58
+       },
+       "carb": {
+        "mean_diff": -0.026,
+        "ci95": [
+         -0.446,
+         0.298
+        ],
+        "share_below_zero": 0.51
+       },
+       "average": {
+        "mean_diff": -0.009,
+        "ci95": [
+         -0.301,
+         0.28
+        ],
+        "share_below_zero": 0.55
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.086,
+        "ci95": [
+         -1.248,
+         0.851
+        ],
+        "share_below_zero": 0.535
+       },
+       "weekly": {
+        "mean_diff": -0.082,
+        "ci95": [
+         -1.13,
+         0.878
+        ],
+        "share_below_zero": 0.52
+       },
+       "carb": {
+        "mean_diff": -0.135,
+        "ci95": [
+         -1.163,
+         0.539
+        ],
+        "share_below_zero": 0.58
+       },
+       "average": {
+        "mean_diff": -0.101,
+        "ci95": [
+         -0.713,
+         0.501
+        ],
+        "share_below_zero": 0.64
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.103,
+        "ci95": [
+         -1.525,
+         1.987
+        ],
+        "share_below_zero": 0.465
+       },
+       "weekly": {
+        "mean_diff": -0.06,
+        "ci95": [
+         -1.151,
+         0.839
+        ],
+        "share_below_zero": 0.525
+       },
+       "carb": {
+        "mean_diff": -0.093,
+        "ci95": [
+         -1.146,
+         0.64
+        ],
+        "share_below_zero": 0.505
+       },
+       "average": {
+        "mean_diff": -0.017,
+        "ci95": [
+         -0.862,
+         0.702
+        ],
+        "share_below_zero": 0.525
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.08,
+        "ci95": [
+         -1.073,
+         1.531
+        ],
+        "share_below_zero": 0.455
+       },
+       "weekly": {
+        "mean_diff": 0.017,
+        "ci95": [
+         -1.405,
+         1.546
+        ],
+        "share_below_zero": 0.48
+       },
+       "carb": {
+        "mean_diff": -0.156,
+        "ci95": [
+         -1.684,
+         0.814
+        ],
+        "share_below_zero": 0.515
+       },
+       "average": {
+        "mean_diff": -0.02,
+        "ci95": [
+         -0.822,
+         0.699
+        ],
+        "share_below_zero": 0.505
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.088,
+       "ci95": [
+        -0.829,
+        1.101
+       ],
+       "share_below_zero": 0.5
+      },
+      "weekly": {
+       "mean_diff": 0.08,
+       "ci95": [
+        -0.821,
+        1.126
+       ],
+       "share_below_zero": 0.47
+      },
+      "carb": {
+       "mean_diff": 0.109,
+       "ci95": [
+        -0.526,
+        1.007
+       ],
+       "share_below_zero": 0.445
+      },
+      "average": {
+       "mean_diff": 0.092,
+       "ci95": [
+        -0.43,
+        0.733
+       ],
+       "share_below_zero": 0.365
+      }
+     }
+    },
+    "national_error": {
+     "mean": {
+      "equal": {
+       "ever": 2.652,
+       "weekly": 2.34,
+       "carb": 1.412,
+       "average": 2.134
+      },
+      "proportional": {
+       "ever": 2.56,
+       "weekly": 2.234,
+       "carb": 1.52,
+       "average": 2.105
+      },
+      "panel_neyman": {
+       "ever": 2.606,
+       "weekly": 2.226,
+       "carb": 1.481,
+       "average": 2.104
+      },
+      "reference_neyman": {
+       "ever": 2.445,
+       "weekly": 2.145,
+       "carb": 1.363,
+       "average": 1.985
+      },
+      "panel_neyman_by_item": {
+       "ever": 2.507,
+       "weekly": 2.145,
+       "carb": 1.424,
+       "average": 2.025
+      },
+      "reference_neyman_by_item": {
+       "ever": 2.578,
+       "weekly": 2.323,
+       "carb": 1.353,
+       "average": 2.085
+      }
+     },
+     "minus_proportional": {
+      "equal": {
+       "ever": {
+        "mean_diff": 0.092,
+        "ci95": [
+         -2.184,
+         2.812
+        ],
+        "share_below_zero": 0.485
+       },
+       "weekly": {
+        "mean_diff": 0.106,
+        "ci95": [
+         -2.391,
+         2.524
+        ],
+        "share_below_zero": 0.495
+       },
+       "carb": {
+        "mean_diff": -0.109,
+        "ci95": [
+         -1.608,
+         1.116
+        ],
+        "share_below_zero": 0.55
+       },
+       "average": {
+        "mean_diff": 0.03,
+        "ci95": [
+         -1.262,
+         1.224
+        ],
+        "share_below_zero": 0.485
+       }
+      },
+      "panel_neyman": {
+       "ever": {
+        "mean_diff": 0.046,
+        "ci95": [
+         -0.948,
+         1.14
+        ],
+        "share_below_zero": 0.485
+       },
+       "weekly": {
+        "mean_diff": -0.008,
+        "ci95": [
+         -1.357,
+         1.147
+        ],
+        "share_below_zero": 0.49
+       },
+       "carb": {
+        "mean_diff": -0.039,
+        "ci95": [
+         -0.571,
+         0.402
+        ],
+        "share_below_zero": 0.535
+       },
+       "average": {
+        "mean_diff": -0.0,
+        "ci95": [
+         -0.594,
+         0.651
+        ],
+        "share_below_zero": 0.525
+       }
+      },
+      "reference_neyman": {
+       "ever": {
+        "mean_diff": -0.115,
+        "ci95": [
+         -2.437,
+         2.316
+        ],
+        "share_below_zero": 0.53
+       },
+       "weekly": {
+        "mean_diff": -0.089,
+        "ci95": [
+         -2.164,
+         1.805
+        ],
+        "share_below_zero": 0.56
+       },
+       "carb": {
+        "mean_diff": -0.157,
+        "ci95": [
+         -1.268,
+         0.749
+        ],
+        "share_below_zero": 0.625
+       },
+       "average": {
+        "mean_diff": -0.12,
+        "ci95": [
+         -1.401,
+         1.023
+        ],
+        "share_below_zero": 0.535
+       }
+      },
+      "panel_neyman_by_item": {
+       "ever": {
+        "mean_diff": -0.053,
+        "ci95": [
+         -2.386,
+         2.671
+        ],
+        "share_below_zero": 0.525
+       },
+       "weekly": {
+        "mean_diff": -0.089,
+        "ci95": [
+         -1.952,
+         1.662
+        ],
+        "share_below_zero": 0.5
+       },
+       "carb": {
+        "mean_diff": -0.097,
+        "ci95": [
+         -1.521,
+         0.86
+        ],
+        "share_below_zero": 0.525
+       },
+       "average": {
+        "mean_diff": -0.08,
+        "ci95": [
+         -1.291,
+         1.072
+        ],
+        "share_below_zero": 0.52
+       }
+      },
+      "reference_neyman_by_item": {
+       "ever": {
+        "mean_diff": 0.018,
+        "ci95": [
+         -2.049,
+         2.142
+        ],
+        "share_below_zero": 0.455
+       },
+       "weekly": {
+        "mean_diff": 0.089,
+        "ci95": [
+         -2.732,
+         3.781
+        ],
+        "share_below_zero": 0.49
+       },
+       "carb": {
+        "mean_diff": -0.167,
+        "ci95": [
+         -2.14,
+         0.997
+        ],
+        "share_below_zero": 0.56
+       },
+       "average": {
+        "mean_diff": -0.02,
+        "ci95": [
+         -1.289,
+         1.268
+        ],
+        "share_below_zero": 0.485
+       }
+      }
+     },
+     "panel_minus_reference": {
+      "ever": {
+       "mean_diff": 0.16,
+       "ci95": [
+        -2.027,
+        2.271
+       ],
+       "share_below_zero": 0.43
+      },
+      "weekly": {
+       "mean_diff": 0.081,
+       "ci95": [
+        -1.618,
+        1.878
+       ],
+       "share_below_zero": 0.465
+      },
+      "carb": {
+       "mean_diff": 0.118,
+       "ci95": [
+        -0.677,
+        1.341
+       ],
+       "share_below_zero": 0.455
+      },
+      "average": {
+       "mean_diff": 0.12,
+       "ci95": [
+        -0.98,
+        1.366
+       ],
+       "share_below_zero": 0.455
+      }
+     }
+    }
+   }
+  }
+ },
+ "reading": {
+  "panel_helps_over_proportional": false,
+  "panel_adds_over_reference": false,
+  "panel_minus_proportional_r1_average": {
+   "mean_diff": 0.01,
+   "ci95": [
+    -0.339,
+    0.415
+   ],
+   "share_below_zero": 0.53
+  },
+  "panel_minus_reference_r1_average": {
+   "mean_diff": 0.056,
+   "ci95": [
+    -0.719,
+    0.904
+   ],
+   "share_below_zero": 0.485
+  }
+ }
+}

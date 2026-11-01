@@ -1,0 +1,166 @@
+{
+ "written_after_seeing_the_frozen_result": true,
+ "note": "The acceptance and the label come from the frozen seeds in duel_validity.json. This file only shows how far they move with other seeds. It changes nothing.",
+ "bar": {
+  "surrogate_max_keep": 0.12,
+  "positive_min_margin": 0.3
+ },
+ "runs": {
+  "fold_seed_99": {
+   "run": {
+    "draw_seed": 42,
+    "pi_seed": 43,
+    "fold_seed": [
+     99,
+     5
+    ]
+   },
+   "acceptance_passed": false,
+   "keep_rate": {
+    "terra_C2": 0.315,
+    "luna_C1": 0.015,
+    "control_s1.0": 1.0,
+    "surrogate_terra_slot": 0.13,
+    "surrogate_luna_slot": 0.0
+   },
+   "beats_rate": {
+    "terra_C2": 0.52,
+    "luna_C1": 0.425,
+    "control_s1.0": 0.965,
+    "surrogate_terra_slot": 0.665,
+    "surrogate_luna_slot": 0.305
+   },
+   "false_keep_rate": {
+    "terra_C2": 0.5873,
+    "luna_C1": 0.6667,
+    "control_s1.0": 0.035,
+    "surrogate_terra_slot": 0.4615,
+    "surrogate_luna_slot": null
+   },
+   "missed_keep_rate": {
+    "terra_C2": 0.75,
+    "luna_C1": 0.9882,
+    "control_s1.0": 0.0,
+    "surrogate_terra_slot": 0.8947,
+    "surrogate_luna_slot": 1.0
+   }
+  },
+  "fold_seed_20261102": {
+   "run": {
+    "draw_seed": 42,
+    "pi_seed": 43,
+    "fold_seed": [
+     20261102,
+     5
+    ]
+   },
+   "acceptance_passed": true,
+   "keep_rate": {
+    "terra_C2": 0.325,
+    "luna_C1": 0.04,
+    "control_s1.0": 1.0,
+    "surrogate_terra_slot": 0.1,
+    "surrogate_luna_slot": 0.0
+   },
+   "beats_rate": {
+    "terra_C2": 0.52,
+    "luna_C1": 0.425,
+    "control_s1.0": 0.965,
+    "surrogate_terra_slot": 0.665,
+    "surrogate_luna_slot": 0.305
+   },
+   "false_keep_rate": {
+    "terra_C2": 0.4615,
+    "luna_C1": 0.875,
+    "control_s1.0": 0.035,
+    "surrogate_terra_slot": 0.4,
+    "surrogate_luna_slot": null
+   },
+   "missed_keep_rate": {
+    "terra_C2": 0.6635,
+    "luna_C1": 0.9882,
+    "control_s1.0": 0.0,
+    "surrogate_terra_slot": 0.9098,
+    "surrogate_luna_slot": 1.0
+   }
+  },
+  "draw_seed_99": {
+   "run": {
+    "draw_seed": 99,
+    "pi_seed": 4321,
+    "fold_seed": [
+     42,
+     5
+    ]
+   },
+   "acceptance_passed": false,
+   "keep_rate": {
+    "terra_C2": 0.4,
+    "luna_C1": 0.025,
+    "control_s1.0": 1.0,
+    "surrogate_terra_slot": 0.16,
+    "surrogate_luna_slot": 0.0
+   },
+   "beats_rate": {
+    "terra_C2": 0.48,
+    "luna_C1": 0.395,
+    "control_s1.0": 0.93,
+    "surrogate_terra_slot": 0.6,
+    "surrogate_luna_slot": 0.255
+   },
+   "false_keep_rate": {
+    "terra_C2": 0.575,
+    "luna_C1": 0.6,
+    "control_s1.0": 0.07,
+    "surrogate_terra_slot": 0.5312,
+    "surrogate_luna_slot": null
+   },
+   "missed_keep_rate": {
+    "terra_C2": 0.6458,
+    "luna_C1": 0.9747,
+    "control_s1.0": 0.0,
+    "surrogate_terra_slot": 0.875,
+    "surrogate_luna_slot": 1.0
+   }
+  },
+  "draw_seed_20261102": {
+   "run": {
+    "draw_seed": 20261102,
+    "pi_seed": 777,
+    "fold_seed": [
+     42,
+     5
+    ]
+   },
+   "acceptance_passed": true,
+   "keep_rate": {
+    "terra_C2": 0.345,
+    "luna_C1": 0.01,
+    "control_s1.0": 1.0,
+    "surrogate_terra_slot": 0.095,
+    "surrogate_luna_slot": 0.0
+   },
+   "beats_rate": {
+    "terra_C2": 0.44,
+    "luna_C1": 0.36,
+    "control_s1.0": 0.97,
+    "surrogate_terra_slot": 0.61,
+    "surrogate_luna_slot": 0.27
+   },
+   "false_keep_rate": {
+    "terra_C2": 0.6957,
+    "luna_C1": 1.0,
+    "control_s1.0": 0.03,
+    "surrogate_terra_slot": 0.7368,
+    "surrogate_luna_slot": null
+   },
+   "missed_keep_rate": {
+    "terra_C2": 0.7614,
+    "luna_C1": 1.0,
+    "control_s1.0": 0.0,
+    "surrogate_terra_slot": 0.959,
+    "surrogate_luna_slot": 1.0
+   }
+  }
+ }
+}
