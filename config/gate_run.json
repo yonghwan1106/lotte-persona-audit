@@ -41,6 +41,6 @@
   },
   "codes_per_condition": {"C0": 100, "C1": 300, "C2": 300},
   "prompt_file": "config/gate_prompt.json",
-  "prompt_sha256": "9690bc314a18ae9dd4914d31ad8c4f279352fc35d009716efe7a96d16f00319d",
+  "prompt_sha256": "5173abd19d9d187877dc87fa994c25e68e2464af06aa255c516f3bca260a0309",
   "prompt_wording_source": "question_a19 and question_a15 are cut from pdftotext output of data/raw/questionnaire_adult_2025.pdf: A19 stem, item 1 and its five answer labels, A15 stem and all 17 options with their printed examples."
 }
