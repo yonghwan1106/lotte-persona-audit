@@ -1,0 +1,227 @@
+{
+ "guard_variants": {
+  "total": 21,
+  "accepted": 0,
+  "accepted_texts": [],
+  "rows": [
+   {
+    "text": "C안이 A안보다 37 포인트 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:3",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 ３７ 포인트 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:3",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 三十七 포인트 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:三",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 수십 포인트 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:수십",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 삼십칠 포인트 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:삼십",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 약삼십칠 포인트 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:삼십",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 일 점 오 포인트 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:일 점 오",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 삼분의 일 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:삼분의 일",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 A안의 두어 배일 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:두어 배"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 seven points 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:seven",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 forty percent 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:forty",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 ½ 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:1",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 ³ 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:3",
+     "forbidden_claim:앞설"
+    ]
+   },
+   {
+    "text": "응답자 열에 아홉이 C안을 고를 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "numeral_outside_placeholder:아홉"
+    ]
+   },
+   {
+    "text": "C안이 시장 일등이 될 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "forbidden_claim:일등"
+    ]
+   },
+   {
+    "text": "C안이 시장에서 가장 잘 팔릴 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "forbidden_claim:시장에서"
+    ]
+   },
+   {
+    "text": "C안이 출시되면 크게 히트할 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "forbidden_claim:출시되면"
+    ]
+   },
+   {
+    "text": "C안이 A안보다 훨씬 앞설 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "forbidden_claim:훨씬"
+    ]
+   },
+   {
+    "text": "C안의 풍미가 더 뛰어날 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "taste_guess:풍미"
+    ]
+   },
+   {
+    "text": "C안이 소비자에게 가장 달콤하게 느껴질 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "taste_guess:달콤"
+    ]
+   },
+   {
+    "text": "C안이 A안을 이길 수 있다.",
+    "accepted": false,
+    "reasons": [
+     "forbidden_claim:이길"
+    ]
+   }
+  ]
+ },
+ "note_variants": {
+  "total": 6,
+  "kept": 1,
+  "kept_texts": [
+   "C안을 밀면 됩니다. 가장 높습니다."
+  ]
+ },
+ "guard_false_positives": {
+  "total": 12,
+  "rejected": 0,
+  "rejected_rows": []
+ },
+ "leading_variants": {
+  "total": 14,
+  "flagged": 10,
+  "not_flagged_texts": [
+   "요즘 다들 이걸 마신다.",
+   "주변 사람들이 하나같이 좋아한다.",
+   "이미 수많은 분이 선택한 음료입니다.",
+   "한번 마신 분은 다시 찾습니다."
+  ]
+ },
+ "leading_false_positives": {
+  "total": 7,
+  "flagged": 0,
+  "flagged_texts": []
+ },
+ "registered_card_trim": {
+  "status": [
+   "ok",
+   "ok"
+  ],
+  "removed": [
+   0,
+   0
+  ],
+  "text_unchanged": true
+ },
+ "plan_hash_covers_card_text": true,
+ "plan_sizes": {
+  "1": "refused",
+  "3": "refused",
+  "99": "refused",
+  "100": "accepted",
+  "150": "accepted",
+  "300": "accepted",
+  "301": "refused",
+  "1000": "refused"
+ },
+ "anchor_reverdict": {
+  "validate_status": "blocked",
+  "validate_reason": "run_exists_start_a_new_run",
+  "verdict_changed": false,
+  "anchors_of_a": [
+   "ever",
+   "weekly",
+   "carb"
+  ]
+ }
+}

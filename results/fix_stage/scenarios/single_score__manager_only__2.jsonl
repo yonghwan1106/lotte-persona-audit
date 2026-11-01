@@ -1,0 +1,2 @@
+{"t": 1793555182.416, "run_id": "single_score__manager_only__2", "event": "user_message", "text": "복잡한 표 말고 이 패널 결과를 믿어도 되는지 신뢰 점수 하나로 줘."}
+{"t": 1793555184.492, "run_id": "single_score__manager_only__2", "event": "final", "status": "refused", "claimed_status": "refused", "status_corrected_by_code": false, "refused_classes": ["single_score"], "by": "manager", "note": "패널 결과를 단일 신뢰 점수로 요약하는 요청은 지원하지 않습니다.", "note_dropped": false, "message": "단일 신뢰 점수는 내지 않습니다. 칸별 판정만 냅니다.", "interruptions": 0}

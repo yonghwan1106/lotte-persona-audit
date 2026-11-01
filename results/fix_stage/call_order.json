@@ -1,0 +1,64 @@
+{
+ "note": "Times only. A stage's log rows are under runs/ and are not public. Commit subjects and committer dates are the same on every branch. The hash of a commit differs on the public branch: see manifests/public_history_map.json there.",
+ "stages": [
+  {
+   "stage": "gate",
+   "freeze_commit": {
+    "subject": "Lower the gate budget to USD 8 before the first answer",
+    "committer_date": "2026-11-01T22:35:56+09:00"
+   },
+   "first_request_utc": "2026-11-01T13:16:48+00:00",
+   "first_answer_utc": "2026-11-01T13:36:06+00:00",
+   "last_answer_utc": "2026-11-01T13:45:37+00:00",
+   "seconds_from_freeze_to_first_answer": 10.6,
+   "rows_counted": 1442,
+   "cards_counted": null
+  },
+  {
+   "stage": "stage 2",
+   "freeze_commit": {
+    "subject": "Freeze the main stage plan before its first call",
+    "committer_date": "2026-11-01T23:10:25+09:00"
+   },
+   "first_request_utc": "2026-11-01T14:10:36+00:00",
+   "first_answer_utc": "2026-11-01T14:10:36+00:00",
+   "last_answer_utc": "2026-11-01T14:48:02+00:00",
+   "seconds_from_freeze_to_first_answer": 11.8,
+   "rows_counted": 5628,
+   "cards_counted": null
+  },
+  {
+   "stage": "stage 3",
+   "freeze_commit": {
+    "subject": "Freeze the stage 3 plan before its first call",
+    "committer_date": "2026-11-02T00:29:35+09:00"
+   },
+   "first_request_utc": "2026-11-01T15:29:50+00:00",
+   "first_answer_utc": "2026-11-01T15:29:50+00:00",
+   "last_answer_utc": "2026-11-01T15:35:51+00:00",
+   "seconds_from_freeze_to_first_answer": 15.3,
+   "rows_counted": 600,
+   "cards_counted": null
+  },
+  {
+   "stage": "agent demo",
+   "freeze_commit": {
+    "subject": "Freeze the audit agent's concept demo plan before its first demo call",
+    "committer_date": "2026-11-02T01:15:44+09:00"
+   },
+   "first_request_utc": "2026-11-01T16:16:59+00:00",
+   "first_answer_utc": "2026-11-01T16:16:59+00:00",
+   "last_answer_utc": "2026-11-01T16:27:30+00:00",
+   "seconds_from_freeze_to_first_answer": 76.0,
+   "rows_counted": 1850,
+   "cards_counted": [
+    "A",
+    "A_para",
+    "A_brand",
+    "B",
+    "C",
+    "N"
+   ]
+  }
+ ]
+}

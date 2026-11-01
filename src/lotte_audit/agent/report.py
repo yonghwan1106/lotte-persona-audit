@@ -227,4 +227,8 @@ def write_outputs(ctx):
     ledger_path.parent.mkdir(parents=True, exist_ok=True)
     with ledger_path.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(entry, ensure_ascii=False, default=str) + "\n")
-    return {"entry": entry, "report_path": str(report_path)}
+    try:
+        shown = str(report_path.relative_to(settings.paths.ROOT)).replace(chr(92), "/")
+    except ValueError:
+        shown = str(report_path)
+    return {"entry": entry, "report_path": shown}

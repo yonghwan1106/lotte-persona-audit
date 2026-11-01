@@ -110,7 +110,7 @@ def test_no_registered_card_is_flagged():
         assert INTAKE.leading_sentences(doc["description"]) == [], card
 
 
-def test_the_first_seven_leading_variants_are_flagged():
+def test_the_first_eight_leading_variants_are_flagged():
     for sentence in ATT["leading_variants"][:8]:
         assert INTAKE.leading_sentences(sentence), sentence
 

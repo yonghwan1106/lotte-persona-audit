@@ -5,8 +5,6 @@ settings.activate_fix_stage moves logs, results and budget. This module holds wh
 import json
 import time
 
-import httpx
-
 import panel_run
 from . import metered, panel, settings
 
@@ -28,7 +26,7 @@ def probe_decisions_store(cfg, api_key, client=None):
     question = [{"type": "predicate", "name": "is_drink", "instructions": "Does the text name a drink?"}]
     settings.StageBudget(cfg["limits"]["budget_usd"]).check(0.002, "decisions store probe")
     owns = client is None
-    client = client or httpx.Client(timeout=60)
+    client = client or panel_run.httpx.Client(timeout=60)
     try:
         resp = client.post(cfg["decisions_endpoint"], headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}, json={"model": model, "input": "zero sugar soda", "questions": question, "store": False})
     finally:

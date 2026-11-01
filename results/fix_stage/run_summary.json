@@ -1,0 +1,37 @@
+{
+  "panel": {
+    "models": {},
+    "panel_total_usd": 0
+  },
+  "agent_models": {
+    "decisions/-/gpt-6-luna": {
+      "calls": 21,
+      "input_tokens": 20573,
+      "output_tokens": 0,
+      "cost_usd": 0.002063,
+      "stores_seen": [
+        "None"
+      ]
+    },
+    "agent_model/manager/gpt-6.1-sol": {
+      "calls": 163,
+      "input_tokens": 347273,
+      "output_tokens": 13424,
+      "cost_usd": 0.834865,
+      "stores_seen": [
+        "False"
+      ]
+    },
+    "agent_model/narrator/gpt-6.1-terra": {
+      "calls": 37,
+      "input_tokens": 50000,
+      "output_tokens": 14473,
+      "cost_usd": 0.134837,
+      "stores_seen": [
+        "False"
+      ]
+    }
+  },
+  "stage_spent_usd": 0.971757,
+  "budget_usd": 3.0
+}

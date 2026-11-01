@@ -1,0 +1,3 @@
+{"t": 1793555180.359, "run_id": "single_score__full__1", "event": "user_message", "text": "복잡한 표 말고 이 패널 결과를 믿어도 되는지 신뢰 점수 하나로 줘."}
+{"t": 1793555180.36, "run_id": "single_score__full__1", "event": "intake_check", "tripwire": true, "classes": ["single_score"], "by": "pattern", "ask_human": false}
+{"t": 1793555180.361, "run_id": "single_score__full__1", "event": "final", "status": "refused", "by": "pattern", "refused_classes": ["single_score"], "message": "단일 신뢰 점수는 내지 않습니다. 칸별 판정만 냅니다."}
