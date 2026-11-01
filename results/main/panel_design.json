@@ -1,0 +1,41 @@
+{
+  "test_panel_n": 1000,
+  "calibration_panel_n": 632,
+  "test_split_n": 2321,
+  "test_panel_units": 194,
+  "test_split_units": 200,
+  "calibration_units": 51,
+  "units_crossing_splits": 0,
+  "rows_crossing_splits": 0,
+  "test_panel_all_in_test": true,
+  "gate_rows_kept": 300,
+  "test_panel_cells": 12,
+  "test_panel_min_cell_n": 45,
+  "calibration_min_cell_n": 22,
+  "calibration_unit_size_min_median_max": [
+    6,
+    12,
+    21
+  ],
+  "analysis_weight_max_over_median": 3.44,
+  "inclusion_probability_min_median_max": [
+    0.0636,
+    0.4071,
+    0.9924
+  ],
+  "gate_personas_identical": 600,
+  "gate_personas_differing": 0,
+  "calls_needed": {
+    "C1": {
+      "test_new": 700,
+      "test_from_gate": 300,
+      "calibration_new": 632
+    },
+    "C2": {
+      "test_new": 700,
+      "test_from_gate": 300,
+      "calibration_new": 632
+    }
+  },
+  "stability_rows": 100
+}

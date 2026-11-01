@@ -1,0 +1,89 @@
+{
+  "_note": "Pre-registered before any main-stage answer exists. manifests/frozen_main.json stores this file's hash; run and score refuse to work if it changed. Gate answers exist and were seen (results/gate/); nothing here is tuned to them beyond the plan's own question. Not to be changed after main answers are seen.",
+  "frozen_on": "2026-11-01",
+  "question": "Does a synthetic panel plus about 200 real respondents beat those 200 real respondents alone?",
+  "prompt": {"file": "config/gate_prompt.json", "sha256": "5173abd19d9d187877dc87fa994c25e68e2464af06aa255c516f3bca260a0309", "changed": false, "reasoning_effort": "medium, unchanged"},
+  "A_respondents": {
+    "test_panel": {
+      "n": 1000,
+      "draw": "Keep the gate's 300 test respondents. Add 700 from the remaining test split, weighted on psfwt, without replacement, numpy Generator.choice, seed 42.",
+      "analysis_weight": "psfwt divided by the Monte Carlo inclusion probability of this exact two-stage draw (first 300 then 700), 20000 draws, seed 43. Same repair as the gate, because the draw already used psfwt.",
+      "reuse": "A gate answer is reused only when the gate code and the rendered prompt are identical, which the cache path and the stored prompt_sha256 check. Reused answers cost nothing in this stage's budget."
+    },
+    "calibration_panel": {"n": 632, "draw": "Every respondent of the calibration pool."},
+    "conditions": ["C1", "C2"],
+    "models": ["gpt-6.1-terra", "gpt-6-luna"],
+    "split_rule": "No respondent and no survey unit crosses splits. Test answers are never used to fit anything.",
+    "budget_usd": 6.0,
+    "budget_scope": "This stage only. Its call log is runs/main/logs/calls.jsonl, apart from the gate's. Stop at the budget and stop at once on an empty balance.",
+    "run_order_why": "Primary first, so a budget stop costs the least: Terra C2, Terra C1, Luna C2, Luna C1, then stability."
+  },
+  "B_calibration_study": {
+    "truth": "psfwt weighted cell means over the whole test split, age band by sex, 12 cells. The same table as the gate.",
+    "metric": "Cell MAE in percentage points, unweighted mean over the 12 cells, as in the gate.",
+    "estimators": {
+      "E0": "Train split psfwt national mean as a constant for every cell.",
+      "E1": "Direct weighted cell mean of the n real respondents. An empty cell falls back to the sample national mean. Same as the existing baseline raw.",
+      "E2": "(count*E1 + 30*national)/(count + 30) with the unweighted cell count and the sample national mean. Same as the existing baseline shrunk.",
+      "E3": "Panel cell mean on the test panel with the test panel analysis weights. Raw panel, audit use only, never a market number.",
+      "E4": "Fit one offset d on the n real respondents so that the weighted sum of expit(logit(p)+d) equals the weighted sum of y, with p from the calibration panel. Apply to test panel p, then cell means with test panel weights.",
+      "E5": "Fit a + b*logit(p) on the n real respondents by weighted logistic maximum likelihood with a ridge of 1e-6 for numerical stability only. Apply to test panel p, then cell means with test panel weights. If the n respondents hold one class, or the fit does not converge in 50 iterations, fall back to E4 and count it.",
+      "E6": "Test panel cell mean plus a residual per cell: residual is y - p of the n real respondents, weighted. Cell residual is (count*cell + 30*global)/(count + 30), an empty cell takes the global residual. The result is clipped to [0,1].",
+      "E7": "E5 applied to C1. E4, E5, E6 are reported for both C1 and C2.",
+      "R1": "Reference added by the worker before any main answer, not in the Advisor's list and not read by the verdict rule. No panel: weighted logistic on age band order and sex, fitted on the same n real respondents, cell means from the model. If the n hold one class or the fit fails, the sample mean for every cell. It shows whether a win over E2 needs an LLM at all, since E2 shrinks to a flat mean and ignores the age pattern any regression would see. Reported as E4, E5, E6 minus R1 per draw."
+    },
+    "clip": "Panel p is clipped to [0.001,0.999] for E3 to E7.",
+    "offset_bound": "d is bounded to [-12,12], which also handles a sample with one class.",
+    "n": [100, 200, 400],
+    "repeats": 200,
+    "seed": 42,
+    "draw_kinds": {
+      "row": "n rows of the calibration pool, weighted on psfwt, without replacement.",
+      "cluster": "Whole survey units (vuid) in successive order with probability proportional to the unit's psfwt total, added until at least n rows are in. Units are never cut, so the realised n can exceed n. Realised n is reported."
+    },
+    "sample_weight": "psfwt divided by the Monte Carlo inclusion probability of that draw kind at that n, 20000 draws, seed 43. Inclusion is per row for row draws and per unit for cluster draws. Applies to every real and every panel quantity in the sample, E1 to E2 and E4 to E7, so nothing is double weighted.",
+    "pairing": "All estimators of one repeat use the same real respondents. Difference is estimator cell MAE minus E2 cell MAE in the same repeat, negative means better than E2.",
+    "interval": "Percentile 2.5 and 97.5 of the difference across the 200 repeats.",
+    "primary": "E4, E5, E6 on C2 with gpt-6.1-terra versus E2, n=200, row draws, average over the 3 items of cell MAE, paired difference with the interval. Per item as well.",
+    "noise_floor": "Average cell MAE of all 2921 train rows against the test truth is 4.04pp (results/baselines.md). Reported next to the primary result. A gap below it is not a meaningful improvement in market terms.",
+    "interval_limits": "The interval is across draws with the pool of 51 units and the test panel held fixed. It does not carry the sampling uncertainty of those. To be stated with the result.",
+    "reference_not_in_rule": ["E1 and E2 on all 632 of the pool, one number each", "Real answers of the 1000 test panel respondents scored against the truth", "Every comparison at n=200 again against the truth computed only on test respondents outside the panel, because panel people are also part of the truth population"]
+  },
+  "C_person_level": {
+    "scope": "The 1000 test panel respondents with the analysis weights.",
+    "floor": "Logistic on age band and sex dummies, LogisticRegression(C=0.05, max_iter=400), fitted on the train split with psfwt, as in the gate.",
+    "auc": "Weighted AUC per item, condition, model, floor on the same people.",
+    "paired_difference": "AUC minus floor AUC, survey unit bootstrap, 2000 resamples, seed 42, the same resamples for every comparison of an item. Percentile 95 percent interval.",
+    "p_value": "Two sided bootstrap: 2*min((1+count(d<=0))/(R+1), (1+count(d>=0))/(R+1)), capped at 1.",
+    "holm": "Holm across the 3 items within gpt-6.1-terra C2 is the primary test, alpha 0.05. Other rows are reported unadjusted.",
+    "within_unit": "Weighted AUC inside each survey unit pooled by positive-negative weight mass, with the number of usable units, for the panel and for the floor."
+  },
+  "C_person_level_reps": 2000,
+  "D_stereotypes": {
+    "per": "item, condition, model on the test panel with analysis weights",
+    "metrics": ["gender gap female minus male pp", "age slope pp per band", "bias pp", "underdispersion ratio", "cell Pearson r"],
+    "ci": "Survey unit bootstrap over the test split units, 2000 resamples, seed 42. Each resample gives the panel value, the real value on the whole test split in those units, and their difference. Percentile 95 percent interval."
+  },
+  "E_stability": {
+    "respondents": "100 test panel respondents, simple random sample, numpy Generator.choice with seed [42, 99], no answers involved in the choice.",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "extra_repeats": 3,
+    "cache": "A repeat index in the cache key only. The prompt is byte identical. The existing answer counts as repeat 0.",
+    "metrics": "Over the 6 pairs of the 4 answers, per item: mean absolute difference in p, Spearman rank correlation across respondents. Unweighted."
+  },
+  "F_verdict": {
+    "module": "src/lotte_audit/verdict.py",
+    "per": "item, model, condition",
+    "labels": {"calibrated": "보정 후 참고", "direction": "방향만", "real_only": "실측 전용"},
+    "rule": [
+      "보정 후 참고 if one calibrated estimator among E4, E5, E6 (E7 is E5 on C1) has, at n=200 and against E2 on that item, a row draw interval entirely below zero and a cluster draw mean difference below zero.",
+      "Else 방향만 if the real age slope interval excludes zero and the panel age slope has the same sign, the cell Pearson r is at least 0.7, and the underdispersion ratio is within 0.5 to 2.0 inclusive. The level is then marked as not trusted.",
+      "Else 실측 전용."
+    ],
+    "raw_number": "A raw panel number is never shown as a market number. The verdict output always carries raw_panel_number_as_market_number false, for every label.",
+    "multiplicity": "The rule is applied as written to each of the 12 combinations with no correction across them. To be stated with the result."
+  },
+  "incomplete_run": "A model and condition without a complete set of answers is left out of scoring and named as incomplete. A partial set is not scored.",
+  "no_tuning": "Prompt, allowlist, weights, estimators, seeds, thresholds and code named in manifests/frozen_main.json are not to be changed after main answers are seen. If a defect forces a change, it is recorded in the report and the frozen hash is redone in its own commit."
+}

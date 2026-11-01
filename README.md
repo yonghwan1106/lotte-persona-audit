@@ -68,6 +68,21 @@ python src/panel_run.py status --write              # 집계 비용(results/gate
 
 총비용이 관문 전체 8달러에 닿기 전에 멈춥니다. 잔액 없음(429 insufficient_quota)이면 재시도 없이 바로 멈춥니다.
 
+## 본실행
+
+질문은 하나입니다. 합성 패널에 실제 응답자 약 200명을 더한 것이 그 200명만 쓴 것을 이기는가. 계획은 `config/prereg_main.json`, 실행 설정은 `config/main_run.json`에 있고, 프롬프트와 요청 설정은 관문과 같습니다. 예산은 이 단계만 6달러이고 호출 기록은 `runs/main/logs/calls.jsonl`에 따로 남습니다. `manifests/frozen_main.json`이 설정, 코드, 패널의 해시를 담고, 커밋 전이거나 해시가 다르면 실행과 채점이 멈춥니다.
+
+```
+python src/main_run.py prepare        # 시험 패널 1,000명으로 확장, 보정 패널 632명, 호출 없음
+python src/main_run.py freeze         # 해시 고정, 이후 커밋
+python src/main_run.py check          # 고정 확인, 관문 재사용 수, 예상 비용, 호출 없음
+python src/main_run.py run            # Terra C2, Terra C1, Luna C2, Luna C1, 안정성 순서
+python src/main_run.py status --write # results/main/main_run_summary.json
+python src/main_run.py score          # results/main/main_score.json, main_score.md
+```
+
+신뢰 지도 규칙은 `src/lotte_audit/verdict.py`, 추정기는 `src/lotte_audit/calibration.py`에 있습니다. 패널 원수치는 시장 수치로 쓰지 않습니다. 결과에는 집계만 남고, 응답자 코드와 페르소나 문장은 `runs/main/` 밖으로 나가지 않습니다.
+
 ## 사전 등록
 
 `config/prereg.json`이 조건, 지표, 전환 규칙, 재현 패턴 정의를 담습니다. `manifests/frozen.json`이 설정 파일 해시를 담고, 설정이 바뀌면 채점이 멈춥니다. 답을 본 뒤에는 바꾸지 않습니다.

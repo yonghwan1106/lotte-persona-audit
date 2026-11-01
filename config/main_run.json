@@ -1,0 +1,59 @@
+{
+  "_note": "Frozen before the first main-stage call. models, endpoint, api_key_file, request, prompt_file and prompt_sha256 must equal config/gate_run.json, and src/main_run.py refuses to run if they differ. Budget and call log are this stage's own.",
+  "frozen_on": "2026-11-01",
+  "models": {
+    "main": {
+      "id": "gpt-6.1-terra",
+      "why": "Current tier below Sol and above Luna. Documented for clear, natural writing and supports Structured Outputs. At 1 and 5 USD per 1M it stays affordable for a repeated service.",
+      "usd_per_1m": {"input": 1.00, "cached_input": 0.05, "cache_write_30m": 1.25, "output": 5.00}
+    },
+    "cheap": {
+      "id": "gpt-6-luna",
+      "why": "Current cheapest GPT-6 model, ten times cheaper than Terra. Supports Structured Outputs. Shows what a low cost service would get.",
+      "usd_per_1m": {"input": 0.10, "cached_input": 0.01, "cache_write_30m": 0.125, "output": 0.50}
+    }
+  },
+  "endpoint": "https://api.openai.com/v1/responses",
+  "api_key_file": "C:/Users/user/.secrets/openai_api_key.txt",
+  "request": {
+    "reasoning_effort": "medium",
+    "reasoning_effort_why": "Documented default for both models, chosen before any call and the same for both.",
+    "temperature": "not sent. The guide says temperature and top_p must be removed when reasoning effort is not none.",
+    "store": false,
+    "store_why": "Row-derived persona text should not be retained as a stored response.",
+    "service_tier": "default",
+    "prompt_cache_mode": "explicit",
+    "prompt_cache_why": "Explicit mode with no breakpoints creates no cache reads or writes, so calls are independent and a long C2 persona is not billed at the 1.25x write rate.",
+    "max_output_tokens": 4000
+  },
+  "limits": {
+    "budget_usd": 6.0,
+    "concurrency": 8,
+    "max_attempts": 6,
+    "timeout_s": 180,
+    "persistent_failure_codes": 15
+  },
+  "prompt_file": "config/gate_prompt.json",
+  "prompt_sha256": "5173abd19d9d187877dc87fa994c25e68e2464af06aa255c516f3bca260a0309",
+  "panel": {
+    "test_n": 1000,
+    "test_seed": 42,
+    "pi_draws": 20000,
+    "pi_seed": 43,
+    "stability_n": 100,
+    "stability_seed": [42, 99]
+  },
+  "run_order": [
+    {"model": "gpt-6.1-terra", "condition": "C2"},
+    {"model": "gpt-6.1-terra", "condition": "C1"},
+    {"model": "gpt-6-luna", "condition": "C2"},
+    {"model": "gpt-6-luna", "condition": "C1"}
+  ],
+  "stability": {"model": "gpt-6.1-terra", "condition": "C2", "extra_repeats": 3},
+  "cost_projection": {
+    "source": "Measured USD per call in the gate (results/gate_run_summary.json by_condition), not a smoke estimate.",
+    "usd_per_call": {"gpt-6.1-terra": {"C1": 0.0012037, "C2": 0.0019234}, "gpt-6-luna": {"C1": 0.0002043, "C2": 0.000313}},
+    "new_calls_per_model_and_condition": 1332,
+    "stability_calls": 300
+  }
+}
