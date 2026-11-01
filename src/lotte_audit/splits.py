@@ -4,7 +4,7 @@ Respondents of one household, and of one survey unit, never straddle splits. A h
 would still let unit-level effects cross over. The comparators used plain row splits, so their AUCs
 can differ for that reason.
 """
-import csv
+import hashlib
 import json
 
 import numpy as np
@@ -39,18 +39,25 @@ def assign_units(df, seed=paths.SEED, fractions=None):
     return df[paths.PSU].map(unit_split).to_numpy()
 
 
+def build_manifest(df):
+    """Row index, full-row hash and split per row, regenerated from the raw file and the seed. It is not stored: it is one row per respondent."""
+    return pd.DataFrame({"row_index": np.arange(len(df)), "row_hash": data.row_hashes(df), "split": assign_units(df)})
+
+
+def manifest_sha256(manifest):
+    """Hash of the whole manifest as text, with LF line ends. Row hashes hold the file's content, so this also pins the raw file and row order."""
+    lines = ["row_index,row_hash,split"] + [f"{i},{h},{s}" for i, h, s in zip(manifest.row_index, manifest.row_hash, manifest.split)]
+    return hashlib.sha256(("\n".join(lines) + "\n").encode("utf-8")).hexdigest()
+
+
 def write_manifest(df):
-    """Write the committed manifest: row index, full-row hash, split. Contains no answers or ids."""
+    """Write the split summary and the whole-file hash. Aggregates only. The per-row manifest is never written to disk."""
     paths.MANIFESTS.mkdir(parents=True, exist_ok=True)
-    split = assign_units(df)
-    hashes = data.row_hashes(df)
-    with open(paths.SPLIT_MANIFEST, "w", encoding="utf-8", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["row_index", "row_hash", "split"])
-        for i, (h, s) in enumerate(zip(hashes, split)):
-            w.writerow([i, h, s])
+    manifest = build_manifest(df)
+    split = manifest.split.to_numpy()
     groups = pd.DataFrame({"s": split, "u": df[paths.PSU].to_numpy(), "h": df[paths.HOUSEHOLD].to_numpy()})
     meta = {
+        "manifest_sha256": manifest_sha256(manifest),
         "seed": paths.SEED,
         "unit": "vuid inside STR",
         "fractions_target": paths.SPLIT_FRACTIONS,
@@ -63,14 +70,18 @@ def write_manifest(df):
 
 
 def load_manifest(df=None):
-    """Read the manifest and, when df is given, verify every row hash against the file."""
-    m = pd.read_csv(paths.SPLIT_MANIFEST, dtype={"row_hash": str})
-    if df is not None:
-        if len(df) != len(m):
-            raise ValueError(f"manifest has {len(m)} rows, data has {len(df)}")
-        if not (data.row_hashes(df) == m.row_hash.to_numpy()).all():
-            raise ValueError("row hashes differ from the manifest: raw file changed or row order differs")
-    return m
+    """Regenerate the manifest from the raw file and the seed, and refuse unless its whole hash equals the one in the split summary.
+
+    A changed raw file, a changed row order or a library that shuffles differently all stop here. requirements.txt pins numpy and pandas for this.
+    """
+    if df is None:
+        df, _ = data.load_sav()
+    manifest = build_manifest(df)
+    expected = json.loads(paths.SPLIT_META.read_text(encoding="utf-8"))["manifest_sha256"]
+    got = manifest_sha256(manifest)
+    if got != expected:
+        raise ValueError(f"regenerated split manifest hash {got} differs from {expected}: raw file, row order or library versions changed")
+    return manifest
 
 
 def masks(manifest):

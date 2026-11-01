@@ -2,6 +2,7 @@
 data/raw/
 data/derived/
 runs/
+manifests/splits_seed42.csv
 *.sav
 *.zip
 

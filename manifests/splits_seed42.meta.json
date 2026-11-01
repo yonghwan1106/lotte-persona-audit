@@ -1,4 +1,5 @@
 {
+  "manifest_sha256": "3b2f5b7fc04ce79b453291d878d082eb94a8d4a0b35ebfd18bee15bb0b9f730b",
   "seed": 42,
   "unit": "vuid inside STR",
   "fractions_target": {

@@ -15,7 +15,6 @@ SAV_2025 = RAW / "a2025.sav"
 SAV_2024 = RAW / "a2024.sav"
 SAV_2023 = RAW / "a2023.sav"
 
-SPLIT_MANIFEST = MANIFESTS / "splits_seed42.csv"
 SPLIT_META = MANIFESTS / "splits_seed42.meta.json"
 
 SEED = 42

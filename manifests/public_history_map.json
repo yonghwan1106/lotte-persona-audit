@@ -1,0 +1,152 @@
+{
+ "note": "Same author and commit times and subjects, new hashes. Only the split manifest file and one respondent code in README were removed from history.",
+ "commits": [
+  {
+   "gate_run": "6d67bd182c05",
+   "public": "7eac37c75503",
+   "author_time": 1793537970,
+   "commit_time": 1793537970,
+   "subject": "Initial commit: lotte-persona-audit"
+  },
+  {
+   "gate_run": "2fae2b0ef8bc",
+   "public": "d53ba9090b9b",
+   "author_time": 1793538028,
+   "commit_time": 1793538028,
+   "subject": "Normalise line endings in the frozen config hashes"
+  },
+  {
+   "gate_run": "589246001216",
+   "public": "08f606bba3e0",
+   "author_time": 1793539005,
+   "commit_time": 1793539005,
+   "subject": "Freeze the gate run config and prompt before the first persona call"
+  },
+  {
+   "gate_run": "95b3ac401649",
+   "public": "dd38517214a5",
+   "author_time": 1793539262,
+   "commit_time": 1793539262,
+   "subject": "Stop at once on an empty credit balance and record the blocked gate"
+  },
+  {
+   "gate_run": "4eba91edde74",
+   "public": "db82157f075e",
+   "author_time": 1793539407,
+   "commit_time": 1793539407,
+   "subject": "Drop the 'use only given information' line from the frozen prompt before any answer exists"
+  },
+  {
+   "gate_run": "ad7be1a26099",
+   "public": "29ab8dcb1337",
+   "author_time": 1793540156,
+   "commit_time": 1793540156,
+   "subject": "Lower the gate budget to USD 8 before the first answer"
+  },
+  {
+   "gate_run": "6d625f56465b",
+   "public": "5005f6592483",
+   "author_time": 1793540934,
+   "commit_time": 1793540934,
+   "subject": "Record the gate run aggregates for gpt-6.1-terra and gpt-6-luna"
+  },
+  {
+   "gate_run": "2e01ad7f762c",
+   "public": "d9ff4a6e7fff",
+   "author_time": 1793542225,
+   "commit_time": 1793542225,
+   "subject": "Freeze the main stage plan before its first call"
+  },
+  {
+   "gate_run": "05b9772ad80d",
+   "public": "12335004ff93",
+   "author_time": 1793544699,
+   "commit_time": 1793544699,
+   "subject": "Record the main stage aggregates for gpt-6.1-terra and gpt-6-luna"
+  },
+  {
+   "gate_run": "1836b0dc6ae9",
+   "public": "644697598393",
+   "author_time": 1793546975,
+   "commit_time": 1793546975,
+   "subject": "Freeze the stage 3 plan before its first call"
+  },
+  {
+   "gate_run": "b0bc4507c361",
+   "public": "b0e94cac7239",
+   "author_time": 1793547577,
+   "commit_time": 1793547577,
+   "subject": "Record the stage 3 aggregates: rule v2 beside v1 and the option ranking test"
+  },
+  {
+   "gate_run": "64be543ba6e4",
+   "public": "a1d85d62c860",
+   "author_time": 1793549744,
+   "commit_time": 1793549744,
+   "subject": "Freeze the audit agent's concept demo plan before its first demo call"
+  },
+  {
+   "gate_run": "b82a066bc52e",
+   "public": "42838636c07e",
+   "author_time": 1793549810,
+   "commit_time": 1793549810,
+   "subject": "Keep the rule modules offline and make pair names independent of validation order"
+  },
+  {
+   "gate_run": "d3435124ac4c",
+   "public": "6f21e734c164",
+   "author_time": 1793550637,
+   "commit_time": 1793550637,
+   "subject": "Record the first demo run and require narrator sentences to be hypotheses"
+  },
+  {
+   "gate_run": "cf7bacbc1479",
+   "public": "be93ea95dcf5",
+   "author_time": 1793550868,
+   "commit_time": 1793550868,
+   "subject": "Fix the transcript write race and a guard false positive, and record the later demo passes"
+  },
+  {
+   "gate_run": "c75cad64d039",
+   "public": "82eda6226d76",
+   "author_time": 1793551571,
+   "commit_time": 1793551571,
+   "subject": "Tell the manager the run state from code and log narrator calls"
+  },
+  {
+   "gate_run": "0ed70ed30233",
+   "public": "38f755cd7121",
+   "author_time": 1793552046,
+   "commit_time": 1793552046,
+   "subject": "Record the final demo pass, the final scenario batch and the stage spend"
+  },
+  {
+   "gate_run": "b189bc5f2e23",
+   "public": "5f23db911b58",
+   "author_time": 1793554762,
+   "commit_time": 1793554762,
+   "subject": "Close the gaps the skeptic pass found in intake, tools, number rule and status"
+  },
+  {
+   "gate_run": "7af2cc2d925c",
+   "public": "2b25fbed93c7",
+   "author_time": 1793554762,
+   "commit_time": 1793554762,
+   "subject": "Write trust map rule v3 and its acceptance bar before computing either"
+  },
+  {
+   "gate_run": "7dac391ddcce",
+   "public": "7c91735bbbbc",
+   "author_time": 1793555049,
+   "commit_time": 1793555049,
+   "subject": "Record rule v3 beside v1 and v2: controls first, then the LLM answers, and the ceilings"
+  },
+  {
+   "gate_run": "4b5fb508279b",
+   "public": "23f3b08fda81",
+   "author_time": 1793555922,
+   "commit_time": 1793555922,
+   "subject": "Rerun demo, scenarios and wf7 attacks in a separate stage, correct README, add the numbers sheet"
+  }
+ ]
+}

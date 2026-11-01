@@ -32,7 +32,7 @@ def cmd_prepare(_):
     meta_out = splits.write_manifest(df)
     print(json.dumps(meta_out, indent=2))
     splits.load_manifest(df)
-    print("manifest verified against file")
+    print("split manifest regenerated from the seed and its whole hash verified")
 
 
 def cmd_reproduce(_):
