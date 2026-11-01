@@ -4,10 +4,13 @@ The transcript is append only and written as it happens, so a crash keeps what c
 approvals and model metadata. Persona text never reaches this object because tools only return aggregates.
 """
 import json
+import threading
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
+# The SDK runs plain function tools on worker threads, so parallel tool calls can write at the same moment.
+_WRITE_LOCK = threading.Lock()
 PERSISTED = ("run_id", "cards", "excluded", "removed", "plan", "approval", "run_doc", "diagnostics", "verdict", "catalog", "allocation", "questionnaire", "narration", "ledger_entry", "reason_tokens", "reasons_too_long", "panel_sha256", "demo", "refusals", "intake_cards")
 
 
@@ -53,7 +56,7 @@ class AuditContext:
         if self.transcript_path:
             path = Path(self.transcript_path)
             path.parent.mkdir(parents=True, exist_ok=True)
-            with path.open("a", encoding="utf-8") as fh:
+            with _WRITE_LOCK, path.open("a", encoding="utf-8") as fh:
                 fh.write(json.dumps(row, ensure_ascii=False, default=str) + "\n")
         return row
 

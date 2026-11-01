@@ -392,6 +392,12 @@ def test_narrator_sentences_must_be_hypotheses_not_verdicts(sentence, reason):
     assert GUARD.check_form("\uac00\uaca9\uc774 \ubd80\ub2f4\uc73c\ub85c \uc77d\ud614\uc744 \uc218 \uc788\ub2e4.") == []
 
 
+def test_the_verb_dul_su_is_not_a_numeral_but_the_numeral_dul_is():
+    assert GUARD.check_sentence("\ube44\uc911\uc744 \ub2e4\ub974\uac8c \ub458 \uc218 \uc788\ub2e4", KNOWN) == []
+    assert GUARD.check_sentence("\ub458\uc774 \ub2e4\ub97c \uc218 \uc788\ub2e4", KNOWN) != []
+    assert GUARD.check_sentence("\ub458 \ub2e4 \uadf8\ub7f4 \uc218 \uc788\ub2e4", KNOWN) != []
+
+
 def test_guard_needs_cited_ids():
     assert "placeholder_not_cited" in GUARD.check_sentence("{{m:noise_terra}}", KNOWN, [])
     assert GUARD.check_sentence("{{m:noise_terra}}", KNOWN, ["noise_terra"]) == []
@@ -1026,3 +1032,13 @@ def test_results_hold_no_persona_text_and_no_respondent_code():
     found = set(code_re.findall(blob)) & set(codes)
     assert not found, sorted(found)[:3]
     assert not [p for p in set(personas) if len(p) > 40 and p in blob]
+
+
+def test_transcript_lines_stay_whole_under_parallel_writes(tmp_path):
+    from concurrent.futures import ThreadPoolExecutor
+
+    ctx = make_ctx(tmp_path)
+    with ThreadPoolExecutor(8) as pool:
+        list(pool.map(lambda i: ctx.event("tool_output", tool="x", output={"i": i, "pad": "y" * 4000}), range(200)))
+    rows = [json.loads(line) for line in Path(ctx.transcript_path).read_text(encoding="utf-8").splitlines()]
+    assert len(rows) == 200
