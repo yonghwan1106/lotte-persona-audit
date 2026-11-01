@@ -1,0 +1,20 @@
+{
+ "real_answer_labels": {
+  "ever": {
+   "v1": "보정 후 참고",
+   "v2": "방향만",
+   "v3": "방향만"
+  },
+  "weekly": {
+   "v1": "보정 후 참고",
+   "v2": "방향만",
+   "v3": "보정 후 참고"
+  },
+  "carb": {
+   "v1": "보정 후 참고",
+   "v2": "실측 전용",
+   "v3": "보정 후 참고"
+  }
+ },
+ "note": "Each respondent's real answer stands in as the panel's answer in every slot. The 4 slots are identical by construction, so they are one result shown 4 times. Not a claim about any LLM."
+}

@@ -1,0 +1,317 @@
+{
+ "action": {
+  "rows": [
+   {
+    "card": "A",
+    "action": "keep",
+    "label": "실측 후보 유지",
+    "reason": "대조안과는 갈렸습니다. 가장 높게 나온 안과의 차이(terra 4.1pp, luna 4.8pp)가 탈락 제안 기준 5pp에 못 미쳐 버릴 근거가 없습니다."
+   },
+   {
+    "card": "B",
+    "action": "keep",
+    "label": "실측 후보 유지",
+    "reason": "대조안과는 갈렸습니다. 가장 높게 나온 안과의 차이(terra 2.1pp, luna 2.9pp)가 탈락 제안 기준 5pp에 못 미쳐 버릴 근거가 없습니다."
+   },
+   {
+    "card": "C",
+    "action": "keep",
+    "label": "실측 후보 유지",
+    "reason": "대조안과는 갈렸습니다. 이 실행에서 높게 나왔다는 것은 선택을 뜻하지 않습니다. 패널 내부 값이고 실제 소비자에게서도 그렇다는 근거가 없습니다."
+   }
+  ],
+  "order": [
+   "방향 가설: C가 A보다 패널 내부 값에서 높게 나왔습니다(terra 4.1pp, luna 4.8pp, 두 모델 모두 잡음 초과). 선택이 아닙니다. 기존 음료 순서 시험에서 패널 격차 3~5pp 구간의 쌍 정확도는 0.444 [0.316, 0.556]였습니다.",
+   "방향 가설: C가 B보다 패널 내부 값에서 높게 나왔습니다(terra 2.1pp, luna 2.9pp, 두 모델 모두 잡음 초과). 선택이 아닙니다. 기존 음료 순서 시험에서 패널 격차 1~3pp 구간의 쌍 정확도는 0.806 [0.684, 0.849]였습니다."
+  ],
+  "order_hidden_pairs": [
+   "A, B"
+  ],
+  "notes": [
+   "탈락 제안 기준 5pp는 기존 음료 순서 시험에서 나온 사후 가설이고, 신제품에서 검증한 적이 없습니다. 탈락 제안이 실제로 쓸모 있는지는 재지 않았습니다.",
+   "이 실행에는 정답이 없습니다. 패널 값은 시장 수치나 판매 전망이 아닙니다."
+  ],
+  "drop_gap_pp": 5.0
+ },
+ "detectable": {
+  "alpha_two_sided": 0.05,
+  "power": 0.8,
+  "p": 0.5,
+  "n_total": 200,
+  "n_arm": 100,
+  "z_alpha": 1.96,
+  "z_power": 0.8416,
+  "between_mde_pp": 19.8,
+  "within_mde_pp": {
+   "0.0": 14.0,
+   "0.3": 11.7,
+   "0.5": 9.9
+  },
+  "needed": [
+   {
+    "gap_pp": 5,
+    "between_per_arm": 1570,
+    "between_total": 3140,
+    "within": {
+     "0.0": 1570,
+     "0.3": 1099,
+     "0.5": 785
+    }
+   },
+   {
+    "gap_pp": 10,
+    "between_per_arm": 393,
+    "between_total": 786,
+    "within": {
+     "0.0": 393,
+     "0.3": 275,
+     "0.5": 197
+    }
+   }
+  ],
+  "arithmetic": "(1.960 + 0.842) x sqrt(2 x 0.5 x 0.5 / 100) x 100"
+ },
+ "explore": {
+  "marking": "아래는 LLM 출력입니다. 응답자의 말이 아닙니다. 모든 문장은 가설이며 수치가 없습니다.",
+  "cards": {
+   "A": {
+    "sections": {
+     "objections": [
+      "가설: 로즈메리 향이 낯설게 느껴져 구매를 망설일 수 있다.",
+      "가설: 청귤과 로즈메리의 향 조합이 친숙하지 않아 선뜻 선택하지 않을 수 있다.",
+      "가설: 대체 감미료 사용 여부가 선택에 걸림돌이 될 수 있다.",
+      "가설: 편의점 기준 가격대가 부담으로 느껴질 수 있다."
+     ],
+     "attractions": [
+      "가설: 당류가 없다는 점이 관심을 끌 수 있다.",
+      "가설: 칼로리가 없다는 점이 음료 선택에 매력으로 작용할 수 있다.",
+      "가설: 청귤 향을 내세운 문구가 관심을 끌 수 있다.",
+      "가설: 청귤과 로즈메리를 결합한 콘셉트가 새로운 음료를 찾는 사람에게 매력적일 수 있다."
+     ],
+     "segment_hypotheses": [
+      "가설: 젊은 층과 고령층은 향 조합의 낯섦이나 가격대에 서로 다르게 반응할 수 있다.",
+      "가설: 중년층에서도 로즈메리 향과 대체 감미료에 대한 인식에 따라 반응이 갈릴 수 있다.",
+      "가설: 당류나 칼로리를 고려해 음료를 고르는 생활 습관에 따라 콘셉트의 매력이 달라질 수 있다."
+     ],
+     "survey_questions": [
+      "가설: 제시된 콘셉트의 음료를 구매할 의향은 어떠한가요?",
+      "가설: 당류와 칼로리가 없다는 설명은 음료를 선택할 때 어떻게 작용하나요?",
+      "가설: 청귤 향을 더했다는 설명에 대해 어떻게 생각하나요?",
+      "가설: 로즈메리 향을 더했다는 설명에 대해 어떻게 생각하나요?",
+      "가설: 대체 감미료를 사용했다는 설명은 음료를 선택할 때 어떻게 작용하나요?"
+     ]
+    },
+    "reasons_read": 150,
+    "model_of_reasons": "gpt-6.1-terra",
+    "cost_usd": 0.011727,
+    "dropped_by_code": {
+     "over_limit": 3
+    },
+    "echo": {
+     "sentences_checked": 16,
+     "personas_compared": 150,
+     "reasons_compared": 150,
+     "persona_echo": 0,
+     "reason_echo": 0,
+     "passed": true
+    }
+   },
+   "B": {
+    "sections": {
+     "objections": [
+      "가설: 제시된 가격대가 부담스럽게 느껴질 수 있다.",
+      "가설: 탄산과 홍차의 조합이 낯설어 구매를 망설일 수 있다.",
+      "가설: 복숭아 향과 탄산 홍차의 조합이 취향에 맞을지 판단하기 어려울 수 있다."
+     ],
+     "attractions": [
+      "가설: 당류가 없다는 문구가 음료 선택에 매력으로 작용할 수 있다.",
+      "가설: 칼로리가 없다는 점이 관심을 끌 수 있다.",
+      "가설: 복숭아 향을 더했다는 설명이 관심을 끌 수 있다.",
+      "가설: 탄산과 홍차를 결합한 콘셉트가 호기심을 일으킬 수 있다."
+     ],
+     "segment_hypotheses": [
+      "가설: 젊은 층과 고령층은 탄산 홍차 조합의 친숙함에 대한 반응이 다를 수 있다.",
+      "가설: 중년층에서도 가격대에 대한 수용도와 구매 의향이 갈릴 수 있다.",
+      "가설: 평소 당류나 칼로리를 고려해 음료를 고르는 습관에 따라 제로 문구의 매력이 달라질 수 있다."
+     ],
+     "survey_questions": [
+      "가설: 평소 음료를 고를 때 어떤 기준을 고려하시나요?",
+      "가설: 제시된 음료의 당류가 없다는 설명을 어떻게 평가하시나요?",
+      "가설: 제시된 음료의 칼로리가 없다는 설명을 어떻게 평가하시나요?",
+      "가설: 복숭아 향을 더했다는 설명에 대해 어떻게 생각하시나요?",
+      "가설: 탄산과 홍차를 결합한 음료 콘셉트가 얼마나 친숙하게 느껴지나요?"
+     ]
+    },
+    "reasons_read": 150,
+    "model_of_reasons": "gpt-6.1-terra",
+    "cost_usd": 0.011633,
+    "dropped_by_code": {
+     "over_limit": 3
+    },
+    "echo": {
+     "sentences_checked": 15,
+     "personas_compared": 150,
+     "reasons_compared": 150,
+     "persona_echo": 0,
+     "reason_echo": 0,
+     "passed": true
+    }
+   },
+   "C": {
+    "sections": {
+     "objections": [
+      "가설: 제시된 가격대가 음료 구매에 부담으로 느껴질 수 있다.",
+      "가설: 유자 향이 평소 선호하는 음료의 향과 달라 망설일 수 있다.",
+      "가설: 탄산이 없는 이온 음료라는 점이 평소 음료 선택 기준과 맞지 않을 수 있다.",
+      "가설: 물처럼 마시는 음료로 제시된 용량이 평소 음용 습관과 맞지 않을 수 있다."
+     ],
+     "attractions": [
+      "가설: 당류와 칼로리가 없다는 문구가 음료 선택에 매력으로 작용할 수 있다.",
+      "가설: 유자 향이라는 콘셉트가 친숙하게 느껴질 수 있다.",
+      "가설: 탄산이 없다는 점이 평소 탄산 없는 음료를 찾는 사람에게 어필할 수 있다.",
+      "가설: 운동 뒤와 일상에서 마실 수 있다는 쓰임새가 관심을 끌 수 있다.",
+      "가설: 페트 용기가 휴대와 음용의 편의성으로 이어질 수 있다."
+     ],
+     "segment_hypotheses": [
+      "가설: 젊은 층과 고령층은 제로 슈거와 유자 향을 조합한 콘셉트에 대한 구매 의향이 다를 수 있다.",
+      "가설: 중년층과 고령층은 제시된 가격대에 대한 반응이 다를 수 있다.",
+      "가설: 평소 무당 음료를 찾는 습관에 따라 당류와 칼로리가 없다는 문구에 대한 관심이 달라질 수 있다."
+     ],
+     "survey_questions": [
+      "가설: 이 음료 콘셉트를 보고 구매 의향이 어느 정도 드시나요?",
+      "가설: 제시된 가격대에 대해 어떻게 생각하시나요?",
+      "가설: 당류와 칼로리가 없다는 점을 어떻게 평가하시나요?",
+      "가설: 유자 향을 내세운 점을 어떻게 평가하시나요?",
+      "가설: 탄산이 없다는 점을 어떻게 평가하시나요?"
+     ]
+    },
+    "reasons_read": 150,
+    "model_of_reasons": "gpt-6.1-terra",
+    "cost_usd": 0.011185,
+    "dropped_by_code": {
+     "over_limit": 3
+    },
+    "echo": {
+     "sentences_checked": 17,
+     "personas_compared": 150,
+     "reasons_compared": 150,
+     "persona_echo": 0,
+     "reason_echo": 0,
+     "passed": true
+    }
+   }
+  }
+ },
+ "real_results": {
+  "source_label": "실측 대용 KREI",
+  "is_real_concept_survey": false,
+  "n_respondents": 200,
+  "anchors_used": [
+   "ever",
+   "weekly",
+   "carb"
+  ],
+  "concepts_used": [],
+  "folds": 5,
+  "metric": "out of fold weighted log loss, R1 minus calibrated panel, positive favours the panel",
+  "decision": "keep",
+  "anchors": {
+   "pooled": {
+    "mean_improvement": 0.02267,
+    "interval": [
+     0.00533,
+     0.04001
+    ],
+    "keep": true,
+    "excludes_zero": true
+   },
+   "per_item": {
+    "ever": {
+     "mean_improvement": 0.02137,
+     "interval": [
+      0.0003,
+      0.04243
+     ],
+     "keep": true,
+     "excludes_zero": true,
+     "r1_loss": 0.59582,
+     "panel_loss": 0.57445
+    },
+    "weekly": {
+     "mean_improvement": 0.03197,
+     "interval": [
+      0.01415,
+      0.0498
+     ],
+     "keep": true,
+     "excludes_zero": true,
+     "r1_loss": 0.41813,
+     "panel_loss": 0.38616
+    },
+    "carb": {
+     "mean_improvement": 0.01467,
+     "interval": [
+      -0.01806,
+      0.0474
+     ],
+     "keep": false,
+     "excludes_zero": false,
+     "r1_loss": 0.24086,
+     "panel_loss": 0.22619
+    }
+   }
+  },
+  "concept_duel": "not_run_no_real_concept_answers",
+  "duel_grade": {
+   "label": "decision_rule",
+   "acceptance_passed": true
+  },
+  "seed_runs": 4,
+  "seed_runs_failed": 2,
+  "approver": "stage brief, no person at the keyboard",
+  "approver_note": "code cannot check who this is",
+  "lines": [
+   "실측 대용 KREI: 패널 값 유지. 평균 개선 +0.0227 [+0.0053, +0.0400] (R1 손실 빼기 보정 패널 손실, 5겹 교차 검증, 앵커 3개 평균, 응답자 200명).",
+   "구간 전체가 0 위에 있어 규칙대로 이번 결정에 패널 값을 남깁니다.",
+   "이것은 KREI 응답을 대신 넣은 것입니다. 실제 콘셉트 설문이 아니고, 앵커 문항만 있습니다.",
+   "콘셉트 문항 대결은 돌리지 않았습니다. 이 파일에 콘셉트 문항 실측이 없습니다. 콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다.",
+   "대결 규칙 등급: 동결한 시드에서 사전 기준을 넘었습니다(대체 패널 유지율 0.115, 양성 대조 유지율 1.0).",
+   "다만 답을 본 뒤 다른 시드 4개로 돌리자 2개에서 대체 패널 유지율이 기준을 넘었습니다. 기준 근처에 있으니 확정 판정처럼 읽지 않습니다.",
+   "같은 규칙을 KREI 보정 풀의 200회 추출에 돌리면 Terra C2는 31.0%에서 유지, Luna C1은 1.5%에서 유지였습니다. 이번 한 번의 유지나 제외는 그중 하나입니다.",
+   "유지가 나와도 칸 오차까지 낫다는 보장은 아닙니다. Terra C2에서 유지된 추출의 43.5%는 패널 밖 truth의 칸 오차로 R1을 이기지 못했고, 이긴 추출의 66.3%는 제외됐습니다.",
+   "기록자: stage brief, no person at the keyboard. 코드는 이 이름이 누구인지 확인하지 못합니다."
+  ]
+ },
+ "ledger": {
+  "rows": 2,
+  "human_decision": null,
+  "approver": "stage brief, no person at the keyboard"
+ },
+ "duel_bar": {
+  "surrogate_max_keep": 0.12,
+  "positive_min_margin": 0.3
+ },
+ "duel_reading": "The acceptance passed. The duel may be called a decision rule for the anchor items under row draws from this pool. No concept question has met a real survey.",
+ "seed_note": "The acceptance and the label come from the frozen seeds in duel_validity.json. This file only shows how far they move with other seeds. It changes nothing.",
+ "allocation": {
+  "cell_names": [
+   "41",
+   "42",
+   "51",
+   "52",
+   "61",
+   "62",
+   "71",
+   "72",
+   "81",
+   "82",
+   "91",
+   "92"
+  ],
+  "reference_sources": {
+   "ever": "train split",
+   "weekly": "train split",
+   "carb": "a2024 A15_1 in {7,8}"
+  }
+ }
+}

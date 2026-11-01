@@ -1,0 +1,101 @@
+{
+ "from": [
+  "config/agent_text.json",
+  "config/agent_run.json"
+ ],
+ "classes": {
+  "taste": "맛, 향, 단맛 평가",
+  "packaging": "패키지 시안 반응",
+  "sales_forecast": "판매량, 매출, 점유율 예측",
+  "success_probability": "성공 확률, 성패 예측",
+  "single_score": "단일 신뢰 점수",
+  "threshold_change": "임계값, 판정 변경",
+  "out_of_scope": "평가 범위 밖 요청"
+ },
+ "messages": {
+  "taste": "맛, 향, 단맛 평가는 하지 않습니다. 페르소나는 맛을 볼 수 없습니다. 관능 평가 담당으로 안내합니다.",
+  "packaging": "패키지 시안 반응은 평가하지 않습니다. 문자로 된 콘셉트만 받습니다.",
+  "sales_forecast": "판매량, 매출, 점유율은 추정하지 않습니다. 콘셉트 테스트와 판매를 짝지은 한국 음료 공개 자료를 찾지 못했습니다. 수요 예측 담당으로 안내합니다.",
+  "success_probability": "성공 확률과 성패는 예측하지 않습니다. 이 서비스는 어느 칸을 어디까지 믿을 수 있는지 판정하고 실측 설계를 내는 데까지입니다.",
+  "single_score": "단일 신뢰 점수는 내지 않습니다. 칸별 판정만 냅니다.",
+  "threshold_change": "임계값과 판정은 바꿀 수 없습니다. 답을 보기 전에 고정한 값입니다.",
+  "out_of_scope": "이 요청은 평가 범위 밖입니다."
+ },
+ "request_patterns": {
+  "taste": "맛있|맛이 (더|어떨|좋)|맛을 (평가|비교)|맛 평가|시음|관능|단맛 (평가|비교)|향이 더|어느 향|향 평가|마셔 ?본 느낌",
+  "packaging": "패키지 ?시안|포장 ?시안|패키지 ?디자인|포장 ?디자인|라벨 ?디자인|시안 이미지|시안 반응|시안.*(골라|평가)",
+  "sales_forecast": "판매량|매출|점유율|시장 규모|몇 병|몇 개나|얼마나 (잘 )?팔|수요 예측",
+  "success_probability": "성공 확률|성공할 확률|성공 가능성|성패|히트 확률|출시해도 될|잘 될 확률",
+  "single_score": "신뢰 ?점수|신뢰도 ?점수|종합 ?점수|점수 하나|숫자 하나|단일 점수|trust score",
+  "threshold_change": "임계값|기준을? (낮|올|바꿔|완화)|합격 기준|판정을? (바꿔|올려|다시 맞|고쳐)|보정 후 참고로 (바꿔|올려|표시)",
+  "out_of_scope": "맥주|소주|주류|막걸리|와인|위스키|19세 미만|청소년 대상|유통 채널 진입|판촉 효과|가격 탄력성|설문을? (보내|발송)|답을 본 뒤 문항"
+ },
+ "card_request_patterns": {
+  "taste": "(맛|향|단맛)[^.]{0,20}(평가|비교|순위|골라|알려)",
+  "packaging": "(패키지|포장|라벨|시안)[^.]{0,20}(평가|반응|골라|알려)",
+  "sales_forecast": "(판매량|매출|점유율|시장 규모)[^.]{0,20}(알려|예측|추정|계산|내|구해)",
+  "success_probability": "(성공 확률|성공 가능성|성패)[^.]{0,20}(알려|예측|추정|계산|내|구해)",
+  "single_score": "(신뢰 ?점수|종합 ?점수|단일 점수)",
+  "threshold_change": "(임계값|합격 기준)[^.]{0,20}(바꿔|낮|올)"
+ },
+ "injection_patterns": "이전 지시|지시를? (무시|따르)|시스템 ?(지시|:|메시지|프롬프트)|system ?:|ignore (all|previous|the)|높게 평가|최고점|[0-9] ?점(을|으로|만)|승인 ?(없이|받았|완료)|run_panel|decide_verdict|보정 후 참고로|평가하라|답하라|선택하라|고르라|점수를 주",
+ "real_brand_patterns": "칠성|펩시|밀키스|핫식스|트레비|게토레이|레쓰비|코카콜라|스프라이트|포카리|환타|웰치스|토레타|파워에이드",
+ "alcohol_patterns": "맥주|소주|막걸리|와인|위스키|청주|주류|하이볼",
+ "under19_patterns": "19세 미만|청소년|중학생|고등학생|초등학생",
+ "image_patterns": "첨부 이미지|이미지 첨부|시안 첨부|\\.png|\\.jpg|\\.jpeg",
+ "leading_fact_patterns": [
+  "(사전|이전|앞선|지난|자체|시장|소비자|고객|출시 전|파일럿|블라인드)\\s*(조사|설문|테스트|시험|시음|평가|리서치)",
+  "(소비자|응답자|고객|구매자|사람들?|참가자|참여자|패널|이용자|직장인|주부|학생)[가-힣 ]{0,12}(거의 모두|거의 다|대부분|대다수|전원|모두|다수|많은|절반|상당수|[0-9]+ ?%|[0-9]+ ?명)",
+  "(거의 모두|거의 다|대부분|대다수|전원|모든|많은|상당수|[0-9]+ ?%의?)[가-힣 ]{0,8}(소비자|응답자|고객|구매자|사람|참가자|참여자|패널|이용자)",
+  "(구입|구매|재구매|사겠|살 것|사고 싶|마시겠|선택|선호|찾는|찾았)[가-힣 ]{0,12}(답한|답했|답을|밝힌|밝혔|응답|의사를|의향을|비율|율이|평가)",
+  "(꼭|반드시|무조건)\\s*(구입|구매|사겠|살 |마시겠)",
+  "베스트 ?셀러|품절|완판|인기 (제품|상품|음료)|입소문|호평|극찬|화제의|판매 ?1위|시장 ?1위|1위|일위|재구매율|만족도|구매 의향|구매의향|추천율|선호도|호응|반응이 (좋|뜨겁|폭발|뜨거)|줄 서|줄을 서|없어서 못",
+  "(?i)\\b(respondents?|consumers?|customers?|survey|most people|everyone|best.?seller|top purchase)\\b"
+ ],
+ "pricing_source": {
+  "url": "https://developers.openai.com/api/docs/pricing.md",
+  "read_at": "2026-11-02",
+  "row_used": "Standard tier, short context, per 1M tokens"
+ },
+ "models": {
+  "main": {
+   "id": "gpt-6.1-terra",
+   "usd_per_1m": {
+    "input": 1.0,
+    "cached_input": 0.05,
+    "cache_write_30m": 1.25,
+    "output": 5.0
+   }
+  },
+  "cheap": {
+   "id": "gpt-6-luna",
+   "usd_per_1m": {
+    "input": 0.1,
+    "cached_input": 0.01,
+    "cache_write_30m": 0.125,
+    "output": 0.5
+   }
+  }
+ },
+ "planning": {
+  "why": "Mean tokens per call from smoke on a card that is not part of the demo. Expected cost is calls times these means. The cost cap is expected times safety_factor, and the runner stops at it.",
+  "tokens_per_call": {
+   "gpt-6.1-terra": {
+    "input": 480,
+    "output": 180
+   },
+   "gpt-6-luna": {
+    "input": 480,
+    "output": 220
+   }
+  },
+  "safety_factor": 1.5,
+  "seconds_per_call": 5.0
+ },
+ "concurrency": 8,
+ "panel": {
+  "n_personas": 150,
+  "c0_model": "gpt-6.1-terra",
+  "c0_calls_per_card": 10
+ }
+}
