@@ -1,0 +1,590 @@
+{
+  "_note": "EXPLORATORY. Does not alter the pre-registered switch rule.",
+  "conditions": {
+    "C0": {
+      "n": 100,
+      "share_weekly_above_ever": 0.0,
+      "items": {
+        "ever": {
+          "answer_sd_pct": 3.51,
+          "answer_min_pct": 70.0,
+          "answer_max_pct": 88.0
+        },
+        "weekly": {
+          "answer_sd_pct": 4.26,
+          "answer_min_pct": 22.0,
+          "answer_max_pct": 43.0
+        },
+        "carb": {
+          "answer_sd_pct": 2.12,
+          "answer_min_pct": 9.0,
+          "answer_max_pct": 18.0
+        }
+      }
+    },
+    "C1": {
+      "n": 300,
+      "share_weekly_above_ever": 0.0,
+      "items": {
+        "ever": {
+          "answer_sd_pct": 16.94,
+          "answer_min_pct": 16.0,
+          "answer_max_pct": 96.0,
+          "by_age_band_pct": {
+            "(4) 만 19~29세": {
+              "panel": 89.29,
+              "real": 86.42
+            },
+            "(5) 만 30~39세": {
+              "panel": 84.29,
+              "real": 71.38
+            },
+            "(6) 만 40~49세": {
+              "panel": 81.7,
+              "real": 57.52
+            },
+            "(7) 만 50~59세": {
+              "panel": 76.04,
+              "real": 52.46
+            },
+            "(8) 만 60~69세": {
+              "panel": 61.6,
+              "real": 32.88
+            },
+            "(9) 만 70세 이상": {
+              "panel": 38.7,
+              "real": 21.23
+            }
+          },
+          "by_sex_pct": {
+            "male": {
+              "panel": 76.05,
+              "real": 52.87
+            },
+            "female": {
+              "panel": 70.26,
+              "real": 55.3
+            }
+          },
+          "cell_pearson_r": 0.911,
+          "cell_means_pct": {
+            "41": {
+              "panel": 90.36,
+              "real": 85.33
+            },
+            "42": {
+              "panel": 87.74,
+              "real": 87.54
+            },
+            "51": {
+              "panel": 85.97,
+              "real": 69.49
+            },
+            "52": {
+              "panel": 82.63,
+              "real": 73.62
+            },
+            "61": {
+              "panel": 82.6,
+              "real": 50.65
+            },
+            "62": {
+              "panel": 80.33,
+              "real": 64.69
+            },
+            "71": {
+              "panel": 78.44,
+              "real": 51.75
+            },
+            "72": {
+              "panel": 73.6,
+              "real": 53.3
+            },
+            "81": {
+              "panel": 64.62,
+              "real": 33.35
+            },
+            "82": {
+              "panel": 58.96,
+              "real": 32.28
+            },
+            "91": {
+              "panel": 40.88,
+              "real": 22.2
+            },
+            "92": {
+              "panel": 36.5,
+              "real": 20.49
+            }
+          }
+        },
+        "weekly": {
+          "answer_sd_pct": 11.65,
+          "answer_min_pct": 4.0,
+          "answer_max_pct": 58.0,
+          "by_age_band_pct": {
+            "(4) 만 19~29세": {
+              "panel": 44.97,
+              "real": 27.73
+            },
+            "(5) 만 30~39세": {
+              "panel": 39.69,
+              "real": 15.77
+            },
+            "(6) 만 40~49세": {
+              "panel": 34.53,
+              "real": 8.4
+            },
+            "(7) 만 50~59세": {
+              "panel": 29.8,
+              "real": 9.17
+            },
+            "(8) 만 60~69세": {
+              "panel": 20.37,
+              "real": 7.34
+            },
+            "(9) 만 70세 이상": {
+              "panel": 11.63,
+              "real": 3.27
+            }
+          },
+          "by_sex_pct": {
+            "male": {
+              "panel": 33.47,
+              "real": 12.2
+            },
+            "female": {
+              "panel": 27.62,
+              "real": 11.62
+            }
+          },
+          "cell_pearson_r": 0.819,
+          "cell_means_pct": {
+            "41": {
+              "panel": 47.04,
+              "real": 25.59
+            },
+            "42": {
+              "panel": 41.94,
+              "real": 29.9
+            },
+            "51": {
+              "panel": 43.36,
+              "real": 20.35
+            },
+            "52": {
+              "panel": 36.05,
+              "real": 10.32
+            },
+            "61": {
+              "panel": 36.23,
+              "real": 7.21
+            },
+            "62": {
+              "panel": 31.93,
+              "real": 9.64
+            },
+            "71": {
+              "panel": 31.99,
+              "real": 9.73
+            },
+            "72": {
+              "panel": 27.57,
+              "real": 8.51
+            },
+            "81": {
+              "panel": 22.85,
+              "real": 7.66
+            },
+            "82": {
+              "panel": 18.19,
+              "real": 6.94
+            },
+            "91": {
+              "panel": 12.22,
+              "real": 2.92
+            },
+            "92": {
+              "panel": 11.05,
+              "real": 3.54
+            }
+          }
+        },
+        "carb": {
+          "answer_sd_pct": 4.52,
+          "answer_min_pct": 3.0,
+          "answer_max_pct": 27.0,
+          "by_age_band_pct": {
+            "(4) 만 19~29세": {
+              "panel": 17.21,
+              "real": 12.36
+            },
+            "(5) 만 30~39세": {
+              "panel": 14.06,
+              "real": 16.38
+            },
+            "(6) 만 40~49세": {
+              "panel": 13.27,
+              "real": 10.69
+            },
+            "(7) 만 50~59세": {
+              "panel": 11.12,
+              "real": 6.8
+            },
+            "(8) 만 60~69세": {
+              "panel": 9.12,
+              "real": 4.94
+            },
+            "(9) 만 70세 이상": {
+              "panel": 7.02,
+              "real": 3.66
+            }
+          },
+          "by_sex_pct": {
+            "male": {
+              "panel": 14.54,
+              "real": 11.56
+            },
+            "female": {
+              "panel": 9.36,
+              "real": 6.18
+            }
+          },
+          "cell_pearson_r": 0.867,
+          "cell_means_pct": {
+            "41": {
+              "panel": 19.97,
+              "real": 14.72
+            },
+            "42": {
+              "panel": 13.2,
+              "real": 9.95
+            },
+            "51": {
+              "panel": 16.52,
+              "real": 22.02
+            },
+            "52": {
+              "panel": 11.62,
+              "real": 9.68
+            },
+            "61": {
+              "panel": 14.97,
+              "real": 11.95
+            },
+            "62": {
+              "panel": 10.66,
+              "real": 9.36
+            },
+            "71": {
+              "panel": 13.4,
+              "real": 8.71
+            },
+            "72": {
+              "panel": 8.8,
+              "real": 4.57
+            },
+            "81": {
+              "panel": 11.43,
+              "real": 7.74
+            },
+            "82": {
+              "panel": 7.09,
+              "real": 1.47
+            },
+            "91": {
+              "panel": 8.54,
+              "real": 5.4
+            },
+            "92": {
+              "panel": 5.48,
+              "real": 2.35
+            }
+          }
+        }
+      }
+    },
+    "C2": {
+      "n": 300,
+      "share_weekly_above_ever": 0.0,
+      "items": {
+        "ever": {
+          "answer_sd_pct": 14.96,
+          "answer_min_pct": 28.0,
+          "answer_max_pct": 95.0,
+          "by_age_band_pct": {
+            "(4) 만 19~29세": {
+              "panel": 88.27,
+              "real": 86.42
+            },
+            "(5) 만 30~39세": {
+              "panel": 86.43,
+              "real": 71.38
+            },
+            "(6) 만 40~49세": {
+              "panel": 82.41,
+              "real": 57.52
+            },
+            "(7) 만 50~59세": {
+              "panel": 76.97,
+              "real": 52.46
+            },
+            "(8) 만 60~69세": {
+              "panel": 63.7,
+              "real": 32.88
+            },
+            "(9) 만 70세 이상": {
+              "panel": 46.14,
+              "real": 21.23
+            }
+          },
+          "by_sex_pct": {
+            "male": {
+              "panel": 77.25,
+              "real": 52.87
+            },
+            "female": {
+              "panel": 72.47,
+              "real": 55.3
+            }
+          },
+          "cell_pearson_r": 0.919,
+          "cell_means_pct": {
+            "41": {
+              "panel": 88.65,
+              "real": 85.33
+            },
+            "42": {
+              "panel": 87.71,
+              "real": 87.54
+            },
+            "51": {
+              "panel": 86.7,
+              "real": 69.49
+            },
+            "52": {
+              "panel": 86.16,
+              "real": 73.62
+            },
+            "61": {
+              "panel": 83.07,
+              "real": 50.65
+            },
+            "62": {
+              "panel": 81.4,
+              "real": 64.69
+            },
+            "71": {
+              "panel": 78.93,
+              "real": 51.75
+            },
+            "72": {
+              "panel": 74.97,
+              "real": 53.3
+            },
+            "81": {
+              "panel": 67.84,
+              "real": 33.35
+            },
+            "82": {
+              "panel": 60.06,
+              "real": 32.28
+            },
+            "91": {
+              "panel": 47.8,
+              "real": 22.2
+            },
+            "92": {
+              "panel": 44.47,
+              "real": 20.49
+            }
+          }
+        },
+        "weekly": {
+          "answer_sd_pct": 11.39,
+          "answer_min_pct": 6.0,
+          "answer_max_pct": 62.0,
+          "by_age_band_pct": {
+            "(4) 만 19~29세": {
+              "panel": 45.11,
+              "real": 27.73
+            },
+            "(5) 만 30~39세": {
+              "panel": 42.13,
+              "real": 15.77
+            },
+            "(6) 만 40~49세": {
+              "panel": 35.17,
+              "real": 8.4
+            },
+            "(7) 만 50~59세": {
+              "panel": 30.03,
+              "real": 9.17
+            },
+            "(8) 만 60~69세": {
+              "panel": 22.21,
+              "real": 7.34
+            },
+            "(9) 만 70세 이상": {
+              "panel": 14.01,
+              "real": 3.27
+            }
+          },
+          "by_sex_pct": {
+            "male": {
+              "panel": 34.36,
+              "real": 12.2
+            },
+            "female": {
+              "panel": 28.84,
+              "real": 11.62
+            }
+          },
+          "cell_pearson_r": 0.805,
+          "cell_means_pct": {
+            "41": {
+              "panel": 46.44,
+              "real": 25.59
+            },
+            "42": {
+              "panel": 43.16,
+              "real": 29.9
+            },
+            "51": {
+              "panel": 43.62,
+              "real": 20.35
+            },
+            "52": {
+              "panel": 40.66,
+              "real": 10.32
+            },
+            "61": {
+              "panel": 37.1,
+              "real": 7.21
+            },
+            "62": {
+              "panel": 32.22,
+              "real": 9.64
+            },
+            "71": {
+              "panel": 32.64,
+              "real": 9.73
+            },
+            "72": {
+              "panel": 27.38,
+              "real": 8.51
+            },
+            "81": {
+              "panel": 25.14,
+              "real": 7.66
+            },
+            "82": {
+              "panel": 19.65,
+              "real": 6.94
+            },
+            "91": {
+              "panel": 15.12,
+              "real": 2.92
+            },
+            "92": {
+              "panel": 12.89,
+              "real": 3.54
+            }
+          }
+        },
+        "carb": {
+          "answer_sd_pct": 4.87,
+          "answer_min_pct": 3.0,
+          "answer_max_pct": 27.0,
+          "by_age_band_pct": {
+            "(4) 만 19~29세": {
+              "panel": 18.19,
+              "real": 12.36
+            },
+            "(5) 만 30~39세": {
+              "panel": 15.07,
+              "real": 16.38
+            },
+            "(6) 만 40~49세": {
+              "panel": 13.77,
+              "real": 10.69
+            },
+            "(7) 만 50~59세": {
+              "panel": 11.2,
+              "real": 6.8
+            },
+            "(8) 만 60~69세": {
+              "panel": 8.99,
+              "real": 4.94
+            },
+            "(9) 만 70세 이상": {
+              "panel": 7.34,
+              "real": 3.66
+            }
+          },
+          "by_sex_pct": {
+            "male": {
+              "panel": 14.96,
+              "real": 11.56
+            },
+            "female": {
+              "panel": 9.78,
+              "real": 6.18
+            }
+          },
+          "cell_pearson_r": 0.89,
+          "cell_means_pct": {
+            "41": {
+              "panel": 20.66,
+              "real": 14.72
+            },
+            "42": {
+              "panel": 14.59,
+              "real": 9.95
+            },
+            "51": {
+              "panel": 17.98,
+              "real": 22.02
+            },
+            "52": {
+              "panel": 12.19,
+              "real": 9.68
+            },
+            "61": {
+              "panel": 15.77,
+              "real": 11.95
+            },
+            "62": {
+              "panel": 10.7,
+              "real": 9.36
+            },
+            "71": {
+              "panel": 13.35,
+              "real": 8.71
+            },
+            "72": {
+              "panel": 9.01,
+              "real": 4.57
+            },
+            "81": {
+              "panel": 11.08,
+              "real": 7.74
+            },
+            "82": {
+              "panel": 7.16,
+              "real": 1.47
+            },
+            "91": {
+              "panel": 8.83,
+              "real": 5.4
+            },
+            "92": {
+              "panel": 5.83,
+              "real": 2.35
+            }
+          }
+        }
+      }
+    }
+  }
+}

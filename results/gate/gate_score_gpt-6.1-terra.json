@@ -1,0 +1,427 @@
+{
+  "conditions": {
+    "C0": {
+      "items": {
+        "ever": {
+          "constant_cell_mae": 18.61,
+          "real_age_slope_pp_per_band": -12.758,
+          "real_gender_gap_pp": 2.424,
+          "ceiling_auc_test_split": 0.773,
+          "floor_auc_test_split": 0.741,
+          "floor_all_demographics_auc_test_split": 0.737,
+          "auc": null,
+          "auc_note": "n/a by design, C0 is not linked to respondents",
+          "panel_mean_pct": 78.03,
+          "repeat_sd_pct": 2.04,
+          "bias_pp": 23.98,
+          "cell_mae": 27.1,
+          "underdispersion_ratio": 0.0,
+          "cell_pearson_r": null,
+          "age_slope_pp_per_band": 0.0,
+          "gender_gap_pp": 0.0,
+          "floor_auc_same_respondents": null,
+          "floor_all_demographics_auc_same_respondents": null,
+          "pattern": {
+            "reproduces": false
+          },
+          "beats_constant": false,
+          "worth_n": {
+            "label": "no value",
+            "n": null
+          }
+        },
+        "weekly": {
+          "constant_cell_mae": 7.63,
+          "real_age_slope_pp_per_band": -4.194,
+          "real_gender_gap_pp": -0.588,
+          "ceiling_auc_test_split": 0.779,
+          "floor_auc_test_split": 0.685,
+          "floor_all_demographics_auc_test_split": 0.718,
+          "auc": null,
+          "auc_note": "n/a by design, C0 is not linked to respondents",
+          "panel_mean_pct": 33.55,
+          "repeat_sd_pct": 2.05,
+          "bias_pp": 21.63,
+          "cell_mae": 21.69,
+          "underdispersion_ratio": 0.0,
+          "cell_pearson_r": null,
+          "age_slope_pp_per_band": 0.0,
+          "gender_gap_pp": 0.0,
+          "floor_auc_same_respondents": null,
+          "floor_all_demographics_auc_same_respondents": null,
+          "pattern": {
+            "reproduces": false
+          },
+          "beats_constant": false,
+          "worth_n": {
+            "label": "no value",
+            "n": null
+          }
+        },
+        "carb": {
+          "constant_cell_mae": 4.14,
+          "real_age_slope_pp_per_band": -2.333,
+          "real_gender_gap_pp": -5.374,
+          "ceiling_auc_test_split": 0.569,
+          "floor_auc_test_split": 0.653,
+          "floor_all_demographics_auc_test_split": 0.602,
+          "auc": null,
+          "auc_note": "n/a by design, C0 is not linked to respondents",
+          "panel_mean_pct": 17.09,
+          "repeat_sd_pct": 1.5,
+          "bias_pp": 8.13,
+          "cell_mae": 8.92,
+          "underdispersion_ratio": 0.0,
+          "cell_pearson_r": null,
+          "age_slope_pp_per_band": 0.0,
+          "gender_gap_pp": 0.0,
+          "floor_auc_same_respondents": null,
+          "floor_all_demographics_auc_same_respondents": null,
+          "pattern": {
+            "reproduces": false
+          },
+          "beats_constant": false,
+          "worth_n": {
+            "label": "no value",
+            "n": null
+          }
+        }
+      },
+      "n": 100,
+      "average_cell_mae": 19.24,
+      "average_constant_cell_mae": 10.13,
+      "worth_n": {
+        "label": "no value",
+        "n": null
+      },
+      "weekly_exceeds_ever_rows": 0
+    },
+    "C1": {
+      "items": {
+        "ever": {
+          "constant_cell_mae": 18.61,
+          "real_age_slope_pp_per_band": -12.758,
+          "real_gender_gap_pp": 2.424,
+          "ceiling_auc_test_split": 0.773,
+          "floor_auc_test_split": 0.741,
+          "floor_all_demographics_auc_test_split": 0.737,
+          "auc": 0.775287,
+          "auc_ci95_unit_bootstrap": [
+            0.718,
+            0.83
+          ],
+          "auc_sensitivity_psfwt_double_weighted": 0.8,
+          "auc_sensitivity_unweighted": 0.77,
+          "within_unit_auc": 0.763,
+          "within_unit_groups": 29,
+          "panel_mean_pct": 71.75,
+          "bias_pp": 17.7,
+          "cell_mae": 17.01,
+          "panel_cells": 12,
+          "underdispersion_ratio": 0.755,
+          "cell_pearson_r": 0.936,
+          "age_slope_pp_per_band": -9.364,
+          "gender_gap_pp": -5.067,
+          "floor_auc_same_respondents": 0.782376,
+          "floor_all_demographics_auc_same_respondents": 0.779071,
+          "pattern": {
+            "age_slope_ratio": 0.734,
+            "slope_ok": true,
+            "r_ok": true,
+            "underdispersion_ok": true,
+            "reproduces": true
+          },
+          "beats_constant": true,
+          "worth_n": {
+            "label": "about 106",
+            "n": 106
+          }
+        },
+        "weekly": {
+          "constant_cell_mae": 7.63,
+          "real_age_slope_pp_per_band": -4.194,
+          "real_gender_gap_pp": -0.588,
+          "ceiling_auc_test_split": 0.779,
+          "floor_auc_test_split": 0.685,
+          "floor_all_demographics_auc_test_split": 0.718,
+          "auc": 0.762279,
+          "auc_ci95_unit_bootstrap": [
+            0.677,
+            0.856
+          ],
+          "auc_sensitivity_psfwt_double_weighted": 0.761,
+          "auc_sensitivity_unweighted": 0.763,
+          "within_unit_auc": 0.782,
+          "within_unit_groups": 17,
+          "panel_mean_pct": 31.22,
+          "bias_pp": 19.3,
+          "cell_mae": 18.96,
+          "panel_cells": 12,
+          "underdispersion_ratio": 1.52,
+          "cell_pearson_r": 0.845,
+          "age_slope_pp_per_band": -7.337,
+          "gender_gap_pp": -5.657,
+          "floor_auc_same_respondents": 0.755282,
+          "floor_all_demographics_auc_same_respondents": 0.753479,
+          "pattern": {
+            "age_slope_ratio": 1.749,
+            "slope_ok": true,
+            "r_ok": true,
+            "underdispersion_ok": true,
+            "reproduces": true
+          },
+          "beats_constant": false,
+          "worth_n": {
+            "label": "no value",
+            "n": null
+          }
+        },
+        "carb": {
+          "constant_cell_mae": 4.14,
+          "real_age_slope_pp_per_band": -2.333,
+          "real_gender_gap_pp": -5.374,
+          "ceiling_auc_test_split": 0.569,
+          "floor_auc_test_split": 0.653,
+          "floor_all_demographics_auc_test_split": 0.602,
+          "auc": 0.74578,
+          "auc_ci95_unit_bootstrap": [
+            0.643,
+            0.835
+          ],
+          "auc_sensitivity_psfwt_double_weighted": 0.73,
+          "auc_sensitivity_unweighted": 0.747,
+          "within_unit_auc": 0.777,
+          "within_unit_groups": 14,
+          "panel_mean_pct": 18.63,
+          "bias_pp": 9.67,
+          "cell_mae": 9.24,
+          "panel_cells": 12,
+          "underdispersion_ratio": 1.243,
+          "cell_pearson_r": 0.854,
+          "age_slope_pp_per_band": -3.579,
+          "gender_gap_pp": -6.485,
+          "floor_auc_same_respondents": 0.734722,
+          "floor_all_demographics_auc_same_respondents": 0.608358,
+          "pattern": {
+            "age_slope_ratio": 1.534,
+            "slope_ok": true,
+            "r_ok": true,
+            "underdispersion_ok": true,
+            "reproduces": true
+          },
+          "beats_constant": false,
+          "worth_n": {
+            "label": "no value",
+            "n": null
+          }
+        }
+      },
+      "n": 300,
+      "average_cell_mae": 15.07,
+      "average_constant_cell_mae": 10.13,
+      "worth_n": {
+        "label": "no value",
+        "n": null
+      },
+      "weekly_exceeds_ever_rows": 0
+    },
+    "C2": {
+      "items": {
+        "ever": {
+          "constant_cell_mae": 18.61,
+          "real_age_slope_pp_per_band": -12.758,
+          "real_gender_gap_pp": 2.424,
+          "ceiling_auc_test_split": 0.773,
+          "floor_auc_test_split": 0.741,
+          "floor_all_demographics_auc_test_split": 0.737,
+          "auc": 0.79431,
+          "auc_ci95_unit_bootstrap": [
+            0.741,
+            0.844
+          ],
+          "auc_sensitivity_psfwt_double_weighted": 0.833,
+          "auc_sensitivity_unweighted": 0.788,
+          "within_unit_auc": 0.794,
+          "within_unit_groups": 29,
+          "panel_mean_pct": 71.69,
+          "bias_pp": 17.65,
+          "cell_mae": 17.07,
+          "panel_cells": 12,
+          "underdispersion_ratio": 0.76,
+          "cell_pearson_r": 0.953,
+          "age_slope_pp_per_band": -9.559,
+          "gender_gap_pp": -5.415,
+          "floor_auc_same_respondents": 0.782376,
+          "floor_all_demographics_auc_same_respondents": 0.779071,
+          "pattern": {
+            "age_slope_ratio": 0.749,
+            "slope_ok": true,
+            "r_ok": true,
+            "underdispersion_ok": true,
+            "reproduces": true
+          },
+          "beats_constant": true,
+          "worth_n": {
+            "label": "about 105",
+            "n": 105
+          }
+        },
+        "weekly": {
+          "constant_cell_mae": 7.63,
+          "real_age_slope_pp_per_band": -4.194,
+          "real_gender_gap_pp": -0.588,
+          "ceiling_auc_test_split": 0.779,
+          "floor_auc_test_split": 0.685,
+          "floor_all_demographics_auc_test_split": 0.718,
+          "auc": 0.80009,
+          "auc_ci95_unit_bootstrap": [
+            0.728,
+            0.876
+          ],
+          "auc_sensitivity_psfwt_double_weighted": 0.794,
+          "auc_sensitivity_unweighted": 0.802,
+          "within_unit_auc": 0.822,
+          "within_unit_groups": 17,
+          "panel_mean_pct": 29.73,
+          "bias_pp": 17.81,
+          "cell_mae": 17.5,
+          "panel_cells": 12,
+          "underdispersion_ratio": 1.495,
+          "cell_pearson_r": 0.874,
+          "age_slope_pp_per_band": -7.204,
+          "gender_gap_pp": -5.498,
+          "floor_auc_same_respondents": 0.755282,
+          "floor_all_demographics_auc_same_respondents": 0.753479,
+          "pattern": {
+            "age_slope_ratio": 1.718,
+            "slope_ok": true,
+            "r_ok": true,
+            "underdispersion_ok": true,
+            "reproduces": true
+          },
+          "beats_constant": false,
+          "worth_n": {
+            "label": "no value",
+            "n": null
+          }
+        },
+        "carb": {
+          "constant_cell_mae": 4.14,
+          "real_age_slope_pp_per_band": -2.333,
+          "real_gender_gap_pp": -5.374,
+          "ceiling_auc_test_split": 0.569,
+          "floor_auc_test_split": 0.653,
+          "floor_all_demographics_auc_test_split": 0.602,
+          "auc": 0.728356,
+          "auc_ci95_unit_bootstrap": [
+            0.628,
+            0.827
+          ],
+          "auc_sensitivity_psfwt_double_weighted": 0.721,
+          "auc_sensitivity_unweighted": 0.727,
+          "within_unit_auc": 0.839,
+          "within_unit_groups": 14,
+          "panel_mean_pct": 18.52,
+          "bias_pp": 9.56,
+          "cell_mae": 9.2,
+          "panel_cells": 12,
+          "underdispersion_ratio": 1.233,
+          "cell_pearson_r": 0.844,
+          "age_slope_pp_per_band": -3.565,
+          "gender_gap_pp": -6.677,
+          "floor_auc_same_respondents": 0.734722,
+          "floor_all_demographics_auc_same_respondents": 0.608358,
+          "pattern": {
+            "age_slope_ratio": 1.528,
+            "slope_ok": true,
+            "r_ok": true,
+            "underdispersion_ok": true,
+            "reproduces": true
+          },
+          "beats_constant": false,
+          "worth_n": {
+            "label": "no value",
+            "n": null
+          }
+        }
+      },
+      "n": 300,
+      "average_cell_mae": 14.59,
+      "average_constant_cell_mae": 10.13,
+      "worth_n": {
+        "label": "no value",
+        "n": null
+      },
+      "weekly_exceeds_ever_rows": 0
+    }
+  },
+  "panel_n": 300,
+  "same_300_real_answers_cell_mae": {
+    "ever": 6.86,
+    "weekly": 5.03,
+    "carb": 3.69,
+    "average": 5.19
+  },
+  "switch_rule": {
+    "decision": "NO SWITCH",
+    "all_auc_at_or_below_floor": false,
+    "any_reproducing_pattern": true,
+    "detail": [
+      {
+        "condition": "C1",
+        "item": "ever",
+        "auc": 0.775287,
+        "floor": 0.782376,
+        "at_or_below_floor": true,
+        "reproduces": true
+      },
+      {
+        "condition": "C1",
+        "item": "weekly",
+        "auc": 0.762279,
+        "floor": 0.755282,
+        "at_or_below_floor": false,
+        "reproduces": true
+      },
+      {
+        "condition": "C1",
+        "item": "carb",
+        "auc": 0.74578,
+        "floor": 0.734722,
+        "at_or_below_floor": false,
+        "reproduces": true
+      },
+      {
+        "condition": "C2",
+        "item": "ever",
+        "auc": 0.79431,
+        "floor": 0.782376,
+        "at_or_below_floor": false,
+        "reproduces": true
+      },
+      {
+        "condition": "C2",
+        "item": "weekly",
+        "auc": 0.80009,
+        "floor": 0.755282,
+        "at_or_below_floor": false,
+        "reproduces": true
+      },
+      {
+        "condition": "C2",
+        "item": "carb",
+        "auc": 0.728356,
+        "floor": 0.734722,
+        "at_or_below_floor": true,
+        "reproduces": true
+      }
+    ]
+  },
+  "config_sha256": {
+    "prereg.json": "1ddd0fb1d66a92c359119ebb8b2562fd492578fd7c7b939c224d9733522dfde6",
+    "allowlist_final.json": "06cdb2822c561ab8f4d04e66c4b204d3b292ab8fb8b2ca8b2627646c48af0718",
+    "persona_templates.json": "c56adb9a139979f3d7a41f6be5fe05ecae5f6ca41943a0906a609d49d242cc98",
+    "batch_prompt.json": "8feedb79f592e3e56d10bea1526686413b48698b023c76ed3b16d9e051fb58eb",
+    "leak_patterns.json": "26dc735941ca4832740169e8b3f3b1b2bf409002460d92b1e2f0caad4b498b19"
+  }
+}

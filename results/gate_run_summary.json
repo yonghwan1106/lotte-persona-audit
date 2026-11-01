@@ -1,50 +1,103 @@
 {
   "models": {
-    "gpt-6.1-terra": {
-      "attempts": 42,
+    "gpt-6-luna": {
+      "attempts": 700,
       "statuses": {
-        "http_429": 36,
-        "gave_up": 6
+        "ok": 700
       },
-      "retried_attempts": 36,
-      "codes_ok": 0,
-      "cost_usd": 0.0,
+      "retried_attempts": 0,
+      "codes_ok": 700,
+      "cost_usd": 0.176452,
       "cost_assumed_usd": 0,
-      "latency_s_median": null,
-      "latency_s_max": null,
-      "wall_clock_s": 130.3,
-      "served_models": [],
-      "service_tiers": [],
+      "latency_s_median": 3.895,
+      "latency_s_max": 9.126,
+      "wall_clock_s": 347.1,
+      "served_models": [
+        "gpt-6-luna"
+      ],
+      "service_tiers": [
+        "default"
+      ],
       "by_condition": {
         "C0": {
-          "calls_billed": 0,
-          "input_tokens": 0,
+          "calls_billed": 100,
+          "input_tokens": 69900,
           "cached_tokens": 0,
           "cache_write_tokens": 0,
-          "output_tokens": 0,
-          "reasoning_tokens": 0,
-          "cost_usd": 0
+          "output_tokens": 28565,
+          "reasoning_tokens": 24665,
+          "cost_usd": 0.021273
         },
         "C1": {
-          "calls_billed": 0,
-          "input_tokens": 0,
+          "calls_billed": 300,
+          "input_tokens": 223557,
           "cached_tokens": 0,
           "cache_write_tokens": 0,
-          "output_tokens": 0,
-          "reasoning_tokens": 0,
-          "cost_usd": 0
+          "output_tokens": 77862,
+          "reasoning_tokens": 66162,
+          "cost_usd": 0.061287
         },
         "C2": {
-          "calls_billed": 0,
-          "input_tokens": 0,
+          "calls_billed": 300,
+          "input_tokens": 435979,
           "cached_tokens": 0,
           "cache_write_tokens": 0,
-          "output_tokens": 0,
-          "reasoning_tokens": 0,
-          "cost_usd": 0
+          "output_tokens": 100589,
+          "reasoning_tokens": 88889,
+          "cost_usd": 0.093892
+        }
+      }
+    },
+    "gpt-6.1-terra": {
+      "attempts": 742,
+      "statuses": {
+        "http_429": 36,
+        "gave_up": 6,
+        "ok": 700
+      },
+      "retried_attempts": 36,
+      "codes_ok": 700,
+      "cost_usd": 1.058596,
+      "cost_assumed_usd": 0,
+      "latency_s_median": 2.225,
+      "latency_s_max": 9.117,
+      "wall_clock_s": 1366.7,
+      "served_models": [
+        "gpt-6.1-terra"
+      ],
+      "service_tiers": [
+        "default"
+      ],
+      "by_condition": {
+        "C0": {
+          "calls_billed": 100,
+          "input_tokens": 69900,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 10115,
+          "reasoning_tokens": 6215,
+          "cost_usd": 0.120475
+        },
+        "C1": {
+          "calls_billed": 300,
+          "input_tokens": 223557,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 27510,
+          "reasoning_tokens": 15810,
+          "cost_usd": 0.361107
+        },
+        "C2": {
+          "calls_billed": 300,
+          "input_tokens": 435979,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 28207,
+          "reasoning_tokens": 16509,
+          "cost_usd": 0.577014
         }
       }
     }
   },
-  "gate_total_usd": 0.0
+  "gate_total_usd": 1.235048
 }
