@@ -1,0 +1,90 @@
+{
+ "what": "Estimate equal to the truth in each resample, against the comparators of the frozen ranking rule on the primary option set, overall. beats follows option_ranking.operating_rule: interval lower limit above zero.",
+ "ranking_perfect_estimator": {
+  "krei_2024": {
+   "under_1pp": {
+    "mean_diff": 0.3216,
+    "ci95": [
+     0.1176,
+     0.5556
+    ],
+    "beats": true
+   },
+   "1_to_3pp": {
+    "mean_diff": 0.1415,
+    "ci95": [
+     0.037,
+     0.2667
+    ],
+    "beats": true
+   },
+   "3_to_5pp": {
+    "mean_diff": 0.0411,
+    "ci95": [
+     0.0,
+     0.15
+    ],
+    "beats": false
+   },
+   "5pp_and_over": {
+    "mean_diff": 0.0019,
+    "ci95": [
+     0.0,
+     0.0286
+    ],
+    "beats": false
+   }
+  },
+  "direct_row": {
+   "under_1pp": {
+    "mean_diff": 0.4298,
+    "ci95": [
+     0.2,
+     0.6667
+    ],
+    "beats": true
+   },
+   "1_to_3pp": {
+    "mean_diff": 0.2284,
+    "ci95": [
+     0.0769,
+     0.3939
+    ],
+    "beats": true
+   },
+   "3_to_5pp": {
+    "mean_diff": 0.0895,
+    "ci95": [
+     0.0,
+     0.2667
+    ],
+    "beats": false
+   },
+   "5pp_and_over": {
+    "mean_diff": 0.0111,
+    "ci95": [
+     0.0,
+     0.0732
+    ],
+    "beats": false
+   }
+  }
+ },
+ "reading": "An estimate equal to the truth cannot have its lower limit above zero in every band, so the frozen rule's beats_ flags cannot tell a panel apart. Use the paired differences of the whole pair accuracy instead.",
+ "any_band_all_beaten": {
+  "krei_2024": false,
+  "direct_row": false
+ },
+ "v2_on_real_answers": {
+  "labels": {
+   "ever": "방향만",
+   "weekly": "방향만",
+   "carb": "실측 전용"
+  },
+  "counts_v2": {
+   "방향만": 8,
+   "실측 전용": 4
+  },
+  "note": "Real answers in the panel slot. v2 gives no calibrated label to any item, and carb gets real only because the real slope interval includes zero."
+ }
+}

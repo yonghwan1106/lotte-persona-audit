@@ -1,0 +1,4266 @@
+{
+ "written_after_answers": "Rule v3 and this bar were written after the stage 2 answers, v2 and an outside real answer check were all seen. Not pre-registered.",
+ "rule_version": 3,
+ "product_labels_allowed": false,
+ "product_labels_note": "Written after the answers. Even with the bar met, no v3 label is a validated product label.",
+ "acceptance": {
+  "bar": {
+   "real_answers_min_items_per_slot": 2,
+   "slots": [
+    "gpt-6.1-terra|C2",
+    "gpt-6.1-terra|C1",
+    "gpt-6-luna|C2",
+    "gpt-6-luna|C1"
+   ],
+   "items_per_slot": 3,
+   "surrogate_max_of_12": 1
+  },
+  "real_answers_per_slot": {
+   "gpt-6.1-terra|C2": {
+    "items": 3,
+    "calibrated": [
+     "weekly",
+     "carb"
+    ]
+   },
+   "gpt-6.1-terra|C1": {
+    "items": 3,
+    "calibrated": [
+     "weekly",
+     "carb"
+    ]
+   },
+   "gpt-6-luna|C2": {
+    "items": 3,
+    "calibrated": [
+     "weekly",
+     "carb"
+    ]
+   },
+   "gpt-6-luna|C1": {
+    "items": 3,
+    "calibrated": [
+     "weekly",
+     "carb"
+    ]
+   }
+  },
+  "real_answers_pass": true,
+  "surrogate_rows_calibrated": [],
+  "surrogate_pass": true,
+  "passed": true
+ },
+ "reading": "The bar was met. This shows the first branch can fire for a panel holding the real answers and not for a stand-in panel on age and sex at these seeds. The rule was still written after the answers, so a label here is a reading of data already seen.",
+ "llm": {
+  "rows": [
+   {
+    "item": "ever",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": true,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 1.255,
+      "ci95": [
+       -0.688,
+       2.866
+      ],
+      "share_below_zero": 0.115
+     },
+     "E5": {
+      "mean_diff": 1.232,
+      "ci95": [
+       -0.446,
+       2.691
+      ],
+      "share_below_zero": 0.085
+     },
+     "E6": {
+      "mean_diff": 2.12,
+      "ci95": [
+       -0.246,
+       4.009
+      ],
+      "share_below_zero": 0.05
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 0.802,
+      "ci95": [
+       -2.569,
+       2.766
+      ],
+      "share_below_zero": 0.2
+     },
+     "E5": {
+      "mean_diff": 0.866,
+      "ci95": [
+       -1.264,
+       2.791
+      ],
+      "share_below_zero": 0.185
+     },
+     "E6": {
+      "mean_diff": 1.999,
+      "ci95": [
+       -1.594,
+       4.464
+      ],
+      "share_below_zero": 0.08
+     }
+    },
+    "panel_age_slope": -9.352,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.938,
+    "underdispersion_ratio": 0.721,
+    "gap_minus_real_ci95": [
+     -14.337,
+     -1.229
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.551,
+      "ci95": [
+       -1.7,
+       0.323
+      ],
+      "share_below_zero": 0.875
+     },
+     "E5": {
+      "mean_diff": -0.383,
+      "ci95": [
+       -1.589,
+       0.479
+      ],
+      "share_below_zero": 0.71
+     },
+     "E6": {
+      "mean_diff": 0.562,
+      "ci95": [
+       -0.616,
+       1.645
+      ],
+      "share_below_zero": 0.18
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.769,
+      "ci95": [
+       -2.589,
+       0.101
+      ],
+      "share_below_zero": 0.92
+     },
+     "E5": {
+      "mean_diff": -0.437,
+      "ci95": [
+       -2.036,
+       1.159
+      ],
+      "share_below_zero": 0.74
+     },
+     "E6": {
+      "mean_diff": 0.248,
+      "ci95": [
+       -1.941,
+       1.737
+      ],
+      "share_below_zero": 0.325
+     }
+    },
+    "panel_age_slope": -7.203,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.802,
+    "underdispersion_ratio": 1.73,
+    "gap_minus_real_ci95": [
+     -8.352,
+     0.721
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "판정 불가",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": false,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.856,
+      "ci95": [
+       -2.395,
+       0.082
+      ],
+      "share_below_zero": 0.95
+     },
+     "E5": {
+      "mean_diff": -0.225,
+      "ci95": [
+       -1.389,
+       0.55
+      ],
+      "share_below_zero": 0.65
+     },
+     "E6": {
+      "mean_diff": 0.377,
+      "ci95": [
+       -0.625,
+       1.274
+      ],
+      "share_below_zero": 0.225
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.626,
+      "ci95": [
+       -2.6,
+       0.161
+      ],
+      "share_below_zero": 0.86
+     },
+     "E5": {
+      "mean_diff": -0.12,
+      "ci95": [
+       -1.319,
+       0.899
+      ],
+      "share_below_zero": 0.595
+     },
+     "E6": {
+      "mean_diff": 0.174,
+      "ci95": [
+       -1.339,
+       1.287
+      ],
+      "share_below_zero": 0.36
+     }
+    },
+    "panel_age_slope": -3.497,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.596,
+    "underdispersion_ratio": 1.504,
+    "gap_minus_real_ci95": [
+     -4.479,
+     3.93
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": true,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 1.46,
+      "ci95": [
+       -0.438,
+       3.064
+      ],
+      "share_below_zero": 0.07
+     },
+     "E5": {
+      "mean_diff": 1.461,
+      "ci95": [
+       -0.273,
+       2.808
+      ],
+      "share_below_zero": 0.045
+     },
+     "E6": {
+      "mean_diff": 2.443,
+      "ci95": [
+       -0.028,
+       4.413
+      ],
+      "share_below_zero": 0.03
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 1.052,
+      "ci95": [
+       -2.185,
+       2.865
+      ],
+      "share_below_zero": 0.16
+     },
+     "E5": {
+      "mean_diff": 1.088,
+      "ci95": [
+       -0.826,
+       2.692
+      ],
+      "share_below_zero": 0.13
+     },
+     "E6": {
+      "mean_diff": 2.273,
+      "ci95": [
+       -1.396,
+       4.923
+      ],
+      "share_below_zero": 0.075
+     }
+    },
+    "panel_age_slope": -9.441,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.925,
+    "underdispersion_ratio": 0.74,
+    "gap_minus_real_ci95": [
+     -14.489,
+     -1.778
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": true,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.204,
+      "ci95": [
+       -1.317,
+       0.565
+      ],
+      "share_below_zero": 0.635
+     },
+     "E5": {
+      "mean_diff": -0.139,
+      "ci95": [
+       -1.137,
+       0.644
+      ],
+      "share_below_zero": 0.57
+     },
+     "E6": {
+      "mean_diff": 1.015,
+      "ci95": [
+       -0.202,
+       2.033
+      ],
+      "share_below_zero": 0.045
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.466,
+      "ci95": [
+       -2.276,
+       0.305
+      ],
+      "share_below_zero": 0.765
+     },
+     "E5": {
+      "mean_diff": -0.248,
+      "ci95": [
+       -1.224,
+       0.689
+      ],
+      "share_below_zero": 0.715
+     },
+     "E6": {
+      "mean_diff": 0.656,
+      "ci95": [
+       -1.87,
+       2.12
+      ],
+      "share_below_zero": 0.19
+     }
+    },
+    "panel_age_slope": -7.349,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.778,
+    "underdispersion_ratio": 1.774,
+    "gap_minus_real_ci95": [
+     -9.05,
+     -0.137
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "판정 불가",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": false,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.818,
+      "ci95": [
+       -2.385,
+       0.11
+      ],
+      "share_below_zero": 0.92
+     },
+     "E5": {
+      "mean_diff": -0.165,
+      "ci95": [
+       -1.313,
+       0.678
+      ],
+      "share_below_zero": 0.615
+     },
+     "E6": {
+      "mean_diff": 0.425,
+      "ci95": [
+       -0.564,
+       1.302
+      ],
+      "share_below_zero": 0.195
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.581,
+      "ci95": [
+       -2.529,
+       0.234
+      ],
+      "share_below_zero": 0.83
+     },
+     "E5": {
+      "mean_diff": -0.067,
+      "ci95": [
+       -1.197,
+       1.095
+      ],
+      "share_below_zero": 0.605
+     },
+     "E6": {
+      "mean_diff": 0.237,
+      "ci95": [
+       -1.353,
+       1.411
+      ],
+      "share_below_zero": 0.35
+     }
+    },
+    "panel_age_slope": -3.459,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.569,
+    "underdispersion_ratio": 1.463,
+    "gap_minus_real_ci95": [
+     -4.076,
+     4.33
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": true,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 1.98,
+      "ci95": [
+       -0.104,
+       3.704
+      ],
+      "share_below_zero": 0.035
+     },
+     "E5": {
+      "mean_diff": 1.652,
+      "ci95": [
+       -0.936,
+       4.005
+      ],
+      "share_below_zero": 0.125
+     },
+     "E6": {
+      "mean_diff": 2.828,
+      "ci95": [
+       0.388,
+       4.949
+      ],
+      "share_below_zero": 0.015
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 1.707,
+      "ci95": [
+       -1.829,
+       3.847
+      ],
+      "share_below_zero": 0.115
+     },
+     "E5": {
+      "mean_diff": 1.748,
+      "ci95": [
+       -2.551,
+       5.299
+      ],
+      "share_below_zero": 0.16
+     },
+     "E6": {
+      "mean_diff": 2.769,
+      "ci95": [
+       -1.33,
+       5.495
+      ],
+      "share_below_zero": 0.055
+     }
+    },
+    "panel_age_slope": -8.12,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.907,
+    "underdispersion_ratio": 0.65,
+    "gap_minus_real_ci95": [
+     -14.122,
+     -1.374
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": true,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.203,
+      "ci95": [
+       -1.312,
+       0.746
+      ],
+      "share_below_zero": 0.655
+     },
+     "E5": {
+      "mean_diff": -0.052,
+      "ci95": [
+       -1.141,
+       0.805
+      ],
+      "share_below_zero": 0.525
+     },
+     "E6": {
+      "mean_diff": 0.548,
+      "ci95": [
+       -0.507,
+       1.477
+      ],
+      "share_below_zero": 0.16
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.478,
+      "ci95": [
+       -2.339,
+       0.425
+      ],
+      "share_below_zero": 0.835
+     },
+     "E5": {
+      "mean_diff": -0.275,
+      "ci95": [
+       -1.728,
+       1.04
+      ],
+      "share_below_zero": 0.655
+     },
+     "E6": {
+      "mean_diff": 0.234,
+      "ci95": [
+       -1.827,
+       1.565
+      ],
+      "share_below_zero": 0.32
+     }
+    },
+    "panel_age_slope": -6.168,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.733,
+    "underdispersion_ratio": 1.508,
+    "gap_minus_real_ci95": [
+     -9.462,
+     -0.369
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "판정 불가",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": false,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.945,
+      "ci95": [
+       -2.709,
+       0.125
+      ],
+      "share_below_zero": 0.895
+     },
+     "E5": {
+      "mean_diff": -0.729,
+      "ci95": [
+       -2.296,
+       0.214
+      ],
+      "share_below_zero": 0.88
+     },
+     "E6": {
+      "mean_diff": -0.31,
+      "ci95": [
+       -1.397,
+       0.624
+      ],
+      "share_below_zero": 0.69
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.708,
+      "ci95": [
+       -2.956,
+       0.226
+      ],
+      "share_below_zero": 0.82
+     },
+     "E5": {
+      "mean_diff": -0.468,
+      "ci95": [
+       -2.475,
+       0.477
+      ],
+      "share_below_zero": 0.78
+     },
+     "E6": {
+      "mean_diff": -0.42,
+      "ci95": [
+       -1.865,
+       0.552
+      ],
+      "share_below_zero": 0.755
+     }
+    },
+    "panel_age_slope": -2.056,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.665,
+    "underdispersion_ratio": 0.944,
+    "gap_minus_real_ci95": [
+     -3.354,
+     5.055
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": true,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 1.192,
+      "ci95": [
+       -0.852,
+       2.961
+      ],
+      "share_below_zero": 0.13
+     },
+     "E5": {
+      "mean_diff": 0.619,
+      "ci95": [
+       -1.397,
+       2.778
+      ],
+      "share_below_zero": 0.27
+     },
+     "E6": {
+      "mean_diff": 2.508,
+      "ci95": [
+       -0.107,
+       4.726
+      ],
+      "share_below_zero": 0.03
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 1.004,
+      "ci95": [
+       -2.482,
+       2.805
+      ],
+      "share_below_zero": 0.18
+     },
+     "E5": {
+      "mean_diff": 0.725,
+      "ci95": [
+       -2.73,
+       2.911
+      ],
+      "share_below_zero": 0.225
+     },
+     "E6": {
+      "mean_diff": 2.457,
+      "ci95": [
+       -1.605,
+       4.793
+      ],
+      "share_below_zero": 0.07
+     }
+    },
+    "panel_age_slope": -9.358,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.908,
+    "underdispersion_ratio": 0.755,
+    "gap_minus_real_ci95": [
+     -14.737,
+     -1.591
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.098,
+      "ci95": [
+       -1.148,
+       0.764
+      ],
+      "share_below_zero": 0.555
+     },
+     "E5": {
+      "mean_diff": -0.053,
+      "ci95": [
+       -1.019,
+       0.826
+      ],
+      "share_below_zero": 0.525
+     },
+     "E6": {
+      "mean_diff": 0.767,
+      "ci95": [
+       -0.26,
+       1.703
+      ],
+      "share_below_zero": 0.07
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.384,
+      "ci95": [
+       -2.399,
+       0.519
+      ],
+      "share_below_zero": 0.735
+     },
+     "E5": {
+      "mean_diff": -0.191,
+      "ci95": [
+       -1.475,
+       1.066
+      ],
+      "share_below_zero": 0.64
+     },
+     "E6": {
+      "mean_diff": 0.364,
+      "ci95": [
+       -1.897,
+       1.735
+      ],
+      "share_below_zero": 0.295
+     }
+    },
+    "panel_age_slope": -6.353,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.747,
+    "underdispersion_ratio": 1.551,
+    "gap_minus_real_ci95": [
+     -8.842,
+     0.297
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "판정 불가",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": false,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.871,
+      "ci95": [
+       -2.63,
+       0.181
+      ],
+      "share_below_zero": 0.85
+     },
+     "E5": {
+      "mean_diff": -0.335,
+      "ci95": [
+       -1.782,
+       0.636
+      ],
+      "share_below_zero": 0.66
+     },
+     "E6": {
+      "mean_diff": -0.258,
+      "ci95": [
+       -1.321,
+       0.624
+      ],
+      "share_below_zero": 0.65
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.642,
+      "ci95": [
+       -2.891,
+       0.303
+      ],
+      "share_below_zero": 0.76
+     },
+     "E5": {
+      "mean_diff": -0.231,
+      "ci95": [
+       -1.73,
+       0.647
+      ],
+      "share_below_zero": 0.645
+     },
+     "E6": {
+      "mean_diff": -0.344,
+      "ci95": [
+       -1.851,
+       0.669
+      ],
+      "share_below_zero": 0.69
+     }
+    },
+    "panel_age_slope": -1.977,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.646,
+    "underdispersion_ratio": 0.914,
+    "gap_minus_real_ci95": [
+     -3.348,
+     5.099
+    ]
+   }
+  ],
+  "counts_v1": {
+   "보정 후 참고": 12
+  },
+  "counts_v2": {
+   "방향만": 8,
+   "실측 전용": 4
+  },
+  "counts_v3": {
+   "방향만": 8,
+   "판정 불가": 4
+  },
+  "gender_ban_count": 6,
+  "gender_ban_by_seed": {
+   "stage2_seed": 6,
+   "alt_seed_99": 6,
+   "alt_seed_20261102": 5
+  },
+  "gender_flag_rows_that_move": [
+   "gpt-6.1-terra|C1|weekly"
+  ],
+  "labels_by_seed": {
+   "stage2_seed": {
+    "gpt-6.1-terra|C2|ever": "방향만",
+    "gpt-6.1-terra|C2|weekly": "방향만",
+    "gpt-6.1-terra|C2|carb": "판정 불가",
+    "gpt-6.1-terra|C1|ever": "방향만",
+    "gpt-6.1-terra|C1|weekly": "방향만",
+    "gpt-6.1-terra|C1|carb": "판정 불가",
+    "gpt-6-luna|C2|ever": "방향만",
+    "gpt-6-luna|C2|weekly": "방향만",
+    "gpt-6-luna|C2|carb": "판정 불가",
+    "gpt-6-luna|C1|ever": "방향만",
+    "gpt-6-luna|C1|weekly": "방향만",
+    "gpt-6-luna|C1|carb": "판정 불가"
+   },
+   "alt_seed_99": {
+    "gpt-6.1-terra|C2|ever": "방향만",
+    "gpt-6.1-terra|C2|weekly": "방향만",
+    "gpt-6.1-terra|C2|carb": "판정 불가",
+    "gpt-6.1-terra|C1|ever": "방향만",
+    "gpt-6.1-terra|C1|weekly": "방향만",
+    "gpt-6.1-terra|C1|carb": "판정 불가",
+    "gpt-6-luna|C2|ever": "방향만",
+    "gpt-6-luna|C2|weekly": "방향만",
+    "gpt-6-luna|C2|carb": "판정 불가",
+    "gpt-6-luna|C1|ever": "방향만",
+    "gpt-6-luna|C1|weekly": "방향만",
+    "gpt-6-luna|C1|carb": "판정 불가"
+   },
+   "alt_seed_20261102": {
+    "gpt-6.1-terra|C2|ever": "방향만",
+    "gpt-6.1-terra|C2|weekly": "방향만",
+    "gpt-6.1-terra|C2|carb": "판정 불가",
+    "gpt-6.1-terra|C1|ever": "방향만",
+    "gpt-6.1-terra|C1|weekly": "방향만",
+    "gpt-6.1-terra|C1|carb": "판정 불가",
+    "gpt-6-luna|C2|ever": "방향만",
+    "gpt-6-luna|C2|weekly": "방향만",
+    "gpt-6-luna|C2|carb": "판정 불가",
+    "gpt-6-luna|C1|ever": "방향만",
+    "gpt-6-luna|C1|weekly": "방향만",
+    "gpt-6-luna|C1|carb": "판정 불가"
+   }
+  },
+  "v2_labels_mismatch_stored": []
+ },
+ "real_answers": {
+  "note": "Each respondent's real answer stands in as the panel's answer in every slot. The 4 slots are identical by construction, so they are one result shown 4 times. Not a claim about any LLM.",
+  "rows": [
+   {
+    "item": "ever",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -1.984,
+      "ci95": [
+       -4.69,
+       0.352
+      ],
+      "share_below_zero": 0.955
+     },
+     "E5": {
+      "mean_diff": -1.97,
+      "ci95": [
+       -4.674,
+       0.363
+      ],
+      "share_below_zero": 0.95
+     },
+     "E6": {
+      "mean_diff": -1.98,
+      "ci95": [
+       -4.689,
+       0.355
+      ],
+      "share_below_zero": 0.95
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.129,
+      "ci95": [
+       -8.832,
+       0.143
+      ],
+      "share_below_zero": 0.94
+     },
+     "E5": {
+      "mean_diff": -3.116,
+      "ci95": [
+       -8.809,
+       0.153
+      ],
+      "share_below_zero": 0.94
+     },
+     "E6": {
+      "mean_diff": -3.126,
+      "ci95": [
+       -8.83,
+       0.146
+      ],
+      "share_below_zero": 0.94
+     }
+    },
+    "panel_age_slope": -12.911,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.984,
+    "underdispersion_ratio": 0.984,
+    "gap_minus_real_ci95": [
+     -9.11,
+     10.893
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.547,
+      "ci95": [
+       -4.885,
+       -0.179
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.889,
+       -0.169
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.884,
+       -0.174
+      ],
+      "share_below_zero": 0.985
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.65,
+      "ci95": [
+       -9.624,
+       0.904
+      ],
+      "share_below_zero": 0.88
+     },
+     "E5": {
+      "mean_diff": -3.648,
+      "ci95": [
+       -9.639,
+       0.935
+      ],
+      "share_below_zero": 0.875
+     },
+     "E6": {
+      "mean_diff": -3.647,
+      "ci95": [
+       -9.625,
+       0.92
+      ],
+      "share_below_zero": 0.875
+     }
+    },
+    "panel_age_slope": -4.683,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.913,
+    "underdispersion_ratio": 1.251,
+    "gap_minus_real_ci95": [
+     -6.045,
+     6.607
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -1.534,
+      "ci95": [
+       -3.212,
+       -0.224
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -1.518,
+      "ci95": [
+       -3.193,
+       -0.209
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -1.523,
+      "ci95": [
+       -3.198,
+       -0.214
+      ],
+      "share_below_zero": 0.985
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -1.844,
+      "ci95": [
+       -4.123,
+       0.082
+      ],
+      "share_below_zero": 0.965
+     },
+     "E5": {
+      "mean_diff": -1.827,
+      "ci95": [
+       -4.095,
+       0.097
+      ],
+      "share_below_zero": 0.96
+     },
+     "E6": {
+      "mean_diff": -1.832,
+      "ci95": [
+       -4.101,
+       0.091
+      ],
+      "share_below_zero": 0.96
+     }
+    },
+    "panel_age_slope": -2.781,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.717,
+    "underdispersion_ratio": 1.304,
+    "gap_minus_real_ci95": [
+     -4.965,
+     6.381
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -1.984,
+      "ci95": [
+       -4.69,
+       0.352
+      ],
+      "share_below_zero": 0.955
+     },
+     "E5": {
+      "mean_diff": -1.97,
+      "ci95": [
+       -4.674,
+       0.363
+      ],
+      "share_below_zero": 0.95
+     },
+     "E6": {
+      "mean_diff": -1.98,
+      "ci95": [
+       -4.689,
+       0.355
+      ],
+      "share_below_zero": 0.95
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.129,
+      "ci95": [
+       -8.832,
+       0.143
+      ],
+      "share_below_zero": 0.94
+     },
+     "E5": {
+      "mean_diff": -3.116,
+      "ci95": [
+       -8.809,
+       0.153
+      ],
+      "share_below_zero": 0.94
+     },
+     "E6": {
+      "mean_diff": -3.126,
+      "ci95": [
+       -8.83,
+       0.146
+      ],
+      "share_below_zero": 0.94
+     }
+    },
+    "panel_age_slope": -12.911,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.984,
+    "underdispersion_ratio": 0.984,
+    "gap_minus_real_ci95": [
+     -9.11,
+     10.893
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.547,
+      "ci95": [
+       -4.885,
+       -0.179
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.889,
+       -0.169
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.884,
+       -0.174
+      ],
+      "share_below_zero": 0.985
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.65,
+      "ci95": [
+       -9.624,
+       0.904
+      ],
+      "share_below_zero": 0.88
+     },
+     "E5": {
+      "mean_diff": -3.648,
+      "ci95": [
+       -9.639,
+       0.935
+      ],
+      "share_below_zero": 0.875
+     },
+     "E6": {
+      "mean_diff": -3.647,
+      "ci95": [
+       -9.625,
+       0.92
+      ],
+      "share_below_zero": 0.875
+     }
+    },
+    "panel_age_slope": -4.683,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.913,
+    "underdispersion_ratio": 1.251,
+    "gap_minus_real_ci95": [
+     -6.045,
+     6.607
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -1.534,
+      "ci95": [
+       -3.212,
+       -0.224
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -1.518,
+      "ci95": [
+       -3.193,
+       -0.209
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -1.523,
+      "ci95": [
+       -3.198,
+       -0.214
+      ],
+      "share_below_zero": 0.985
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -1.844,
+      "ci95": [
+       -4.123,
+       0.082
+      ],
+      "share_below_zero": 0.965
+     },
+     "E5": {
+      "mean_diff": -1.827,
+      "ci95": [
+       -4.095,
+       0.097
+      ],
+      "share_below_zero": 0.96
+     },
+     "E6": {
+      "mean_diff": -1.832,
+      "ci95": [
+       -4.101,
+       0.091
+      ],
+      "share_below_zero": 0.96
+     }
+    },
+    "panel_age_slope": -2.781,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.717,
+    "underdispersion_ratio": 1.304,
+    "gap_minus_real_ci95": [
+     -4.965,
+     6.381
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -1.984,
+      "ci95": [
+       -4.69,
+       0.352
+      ],
+      "share_below_zero": 0.955
+     },
+     "E5": {
+      "mean_diff": -1.97,
+      "ci95": [
+       -4.674,
+       0.363
+      ],
+      "share_below_zero": 0.95
+     },
+     "E6": {
+      "mean_diff": -1.98,
+      "ci95": [
+       -4.689,
+       0.355
+      ],
+      "share_below_zero": 0.95
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.129,
+      "ci95": [
+       -8.832,
+       0.143
+      ],
+      "share_below_zero": 0.94
+     },
+     "E5": {
+      "mean_diff": -3.116,
+      "ci95": [
+       -8.809,
+       0.153
+      ],
+      "share_below_zero": 0.94
+     },
+     "E6": {
+      "mean_diff": -3.126,
+      "ci95": [
+       -8.83,
+       0.146
+      ],
+      "share_below_zero": 0.94
+     }
+    },
+    "panel_age_slope": -12.911,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.984,
+    "underdispersion_ratio": 0.984,
+    "gap_minus_real_ci95": [
+     -9.11,
+     10.893
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.547,
+      "ci95": [
+       -4.885,
+       -0.179
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.889,
+       -0.169
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.884,
+       -0.174
+      ],
+      "share_below_zero": 0.985
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.65,
+      "ci95": [
+       -9.624,
+       0.904
+      ],
+      "share_below_zero": 0.88
+     },
+     "E5": {
+      "mean_diff": -3.648,
+      "ci95": [
+       -9.639,
+       0.935
+      ],
+      "share_below_zero": 0.875
+     },
+     "E6": {
+      "mean_diff": -3.647,
+      "ci95": [
+       -9.625,
+       0.92
+      ],
+      "share_below_zero": 0.875
+     }
+    },
+    "panel_age_slope": -4.683,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.913,
+    "underdispersion_ratio": 1.251,
+    "gap_minus_real_ci95": [
+     -6.045,
+     6.607
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -1.534,
+      "ci95": [
+       -3.212,
+       -0.224
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -1.518,
+      "ci95": [
+       -3.193,
+       -0.209
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -1.523,
+      "ci95": [
+       -3.198,
+       -0.214
+      ],
+      "share_below_zero": 0.985
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -1.844,
+      "ci95": [
+       -4.123,
+       0.082
+      ],
+      "share_below_zero": 0.965
+     },
+     "E5": {
+      "mean_diff": -1.827,
+      "ci95": [
+       -4.095,
+       0.097
+      ],
+      "share_below_zero": 0.96
+     },
+     "E6": {
+      "mean_diff": -1.832,
+      "ci95": [
+       -4.101,
+       0.091
+      ],
+      "share_below_zero": 0.96
+     }
+    },
+    "panel_age_slope": -2.781,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.717,
+    "underdispersion_ratio": 1.304,
+    "gap_minus_real_ci95": [
+     -4.965,
+     6.381
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -1.984,
+      "ci95": [
+       -4.69,
+       0.352
+      ],
+      "share_below_zero": 0.955
+     },
+     "E5": {
+      "mean_diff": -1.97,
+      "ci95": [
+       -4.674,
+       0.363
+      ],
+      "share_below_zero": 0.95
+     },
+     "E6": {
+      "mean_diff": -1.98,
+      "ci95": [
+       -4.689,
+       0.355
+      ],
+      "share_below_zero": 0.95
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.129,
+      "ci95": [
+       -8.832,
+       0.143
+      ],
+      "share_below_zero": 0.94
+     },
+     "E5": {
+      "mean_diff": -3.116,
+      "ci95": [
+       -8.809,
+       0.153
+      ],
+      "share_below_zero": 0.94
+     },
+     "E6": {
+      "mean_diff": -3.126,
+      "ci95": [
+       -8.83,
+       0.146
+      ],
+      "share_below_zero": 0.94
+     }
+    },
+    "panel_age_slope": -12.911,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.984,
+    "underdispersion_ratio": 0.984,
+    "gap_minus_real_ci95": [
+     -9.11,
+     10.893
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.547,
+      "ci95": [
+       -4.885,
+       -0.179
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.889,
+       -0.169
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.884,
+       -0.174
+      ],
+      "share_below_zero": 0.985
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.65,
+      "ci95": [
+       -9.624,
+       0.904
+      ],
+      "share_below_zero": 0.88
+     },
+     "E5": {
+      "mean_diff": -3.648,
+      "ci95": [
+       -9.639,
+       0.935
+      ],
+      "share_below_zero": 0.875
+     },
+     "E6": {
+      "mean_diff": -3.647,
+      "ci95": [
+       -9.625,
+       0.92
+      ],
+      "share_below_zero": 0.875
+     }
+    },
+    "panel_age_slope": -4.683,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.913,
+    "underdispersion_ratio": 1.251,
+    "gap_minus_real_ci95": [
+     -6.045,
+     6.607
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -1.534,
+      "ci95": [
+       -3.212,
+       -0.224
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -1.518,
+      "ci95": [
+       -3.193,
+       -0.209
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -1.523,
+      "ci95": [
+       -3.198,
+       -0.214
+      ],
+      "share_below_zero": 0.985
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -1.844,
+      "ci95": [
+       -4.123,
+       0.082
+      ],
+      "share_below_zero": 0.965
+     },
+     "E5": {
+      "mean_diff": -1.827,
+      "ci95": [
+       -4.095,
+       0.097
+      ],
+      "share_below_zero": 0.96
+     },
+     "E6": {
+      "mean_diff": -1.832,
+      "ci95": [
+       -4.101,
+       0.091
+      ],
+      "share_below_zero": 0.96
+     }
+    },
+    "panel_age_slope": -2.781,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.717,
+    "underdispersion_ratio": 1.304,
+    "gap_minus_real_ci95": [
+     -4.965,
+     6.381
+    ]
+   }
+  ],
+  "counts_v1": {
+   "보정 후 참고": 12
+  },
+  "counts_v2": {
+   "방향만": 8,
+   "실측 전용": 4
+  },
+  "counts_v3": {
+   "방향만": 4,
+   "보정 후 참고": 8
+  }
+ },
+ "surrogate": {
+  "note": "Train split age and sex logistic plus a shift and noise, rng seed 1. It holds no LLM answer and no information beyond age and sex.",
+  "rows": [
+   {
+    "item": "ever",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.305,
+      "ci95": [
+       -2.467,
+       1.41
+      ],
+      "share_below_zero": 0.585
+     },
+     "E5": {
+      "mean_diff": 0.016,
+      "ci95": [
+       -1.824,
+       1.384
+      ],
+      "share_below_zero": 0.49
+     },
+     "E6": {
+      "mean_diff": 1.85,
+      "ci95": [
+       -0.414,
+       4.042
+      ],
+      "share_below_zero": 0.065
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.136,
+      "ci95": [
+       -3.529,
+       1.707
+      ],
+      "share_below_zero": 0.47
+     },
+     "E5": {
+      "mean_diff": 0.249,
+      "ci95": [
+       -2.007,
+       1.707
+      ],
+      "share_below_zero": 0.385
+     },
+     "E6": {
+      "mean_diff": 1.791,
+      "ci95": [
+       -2.186,
+       4.324
+      ],
+      "share_below_zero": 0.105
+     }
+    },
+    "panel_age_slope": -8.917,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.954,
+    "underdispersion_ratio": 0.691,
+    "gap_minus_real_ci95": [
+     -8.951,
+     3.945
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "실측 전용",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": true,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": false
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 0.429,
+      "ci95": [
+       -1.152,
+       1.386
+      ],
+      "share_below_zero": 0.23
+     },
+     "E5": {
+      "mean_diff": -0.069,
+      "ci95": [
+       -1.12,
+       0.839
+      ],
+      "share_below_zero": 0.505
+     },
+     "E6": {
+      "mean_diff": 2.356,
+      "ci95": [
+       0.846,
+       3.636
+      ],
+      "share_below_zero": 0.005
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 0.161,
+      "ci95": [
+       -2.324,
+       1.569
+      ],
+      "share_below_zero": 0.385
+     },
+     "E5": {
+      "mean_diff": -0.298,
+      "ci95": [
+       -1.889,
+       0.646
+      ],
+      "share_below_zero": 0.59
+     },
+     "E6": {
+      "mean_diff": 1.841,
+      "ci95": [
+       -1.191,
+       3.935
+      ],
+      "share_below_zero": 0.085
+     }
+    },
+    "panel_age_slope": -10.177,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.773,
+    "underdispersion_ratio": 2.533,
+    "gap_minus_real_ci95": [
+     -9.508,
+     -0.149
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "판정 불가",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": false,
+     "underdispersion_ok": false
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.693,
+      "ci95": [
+       -2.056,
+       0.437
+      ],
+      "share_below_zero": 0.875
+     },
+     "E5": {
+      "mean_diff": -0.534,
+      "ci95": [
+       -1.821,
+       0.227
+      ],
+      "share_below_zero": 0.875
+     },
+     "E6": {
+      "mean_diff": 1.163,
+      "ci95": [
+       0.036,
+       2.138
+      ],
+      "share_below_zero": 0.025
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.591,
+      "ci95": [
+       -2.318,
+       0.466
+      ],
+      "share_below_zero": 0.855
+     },
+     "E5": {
+      "mean_diff": -0.292,
+      "ci95": [
+       -1.669,
+       0.621
+      ],
+      "share_below_zero": 0.68
+     },
+     "E6": {
+      "mean_diff": 0.949,
+      "ci95": [
+       -0.834,
+       2.241
+      ],
+      "share_below_zero": 0.12
+     }
+    },
+    "panel_age_slope": -5.195,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.657,
+    "underdispersion_ratio": 2.377,
+    "gap_minus_real_ci95": [
+     -7.371,
+     0.985
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 0.047,
+      "ci95": [
+       -1.952,
+       1.687
+      ],
+      "share_below_zero": 0.47
+     },
+     "E5": {
+      "mean_diff": 0.212,
+      "ci95": [
+       -1.63,
+       1.922
+      ],
+      "share_below_zero": 0.4
+     },
+     "E6": {
+      "mean_diff": 1.952,
+      "ci95": [
+       -0.333,
+       4.01
+      ],
+      "share_below_zero": 0.055
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 0.084,
+      "ci95": [
+       -3.492,
+       1.945
+      ],
+      "share_below_zero": 0.36
+     },
+     "E5": {
+      "mean_diff": 0.435,
+      "ci95": [
+       -2.344,
+       2.251
+      ],
+      "share_below_zero": 0.305
+     },
+     "E6": {
+      "mean_diff": 1.881,
+      "ci95": [
+       -1.794,
+       4.432
+      ],
+      "share_below_zero": 0.09
+     }
+    },
+    "panel_age_slope": -8.68,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.954,
+    "underdispersion_ratio": 0.67,
+    "gap_minus_real_ci95": [
+     -8.924,
+     3.904
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "실측 전용",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": false
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 0.582,
+      "ci95": [
+       -0.94,
+       1.633
+      ],
+      "share_below_zero": 0.195
+     },
+     "E5": {
+      "mean_diff": -0.068,
+      "ci95": [
+       -1.084,
+       0.934
+      ],
+      "share_below_zero": 0.53
+     },
+     "E6": {
+      "mean_diff": 2.607,
+      "ci95": [
+       1.135,
+       3.984
+      ],
+      "share_below_zero": 0.0
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 0.346,
+      "ci95": [
+       -2.279,
+       2.061
+      ],
+      "share_below_zero": 0.315
+     },
+     "E5": {
+      "mean_diff": -0.278,
+      "ci95": [
+       -1.597,
+       0.625
+      ],
+      "share_below_zero": 0.615
+     },
+     "E6": {
+      "mean_diff": 2.111,
+      "ci95": [
+       -1.167,
+       4.232
+      ],
+      "share_below_zero": 0.08
+     }
+    },
+    "panel_age_slope": -10.113,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.775,
+    "underdispersion_ratio": 2.509,
+    "gap_minus_real_ci95": [
+     -8.943,
+     0.464
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "판정 불가",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": false,
+     "underdispersion_ok": false
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.587,
+      "ci95": [
+       -1.944,
+       0.531
+      ],
+      "share_below_zero": 0.845
+     },
+     "E5": {
+      "mean_diff": -0.672,
+      "ci95": [
+       -1.945,
+       0.309
+      ],
+      "share_below_zero": 0.84
+     },
+     "E6": {
+      "mean_diff": 1.192,
+      "ci95": [
+       0.034,
+       2.117
+      ],
+      "share_below_zero": 0.025
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.483,
+      "ci95": [
+       -2.22,
+       0.574
+      ],
+      "share_below_zero": 0.815
+     },
+     "E5": {
+      "mean_diff": -0.537,
+      "ci95": [
+       -2.408,
+       0.232
+      ],
+      "share_below_zero": 0.82
+     },
+     "E6": {
+      "mean_diff": 0.986,
+      "ci95": [
+       -0.856,
+       2.193
+      ],
+      "share_below_zero": 0.1
+     }
+    },
+    "panel_age_slope": -5.128,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.633,
+    "underdispersion_ratio": 2.362,
+    "gap_minus_real_ci95": [
+     -7.832,
+     0.779
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 0.186,
+      "ci95": [
+       -1.785,
+       1.785
+      ],
+      "share_below_zero": 0.405
+     },
+     "E5": {
+      "mean_diff": 0.53,
+      "ci95": [
+       -2.042,
+       3.215
+      ],
+      "share_below_zero": 0.345
+     },
+     "E6": {
+      "mean_diff": 1.326,
+      "ci95": [
+       -0.877,
+       3.268
+      ],
+      "share_below_zero": 0.145
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 0.292,
+      "ci95": [
+       -3.423,
+       2.329
+      ],
+      "share_below_zero": 0.315
+     },
+     "E5": {
+      "mean_diff": 0.743,
+      "ci95": [
+       -3.397,
+       3.385
+      ],
+      "share_below_zero": 0.27
+     },
+     "E6": {
+      "mean_diff": 1.363,
+      "ci95": [
+       -2.155,
+       3.571
+      ],
+      "share_below_zero": 0.14
+     }
+    },
+    "panel_age_slope": -9.778,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.963,
+    "underdispersion_ratio": 0.749,
+    "gap_minus_real_ci95": [
+     -8.499,
+     4.261
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "실측 전용",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": false
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 0.821,
+      "ci95": [
+       -0.934,
+       1.889
+      ],
+      "share_below_zero": 0.115
+     },
+     "E5": {
+      "mean_diff": -0.083,
+      "ci95": [
+       -1.076,
+       1.001
+      ],
+      "share_below_zero": 0.575
+     },
+     "E6": {
+      "mean_diff": 2.128,
+      "ci95": [
+       0.732,
+       3.427
+      ],
+      "share_below_zero": 0.01
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 0.522,
+      "ci95": [
+       -2.163,
+       2.346
+      ],
+      "share_below_zero": 0.26
+     },
+     "E5": {
+      "mean_diff": -0.27,
+      "ci95": [
+       -1.513,
+       0.977
+      ],
+      "share_below_zero": 0.68
+     },
+     "E6": {
+      "mean_diff": 1.608,
+      "ci95": [
+       -1.386,
+       3.314
+      ],
+      "share_below_zero": 0.09
+     }
+    },
+    "panel_age_slope": -8.606,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.799,
+    "underdispersion_ratio": 2.14,
+    "gap_minus_real_ci95": [
+     -8.41,
+     0.991
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "판정 불가",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": false,
+     "underdispersion_ok": false
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.499,
+      "ci95": [
+       -1.945,
+       0.594
+      ],
+      "share_below_zero": 0.765
+     },
+     "E5": {
+      "mean_diff": -0.744,
+      "ci95": [
+       -2.249,
+       0.358
+      ],
+      "share_below_zero": 0.845
+     },
+     "E6": {
+      "mean_diff": 1.286,
+      "ci95": [
+       0.17,
+       2.172
+      ],
+      "share_below_zero": 0.02
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.411,
+      "ci95": [
+       -2.17,
+       0.663
+      ],
+      "share_below_zero": 0.77
+     },
+     "E5": {
+      "mean_diff": -0.595,
+      "ci95": [
+       -2.665,
+       0.287
+      ],
+      "share_below_zero": 0.76
+     },
+     "E6": {
+      "mean_diff": 1.022,
+      "ci95": [
+       -0.741,
+       2.089
+      ],
+      "share_below_zero": 0.1
+     }
+    },
+    "panel_age_slope": -4.35,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.641,
+    "underdispersion_ratio": 2.078,
+    "gap_minus_real_ci95": [
+     -6.371,
+     1.992
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 0.465,
+      "ci95": [
+       -1.751,
+       2.819
+      ],
+      "share_below_zero": 0.345
+     },
+     "E5": {
+      "mean_diff": 1.545,
+      "ci95": [
+       -1.581,
+       4.387
+      ],
+      "share_below_zero": 0.17
+     },
+     "E6": {
+      "mean_diff": 1.872,
+      "ci95": [
+       -0.44,
+       3.831
+      ],
+      "share_below_zero": 0.06
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 0.649,
+      "ci95": [
+       -3.166,
+       3.424
+      ],
+      "share_below_zero": 0.29
+     },
+     "E5": {
+      "mean_diff": 1.803,
+      "ci95": [
+       -2.896,
+       5.078
+      ],
+      "share_below_zero": 0.165
+     },
+     "E6": {
+      "mean_diff": 1.81,
+      "ci95": [
+       -1.776,
+       4.25
+      ],
+      "share_below_zero": 0.1
+     }
+    },
+    "panel_age_slope": -9.92,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.967,
+    "underdispersion_ratio": 0.753,
+    "gap_minus_real_ci95": [
+     -9.118,
+     3.556
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "방향만",
+    "v2": "실측 전용",
+    "v3": "실측 전용",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": false
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": 0.812,
+      "ci95": [
+       -1.043,
+       2.065
+      ],
+      "share_below_zero": 0.12
+     },
+     "E5": {
+      "mean_diff": -0.051,
+      "ci95": [
+       -1.101,
+       1.039
+      ],
+      "share_below_zero": 0.555
+     },
+     "E6": {
+      "mean_diff": 2.025,
+      "ci95": [
+       0.375,
+       3.39
+      ],
+      "share_below_zero": 0.01
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": 0.474,
+      "ci95": [
+       -2.24,
+       2.434
+      ],
+      "share_below_zero": 0.295
+     },
+     "E5": {
+      "mean_diff": -0.292,
+      "ci95": [
+       -2.005,
+       0.927
+      ],
+      "share_below_zero": 0.655
+     },
+     "E6": {
+      "mean_diff": 1.529,
+      "ci95": [
+       -1.292,
+       3.426
+      ],
+      "share_below_zero": 0.1
+     }
+    },
+    "panel_age_slope": -8.943,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.817,
+    "underdispersion_ratio": 2.212,
+    "gap_minus_real_ci95": [
+     -8.766,
+     0.858
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "실측 전용",
+    "v3": "판정 불가",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": false,
+     "underdispersion_ok": false
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -0.637,
+      "ci95": [
+       -2.057,
+       0.385
+      ],
+      "share_below_zero": 0.845
+     },
+     "E5": {
+      "mean_diff": -0.732,
+      "ci95": [
+       -2.466,
+       0.847
+      ],
+      "share_below_zero": 0.76
+     },
+     "E6": {
+      "mean_diff": 0.779,
+      "ci95": [
+       -0.339,
+       1.848
+      ],
+      "share_below_zero": 0.095
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -0.518,
+      "ci95": [
+       -2.372,
+       0.477
+      ],
+      "share_below_zero": 0.835
+     },
+     "E5": {
+      "mean_diff": -0.492,
+      "ci95": [
+       -2.652,
+       0.655
+      ],
+      "share_below_zero": 0.59
+     },
+     "E6": {
+      "mean_diff": 0.615,
+      "ci95": [
+       -0.963,
+       1.676
+      ],
+      "share_below_zero": 0.19
+     }
+    },
+    "panel_age_slope": -4.317,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.658,
+    "underdispersion_ratio": 2.056,
+    "gap_minus_real_ci95": [
+     -6.73,
+     1.455
+    ]
+   }
+  ],
+  "counts_v1": {
+   "보정 후 참고": 11,
+   "방향만": 1
+  },
+  "counts_v2": {
+   "방향만": 4,
+   "실측 전용": 8
+  },
+  "counts_v3": {
+   "방향만": 4,
+   "실측 전용": 4,
+   "판정 불가": 4
+  },
+  "v2_labels_reproduce_stored": true
+ },
+ "known_signal_controls": [
+  {
+   "strength": "control_s0.25",
+   "item": "ever",
+   "auc": 0.8542,
+   "v2": "방향만",
+   "v3": "방향만"
+  },
+  {
+   "strength": "control_s0.25",
+   "item": "weekly",
+   "auc": 0.8357,
+   "v2": "실측 전용",
+   "v3": "실측 전용"
+  },
+  {
+   "strength": "control_s0.25",
+   "item": "carb",
+   "auc": 0.7989,
+   "v2": "실측 전용",
+   "v3": "판정 불가"
+  },
+  {
+   "strength": "control_s0.5",
+   "item": "ever",
+   "auc": 0.9174,
+   "v2": "방향만",
+   "v3": "방향만"
+  },
+  {
+   "strength": "control_s0.5",
+   "item": "weekly",
+   "auc": 0.9199,
+   "v2": "실측 전용",
+   "v3": "실측 전용"
+  },
+  {
+   "strength": "control_s0.5",
+   "item": "carb",
+   "auc": 0.9157,
+   "v2": "실측 전용",
+   "v3": "판정 불가"
+  },
+  {
+   "strength": "control_s1.0",
+   "item": "ever",
+   "auc": 0.9863,
+   "v2": "방향만",
+   "v3": "방향만"
+  },
+  {
+   "strength": "control_s1.0",
+   "item": "weekly",
+   "auc": 0.9713,
+   "v2": "실측 전용",
+   "v3": "실측 전용"
+  },
+  {
+   "strength": "control_s1.0",
+   "item": "carb",
+   "auc": 0.9896,
+   "v2": "실측 전용",
+   "v3": "판정 불가"
+  },
+  {
+   "strength": "control_s2.0",
+   "item": "ever",
+   "auc": 1.0,
+   "v2": "방향만",
+   "v3": "방향만"
+  },
+  {
+   "strength": "control_s2.0",
+   "item": "weekly",
+   "auc": 0.9946,
+   "v2": "방향만",
+   "v3": "보정 후 참고"
+  },
+  {
+   "strength": "control_s2.0",
+   "item": "carb",
+   "auc": 1.0,
+   "v2": "실측 전용",
+   "v3": "보정 후 참고"
+  }
+ ],
+ "seed_sensitivity": {
+  "alt_seed_99": {
+   "plan": {
+    "repeats": 200,
+    "seed": 99,
+    "pi_draws": 20000,
+    "pi_seed": 4321,
+    "bootstrap": 2000
+   },
+   "real_answers_calibrated": [
+    "weekly",
+    "carb"
+   ],
+   "surrogate_rows_calibrated": [],
+   "passed": true,
+   "real_v3_e4": {
+    "ever": {
+     "row": {
+      "mean_diff": -1.814,
+      "ci95": [
+       -4.646,
+       0.338
+      ],
+      "share_below_zero": 0.91
+     },
+     "cluster": {
+      "mean_diff": -3.153,
+      "ci95": [
+       -9.114,
+       0.293
+      ],
+      "share_below_zero": 0.935
+     }
+    },
+    "weekly": {
+     "row": {
+      "mean_diff": -2.669,
+      "ci95": [
+       -5.401,
+       -0.19
+      ],
+      "share_below_zero": 0.975
+     },
+     "cluster": {
+      "mean_diff": -3.526,
+      "ci95": [
+       -9.528,
+       1.331
+      ],
+      "share_below_zero": 0.85
+     }
+    },
+    "carb": {
+     "row": {
+      "mean_diff": -1.435,
+      "ci95": [
+       -3.043,
+       -0.122
+      ],
+      "share_below_zero": 0.985
+     },
+     "cluster": {
+      "mean_diff": -1.726,
+      "ci95": [
+       -4.398,
+       0.162
+      ],
+      "share_below_zero": 0.94
+     }
+    }
+   }
+  },
+  "alt_seed_20261102": {
+   "plan": {
+    "repeats": 200,
+    "seed": 20261102,
+    "pi_draws": 20000,
+    "pi_seed": 777,
+    "bootstrap": 2000
+   },
+   "real_answers_calibrated": [
+    "weekly",
+    "carb"
+   ],
+   "surrogate_rows_calibrated": [],
+   "passed": true,
+   "real_v3_e4": {
+    "ever": {
+     "row": {
+      "mean_diff": -1.86,
+      "ci95": [
+       -4.971,
+       0.238
+      ],
+      "share_below_zero": 0.965
+     },
+     "cluster": {
+      "mean_diff": -3.267,
+      "ci95": [
+       -9.325,
+       0.081
+      ],
+      "share_below_zero": 0.97
+     }
+    },
+    "weekly": {
+     "row": {
+      "mean_diff": -2.532,
+      "ci95": [
+       -5.17,
+       -0.293
+      ],
+      "share_below_zero": 0.99
+     },
+     "cluster": {
+      "mean_diff": -3.406,
+      "ci95": [
+       -9.968,
+       1.041
+      ],
+      "share_below_zero": 0.85
+     }
+    },
+    "carb": {
+     "row": {
+      "mean_diff": -1.417,
+      "ci95": [
+       -3.033,
+       -0.018
+      ],
+      "share_below_zero": 0.98
+     },
+     "cluster": {
+      "mean_diff": -1.752,
+      "ci95": [
+       -3.868,
+       0.184
+      ],
+      "share_below_zero": 0.96
+     }
+    }
+   }
+  }
+ },
+ "distorted_real_answers_sensitivity": {
+  "note": "Real answers at logit strength 3 with each slot's stand-in shift and noise, so the slots differ. Not part of the bar.",
+  "rows": [
+   {
+    "item": "ever",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.315,
+      "ci95": [
+       -5.151,
+       0.066
+      ],
+      "share_below_zero": 0.97
+     },
+     "E5": {
+      "mean_diff": -1.97,
+      "ci95": [
+       -4.674,
+       0.363
+      ],
+      "share_below_zero": 0.95
+     },
+     "E6": {
+      "mean_diff": -2.169,
+      "ci95": [
+       -4.984,
+       0.341
+      ],
+      "share_below_zero": 0.95
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.433,
+      "ci95": [
+       -9.5,
+       0.162
+      ],
+      "share_below_zero": 0.96
+     },
+     "E5": {
+      "mean_diff": -3.116,
+      "ci95": [
+       -8.809,
+       0.153
+      ],
+      "share_below_zero": 0.94
+     },
+     "E6": {
+      "mean_diff": -3.182,
+      "ci95": [
+       -9.354,
+       0.51
+      ],
+      "share_below_zero": 0.925
+     }
+    },
+    "panel_age_slope": -10.871,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.985,
+    "underdispersion_ratio": 0.828,
+    "gap_minus_real_ci95": [
+     -9.08,
+     9.165
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "보정 후 참고",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.712,
+      "ci95": [
+       -4.713,
+       -0.611
+      ],
+      "share_below_zero": 0.995
+     },
+     "E5": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.889,
+       -0.169
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -2.585,
+      "ci95": [
+       -4.693,
+       -0.469
+      ],
+      "share_below_zero": 0.995
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.84,
+      "ci95": [
+       -9.004,
+       -0.342
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -3.648,
+      "ci95": [
+       -9.639,
+       0.935
+      ],
+      "share_below_zero": 0.875
+     },
+     "E6": {
+      "mean_diff": -3.654,
+      "ci95": [
+       -8.591,
+       -0.1
+      ],
+      "share_below_zero": 0.975
+     }
+    },
+    "panel_age_slope": -3.812,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.909,
+    "underdispersion_ratio": 1.039,
+    "gap_minus_real_ci95": [
+     -5.876,
+     5.876
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6.1-terra",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "보정 후 참고",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.044,
+      "ci95": [
+       -3.696,
+       -0.749
+      ],
+      "share_below_zero": 1.0
+     },
+     "E5": {
+      "mean_diff": -1.518,
+      "ci95": [
+       -3.193,
+       -0.209
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -1.933,
+      "ci95": [
+       -3.624,
+       -0.632
+      ],
+      "share_below_zero": 0.995
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -2.319,
+      "ci95": [
+       -4.356,
+       -0.444
+      ],
+      "share_below_zero": 1.0
+     },
+     "E5": {
+      "mean_diff": -1.827,
+      "ci95": [
+       -4.095,
+       0.097
+      ],
+      "share_below_zero": 0.96
+     },
+     "E6": {
+      "mean_diff": -2.224,
+      "ci95": [
+       -4.506,
+       -0.284
+      ],
+      "share_below_zero": 0.995
+     }
+    },
+    "panel_age_slope": -2.352,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.763,
+    "underdispersion_ratio": 1.129,
+    "gap_minus_real_ci95": [
+     -4.418,
+     6.178
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "방향만",
+    "v3_estimators_beating_r1": [],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.221,
+      "ci95": [
+       -5.042,
+       0.163
+      ],
+      "share_below_zero": 0.965
+     },
+     "E5": {
+      "mean_diff": -1.97,
+      "ci95": [
+       -4.674,
+       0.363
+      ],
+      "share_below_zero": 0.95
+     },
+     "E6": {
+      "mean_diff": -2.247,
+      "ci95": [
+       -5.111,
+       0.252
+      ],
+      "share_below_zero": 0.955
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.338,
+      "ci95": [
+       -9.398,
+       0.175
+      ],
+      "share_below_zero": 0.95
+     },
+     "E5": {
+      "mean_diff": -3.116,
+      "ci95": [
+       -8.809,
+       0.153
+      ],
+      "share_below_zero": 0.94
+     },
+     "E6": {
+      "mean_diff": -3.236,
+      "ci95": [
+       -9.547,
+       0.419
+      ],
+      "share_below_zero": 0.93
+     }
+    },
+    "panel_age_slope": -10.814,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.985,
+    "underdispersion_ratio": 0.825,
+    "gap_minus_real_ci95": [
+     -8.851,
+     9.597
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "보정 후 참고",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.639,
+      "ci95": [
+       -4.689,
+       -0.565
+      ],
+      "share_below_zero": 0.995
+     },
+     "E5": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.889,
+       -0.169
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -2.7,
+      "ci95": [
+       -4.719,
+       -0.588
+      ],
+      "share_below_zero": 0.995
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.753,
+      "ci95": [
+       -9.005,
+       -0.176
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -3.648,
+      "ci95": [
+       -9.639,
+       0.935
+      ],
+      "share_below_zero": 0.875
+     },
+     "E6": {
+      "mean_diff": -3.749,
+      "ci95": [
+       -8.716,
+       -0.222
+      ],
+      "share_below_zero": 0.98
+     }
+    },
+    "panel_age_slope": -3.975,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.913,
+    "underdispersion_ratio": 1.055,
+    "gap_minus_real_ci95": [
+     -5.678,
+     6.111
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6.1-terra",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "보정 후 참고",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.027,
+      "ci95": [
+       -3.659,
+       -0.724
+      ],
+      "share_below_zero": 1.0
+     },
+     "E5": {
+      "mean_diff": -1.518,
+      "ci95": [
+       -3.193,
+       -0.209
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -1.824,
+      "ci95": [
+       -3.545,
+       -0.528
+      ],
+      "share_below_zero": 0.995
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -2.299,
+      "ci95": [
+       -4.344,
+       -0.416
+      ],
+      "share_below_zero": 1.0
+     },
+     "E5": {
+      "mean_diff": -1.827,
+      "ci95": [
+       -4.095,
+       0.097
+      ],
+      "share_below_zero": 0.96
+     },
+     "E6": {
+      "mean_diff": -2.129,
+      "ci95": [
+       -4.469,
+       -0.252
+      ],
+      "share_below_zero": 0.985
+     }
+    },
+    "panel_age_slope": -2.236,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.711,
+    "underdispersion_ratio": 1.06,
+    "gap_minus_real_ci95": [
+     -3.58,
+     7.05
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "보정 후 참고",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.449,
+      "ci95": [
+       -5.244,
+       -0.045
+      ],
+      "share_below_zero": 0.975
+     },
+     "E5": {
+      "mean_diff": -1.97,
+      "ci95": [
+       -4.674,
+       0.363
+      ],
+      "share_below_zero": 0.95
+     },
+     "E6": {
+      "mean_diff": -2.577,
+      "ci95": [
+       -5.348,
+       -0.145
+      ],
+      "share_below_zero": 0.99
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.557,
+      "ci95": [
+       -9.638,
+       -0.063
+      ],
+      "share_below_zero": 0.98
+     },
+     "E5": {
+      "mean_diff": -3.116,
+      "ci95": [
+       -8.809,
+       0.153
+      ],
+      "share_below_zero": 0.94
+     },
+     "E6": {
+      "mean_diff": -3.562,
+      "ci95": [
+       -9.724,
+       0.05
+      ],
+      "share_below_zero": 0.965
+     }
+    },
+    "panel_age_slope": -11.254,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.986,
+    "underdispersion_ratio": 0.86,
+    "gap_minus_real_ci95": [
+     -8.425,
+     10.148
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "보정 후 참고",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.513,
+      "ci95": [
+       -4.66,
+       -0.417
+      ],
+      "share_below_zero": 0.99
+     },
+     "E5": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.889,
+       -0.169
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -2.361,
+      "ci95": [
+       -4.725,
+       -0.303
+      ],
+      "share_below_zero": 0.985
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.621,
+      "ci95": [
+       -8.665,
+       -0.014
+      ],
+      "share_below_zero": 0.975
+     },
+     "E5": {
+      "mean_diff": -3.648,
+      "ci95": [
+       -9.639,
+       0.935
+      ],
+      "share_below_zero": 0.875
+     },
+     "E6": {
+      "mean_diff": -3.389,
+      "ci95": [
+       -8.45,
+       0.31
+      ],
+      "share_below_zero": 0.935
+     }
+    },
+    "panel_age_slope": -4.204,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.926,
+    "underdispersion_ratio": 1.11,
+    "gap_minus_real_ci95": [
+     -5.777,
+     6.274
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6-luna",
+    "condition": "C2",
+    "v1": "보정 후 참고",
+    "v2": "보정 후 참고",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.088,
+      "ci95": [
+       -3.763,
+       -0.782
+      ],
+      "share_below_zero": 1.0
+     },
+     "E5": {
+      "mean_diff": -1.518,
+      "ci95": [
+       -3.193,
+       -0.209
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -2.104,
+      "ci95": [
+       -3.778,
+       -0.775
+      ],
+      "share_below_zero": 1.0
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -2.373,
+      "ci95": [
+       -4.446,
+       -0.475
+      ],
+      "share_below_zero": 1.0
+     },
+     "E5": {
+      "mean_diff": -1.827,
+      "ci95": [
+       -4.095,
+       0.097
+      ],
+      "share_below_zero": 0.96
+     },
+     "E6": {
+      "mean_diff": -2.412,
+      "ci95": [
+       -4.747,
+       -0.462
+      ],
+      "share_below_zero": 0.995
+     }
+    },
+    "panel_age_slope": -2.324,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.717,
+    "underdispersion_ratio": 1.102,
+    "gap_minus_real_ci95": [
+     -3.622,
+     7.155
+    ]
+   },
+   {
+    "item": "ever",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "방향만",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.354,
+      "ci95": [
+       -5.204,
+       -0.065
+      ],
+      "share_below_zero": 0.975
+     },
+     "E5": {
+      "mean_diff": -1.97,
+      "ci95": [
+       -4.674,
+       0.363
+      ],
+      "share_below_zero": 0.95
+     },
+     "E6": {
+      "mean_diff": -2.267,
+      "ci95": [
+       -4.955,
+       0.225
+      ],
+      "share_below_zero": 0.965
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.456,
+      "ci95": [
+       -9.506,
+       0.127
+      ],
+      "share_below_zero": 0.965
+     },
+     "E5": {
+      "mean_diff": -3.116,
+      "ci95": [
+       -8.809,
+       0.153
+      ],
+      "share_below_zero": 0.94
+     },
+     "E6": {
+      "mean_diff": -3.334,
+      "ci95": [
+       -9.488,
+       0.318
+      ],
+      "share_below_zero": 0.945
+     }
+    },
+    "panel_age_slope": -11.335,
+    "real_age_slope_ci95": [
+     -15.396,
+     -10.432
+    ],
+    "cell_pearson_r": 0.984,
+    "underdispersion_ratio": 0.864,
+    "gap_minus_real_ci95": [
+     -9.131,
+     9.616
+    ]
+   },
+   {
+    "item": "weekly",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "보정 후 참고",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": false,
+    "direction_checks": {
+     "age_slope_ok": true,
+     "cell_r_ok": true,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.537,
+      "ci95": [
+       -4.505,
+       -0.331
+      ],
+      "share_below_zero": 0.995
+     },
+     "E5": {
+      "mean_diff": -2.545,
+      "ci95": [
+       -4.889,
+       -0.169
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -2.449,
+      "ci95": [
+       -4.608,
+       -0.329
+      ],
+      "share_below_zero": 0.99
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -3.646,
+      "ci95": [
+       -8.793,
+       -0.194
+      ],
+      "share_below_zero": 0.985
+     },
+     "E5": {
+      "mean_diff": -3.648,
+      "ci95": [
+       -9.639,
+       0.934
+      ],
+      "share_below_zero": 0.875
+     },
+     "E6": {
+      "mean_diff": -3.532,
+      "ci95": [
+       -8.757,
+       0.215
+      ],
+      "share_below_zero": 0.96
+     }
+    },
+    "panel_age_slope": -3.901,
+    "real_age_slope_ci95": [
+     -5.299,
+     -1.397
+    ],
+    "cell_pearson_r": 0.904,
+    "underdispersion_ratio": 1.034,
+    "gap_minus_real_ci95": [
+     -6.19,
+     5.963
+    ]
+   },
+   {
+    "item": "carb",
+    "model": "gpt-6-luna",
+    "condition": "C1",
+    "v1": "보정 후 참고",
+    "v2": "보정 후 참고",
+    "v3": "보정 후 참고",
+    "v3_estimators_beating_r1": [
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "gender_gap_use_banned": false,
+    "real_slope_includes_zero": true,
+    "direction_checks": {
+     "age_slope_ok": false,
+     "cell_r_ok": false,
+     "underdispersion_ok": true
+    },
+    "row_vs_r1": {
+     "E4": {
+      "mean_diff": -2.141,
+      "ci95": [
+       -3.753,
+       -0.844
+      ],
+      "share_below_zero": 1.0
+     },
+     "E5": {
+      "mean_diff": -1.518,
+      "ci95": [
+       -3.193,
+       -0.209
+      ],
+      "share_below_zero": 0.985
+     },
+     "E6": {
+      "mean_diff": -1.583,
+      "ci95": [
+       -3.253,
+       -0.259
+      ],
+      "share_below_zero": 0.99
+     }
+    },
+    "cluster_vs_r1": {
+     "E4": {
+      "mean_diff": -2.415,
+      "ci95": [
+       -4.438,
+       -0.539
+      ],
+      "share_below_zero": 1.0
+     },
+     "E5": {
+      "mean_diff": -1.827,
+      "ci95": [
+       -4.095,
+       0.097
+      ],
+      "share_below_zero": 0.96
+     },
+     "E6": {
+      "mean_diff": -1.874,
+      "ci95": [
+       -4.229,
+       0.029
+      ],
+      "share_below_zero": 0.97
+     }
+    },
+    "panel_age_slope": -2.524,
+    "real_age_slope_ci95": [
+     -2.597,
+     0.513
+    ],
+    "cell_pearson_r": 0.687,
+    "underdispersion_ratio": 1.12,
+    "gap_minus_real_ci95": [
+     -3.954,
+     6.979
+    ]
+   }
+  ],
+  "counts_v3": {
+   "방향만": 2,
+   "보정 후 참고": 10
+  }
+ },
+ "panel_mass": {
+  "panel_share_of_test_psfwt": 0.5856,
+  "cell_min": 0.4313,
+  "cell_max": 0.7771,
+  "panel_rows": 1000,
+  "test_rows": 2321,
+  "outside_rows": 1321
+ }
+}

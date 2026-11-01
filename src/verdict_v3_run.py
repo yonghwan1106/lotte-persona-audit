@@ -215,6 +215,12 @@ def to_markdown(doc):
         "",
         *table(doc["surrogate"]["rows"]),
         "",
+        "## Stand-in panels told part of each real answer, relabelled from stored inputs",
+        "",
+        "| strength | item | AUC | v2 | v3 |",
+        "|---|---|---|---|---|",
+        *[f"| {r['strength']} | {r['item']} | {r['auc']} | {r['v2']} | {r['v3']} |" for r in doc["known_signal_controls"]],
+        "",
         "## Seed sensitivity",
         "",
         "```",
@@ -234,6 +240,8 @@ def to_markdown(doc):
         "- Intervals are across 200 draws with the pool and the test panel held fixed. No correction across 12 combinations and 3 estimators.",
         f"- The panel holds {doc['panel_mass']['panel_share_of_test_psfwt']} of the test split's psfwt. All R1 comparisons here use the truth from the other {doc['panel_mass']['outside_rows']} test rows only.",
         "- The first branch now takes a row interval and a cluster mean. The cluster interval still includes zero for the real answer control, so the branch is weaker than v2's on purpose.",
+        "- The branch still needs close to the real answers. In the relabelled controls above it fires only at the strongest strength. A missing first label on an LLM answer is therefore no evidence of an LLM failure, and passing the bar is no evidence that a label separates good panels from weak ones at ordinary signal.",
+        "- The other branches do not separate panels either. carb is undecidable for every panel that misses the first branch, because the real slope interval includes zero. The weekly difference between the LLM answers and the stand-in panel comes from the underdispersion check and the stand-in's shift.",
     ]
     return "\n".join(lines) + "\n"
 
@@ -247,8 +255,11 @@ def cmd_apply(_args):
     answers = llm_answers(s)
     llm = study(s, answers, plan)
     rows = slim(llm["rows"])
-    stored = json.loads((paths.RESULTS / "stage3" / "verdict_v2.json").read_text(encoding="utf-8"))["answers"]["rows"]
+    stored_doc = json.loads((paths.RESULTS / "stage3" / "verdict_v2.json").read_text(encoding="utf-8"))
+    stored = stored_doc["answers"]["rows"]
     mismatch = [r["item"] for r, x in zip(rows, stored) if r["v2"] != x["v2"]["verdict"]]
+    # The stage 3 controls told part of each real answer, relabelled from their stored inputs: how much signal does the first branch need?
+    known = [{"strength": r["model"], "item": r["item"], "auc": stored_doc["positive_control"]["auc"][r["model"]][r["item"]], "v2": r["v2"]["verdict"], "v3": verdict_v3.from_v2_inputs(r["v2_inputs"])["verdict"]} for r in stored_doc["positive_control"]["rows"]]
     labels_by_seed = {"stage2_seed": {f"{r['model']}|{r['condition']}|{r['item']}": r["v3"] for r in rows}}
     gender_by_seed = {"stage2_seed": {f"{r['model']}|{r['condition']}|{r['item']}": r["gender_gap_use_banned"] for r in rows}}
     for name, change in ALT_PLANS.items():
@@ -272,6 +283,7 @@ def cmd_apply(_args):
         "llm": {"rows": rows, "counts_v1": llm["counts_v1"], "counts_v2": llm["counts_v2"], "counts_v3": llm["counts_v3"], "gender_ban_count": sum(r["gender_gap_use_banned"] for r in rows), "gender_ban_by_seed": {n: sum(v.values()) for n, v in gender_by_seed.items()}, "gender_flag_rows_that_move": moved, "labels_by_seed": labels_by_seed, "v2_labels_mismatch_stored": mismatch},
         "real_answers": accepted["real_answers"],
         "surrogate": accepted["surrogate"],
+        "known_signal_controls": known,
         "seed_sensitivity": accepted["seed_sensitivity"],
         "distorted_real_answers_sensitivity": accepted["distorted_real_answers_sensitivity"],
         "panel_mass": accepted["panel_mass"],
