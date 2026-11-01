@@ -18,6 +18,9 @@ class Guard:
         self.numerals = [re.compile(p) for p in g["numeral_patterns"]]
         self.claims = re.compile(g["forbidden_claim_patterns"])
         self.prefix = g["hypothesis_prefix"]
+        self.restatement = re.compile(g["restatement_patterns"])
+        self.taste = re.compile(g["taste_patterns"])
+        self.ending = re.compile(g["hypothesis_ending"])
         self.rejected_note = g["rejected_note"]
         self.not_called_note = g["not_called_note"]
 
@@ -57,6 +60,21 @@ class Guard:
             reasons.append("empty")
         for s in sentences:
             reasons += self.check_sentence(s["text"], known_ids, s.get("metric_ids", []))
+            reasons += self.check_form(s["text"])
+        return reasons
+
+    def check_form(self, sentence):
+        """A narrator sentence is a hypothesis about a cause. A restated verdict or a guess about taste is not, whatever mark it gets."""
+        outside = self.strip_placeholders(sentence).strip()
+        reasons = []
+        hit = self.restatement.search(outside)
+        if hit:
+            reasons.append(f"restates_verdict:{hit.group(0)}")
+        hit = self.taste.search(outside)
+        if hit:
+            reasons.append(f"taste_guess:{hit.group(0)}")
+        if not self.ending.search(outside):
+            reasons.append("not_phrased_as_a_hypothesis")
         return reasons
 
     def render(self, sentences, catalog):

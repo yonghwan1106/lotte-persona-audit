@@ -368,7 +368,7 @@ def test_guard_rejects(sentence):
     [
         "\ube0c\ub79c\ub4dc \uc774\ub984\uc774 \uc775\uc219\ud574 \uc8fc\uc758\ub97c \ub04c\uc5c8\uc744 \uc218 \uc788\ub2e4",
         "\uac00\uaca9\ub300\uac00 \ubd80\ub2f4\uc73c\ub85c \uc77d\ud614\uc744 \uc218 \uc788\ub2e4",
-        "\ucc28\uc774\ub294 {{m:noise_terra}} \uc218\uc900\uc774\ub2e4",
+        "\ucc28\uc774\ub294 {{m:noise_terra}} \uc218\uc900\uc77c \uc218 \uc788\ub2e4",
         "\ubc29\ud5a5\ub9cc \ucc38\uace0\ud560 \uc218 \uc788\ub2e4",
         "\uc138\ub300 \ucc28\uc774\uac00 \uc788\uc744 \uc218 \uc788\ub2e4",
         "\uc774 \uc810\uc774 \ud55c\uacc4\ub2e4",
@@ -378,13 +378,27 @@ def test_guard_passes_plain_sentences(sentence):
     assert GUARD.check_sentence(sentence, KNOWN) == []
 
 
+@pytest.mark.parametrize(
+    "sentence,reason",
+    [
+        ("\ud6c4\ubcf4 A\ub294 \uc2e4\uce21 \uc804\uc6a9\uc77c \uc218 \uc788\ub2e4", "restates_verdict"),
+        ("\ubc29\ud5a5\ub9cc \ucc38\uace0\ud560 \uc218 \uc788\ub2e4", "restates_verdict"),
+        ("\ub9db \uc870\ud569\uc774 \uc601\ud5a5\uc744 \uc92c\uc744 \uc218 \uc788\ub2e4", "taste_guess"),
+        ("\uac00\uaca9\uc774 \ubd80\ub2f4\uc73c\ub85c \uc77d\ud614\ub2e4", "not_phrased_as_a_hypothesis"),
+    ],
+)
+def test_narrator_sentences_must_be_hypotheses_not_verdicts(sentence, reason):
+    assert any(r.startswith(reason) for r in GUARD.check_form(sentence))
+    assert GUARD.check_form("\uac00\uaca9\uc774 \ubd80\ub2f4\uc73c\ub85c \uc77d\ud614\uc744 \uc218 \uc788\ub2e4.") == []
+
+
 def test_guard_needs_cited_ids():
     assert "placeholder_not_cited" in GUARD.check_sentence("{{m:noise_terra}}", KNOWN, [])
     assert GUARD.check_sentence("{{m:noise_terra}}", KNOWN, ["noise_terra"]) == []
 
 
 def test_renderer_fills_values_and_marks_hypotheses():
-    out = GUARD.render([{"text": "\ucc28\uc774\ub294 {{m:noise_terra}} \uc218\uc900", "metric_ids": ["noise_terra"]}], {"noise_terra": {"value": "+1.2pp [-1.0, +3.0]", "what": "x"}})
+    out = GUARD.render([{"text": "\ucc28\uc774\ub294 {{m:noise_terra}} \uc218\uc900\uc77c \uc218 \uc788\ub2e4", "metric_ids": ["noise_terra"]}], {"noise_terra": {"value": "+1.2pp [-1.0, +3.0]", "what": "x"}})
     assert out[0].startswith(GUARD.prefix) and "+1.2pp" in out[0] and "{{" not in out[0]
 
 
@@ -871,7 +885,7 @@ def test_guardrail_rejects_a_digit_from_the_narrator_and_the_manager_is_told(tmp
 def test_clean_narration_is_accepted_and_rendered_as_hypothesis(tmp_path):
     ctx = verdict_ctx(tmp_path)
     mid = sorted(ctx.catalog)[0]
-    good = assistant_message(json.dumps({"sentences": [{"text": "\ucc28\uc774\ub294 {{m:" + mid + "}} \uc218\uc900\uc774\ub2e4", "metric_ids": [mid]}]}))
+    good = assistant_message(json.dumps({"sentences": [{"text": "\ucc28\uc774\ub294 {{m:" + mid + "}} \uc218\uc900\uc77c \uc218 \uc788\ub2e4", "metric_ids": [mid]}]}))
     steps = [[function_call("narrate_verdict", {"input": "x"}, call_id="c1")], [reply()]]
     manager, _, _ = scripted_agents(ctx, steps, [[good]])
     asyncio.run(runtime.drive(ctx, manager, "go"))
@@ -994,3 +1008,21 @@ def test_real_panel_is_stratified_when_the_files_exist():
     assert doc["segments"].tolist().count("19-39_m") >= 10
     assert not math.isnan(float(len(doc["units"])))
     assert RunState is not None and Runner is not None
+
+
+def test_results_hold_no_persona_text_and_no_respondent_code():
+    """The real check on what would enter git. Skips when the row level files are absent."""
+    key_path = paths.ROOT / "runs" / "stage3" / "key.csv"
+    persona_path = paths.ROOT / "runs" / "main" / "inputs" / "personas.jsonl"
+    if not key_path.exists() or not persona_path.exists():
+        pytest.skip("row level files not present")
+    codes = [line.split(",")[1] for line in key_path.read_text(encoding="utf-8").splitlines()[1:]]
+    with persona_path.open(encoding="utf-8") as fh:
+        personas = [json.loads(line)["persona"] for line in fh if line.strip()]
+    root = paths.RESULTS / "agent"
+    files = [p for p in root.rglob("*") if p.is_file()] if root.exists() else []
+    blob = "\n".join(p.read_text(encoding="utf-8") for p in files)
+    code_re = re.compile(r"\b[A-Z2-9]{8}\b")
+    found = set(code_re.findall(blob)) & set(codes)
+    assert not found, sorted(found)[:3]
+    assert not [p for p in set(personas) if len(p) > 40 and p in blob]

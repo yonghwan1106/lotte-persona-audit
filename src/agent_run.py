@@ -23,11 +23,10 @@ from lotte_audit.agent import panel as panel_module  # noqa: E402
 from lotte_audit.agent import runtime, scenarios, settings  # noqa: E402
 from lotte_audit.agent.state import AuditContext  # noqa: E402
 
-DEMO_ID = "demo"
-DEMO_DIR = settings.RESULTS / DEMO_ID
-DEMO_TRANSCRIPT = DEMO_DIR / "transcript.jsonl"
-DEMO_CTX = settings.SAVED_DIR / "demo_ctx.json"
-DEMO_STATE = settings.SAVED_DIR / "demo_run_state.json"
+
+def demo_paths(run_id):
+    out = settings.RESULTS / run_id
+    return {"dir": out, "transcript": out / "transcript.jsonl", "ctx": settings.SAVED_DIR / f"{run_id}_ctx.json", "state": settings.SAVED_DIR / f"{run_id}_run_state.json"}
 
 
 def load_panel_hash(cfg):
@@ -102,9 +101,10 @@ def cmd_smoke(_args):
     print(json.dumps({"runs": out, "mean_per_call": means, "statuses": sorted({r["status"] for r in rows if r.get("card") == "smoke"}), "stage_spent_usd": round(budget.spent(), 6)}, indent=2))
 
 
-def demo_context(cfg, text, api_key):
+def demo_context(cfg, text, api_key, run_id):
     budget = settings.StageBudget(cfg["limits"]["budget_usd"])
-    ctx = AuditContext(run_id=DEMO_ID, cfg=cfg, text=text, budget=budget, transcript_path=DEMO_TRANSCRIPT, demo=True, results_dir=DEMO_DIR, progress=200)
+    p = demo_paths(run_id)
+    ctx = AuditContext(run_id=run_id, cfg=cfg, text=text, budget=budget, transcript_path=p["transcript"], demo=True, results_dir=p["dir"], progress=200)
     ctx.backend = panel_module.RealBackend(cfg, api_key)
 
     async def guard(c, request_text):
@@ -116,21 +116,22 @@ def demo_context(cfg, text, api_key):
     return ctx
 
 
-def cmd_demo_start(_args):
+def cmd_demo_start(args):
     cfg = settings.load_config()
     settings.check_frozen(load_panel_hash(cfg))
     settings.require_committed()
     text = settings.load_text()
     client, api_key = runtime.make_client(cfg)
-    ctx = demo_context(cfg, text, api_key)
+    ctx = demo_context(cfg, text, api_key, args.run_id)
     ctx.intake_cards = settings.load_cards()["cards"]
-    if DEMO_TRANSCRIPT.exists():
-        raise SystemExit("a demo transcript exists already; move it before starting a new demo")
+    p = demo_paths(args.run_id)
+    if p["transcript"].exists():
+        raise SystemExit("this run id has a transcript already; use another --run-id")
     manager, _ = runtime.build_agents(ctx, client)
     message = text["scenario_messages"]["demo"]
     ctx.event("user_message", text=message)
-    outcome = asyncio.run(runtime.drive(ctx, manager, message, approve_fn=None, state_path=DEMO_STATE))
-    ctx.save(DEMO_CTX)
+    outcome = asyncio.run(runtime.drive(ctx, manager, message, approve_fn=None, state_path=p["state"]))
+    ctx.save(p["ctx"])
     plan = ctx.plan
     print(json.dumps({"outcome": outcome, "plan": plan, "stage_spent_usd": round(ctx.budget.spent(), 6)}, ensure_ascii=False, indent=2))
 
@@ -139,16 +140,17 @@ def cmd_demo_resume(args):
     cfg = settings.load_config()
     text = settings.load_text()
     client, api_key = runtime.make_client(cfg)
-    ctx = demo_context(cfg, text, api_key)
-    ctx.restore(json.loads(DEMO_CTX.read_text(encoding="utf-8")))
+    ctx = demo_context(cfg, text, api_key, args.run_id)
+    p = demo_paths(args.run_id)
+    ctx.restore(json.loads(p["ctx"].read_text(encoding="utf-8")))
     manager, _ = runtime.build_agents(ctx, client)
 
     def approve(c, name, a):
         known = runtime.plan_guard_decision(c, name, a)
         return known or {"approved": True, "approver": args.approver, "note": args.note}
 
-    outcome = asyncio.run(runtime.resume_from_file(ctx, manager, DEMO_STATE, approve))
-    ctx.save(DEMO_CTX)
+    outcome = asyncio.run(runtime.resume_from_file(ctx, manager, p["state"], approve))
+    ctx.save(p["ctx"])
     print(json.dumps({"outcome": outcome, "manifest": (ctx.ledger_entry or {}).get("manifest_sha256"), "stage_spent_usd": round(ctx.budget.spent(), 6)}, ensure_ascii=False, indent=2))
 
 
@@ -156,7 +158,8 @@ def cmd_scenarios(args):
     cfg = settings.load_config()
     text = settings.load_text()
     client, api_key = runtime.make_client(cfg)
-    demo_state = json.loads(DEMO_CTX.read_text(encoding="utf-8")) if DEMO_CTX.exists() else None
+    ctx_path = demo_paths(args.demo_run)["ctx"]
+    demo_state = json.loads(ctx_path.read_text(encoding="utf-8")) if ctx_path.exists() else None
     if demo_state and not demo_state.get("verdict"):
         demo_state = None
     only = set(args.only.split(",")) if args.only else None
@@ -182,13 +185,17 @@ def main():
     sub.add_parser("freeze").set_defaults(func=cmd_freeze)
     sub.add_parser("check").set_defaults(func=cmd_check)
     sub.add_parser("smoke").set_defaults(func=cmd_smoke)
-    sub.add_parser("demo-start").set_defaults(func=cmd_demo_start)
+    d = sub.add_parser("demo-start")
+    d.add_argument("--run-id", default="demo")
+    d.set_defaults(func=cmd_demo_start)
     r = sub.add_parser("demo-resume")
+    r.add_argument("--run-id", default="demo")
     r.add_argument("--approver", required=True)
     r.add_argument("--note", default=None)
     r.set_defaults(func=cmd_demo_resume)
     s = sub.add_parser("scenarios")
     s.add_argument("--runs", type=int, default=1)
+    s.add_argument("--demo-run", default="demo")
     s.add_argument("--only", default=None)
     s.add_argument("--tag", default=None)
     s.add_argument("--probe", action="store_true")

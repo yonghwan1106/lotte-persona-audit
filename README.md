@@ -53,7 +53,7 @@ XXXXXXXX,0.42,0.08,0.05
 
 ## 관문 실행
 
-평가 도구(`audit.py`)는 API를 부르지 않습니다. API를 부르는 코드는 `src/panel_run.py`뿐입니다. 응답자 코드 하나당 호출 한 번이고, 코드는 모델에 보이지 않습니다. 모델, 가격, 설정, 프롬프트 해시는 `config/gate_run.json`에, 프롬프트는 `config/gate_prompt.json`에 고정돼 있습니다. API 키는 실행할 때 저장소 밖 파일에서 읽습니다. 답, 캐시, 호출 기록은 `runs/` 아래에 두며 커밋하지 않습니다.
+평가 도구(`audit.py`)는 API를 부르지 않습니다. 관문에서 API를 부르는 코드는 `src/panel_run.py`뿐입니다. 응답자 코드 하나당 호출 한 번이고, 코드는 모델에 보이지 않습니다. 모델, 가격, 설정, 프롬프트 해시는 `config/gate_run.json`에, 프롬프트는 `config/gate_prompt.json`에 고정돼 있습니다. API 키는 실행할 때 저장소 밖 파일에서 읽습니다. 답, 캐시, 호출 기록은 `runs/` 아래에 두며 커밋하지 않습니다.
 
 ```
 python src/panel_run.py check                       # 고정 설정 확인, 호출 없음
@@ -103,6 +103,36 @@ python src/stage3_run.py score          # 2부: results/stage3/option_ranking.js
 
 결과는 `results/stage3/`에 있습니다. v2의 「보정 후 참고」는 실제 답, 대체 패널, 실제 답을 일부 알려 준 양성 대조(AUC 1.0 포함) 어디에서도 나오지 않았으므로, 이 라벨이 나오지 않은 것을 LLM의 실패 증거로 읽으면 안 됩니다. 순서 시험의 고정 판정은 어느 간격 구간에서도 패널이 실제 200명이나 2024년 공개값을 넘지 못했다는 것입니다.
 
+## 감사 에이전트
+
+콘셉트 카드를 받아 패널을 돌리고 칸별 판정, 실측 200명 배분, 문항지, 원장 기록까지 내는 에이전트입니다. 신제품 성패를 예측하지 않습니다. 정답이 없는 실행이므로 판정은 실행 안의 잡음과 앞 단계의 규칙 v2에서 나옵니다. 구매 의향 값은 패널 내부 값이고 시장 수치나 판매 전망이 아닙니다.
+
+에이전트는 둘입니다. 감사 매니저(`gpt-6.1-sol`)가 카드를 구조화하고 도구를 고르며, 서술 전문가(`gpt-6.1-terra`)는 매니저의 도구(`as_tool`)로만 돕니다. OpenAI Agents SDK 0.24.0을 씁니다. 패널 응답기는 에이전트가 아니라 도구 없는 무상태 Responses 호출이며(`src/lotte_audit/agent/panel.py`), 응답자 코드는 모델에 보이지 않습니다.
+
+SDK는 openai 3.x를 요구해 이 저장소의 venv에만 설치합니다.
+
+```
+python -m venv --system-site-packages .venv
+.venv/Scripts/python.exe -m pip install "openai-agents==0.24.0"
+```
+
+```
+.venv/Scripts/python.exe src/agent_run.py smoke        # 시연 밖 카드로 모델당 3건, 토큰과 비용만
+.venv/Scripts/python.exe src/agent_run.py freeze       # 프롬프트 해시 기록, 고정 파일 해시, 이후 커밋
+.venv/Scripts/python.exe src/agent_run.py check        # 고정 확인, 호출 없음
+.venv/Scripts/python.exe src/agent_run.py demo-start   # 검증과 계획까지, 승인 대기에서 멈추고 실행 상태를 저장
+.venv/Scripts/python.exe src/agent_run.py demo-resume --approver "이름"   # 저장한 실행을 승인하고 같은 실행으로 이어 감
+.venv/Scripts/python.exe src/agent_run.py scenarios --runs 3 --probe       # 행동 시나리오, 실제 API
+.venv/Scripts/python.exe src/agent_run.py status --write                   # results/agent/run_summary.json
+.venv/Scripts/python.exe -m pytest tests -q
+```
+
+이 단계 예산은 5달러이고 호출 전에 거부합니다. 도구 순서는 코드가 강제합니다. 선행 조건이 없으면 도구가 `blocked`를 돌려주고 아무것도 하지 않습니다. `run_panel`은 SDK 승인(`needs_approval=True`)과 코드의 승인 기록을 모두 요구하고, 승인은 계획 해시에 묶입니다. 임계값이나 라벨을 인자로 받는 도구는 없습니다. 모든 요청은 `store=False`이고 SDK 트레이싱은 끕니다. 호출 기록은 `runs/agent/logs/`에 있습니다.
+
+서술 전문가의 출력은 `{{m:지표id}}` 자리표시만 숫자를 담을 수 있습니다. 자리표시 밖의 숫자나 한글 수사, 없는 지표 id, 시장 수치 표현은 기각됩니다. 판정 문장은 코드 템플릿이고, 서술 문장에는 「가설:」이 자동으로 붙습니다. 패널 이유는 낱말 빈도만 결과에 남기고 가설로 표시합니다.
+
+결과는 `results/agent/`에 있습니다. `demo/report.md`의 첫 줄이 매니페스트 해시이고, `demo/transcript.jsonl`이 도구 호출 기록입니다. 시연 카드는 모두 가상이며 정답이 없습니다. `compare_panel_direct`(실측 200명의 단순 회귀를 패널이 못 이기면 패널 값을 뺌)는 합성 실측 답으로만 시험했습니다.
+
 ## 사전 등록
 
 `config/prereg.json`이 조건, 지표, 전환 규칙, 재현 패턴 정의를 담습니다. `manifests/frozen.json`이 설정 파일 해시를 담고, 설정이 바뀌면 채점이 멈춥니다. 답을 본 뒤에는 바꾸지 않습니다.
@@ -113,6 +143,8 @@ python src/stage3_run.py score          # 2부: results/stage3/option_ranking.js
 |---|---|
 | `audit.py` | 명령줄 진입점 |
 | `src/lotte_audit/` | 파이썬 코드, ASCII 전용 |
+| `src/lotte_audit/agent/` | 감사 에이전트, 도구, 진단, 판정, 배분, 숫자 규칙 |
+| `src/agent_run.py` | 감사 에이전트 실행기 |
 | `config/` | 한국어 문구, 누출 정규식, 허용 목록, 사전 등록 |
 | `manifests/` | 분할 목록(행 번호, 행 해시, 분할), 설정 해시 |
 | `results/` | 집계 결과만 |

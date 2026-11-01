@@ -86,12 +86,24 @@ def diagnostics_section(diag):
     return out
 
 
+def scale_lines(ctx):
+    """A gap can exceed this run's noise and still be far too small for the real sample to see."""
+    out = []
+    margin = ctx.allocation["overall"]["margin_pp"]
+    template = ctx.text["report"]["scale_line"]
+    for model, d in ctx.diagnostics["by_model"].items():
+        gaps = [abs(g["mean"]) for g in d["gaps"].values() if g["mean"] is not None]
+        if gaps:
+            out.append(template.format(model=settings.short_model(model), largest=f"{max(gaps):.1f}", noise=d["noise_upper"], margin=margin))
+    return out
+
+
 def allocation_section(a):
     lines = [a["choose_note"], "", f"Target segment {a['target_segment']}: {a['target_n']} respondents. Rest: {a['rest_n']}.", "", "| group | n | margin pp | arithmetic |", "|---|---|---|---|"]
     named = [a["overall"], a["target"], *([a["rest"]] if a["rest"] else []), a["six_cells_even"], a["twelve_cells_even"], a["first_card_each"]]
     lines += [f"| {x['group']} | {x['n']} | {x['margin_pp']} | {x['arithmetic']} |" for x in named]
-    lines += ["", "| cell | group | n | margin pp |", "|---|---|---|---|"]
-    lines += [f"| {c['cell']} | {c['group']} | {c['n']} | {c['margin_pp']} |" for c in a["cells"]]
+    lines += ["", "| cell | n | margin pp |", "|---|---|---|"]
+    lines += [f"| {c['cell']} | {c['n']} | {c['margin_pp']} |" for c in a["cells"]]
     lines += ["", "Design effect = 1 + (m - 1) x ICC. ICC values are from the KREI data of this project.", "", "| item | m | ICC | design effect | effective n | margin pp | arithmetic |", "|---|---|---|---|---|---|---|"]
     lines += [f"| {d['item']} | {d['unit_size']} | {d['icc']} | {d['design_effect']} | {d['effective_n']} | {d['margin_pp']} | {d['arithmetic']} |" for d in a["design_effects"]]
     lines += ["", "Cards proposed for the real sample:", ""]
@@ -132,7 +144,9 @@ def render_report(ctx, manifest_sha):
     lines += [f"## {t['reasons_title']}", "", t["reasons_note"], ""]
     for card, tokens in (ctx.reason_tokens or {}).items():
         lines += [f"- {card}: " + (", ".join(f"{w} {c}" for w, c in tokens) or "-")]
-    lines += ["", "## diagnostics (panel internal, no truth)", "", t["diagnostics_note"], "", diagnostics_section(ctx.diagnostics), ""]
+    lines += ["", "## diagnostics (panel internal, no truth)", "", t["diagnostics_note"], ""]
+    lines += [f"- {x}" for x in scale_lines(ctx)] + [""]
+    lines += [diagnostics_section(ctx.diagnostics), ""]
     lines += ["## real sample plan", "", allocation_section(ctx.allocation), ""]
     lines += ["## questionnaire", "", ctx.questionnaire["intro"], "", ctx.questionnaire["anchor_note"], ""]
     lines += [f"- {x['id']} ({x['kind']})" for x in ctx.questionnaire["items"]] + [""]
