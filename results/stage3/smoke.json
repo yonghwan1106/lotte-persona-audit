@@ -1,0 +1,31 @@
+{
+  "complete": true,
+  "statuses": {
+    "ok": 6
+  },
+  "served_models": [
+    "gpt-6.1-terra"
+  ],
+  "service_tiers": [
+    "default"
+  ],
+  "mean_per_call": {
+    "C2": {
+      "input_tokens": 1834.0,
+      "output_tokens": 325.0,
+      "reasoning_tokens": 178.0,
+      "cost_usd": 0.003459,
+      "latency_s": 5.695333
+    },
+    "C1": {
+      "input_tokens": 1125.666667,
+      "output_tokens": 289.666667,
+      "reasoning_tokens": 142.666667,
+      "cost_usd": 0.002574,
+      "latency_s": 4.611333
+    }
+  },
+  "projected_full_stage_usd": 1.8099,
+  "budget_usd": 3.0,
+  "stage_spent_usd": 0.018099
+}
