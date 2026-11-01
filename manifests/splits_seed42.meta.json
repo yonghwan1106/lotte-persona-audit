@@ -1,0 +1,24 @@
+{
+  "seed": 42,
+  "unit": "vuid inside STR",
+  "fractions_target": {
+    "train": 0.5,
+    "calibration": 0.1,
+    "test": 0.4
+  },
+  "rows": {
+    "train": 2921,
+    "test": 2321,
+    "calibration": 632
+  },
+  "units": {
+    "calibration": 51,
+    "test": 200,
+    "train": 249
+  },
+  "households": {
+    "calibration": 340,
+    "test": 1285,
+    "train": 1612
+  }
+}

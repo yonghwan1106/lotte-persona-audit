@@ -1,0 +1,105 @@
+{
+  "scope": "whole 2025 adult file with the comparator's own random row splits. Not the fixed splits.",
+  "rows": 5874,
+  "descriptive": {
+    "weighted_ever": 51.92,
+    "weighted_weekly": 13.07,
+    "ever_male": 51.55,
+    "ever_female": 52.32,
+    "ever_age_19_29": 83.06,
+    "ever_age_70_plus": 19.54,
+    "weekly_age_19_29": 29.39,
+    "weekly_age_70_plus": 1.47,
+    "zero_food_reason_first_rank": {
+      "n": 3069,
+      "shares_pct": {
+        "(1) 제로식품이 건강에 도움이 될 것 같아서": 38.4,
+        "(2) 제로식품이 맛있어서": 13.8,
+        "(3) 제로식품의 가격이 (가격할인 또는 행사 등으로 인해) 일반 식품보다 저렴해서": 11.0,
+        "(4) 주변에서 먹으니까(권유, 추천 포함)": 18.8,
+        "(5) 신상품, 맛에 대한 호기심 때문에": 12.8,
+        "(6) 다이어트를 위해": 5.2
+      }
+    },
+    "zero_food_non_eater_reason_first_rank": {
+      "n": 4691,
+      "shares_pct": {
+        "(1) 제로로 출시되는 제품들이 원래 즐겨 먹지 않는 식품이어서": 38.0,
+        "(2) 제로식품 특유의 맛(향 포함)이 좋지 않아서": 15.2,
+        "(3) 제로식품을 섭취하고 부작용을 경험한 적이 있어서": 5.1,
+        "(4) 제로식품에 함유된 인공감미료의 안전성에 의구심이 들어서": 14.0,
+        "(5) 제로식품의 실제 칼로리가 0인 것 같지 않아서": 15.9,
+        "(6) 제로식품이 비싸다는 생각이 들어서": 7.4,
+        "(7) 제로식품을 어디서 파는지 몰라서/식품을 구입할 때 본 적이 없어서": 4.3,
+        "(8) 기타": 0.1
+      }
+    }
+  },
+  "t1_check": {
+    "n_candidate_features": 497,
+    "floor_demog": {
+      "ever": 0.753,
+      "weekly": 0.676,
+      "carb": 0.665
+    },
+    "ceiling_all_items": {
+      "ever": 0.814,
+      "weekly": 0.912,
+      "carb": 0.644
+    }
+  },
+  "t1_check2": {
+    "ladder": {
+      "100": {
+        "raw": 12.37,
+        "const": 10.7,
+        "shrunk": 9.51
+      },
+      "250": {
+        "raw": 8.06,
+        "const": 10.04,
+        "shrunk": 7.8
+      },
+      "500": {
+        "raw": 5.99,
+        "const": 9.9,
+        "shrunk": 6.48
+      },
+      "1000": {
+        "raw": 4.42,
+        "const": 9.74,
+        "shrunk": 4.96
+      }
+    },
+    "full_file_constant": {
+      "ever": 18.39,
+      "weekly": 6.36,
+      "carb": 3.91
+    },
+    "full_file_constant_average": 9.55,
+    "weekly_tabular_auc": 0.89
+  },
+  "a15_trend": {
+    "2023": {
+      "rows": 5811,
+      "zero_code": 8,
+      "sugared_code": 7,
+      "zero_pct": 2.73,
+      "sugared_pct": 4.6
+    },
+    "2024": {
+      "rows": 5851,
+      "zero_code": 8,
+      "sugared_code": 7,
+      "zero_pct": 3.06,
+      "sugared_pct": 5.12
+    },
+    "2025": {
+      "rows": 5874,
+      "zero_code": 8,
+      "sugared_code": 7,
+      "zero_pct": 2.62,
+      "sugared_pct": 5.34
+    }
+  }
+}

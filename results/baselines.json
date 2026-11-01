@@ -1,0 +1,257 @@
+{
+  "seed": 42,
+  "rows": {
+    "train": 2921,
+    "calibration": 632,
+    "test": 2321
+  },
+  "items": {
+    "ever": {
+      "national_train_pct": 51.68,
+      "national_test_pct": 54.05,
+      "n_cells": 12,
+      "constant_cell_mae": 18.61,
+      "full_train_raw_cell_mae": 5.18,
+      "real_sample": {
+        "100": {
+          "raw": 17.7,
+          "shrunk": 17.38,
+          "sample_national_mean_only": 19.79
+        },
+        "250": {
+          "raw": 11.06,
+          "shrunk": 14.67,
+          "sample_national_mean_only": 19.23
+        },
+        "500": {
+          "raw": 8.57,
+          "shrunk": 11.97,
+          "sample_national_mean_only": 19.01
+        },
+        "1000": {
+          "raw": 6.59,
+          "shrunk": 9.11,
+          "sample_national_mean_only": 18.78
+        }
+      },
+      "best_of_raw_shrunk": {
+        "100": 17.38,
+        "250": 11.06,
+        "500": 8.57,
+        "1000": 6.59
+      },
+      "floor_age_sex": {
+        "auc": 0.741,
+        "auc_ci95_unit_bootstrap": [
+          0.709,
+          0.776
+        ],
+        "within_unit_auc": 0.777,
+        "within_unit_groups": 152
+      },
+      "floor_all_c1_demographics": {
+        "auc": 0.737,
+        "auc_ci95_unit_bootstrap": [
+          0.7,
+          0.781
+        ],
+        "within_unit_auc": 0.76,
+        "within_unit_groups": 152
+      },
+      "ceiling_allowlist_logistic": {
+        "auc": 0.773,
+        "auc_ci95_unit_bootstrap": [
+          0.738,
+          0.813
+        ],
+        "within_unit_auc": 0.711,
+        "within_unit_groups": 152
+      },
+      "ceiling_allowlist_gbm": {
+        "auc": 0.827,
+        "auc_ci95_unit_bootstrap": [
+          0.794,
+          0.862
+        ],
+        "within_unit_auc": 0.755,
+        "within_unit_groups": 152
+      }
+    },
+    "weekly": {
+      "national_train_pct": 13.7,
+      "national_test_pct": 11.92,
+      "n_cells": 12,
+      "constant_cell_mae": 7.63,
+      "full_train_raw_cell_mae": 4.2,
+      "real_sample": {
+        "100": {
+          "raw": 12.21,
+          "shrunk": 7.61,
+          "sample_national_mean_only": 8.25
+        },
+        "250": {
+          "raw": 8.3,
+          "shrunk": 6.42,
+          "sample_national_mean_only": 7.68
+        },
+        "500": {
+          "raw": 6.34,
+          "shrunk": 5.43,
+          "sample_national_mean_only": 7.6
+        },
+        "1000": {
+          "raw": 4.99,
+          "shrunk": 4.36,
+          "sample_national_mean_only": 7.58
+        }
+      },
+      "best_of_raw_shrunk": {
+        "100": 7.61,
+        "250": 6.42,
+        "500": 5.43,
+        "1000": 4.36
+      },
+      "floor_age_sex": {
+        "auc": 0.685,
+        "auc_ci95_unit_bootstrap": [
+          0.611,
+          0.772
+        ],
+        "within_unit_auc": 0.821,
+        "within_unit_groups": 57
+      },
+      "floor_all_c1_demographics": {
+        "auc": 0.718,
+        "auc_ci95_unit_bootstrap": [
+          0.648,
+          0.784
+        ],
+        "within_unit_auc": 0.799,
+        "within_unit_groups": 57
+      },
+      "ceiling_allowlist_logistic": {
+        "auc": 0.779,
+        "auc_ci95_unit_bootstrap": [
+          0.715,
+          0.837
+        ],
+        "within_unit_auc": 0.785,
+        "within_unit_groups": 57
+      },
+      "ceiling_allowlist_gbm": {
+        "auc": 0.804,
+        "auc_ci95_unit_bootstrap": [
+          0.732,
+          0.857
+        ],
+        "within_unit_auc": 0.766,
+        "within_unit_groups": 57
+      }
+    },
+    "carb": {
+      "national_train_pct": 7.66,
+      "national_test_pct": 8.96,
+      "n_cells": 12,
+      "constant_cell_mae": 4.14,
+      "full_train_raw_cell_mae": 2.73,
+      "real_sample": {
+        "100": {
+          "raw": 9.51,
+          "shrunk": 4.99,
+          "sample_national_mean_only": 5.3
+        },
+        "250": {
+          "raw": 6.78,
+          "shrunk": 4.21,
+          "sample_national_mean_only": 4.64
+        },
+        "500": {
+          "raw": 4.78,
+          "shrunk": 3.6,
+          "sample_national_mean_only": 4.34
+        },
+        "1000": {
+          "raw": 3.65,
+          "shrunk": 3.1,
+          "sample_national_mean_only": 4.2
+        }
+      },
+      "best_of_raw_shrunk": {
+        "100": 4.99,
+        "250": 4.21,
+        "500": 3.6,
+        "1000": 3.1
+      },
+      "floor_age_sex": {
+        "auc": 0.653,
+        "auc_ci95_unit_bootstrap": [
+          0.602,
+          0.701
+        ],
+        "within_unit_auc": 0.594,
+        "within_unit_groups": 102
+      },
+      "floor_all_c1_demographics": {
+        "auc": 0.602,
+        "auc_ci95_unit_bootstrap": [
+          0.544,
+          0.652
+        ],
+        "within_unit_auc": 0.554,
+        "within_unit_groups": 102
+      },
+      "ceiling_allowlist_logistic": {
+        "auc": 0.569,
+        "auc_ci95_unit_bootstrap": [
+          0.522,
+          0.622
+        ],
+        "within_unit_auc": 0.482,
+        "within_unit_groups": 102
+      },
+      "ceiling_allowlist_gbm": {
+        "auc": 0.597,
+        "auc_ci95_unit_bootstrap": [
+          0.548,
+          0.644
+        ],
+        "within_unit_auc": 0.495,
+        "within_unit_groups": 102
+      }
+    }
+  },
+  "note": "AUC and truth are computed on the test split with psfwt. Models are fitted on train.",
+  "average_over_items": {
+    "constant_cell_mae": 10.13,
+    "full_train_raw_cell_mae": 4.04,
+    "real_sample": {
+      "100": {
+        "raw": 13.14,
+        "shrunk": 9.99,
+        "sample_national_mean_only": 11.11
+      },
+      "250": {
+        "raw": 8.71,
+        "shrunk": 8.43,
+        "sample_national_mean_only": 10.52
+      },
+      "500": {
+        "raw": 6.56,
+        "shrunk": 7.0,
+        "sample_national_mean_only": 10.32
+      },
+      "1000": {
+        "raw": 5.08,
+        "shrunk": 5.52,
+        "sample_national_mean_only": 10.19
+      }
+    },
+    "best_of_raw_shrunk": {
+      "100": 9.99,
+      "250": 8.43,
+      "500": 6.56,
+      "1000": 5.08
+    }
+  },
+  "allowlist_size": 38
+}

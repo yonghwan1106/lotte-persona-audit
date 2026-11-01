@@ -1,0 +1,24 @@
+{
+  "_note": "Pre-registered before any LLM answer exists. frozen.json stores this file's hash and score refuses to run if it changed.",
+  "conditions": {
+    "C0": "no persona, generic Korean adult, repeated. Not linked to respondents, AUC is n/a.",
+    "C1": "demographics only",
+    "C2": "demographics plus allowlisted non-beverage answers"
+  },
+  "panel": {"n": 300, "draw": "weighted without replacement on psfwt, test split only, seed 42", "analysis_weight": "psfwt divided by the Monte Carlo inclusion probability of the draw (5000 draws), because the draw already used psfwt"},
+  "truth": "psfwt weighted cell means over the whole test split, age band by sex, 12 cells",
+  "primary_metrics": ["weighted cell MAE in percentage points", "weighted AUC"],
+  "floor_for_switch_rule": "logistic on age band and sex dummies, LogisticRegression(C=0.05, max_iter=400), fitted on the train split with psfwt, evaluated on the same 300 gate respondents with the same analysis weights",
+  "secondary_floor": "same model on all C1 demographics. Reported, not used by the rule.",
+  "switch_rule": "SWITCH if and only if C1 and C2 AUC are at or below the floor on all 3 items AND no reproducing pattern exists in C1 or C2 on any item. Otherwise NO SWITCH.",
+  "reproducing_pattern": {
+    "definition": "A condition and item shows a reproducing pattern when all three checks pass against the test-split truth.",
+    "age_slope_same_sign_and_ratio_between": [0.5, 2.0],
+    "cell_pearson_r_at_least": 0.7,
+    "underdispersion_ratio_between": [0.5, 2.0]
+  },
+  "shrinkage_pseudo_count_K": 30,
+  "real_sample_baseline": {"source": "rows drawn from the train split", "n": [100, 250, 500, 1000], "repeats": 100, "seed": 42, "estimators": ["raw weighted cell mean", "shrunk toward the sample national mean"], "empty_cell": "falls back to the sample national mean"},
+  "worth_n": "Use the better of raw and shrinkage at each n. A panel that cannot beat the constant baseline prints no value.",
+  "no_tuning": "Prompts, allowlist, thresholds and code paths in this file are not to be changed after answers are seen."
+}

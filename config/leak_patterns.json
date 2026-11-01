@@ -1,0 +1,17 @@
+{
+  "_note": "Leak guard. Regexes run on the variable label, on every value label, and on rendered persona text. Korean text lives here because Python sources stay ASCII.",
+  "label_block": {
+    "drinks": "음료|탄산|콜라|사이다|주스|쥬스|에이드|커피|카페인|우유|두유|요구르트|요거트|발효유|생수|먹는 ?물|녹차|홍차|곡물차|보리차|티백|이온음료|에너지 ?드링크",
+    "alcohol": "음주|주류|술 |술을|술\\(|맥주|소주|와인|막걸리|양주|알코올|알콜|주점|호프",
+    "zero_and_low": "제로|무설탕|저칼로리|0 ?칼로리|무가당|저당|대체당",
+    "sweetener": "감미|첨가물|스테비아|아스파탐",
+    "sugar": "설탕|당류|슈거|가당|단것|단 것|단맛|달콤|당분|당뇨|혈당",
+    "calories": "칼로리|열량"
+  },
+  "target_family_prefix": ["A15", "A19"],
+  "design_block": ["STR", "vuid", "division", "urban", "RG", "H_ID", "AREA", "id", "psfwt", "No", "FID", "가구원no", "주구입자id", "권역", "신규여부", "본예비", "응답자와의관계", "BA8"],
+  "household_prefix_block": "J_",
+  "household_prefix_block_reason": "J_ items are the primary buyer's answers merged onto every household member. They are not this persona's own answers, and they fingerprint the household.",
+  "plain_demographics": ["SQ1", "SQ2", "SQ2_range", "지역", "DONG", "J_SQ3_1N", "J_BA2", "JJ_SQ3_2", "JJ_SQ3_3", "JJ_SQ3_3_range", "JJ_SQ3_4", "JJ_SQ3_5", "JJ_SQ3_7"],
+  "screen_auc_threshold": 0.70
+}

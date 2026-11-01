@@ -1,0 +1,47 @@
+{
+  "panel_n": 300,
+  "all_in_test": true,
+  "units": 141,
+  "cells_present": 12,
+  "min_cell_n": 15,
+  "panel_weight_max_over_median": 1.44,
+  "items": {
+    "ever": {
+      "positives": 164,
+      "weighted_pct_panel": 55.63,
+      "weighted_pct_test": 54.05,
+      "floor_auc_same_respondents": 0.782,
+      "floor_auc_ci95_unit_bootstrap": [
+        0.723,
+        0.836
+      ],
+      "floor_all_demographics_auc_same_respondents": 0.779,
+      "same_300_real_answers_cell_mae": 6.86
+    },
+    "weekly": {
+      "positives": 40,
+      "weighted_pct_panel": 13.87,
+      "weighted_pct_test": 11.92,
+      "floor_auc_same_respondents": 0.755,
+      "floor_auc_ci95_unit_bootstrap": [
+        0.667,
+        0.853
+      ],
+      "floor_all_demographics_auc_same_respondents": 0.753,
+      "same_300_real_answers_cell_mae": 5.03
+    },
+    "carb": {
+      "positives": 26,
+      "weighted_pct_panel": 8.77,
+      "weighted_pct_test": 8.96,
+      "floor_auc_same_respondents": 0.735,
+      "floor_auc_ci95_unit_bootstrap": [
+        0.642,
+        0.818
+      ],
+      "floor_all_demographics_auc_same_respondents": 0.608,
+      "same_300_real_answers_cell_mae": 3.69
+    }
+  },
+  "same_300_real_answers_average_cell_mae": 5.19
+}

@@ -1,0 +1,11 @@
+# Raw microdata and anything row-level derived must never be committed.
+data/raw/
+data/derived/
+runs/
+*.sav
+*.zip
+
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/

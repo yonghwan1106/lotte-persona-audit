@@ -1,0 +1,553 @@
+{
+  "n_screened": 847,
+  "n_over_threshold": 32,
+  "over_threshold_blocked_statically": 19,
+  "over_threshold_plain_demographic": 7,
+  "over_threshold_other_blocked": [
+    {
+      "var": "B5_9",
+      "label": "B5. 식품 위해요인별 우려 정도_(9) GMO 식품",
+      "peak_auc": 0.729,
+      "auc_ever": 0.594,
+      "auc_weekly": 0.729,
+      "auc_carb": 0.552
+    },
+    {
+      "var": "B5_10",
+      "label": "B5. 식품 위해요인별 우려 정도_(10) 방사능",
+      "peak_auc": 0.726,
+      "auc_ever": 0.582,
+      "auc_weekly": 0.726,
+      "auc_carb": 0.567
+    },
+    {
+      "var": "B5_4",
+      "label": "B5. 식품 위해요인별 우려 정도_(4) 자연독성",
+      "peak_auc": 0.71,
+      "auc_ever": 0.609,
+      "auc_weekly": 0.71,
+      "auc_carb": 0.548
+    },
+    {
+      "var": "D7",
+      "label": "D7. 식품 구매할 때 온라인 추천정보 활용 여부",
+      "peak_auc": 0.707,
+      "auc_ever": 0.707,
+      "auc_weekly": 0.692,
+      "auc_carb": 0.523
+    },
+    {
+      "var": "D5",
+      "label": "D5. 외식할 때 온라인 추천정보 활용 여부",
+      "peak_auc": 0.704,
+      "auc_ever": 0.704,
+      "auc_weekly": 0.674,
+      "auc_carb": 0.523
+    },
+    {
+      "var": "A21",
+      "label": "A21. 가족 단위가 아닌 개인적으로 하는 외식 빈도",
+      "peak_auc": 0.701,
+      "auc_ever": 0.599,
+      "auc_weekly": 0.701,
+      "auc_carb": 0.555
+    }
+  ],
+  "over_threshold_all": [
+    {
+      "var": "A19_1",
+      "label": "A19. 제로식품 섭취 빈도_(1) 제로 음료",
+      "static_block": "target family",
+      "plain_demographic": false,
+      "peak_auc": 1.0,
+      "auc_ever": 1.0,
+      "auc_weekly": 1.0,
+      "auc_carb": 0.584
+    },
+    {
+      "var": "A15_1",
+      "label": "A15. 가장 좋아하는 음료(1순위)",
+      "static_block": "target family",
+      "plain_demographic": false,
+      "peak_auc": 1.0,
+      "auc_ever": 0.663,
+      "auc_weekly": 0.675,
+      "auc_carb": 1.0
+    },
+    {
+      "var": "A19_1_1",
+      "label": "A19_1. 제로식품 섭취 이유(1순위)",
+      "static_block": "target family",
+      "plain_demographic": false,
+      "peak_auc": 0.974,
+      "auc_ever": 0.974,
+      "auc_weekly": 0.806,
+      "auc_carb": 0.589
+    },
+    {
+      "var": "A19_1_2",
+      "label": "A19_1. 제로식품 섭취 이유(2순위)",
+      "static_block": "target family",
+      "plain_demographic": false,
+      "peak_auc": 0.972,
+      "auc_ever": 0.972,
+      "auc_weekly": 0.79,
+      "auc_carb": 0.596
+    },
+    {
+      "var": "A19_2",
+      "label": "A19. 제로식품 섭취 빈도_(2) 제로 아이스크림",
+      "static_block": "target family",
+      "plain_demographic": false,
+      "peak_auc": 0.842,
+      "auc_ever": 0.811,
+      "auc_weekly": 0.842,
+      "auc_carb": 0.545
+    },
+    {
+      "var": "A19_3",
+      "label": "A19. 제로식품 섭취 빈도_(3) 제로 과자",
+      "static_block": "target family",
+      "plain_demographic": false,
+      "peak_auc": 0.782,
+      "auc_ever": 0.762,
+      "auc_weekly": 0.782,
+      "auc_carb": 0.547
+    },
+    {
+      "var": "A19_2_1",
+      "label": "A19_2. 제로식품 미섭취 이유(1순위)",
+      "static_block": "target family",
+      "plain_demographic": false,
+      "peak_auc": 0.779,
+      "auc_ever": 0.779,
+      "auc_weekly": 0.775,
+      "auc_carb": 0.615
+    },
+    {
+      "var": "A19_2_2",
+      "label": "A19_2. 제로식품 미섭취 이유(2순위)",
+      "static_block": "target family",
+      "plain_demographic": false,
+      "peak_auc": 0.768,
+      "auc_ever": 0.757,
+      "auc_weekly": 0.768,
+      "auc_carb": 0.603
+    },
+    {
+      "var": "A19_4",
+      "label": "A19. 제로식품 섭취 빈도_(4) 제로 주류",
+      "static_block": "target family",
+      "plain_demographic": false,
+      "peak_auc": 0.76,
+      "auc_ever": 0.76,
+      "auc_weekly": 0.713,
+      "auc_carb": 0.544
+    },
+    {
+      "var": "A19_5",
+      "label": "A19. 제로식품 섭취 빈도_(5) 제로 소스",
+      "static_block": "target family",
+      "plain_demographic": false,
+      "peak_auc": 0.757,
+      "auc_ever": 0.745,
+      "auc_weekly": 0.757,
+      "auc_carb": 0.541
+    },
+    {
+      "var": "J_F10_3",
+      "label": "F10. 국간장 구입 용량",
+      "static_block": "household file item",
+      "plain_demographic": false,
+      "peak_auc": 0.751,
+      "auc_ever": 0.625,
+      "auc_weekly": 0.751,
+      "auc_carb": 0.624
+    },
+    {
+      "var": "지역",
+      "label": "조사 지역(17개 시도)",
+      "static_block": "",
+      "plain_demographic": true,
+      "peak_auc": 0.733,
+      "auc_ever": 0.652,
+      "auc_weekly": 0.733,
+      "auc_carb": 0.609
+    },
+    {
+      "var": "STR",
+      "label": "표본층",
+      "static_block": "survey design or id",
+      "plain_demographic": false,
+      "peak_auc": 0.733,
+      "auc_ever": 0.652,
+      "auc_weekly": 0.733,
+      "auc_carb": 0.609
+    },
+    {
+      "var": "B5_9",
+      "label": "B5. 식품 위해요인별 우려 정도_(9) GMO 식품",
+      "static_block": "",
+      "plain_demographic": false,
+      "peak_auc": 0.729,
+      "auc_ever": 0.594,
+      "auc_weekly": 0.729,
+      "auc_carb": 0.552
+    },
+    {
+      "var": "SQ2",
+      "label": "SQ2. 응답자 나이(만)",
+      "static_block": "",
+      "plain_demographic": true,
+      "peak_auc": 0.729,
+      "auc_ever": 0.729,
+      "auc_weekly": 0.715,
+      "auc_carb": 0.655
+    },
+    {
+      "var": "JJ_SQ3_3",
+      "label": "SQ3-3. 응답자 본인의 나이(만)",
+      "static_block": "",
+      "plain_demographic": true,
+      "peak_auc": 0.729,
+      "auc_ever": 0.729,
+      "auc_weekly": 0.715,
+      "auc_carb": 0.655
+    },
+    {
+      "var": "B5_10",
+      "label": "B5. 식품 위해요인별 우려 정도_(10) 방사능",
+      "static_block": "",
+      "plain_demographic": false,
+      "peak_auc": 0.726,
+      "auc_ever": 0.582,
+      "auc_weekly": 0.726,
+      "auc_carb": 0.567
+    },
+    {
+      "var": "JJ_SQ3_3_range",
+      "label": "SQ3-3. 응답자 본인의 연령대",
+      "static_block": "",
+      "plain_demographic": true,
+      "peak_auc": 0.724,
+      "auc_ever": 0.724,
+      "auc_weekly": 0.705,
+      "auc_carb": 0.66
+    },
+    {
+      "var": "SQ2_range",
+      "label": "SQ2. 응답자 연령대",
+      "static_block": "",
+      "plain_demographic": true,
+      "peak_auc": 0.723,
+      "auc_ever": 0.723,
+      "auc_weekly": 0.704,
+      "auc_carb": 0.659
+    },
+    {
+      "var": "JJ_SQ3_5",
+      "label": "SQ3-5. 응답자 본인의 직업",
+      "static_block": "",
+      "plain_demographic": true,
+      "peak_auc": 0.719,
+      "auc_ever": 0.692,
+      "auc_weekly": 0.719,
+      "auc_carb": 0.627
+    },
+    {
+      "var": "J_F8_1",
+      "label": "F8. 고추장 조달 빈도",
+      "static_block": "household file item",
+      "plain_demographic": false,
+      "peak_auc": 0.717,
+      "auc_ever": 0.589,
+      "auc_weekly": 0.717,
+      "auc_carb": 0.546
+    },
+    {
+      "var": "J_A9",
+      "label": "A9. 새벽배송 이용 빈도",
+      "static_block": "household file item",
+      "plain_demographic": false,
+      "peak_auc": 0.716,
+      "auc_ever": 0.706,
+      "auc_weekly": 0.716,
+      "auc_carb": 0.625
+    },
+    {
+      "var": "J_A12_3",
+      "label": "A12. 친환경 식품 구입 장소 (3순위)",
+      "static_block": "household file item",
+      "plain_demographic": false,
+      "peak_auc": 0.711,
+      "auc_ever": 0.652,
+      "auc_weekly": 0.711,
+      "auc_carb": 0.601
+    },
+    {
+      "var": "B5_4",
+      "label": "B5. 식품 위해요인별 우려 정도_(4) 자연독성",
+      "static_block": "",
+      "plain_demographic": false,
+      "peak_auc": 0.71,
+      "auc_ever": 0.609,
+      "auc_weekly": 0.71,
+      "auc_carb": 0.548
+    },
+    {
+      "var": "J_A6_2",
+      "label": "A6. 온라인을 통한 식품 구입 장소 (2순위)",
+      "static_block": "household file item",
+      "plain_demographic": false,
+      "peak_auc": 0.708,
+      "auc_ever": 0.68,
+      "auc_weekly": 0.708,
+      "auc_carb": 0.59
+    },
+    {
+      "var": "D7",
+      "label": "D7. 식품 구매할 때 온라인 추천정보 활용 여부",
+      "static_block": "",
+      "plain_demographic": false,
+      "peak_auc": 0.707,
+      "auc_ever": 0.707,
+      "auc_weekly": 0.692,
+      "auc_carb": 0.523
+    },
+    {
+      "var": "J_D20_1_1",
+      "label": "D20-1. 계란 구입 시 우선 확인 정보 (1순위)",
+      "static_block": "household file item",
+      "plain_demographic": false,
+      "peak_auc": 0.705,
+      "auc_ever": 0.593,
+      "auc_weekly": 0.705,
+      "auc_carb": 0.568
+    },
+    {
+      "var": "D5",
+      "label": "D5. 외식할 때 온라인 추천정보 활용 여부",
+      "static_block": "",
+      "plain_demographic": false,
+      "peak_auc": 0.704,
+      "auc_ever": 0.704,
+      "auc_weekly": 0.674,
+      "auc_carb": 0.523
+    },
+    {
+      "var": "J_BA2",
+      "label": "BA2. 월평균 가구소득",
+      "static_block": "",
+      "plain_demographic": true,
+      "peak_auc": 0.704,
+      "auc_ever": 0.648,
+      "auc_weekly": 0.704,
+      "auc_carb": 0.618
+    },
+    {
+      "var": "J_A6_1_1",
+      "label": "A6-1. `주구입처`를 선택하게 된 이유 (1순위)",
+      "static_block": "household file item",
+      "plain_demographic": false,
+      "peak_auc": 0.704,
+      "auc_ever": 0.651,
+      "auc_weekly": 0.704,
+      "auc_carb": 0.593
+    },
+    {
+      "var": "J_A4",
+      "label": "A4. 온라인을 통한 식품 구입 빈도",
+      "static_block": "household file item",
+      "plain_demographic": false,
+      "peak_auc": 0.703,
+      "auc_ever": 0.681,
+      "auc_weekly": 0.703,
+      "auc_carb": 0.652
+    },
+    {
+      "var": "A21",
+      "label": "A21. 가족 단위가 아닌 개인적으로 하는 외식 빈도",
+      "static_block": "",
+      "plain_demographic": false,
+      "peak_auc": 0.701,
+      "auc_ever": 0.599,
+      "auc_weekly": 0.701,
+      "auc_carb": 0.555
+    }
+  ],
+  "allowlist_kept": [
+    "H1_1",
+    "H1_2",
+    "H1_3",
+    "H1_4",
+    "H1_5",
+    "H1_6",
+    "H1_7",
+    "H1_8",
+    "H1_9",
+    "I1_1_1_8",
+    "I1_2_1_2",
+    "I1_2_1_4",
+    "I1_2_1_6",
+    "I1_2_1_10",
+    "I1_2_3_2",
+    "I1_3_2_6",
+    "BA5",
+    "BA5_1",
+    "A4",
+    "A6",
+    "A7",
+    "A9",
+    "A12_1",
+    "A14_1",
+    "A18",
+    "A18_1",
+    "A20",
+    "A26",
+    "A27",
+    "B1",
+    "B5_2",
+    "BA1_1_2",
+    "BA2",
+    "BA3",
+    "BA4",
+    "BA6",
+    "D4",
+    "D4_1"
+  ],
+  "allowlist_rejected": [
+    {
+      "var": "A21",
+      "label": "A21. 가족 단위가 아닌 개인적으로 하는 외식 빈도",
+      "reason": "A21: train univariate AUC 0.701 above threshold"
+    },
+    {
+      "var": "B5_9",
+      "label": "B5. 식품 위해요인별 우려 정도_(9) GMO 식품",
+      "reason": "B5_9: train univariate AUC 0.729 above threshold"
+    },
+    {
+      "var": "D5",
+      "label": "D5. 외식할 때 온라인 추천정보 활용 여부",
+      "reason": "D5: train univariate AUC 0.704 above threshold"
+    },
+    {
+      "var": "D7",
+      "label": "D7. 식품 구매할 때 온라인 추천정보 활용 여부",
+      "reason": "D7: train univariate AUC 0.707 above threshold"
+    },
+    {
+      "var": "A5_1",
+      "label": "A5. 건강한 식생활을 위해 중요한 것(1순위)",
+      "reason": "A5_1: value label regex: calories"
+    },
+    {
+      "var": "A16",
+      "label": "A16. 평소 음주 빈도",
+      "reason": "A16: label regex: alcohol"
+    },
+    {
+      "var": "A17",
+      "label": "A17. 채식주의와 관련된 식생활 행태",
+      "reason": "A17: value label regex: drinks"
+    },
+    {
+      "var": "A23_1",
+      "label": "A23. 좋아하는 외식 식당(1순위)",
+      "reason": "A23_1: value label regex: alcohol"
+    },
+    {
+      "var": "A29_1",
+      "label": "A29. 좋아하는 배달/테이크아웃 메뉴(1순위)",
+      "reason": "A29_1: value label regex: drinks"
+    },
+    {
+      "var": "B5_5",
+      "label": "B5. 식품 위해요인별 우려 정도_(5) 식품첨가물",
+      "reason": "B5_5: label regex: sweetener"
+    }
+  ],
+  "allowlist_top_remaining": {
+    "ever": [
+      {
+        "var": "D4_1",
+        "label": "D4_1. 음식, 요리 관련 SNS 시청 여부",
+        "auc_ever": 0.699
+      },
+      {
+        "var": "A27",
+        "label": "A27. 가족 단위가 아닌 개인적으로 하는 배달/테이크아웃 음식 이용 빈도",
+        "auc_ever": 0.642
+      },
+      {
+        "var": "A26",
+        "label": "A26. 가족 단위가 아닌 개인적으로 음식점에 가서 배달/테이크아웃 이용 여부",
+        "auc_ever": 0.636
+      },
+      {
+        "var": "H1_1",
+        "label": "H1. 식생활_(1) 식사는 밥보다는 빵이나 과일 등으로 간단하게 먹는 편이다",
+        "auc_ever": 0.635
+      },
+      {
+        "var": "D4",
+        "label": "D4. SNS 사용 여부",
+        "auc_ever": 0.635
+      }
+    ],
+    "weekly": [
+      {
+        "var": "D4_1",
+        "label": "D4_1. 음식, 요리 관련 SNS 시청 여부",
+        "auc_weekly": 0.676
+      },
+      {
+        "var": "H1_1",
+        "label": "H1. 식생활_(1) 식사는 밥보다는 빵이나 과일 등으로 간단하게 먹는 편이다",
+        "auc_weekly": 0.659
+      },
+      {
+        "var": "B5_2",
+        "label": "B5. 식품 위해요인별 우려 정도_(2) 채소, 과일의 잔류농약",
+        "auc_weekly": 0.65
+      },
+      {
+        "var": "I1_2_1_2",
+        "label": "I1_2_1. 건강한 식생활_(2) 나는 아침 식사를 챙겨 먹는다",
+        "auc_weekly": 0.645
+      },
+      {
+        "var": "BA6",
+        "label": "BA6. 평소 본인의 건강상태",
+        "auc_weekly": 0.621
+      }
+    ],
+    "carb": [
+      {
+        "var": "A12_1",
+        "label": "A12. 좋아하는 과일(1순위)",
+        "auc_carb": 0.647
+      },
+      {
+        "var": "A27",
+        "label": "A27. 가족 단위가 아닌 개인적으로 하는 배달/테이크아웃 음식 이용 빈도",
+        "auc_carb": 0.606
+      },
+      {
+        "var": "H1_3",
+        "label": "H1. 식생활_(3) 식품 구입 시 소포장 제품, 전처리 농산물(절단, 세척 등)을 구입하는 편이다",
+        "auc_carb": 0.603
+      },
+      {
+        "var": "H1_1",
+        "label": "H1. 식생활_(1) 식사는 밥보다는 빵이나 과일 등으로 간단하게 먹는 편이다",
+        "auc_carb": 0.6
+      },
+      {
+        "var": "H1_2",
+        "label": "H1. 식생활_(2) 가정 간편식(HMR)을 종종 이용 한다",
+        "auc_carb": 0.596
+      }
+    ]
+  }
+}

@@ -1,0 +1,434 @@
+{
+  "n_train": 2921,
+  "n_features": {
+    "all comparator features": 502,
+    "without J_": 254,
+    "only J_": 248,
+    "own items, no demographics": 244,
+    "all comparator features minus leak-guard regex hits": 487
+  },
+  "comparator_features_hit_by_leak_regex": 15,
+  "experiments": [
+    {
+      "features": "all comparator features",
+      "inner_split": "row",
+      "n_dummies": 2367,
+      "ever": 0.835,
+      "ever_sd": 0.0,
+      "weekly": 0.902,
+      "weekly_sd": 0.021,
+      "carb": 0.663,
+      "carb_sd": 0.012
+    },
+    {
+      "features": "all comparator features",
+      "inner_split": "household",
+      "n_dummies": 2367,
+      "ever": 0.796,
+      "ever_sd": 0.022,
+      "weekly": 0.892,
+      "weekly_sd": 0.017,
+      "carb": 0.624,
+      "carb_sd": 0.029
+    },
+    {
+      "features": "all comparator features",
+      "inner_split": "unit",
+      "n_dummies": 2367,
+      "ever": 0.753,
+      "ever_sd": 0.029,
+      "weekly": 0.872,
+      "weekly_sd": 0.019,
+      "carb": 0.569,
+      "carb_sd": 0.029
+    },
+    {
+      "features": "without J_",
+      "inner_split": "row",
+      "n_dummies": 1178,
+      "ever": 0.777,
+      "ever_sd": 0.018,
+      "weekly": 0.879,
+      "weekly_sd": 0.018,
+      "carb": 0.662,
+      "carb_sd": 0.022
+    },
+    {
+      "features": "without J_",
+      "inner_split": "household",
+      "n_dummies": 1178,
+      "ever": 0.767,
+      "ever_sd": 0.013,
+      "weekly": 0.868,
+      "weekly_sd": 0.015,
+      "carb": 0.623,
+      "carb_sd": 0.007
+    },
+    {
+      "features": "without J_",
+      "inner_split": "unit",
+      "n_dummies": 1178,
+      "ever": 0.743,
+      "ever_sd": 0.035,
+      "weekly": 0.851,
+      "weekly_sd": 0.013,
+      "carb": 0.559,
+      "carb_sd": 0.06
+    },
+    {
+      "features": "only J_",
+      "inner_split": "row",
+      "n_dummies": 1189,
+      "ever": 0.804,
+      "ever_sd": 0.005,
+      "weekly": 0.861,
+      "weekly_sd": 0.038,
+      "carb": 0.63,
+      "carb_sd": 0.039
+    },
+    {
+      "features": "only J_",
+      "inner_split": "household",
+      "n_dummies": 1189,
+      "ever": 0.729,
+      "ever_sd": 0.008,
+      "weekly": 0.855,
+      "weekly_sd": 0.032,
+      "carb": 0.589,
+      "carb_sd": 0.057
+    },
+    {
+      "features": "only J_",
+      "inner_split": "unit",
+      "n_dummies": 1189,
+      "ever": 0.683,
+      "ever_sd": 0.01,
+      "weekly": 0.839,
+      "weekly_sd": 0.024,
+      "carb": 0.548,
+      "carb_sd": 0.031
+    },
+    {
+      "features": "own items, no demographics",
+      "inner_split": "row",
+      "n_dummies": 1138,
+      "ever": 0.768,
+      "ever_sd": 0.017,
+      "weekly": 0.869,
+      "weekly_sd": 0.021,
+      "carb": 0.668,
+      "carb_sd": 0.018
+    },
+    {
+      "features": "own items, no demographics",
+      "inner_split": "household",
+      "n_dummies": 1138,
+      "ever": 0.755,
+      "ever_sd": 0.012,
+      "weekly": 0.869,
+      "weekly_sd": 0.014,
+      "carb": 0.62,
+      "carb_sd": 0.014
+    },
+    {
+      "features": "own items, no demographics",
+      "inner_split": "unit",
+      "n_dummies": 1138,
+      "ever": 0.741,
+      "ever_sd": 0.038,
+      "weekly": 0.849,
+      "weekly_sd": 0.01,
+      "carb": 0.566,
+      "carb_sd": 0.066
+    },
+    {
+      "features": "all comparator features minus leak-guard regex hits",
+      "inner_split": "row",
+      "n_dummies": 2256,
+      "ever": 0.829,
+      "ever_sd": 0.002,
+      "weekly": 0.9,
+      "weekly_sd": 0.024,
+      "carb": 0.654,
+      "carb_sd": 0.029
+    },
+    {
+      "features": "all comparator features minus leak-guard regex hits",
+      "inner_split": "household",
+      "n_dummies": 2256,
+      "ever": 0.787,
+      "ever_sd": 0.023,
+      "weekly": 0.895,
+      "weekly_sd": 0.018,
+      "carb": 0.637,
+      "carb_sd": 0.033
+    },
+    {
+      "features": "all comparator features minus leak-guard regex hits",
+      "inner_split": "unit",
+      "n_dummies": 2256,
+      "ever": 0.736,
+      "ever_sd": 0.026,
+      "weekly": 0.873,
+      "weekly_sd": 0.017,
+      "carb": 0.566,
+      "carb_sd": 0.046
+    }
+  ],
+  "decomposition": [
+    {
+      "features": "own items, no demographics",
+      "target": "ever",
+      "pooled_auc": 0.741,
+      "within_unit_auc": 0.695,
+      "usable_units": 55,
+      "unit_level_r_pred_actual": 0.63
+    },
+    {
+      "features": "own items, no demographics",
+      "target": "weekly",
+      "pooled_auc": 0.849,
+      "within_unit_auc": 0.627,
+      "usable_units": 20,
+      "unit_level_r_pred_actual": 0.837
+    },
+    {
+      "features": "own items, no demographics",
+      "target": "carb",
+      "pooled_auc": 0.566,
+      "within_unit_auc": 0.468,
+      "usable_units": 31,
+      "unit_level_r_pred_actual": 0.168
+    },
+    {
+      "features": "age and sex only",
+      "target": "ever",
+      "pooled_auc": 0.751,
+      "within_unit_auc": 0.828,
+      "usable_units": 55,
+      "unit_level_r_pred_actual": 0.404
+    },
+    {
+      "features": "age and sex only",
+      "target": "weekly",
+      "pooled_auc": 0.703,
+      "within_unit_auc": 0.664,
+      "usable_units": 20,
+      "unit_level_r_pred_actual": 0.22
+    },
+    {
+      "features": "age and sex only",
+      "target": "carb",
+      "pooled_auc": 0.673,
+      "within_unit_auc": 0.649,
+      "usable_units": 31,
+      "unit_level_r_pred_actual": 0.132
+    },
+    {
+      "features": "all comparator features",
+      "target": "ever",
+      "pooled_auc": 0.753,
+      "within_unit_auc": 0.717,
+      "usable_units": 55,
+      "unit_level_r_pred_actual": 0.6
+    },
+    {
+      "features": "all comparator features",
+      "target": "weekly",
+      "pooled_auc": 0.872,
+      "within_unit_auc": 0.636,
+      "usable_units": 20,
+      "unit_level_r_pred_actual": 0.848
+    },
+    {
+      "features": "all comparator features",
+      "target": "carb",
+      "pooled_auc": 0.569,
+      "within_unit_auc": 0.479,
+      "usable_units": 31,
+      "unit_level_r_pred_actual": 0.183
+    }
+  ],
+  "cluster_facts": {
+    "unit_icc": {
+      "ever": 0.409,
+      "weekly": 0.5,
+      "carb": 0.1
+    },
+    "leave_self_out_unit_rate_auc": {
+      "ever": 0.838,
+      "weekly": 0.887,
+      "carb": 0.669
+    },
+    "household_concordance": {
+      "ever": {
+        "other_member_positive_if_self_positive": 0.805,
+        "other_member_positive_if_self_negative": 0.208
+      },
+      "weekly": {
+        "other_member_positive_if_self_positive": 0.684,
+        "other_member_positive_if_self_negative": 0.042
+      },
+      "carb": {
+        "other_member_positive_if_self_positive": 0.19,
+        "other_member_positive_if_self_negative": 0.059
+      }
+    },
+    "unit_icc_reference_items": {
+      "female": -0.048,
+      "age_under_40": 0.055,
+      "regular_meals_A4": 0.382,
+      "uses_sns_often_D4": 0.313,
+      "exercise_BA4": 0.251
+    },
+    "units_with_no_weekly_respondent": {
+      "units": 162,
+      "of": 249
+    },
+    "weekly_pct_by_stratum": {
+      "11": 33.6,
+      "21": 10.4,
+      "22": 5.5,
+      "23": 8.6,
+      "24": 5.1,
+      "25": 5.0,
+      "26": 16.9,
+      "31": 13.5,
+      "32": 6.4,
+      "33": 8.3,
+      "34": 7.8,
+      "35": 14.2,
+      "36": 0.0,
+      "37": 4.9,
+      "38": 2.6,
+      "39": 3.1
+    }
+  },
+  "top_weekly_coefficients": [
+    {
+      "dummy": "C6_4_3",
+      "coef": -1.955,
+      "label": "C6. 제도 인지도_(4) 원산지 표시"
+    },
+    {
+      "dummy": "C6_2_1",
+      "coef": 1.611,
+      "label": "C6. 제도 인지도_(2) 가공식품 KS 표시"
+    },
+    {
+      "dummy": "C9_3",
+      "coef": -1.602,
+      "label": "C9. 일반식품 기능성 표시 제품 구입의향 여부"
+    },
+    {
+      "dummy": "A9_3",
+      "coef": -1.552,
+      "label": "A9. 음식의 식재료가 친환경식품인지 여부에 대한 관심 정도"
+    },
+    {
+      "dummy": "J_E4_3",
+      "coef": -1.545,
+      "label": "E4. 평소 식사 시 수산물과 육류 취식 비중"
+    },
+    {
+      "dummy": "I1_3_2_10_3",
+      "coef": -1.487,
+      "label": "I1_3_2. 지속가능 소비_(10) 나는 환경이나 사회문제를 일으키는 농식품 기업-음식점의 상품을 구매하지 않는다"
+    },
+    {
+      "dummy": "B5_4_3",
+      "coef": 1.48,
+      "label": "B5. 식품 위해요인별 우려 정도_(4) 자연독성"
+    },
+    {
+      "dummy": "J_A4_0_4",
+      "coef": -1.472,
+      "label": "A4-0. 온라인 식품 구입/조달 여부"
+    },
+    {
+      "dummy": "B4_5_4",
+      "coef": -1.459,
+      "label": "B4. 조리 및 식사 장소별 식품 안전성_(5) 길거리 음식"
+    },
+    {
+      "dummy": "A1_2_2_2_5",
+      "coef": 1.436,
+      "label": "A1_2. 지난 일주일간 점심 식사 동반자 현황_(2) 친구/동료"
+    },
+    {
+      "dummy": "J_I1_2_3_1_4",
+      "coef": -1.434,
+      "label": "I1-2-3. 즐겁고 행복한 식생활_(1) 식품/음식을 즐겁게 먹는 것이 중요하다"
+    },
+    {
+      "dummy": "SQ2_range_4",
+      "coef": 1.434,
+      "label": "SQ2. 응답자 연령대"
+    },
+    {
+      "dummy": "J_F5_1",
+      "coef": -1.427,
+      "label": "F5. 김치 조달 방법"
+    },
+    {
+      "dummy": "A5_2_3",
+      "coef": -1.395,
+      "label": "A5. 건강한 식생활을 위해 중요한 것(2순위)"
+    },
+    {
+      "dummy": "B5_9_2",
+      "coef": -1.387,
+      "label": "B5. 식품 위해요인별 우려 정도_(9) GMO 식품"
+    },
+    {
+      "dummy": "A1_2_2_2_0",
+      "coef": -1.387,
+      "label": "A1_2. 지난 일주일간 점심 식사 동반자 현황_(2) 친구/동료"
+    },
+    {
+      "dummy": "J_C8_2_1",
+      "coef": 1.357,
+      "label": "C8. 과일류 구입 시 중요하게 고려하는 기준 (2순위)"
+    },
+    {
+      "dummy": "J_C7_2",
+      "coef": -1.355,
+      "label": "C7. 과일류 구입 형태"
+    },
+    {
+      "dummy": "B3_8_3",
+      "coef": 1.343,
+      "label": "B3. 수입산 식품 안전성_(8) 돼지고기(유럽산)"
+    },
+    {
+      "dummy": "B3_14_4",
+      "coef": 1.34,
+      "label": "B3. 수입산 식품 안전성_(14) 견과류(수입산)"
+    },
+    {
+      "dummy": "J_C14_1_4",
+      "coef": 1.326,
+      "label": "C14. 세척, 절단 채소/과일/견과류 구입 빈도"
+    },
+    {
+      "dummy": "A25_7_2",
+      "coef": -1.326,
+      "label": "A25. 전년 대비 중식당 지출액 증감"
+    },
+    {
+      "dummy": "신규여부_2",
+      "coef": -1.32,
+      "label": "신규가구 여부(주소지 기준)"
+    },
+    {
+      "dummy": "J_C4_1_4",
+      "coef": -1.283,
+      "label": "C4. 채소류 구입 시 중요하게 고려하는 기준 (1순위)"
+    },
+    {
+      "dummy": "J_I1_1_2_5_4",
+      "coef": 1.281,
+      "label": "I1-1-2. 농식품 구매여건_(5) 농식품을 선택할 때 다양한 채널(SNS 등)에서 신뢰할 수 있는 정보를 구별해 내는 것이 필요하다"
+    }
+  ]
+}
