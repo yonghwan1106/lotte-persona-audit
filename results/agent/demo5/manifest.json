@@ -1,0 +1,35 @@
+{
+ "run_id": "demo5",
+ "config_files": {
+  "config/agent_run.json": "851dba7cfd41c66f2318b11f2cb1365f4d064835e7db527797a35678dc31f751",
+  "config/concept_prompt.json": "eacab66332820ad2bff81d64e50c778421e2c7a09df198c353b85a494324e353",
+  "config/demo_cards.json": "dfe4b79966c000e8afff38278d5e54b757cb4eaabf7d3d97d22ea3aa42a2437f",
+  "config/gate_run.json": "f880d3de5922934a461a2f18b1e06764a297e6daae12fa7bdcb3a4f2ccd82c46",
+  "config/persona_templates.json": "c56adb9a139979f3d7a41f6be5fe05ecae5f6ca41943a0906a609d49d242cc98",
+  "results/stage3/verdict_v2.json": "bdd316c0f84b93773346e24a8cf7a91029aee0bf568dc51f0c60300d0cccf8f0",
+  "src/lotte_audit/agent/diagnostics.py": "811a1ed0ecf70ae56484cab7964f0fca71c611fee4205a7e7aef156ef1c379a0",
+  "src/lotte_audit/agent/verdict_rules.py": "27f1fda6ec1da8cc498fa2fd03508011c1ecfeda8ab717c0a674b2e5ef20f780",
+  "src/lotte_audit/agent/allocation.py": "833296c46014b00b46f412149ac140226f345e5ca2db59c8995a1c472f4893b6",
+  "src/lotte_audit/agent/panel.py": "d99e57507c3d4263cbeea530e1f7e9d0e7a4dddbcdb1d3b2165d2cd88dd419ad",
+  "src/lotte_audit/verdict.py": "15dd4e0d4878c61e60fe9ef07b7dae4ee80f0eb2d8dfaad25abc061633b40bb6",
+  "src/lotte_audit/verdict_v2.py": "19de75245b82df860490dea6f248889c61d895607c71542a5ecd0a5fff4dedef",
+  "src/panel_run.py": "955a6eb583542943af12b64d0c2ab7fd8fa1a9771e2cb02313bf82d5e89e3723"
+ },
+ "agent_text_sha256": "ade5f8e526ca9213155df77c578cc4a47982a1804116808f6a6dd09554938845",
+ "prompt_sha256": "7da813dd01a0e5406dad0299e6e1c6be8c0111014c2c07303074806958297bed",
+ "cards_sha256": "d6c3778b14be0cdf2b31957e3c86e51a25097f69fc8efa0b03ee40b0979a1615",
+ "plan_hash": "36e6fe64e3672a3f90ccac7396d19cd89c1d79b8a04888d1c68a60d6437b1645",
+ "panel_sha256": "83de28aa7013efab109512fc5a86b7d3cdf11db58c1635c943a899a3dbb64e8b",
+ "models": {
+  "manager": "gpt-6.1-sol",
+  "main": "gpt-6.1-terra",
+  "cheap": "gpt-6-luna"
+ },
+ "rule_version": "agent-1 on v2",
+ "versions": {
+  "python": "3.11.9",
+  "openai-agents": "0.24.0",
+  "openai": "3.42.0"
+ },
+ "manifest_sha256": "c2af04be15fa0a3db88d78d232f281029cc17baa843ed97ad33731799c4bf610"
+}

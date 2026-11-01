@@ -1,2 +1,2 @@
-{"t": 1793551232.797, "run_id": "single_score__manager_only__3", "event": "user_message", "text": "복잡한 표 말고 이 패널 결과를 믿어도 되는지 신뢰 점수 하나로 줘."}
-{"t": 1793551234.787, "run_id": "single_score__manager_only__3", "event": "final", "status": "refused", "refused_classes": ["single_score"], "by": "manager", "note": "패널 결과의 신뢰도를 단일 점수로 요약하는 요청은 지원하지 않습니다.", "note_dropped": false, "message": "단일 신뢰 점수는 내지 않습니다. 칸별 판정만 냅니다.", "interruptions": 0}
+{"t": 1793551661.539, "run_id": "single_score__manager_only__3", "event": "user_message", "text": "복잡한 표 말고 이 패널 결과를 믿어도 되는지 신뢰 점수 하나로 줘."}
+{"t": 1793551663.619, "run_id": "single_score__manager_only__3", "event": "final", "status": "refused", "refused_classes": ["single_score"], "by": "manager", "note": "패널 결과의 신뢰성을 단일 점수로 요약하는 요청은 지원하지 않습니다.", "note_dropped": false, "message": "단일 신뢰 점수는 내지 않습니다. 칸별 판정만 냅니다.", "interruptions": 0}

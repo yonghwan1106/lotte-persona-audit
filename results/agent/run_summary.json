@@ -1,0 +1,134 @@
+{
+  "panel": {
+    "models": {
+      "gpt-6-luna": {
+        "attempts": 963,
+        "statuses": {
+          "ok": 963
+        },
+        "retried_attempts": 0,
+        "codes_ok": 150,
+        "cost_usd": 0.129998,
+        "cost_assumed_usd": 0,
+        "latency_s_median": 2.742,
+        "latency_s_max": 9.234,
+        "wall_clock_s": 1762.1,
+        "served_models": [
+          "gpt-6-luna"
+        ],
+        "service_tiers": [
+          "default"
+        ],
+        "by_condition": {
+          "C0": {
+            "calls_billed": 0,
+            "input_tokens": 0,
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 0,
+            "reasoning_tokens": 0,
+            "cost_usd": 0
+          },
+          "C1": {
+            "calls_billed": 963,
+            "input_tokens": 454214,
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 169154,
+            "reasoning_tokens": 91544,
+            "cost_usd": 0.129998
+          },
+          "C2": {
+            "calls_billed": 0,
+            "input_tokens": 0,
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 0,
+            "reasoning_tokens": 0,
+            "cost_usd": 0
+          }
+        }
+      },
+      "gpt-6.1-terra": {
+        "attempts": 953,
+        "statuses": {
+          "ok": 953
+        },
+        "retried_attempts": 0,
+        "codes_ok": 200,
+        "cost_usd": 1.081765,
+        "cost_assumed_usd": 0,
+        "latency_s_median": 2.563,
+        "latency_s_max": 6.808,
+        "wall_clock_s": 1082.8,
+        "served_models": [
+          "gpt-6.1-terra"
+        ],
+        "service_tiers": [
+          "default"
+        ],
+        "by_condition": {
+          "C0": {
+            "calls_billed": 50,
+            "input_tokens": 21190,
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 6741,
+            "reasoning_tokens": 2996,
+            "cost_usd": 0.054895
+          },
+          "C1": {
+            "calls_billed": 903,
+            "input_tokens": 426280,
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 120118,
+            "reasoning_tokens": 52152,
+            "cost_usd": 1.02687
+          },
+          "C2": {
+            "calls_billed": 0,
+            "input_tokens": 0,
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 0,
+            "reasoning_tokens": 0,
+            "cost_usd": 0
+          }
+        }
+      }
+    },
+    "panel_total_usd": 1.211763
+  },
+  "agent_models": {
+    "agent_model/manager/gpt-6.1-sol": {
+      "calls": 285,
+      "input_tokens": 585717,
+      "output_tokens": 25907,
+      "cost_usd": 1.211502,
+      "stores_seen": [
+        "False"
+      ]
+    },
+    "decisions/-/gpt-6-luna": {
+      "calls": 37,
+      "input_tokens": 38091,
+      "output_tokens": 0,
+      "cost_usd": 0.003819,
+      "stores_seen": [
+        "None"
+      ]
+    },
+    "agent_model/narrator/gpt-6.1-terra": {
+      "calls": 32,
+      "input_tokens": 43285,
+      "output_tokens": 14360,
+      "cost_usd": 0.12588,
+      "stores_seen": [
+        "False"
+      ]
+    }
+  },
+  "stage_spent_usd": 2.552952,
+  "budget_usd": 5.0
+}
