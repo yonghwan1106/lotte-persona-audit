@@ -1,0 +1,54 @@
+{
+  "_note": "Frozen before the first stage 3 call. endpoint, api_key_file, request and the main model must equal config/gate_run.json, and src/stage3_run.py refuses to run if they differ. Budget, cache and call log are this stage's own. Terra only.",
+  "frozen_on": "2026-11-02",
+  "models": {
+    "main": {
+      "id": "gpt-6.1-terra",
+      "why": "Current tier below Sol and above Luna. Documented for clear, natural writing and supports Structured Outputs. At 1 and 5 USD per 1M it stays affordable for a repeated service.",
+      "usd_per_1m": {"input": 1.00, "cached_input": 0.05, "cache_write_30m": 1.25, "output": 5.00}
+    }
+  },
+  "endpoint": "https://api.openai.com/v1/responses",
+  "api_key_file": "C:/Users/user/.secrets/openai_api_key.txt",
+  "request": {
+    "reasoning_effort": "medium",
+    "reasoning_effort_why": "Documented default for both models, chosen before any call and the same for both.",
+    "temperature": "not sent. The guide says temperature and top_p must be removed when reasoning effort is not none.",
+    "store": false,
+    "store_why": "Row-derived persona text should not be retained as a stored response.",
+    "service_tier": "default",
+    "prompt_cache_mode": "explicit",
+    "prompt_cache_why": "Explicit mode with no breakpoints creates no cache reads or writes, so calls are independent and a long C2 persona is not billed at the 1.25x write rate.",
+    "max_output_tokens": 4000
+  },
+  "limits": {
+    "budget_usd": 3.0,
+    "concurrency": 8,
+    "max_attempts": 6,
+    "timeout_s": 180,
+    "persistent_failure_codes": 15
+  },
+  "prompt_file": "config/stage3_prompt.json",
+  "prompt_sha256": "4b493edab250d1eedecca76a4d3618f982907ac536fbaebb9c63a14686205011",
+  "run_order": ["C2", "C1"],
+  "run_order_why": "C2 first as in stage 2, so a budget stop costs the least. A condition without a complete set of answers is not scored and is named as incomplete.",
+  "option_labels": {
+    "1": "100% 과일 주스",
+    "2": "저과즙음료",
+    "3": "흰우유",
+    "4": "가공우유",
+    "5": "발효유",
+    "6": "두유, 아몬드유",
+    "7": "가당 탄산음료",
+    "8": "무가당·대체당 탄산음료",
+    "9": "이온음료",
+    "10": "녹차, 곡물차",
+    "11": "기능성 음료",
+    "12": "탄산수",
+    "13": "인스턴트 커피",
+    "14": "커피전문점 커피",
+    "15": "음료전문점 제조 음료",
+    "16": "기타",
+    "17": "물 이외의 음료는 마시지 않음"
+  }
+}

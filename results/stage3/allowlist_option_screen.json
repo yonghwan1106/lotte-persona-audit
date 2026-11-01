@@ -1,0 +1,140 @@
+{
+  "what": "Larger of ordered and category-encoded univariate AUC, folded above 0.5, on the train split, as in the original screen. The C2 allowlist was screened against ever, weekly and carb only.",
+  "threshold": 0.7,
+  "options_with_no_train_respondent": [
+    16
+  ],
+  "by_option": [
+    {
+      "option": 1,
+      "highest_auc": 0.632,
+      "highest_var": "B5_2",
+      "over_threshold": []
+    },
+    {
+      "option": 2,
+      "highest_auc": 0.721,
+      "highest_var": "A12_1",
+      "over_threshold": [
+        {
+          "var": "A12_1",
+          "label": "A12. 좋아하는 과일(1순위)",
+          "auc": 0.721
+        }
+      ]
+    },
+    {
+      "option": 3,
+      "highest_auc": 0.61,
+      "highest_var": "B5_2",
+      "over_threshold": []
+    },
+    {
+      "option": 4,
+      "highest_auc": 0.643,
+      "highest_var": "H1_3",
+      "over_threshold": []
+    },
+    {
+      "option": 5,
+      "highest_auc": 0.572,
+      "highest_var": "H1_3",
+      "over_threshold": []
+    },
+    {
+      "option": 6,
+      "highest_auc": 0.633,
+      "highest_var": "A12_1",
+      "over_threshold": []
+    },
+    {
+      "option": 7,
+      "highest_auc": 0.644,
+      "highest_var": "A12_1",
+      "over_threshold": []
+    },
+    {
+      "option": 8,
+      "highest_auc": 0.724,
+      "highest_var": "A12_1",
+      "over_threshold": [
+        {
+          "var": "A12_1",
+          "label": "A12. 좋아하는 과일(1순위)",
+          "auc": 0.724
+        }
+      ]
+    },
+    {
+      "option": 9,
+      "highest_auc": 0.634,
+      "highest_var": "H1_3",
+      "over_threshold": []
+    },
+    {
+      "option": 10,
+      "highest_auc": 0.615,
+      "highest_var": "A12_1",
+      "over_threshold": []
+    },
+    {
+      "option": 11,
+      "highest_auc": 0.66,
+      "highest_var": "A12_1",
+      "over_threshold": []
+    },
+    {
+      "option": 12,
+      "highest_auc": 0.752,
+      "highest_var": "A12_1",
+      "over_threshold": [
+        {
+          "var": "A12_1",
+          "label": "A12. 좋아하는 과일(1순위)",
+          "auc": 0.752
+        }
+      ]
+    },
+    {
+      "option": 13,
+      "highest_auc": 0.625,
+      "highest_var": "H1_3",
+      "over_threshold": []
+    },
+    {
+      "option": 14,
+      "highest_auc": 0.62,
+      "highest_var": "D4_1",
+      "over_threshold": []
+    },
+    {
+      "option": 15,
+      "highest_auc": 0.731,
+      "highest_var": "A12_1",
+      "over_threshold": [
+        {
+          "var": "A12_1",
+          "label": "A12. 좋아하는 과일(1순위)",
+          "auc": 0.731
+        }
+      ]
+    },
+    {
+      "option": 17,
+      "highest_auc": 0.758,
+      "highest_var": "A27",
+      "over_threshold": [
+        {
+          "var": "A26",
+          "label": "A26. 가족 단위가 아닌 개인적으로 음식점에 가서 배달/테이크아웃 이용 여부",
+          "auc": 0.753
+        },
+        {
+          "var": "A27",
+          "label": "A27. 가족 단위가 아닌 개인적으로 하는 배달/테이크아웃 음식 이용 빈도",
+          "auc": 0.758
+        }
+      ]
+    }
+  ]
+}

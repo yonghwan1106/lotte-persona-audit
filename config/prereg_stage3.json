@@ -1,0 +1,89 @@
+{
+  "_note": "Frozen before the first stage 3 call. manifests/frozen_stage3.json stores this file's hash; run, verdict and score refuse to work if it changed or is not committed. Not to be changed after stage 3 answers are seen. If a defect forces a change, it is recorded in the report and the frozen hash is redone in its own commit.",
+  "frozen_on": "2026-11-02",
+  "why_this_stage": "Stage 2 found that the panel plus 200 real respondents beats a flat shrink but not a simple age and sex regression on those same 200 (R1). Rule v1 did not discriminate: a non-LLM stand-in panel passed 11 of 12. 58.6 percent of the truth's psfwt mass was the panel's own respondents.",
+  "what_was_seen_before_this_freeze": {
+    "stage_2": "All stage 2 answers and results, including R1 and the outside-panel sensitivity. Part 1 is written with these in view.",
+    "a15": "The gate's and stage 2's carb truth, which is options 7 and 8 together on the test split. Value labels and the set of codes present in the 2023, 2024 and 2025 files. While screening the allowlist the worker also saw unweighted train split respondent counts per option and AUCs per option. No option level test split share, no 2024 share, and no answer to the new prompt was seen before this freeze.",
+    "not_blind": "The test split has been scored against since the gate. This is not a blind test of the respondents or the split; it is a first look at the panel's answers to this prompt."
+  },
+  "part1_verdict": {
+    "status": "NOT PRE-REGISTERED WITH RESPECT TO THE STAGE 2 ANSWERS. v2 was written after those answers were seen, because v1 failed to discriminate. A v2 label on the stage 2 answers is a stricter reading of data already seen, not a confirmatory test. v2 becomes a pre-registered rule only for answers collected after this freeze.",
+    "module": "src/lotte_audit/verdict_v2.py. src/lotte_audit/verdict.py (v1) is not changed and is shown side by side. main_score.py and the stored stage 2 results are not changed.",
+    "per": "item, model, condition",
+    "labels": {"calibrated": "보정 후 참고", "direction": "방향만", "real_only": "실측 전용"},
+    "rule": [
+      "보정 후 참고 only if one calibrated estimator among E4, E5, E6 has, at n=200, an interval wholly below zero for the estimator's cell MAE minus R1's cell MAE in the same draw, under both row draws and cluster draws, using the truth from test respondents outside the 1000 panel.",
+      "Else 방향만 if the real age slope interval excludes zero and the panel age slope has the same sign, the cell Pearson r is at least 0.7, and the underdispersion ratio is within 0.5 to 2.0 inclusive.",
+      "Else 실측 전용."
+    ],
+    "direction_branch_truth": "The brief states the outside truth for the first branch. So that no v2 input rests on the panel's own people, the real slope interval, cell r and underdispersion also use the outside truth. The labels under the whole test truth are reported as a sensitivity.",
+    "separate_flag": "성별 차이 사용 금지 when the interval of gender gap panel minus real excludes zero, with the real side from outside the panel. It never changes the label. No interval means no clearance, so the flag is set.",
+    "rename": "level_trusted is shown as beats_e2 in v2 output and in the side by side view of v1. It only ever meant the estimator beat E2. verdict.py still emits level_trusted because its hash is frozen by stage 2.",
+    "raw_number": "A raw panel number is never a market number. Every output carries raw_panel_number_as_market_number false.",
+    "draws": "The stage 2 draws: n=200, row and cluster, 200 repeats, seeds [42, 200, 0] and [42, 200, 1], inclusion 20000 draws seed 43. Stored v1 labels must reproduce.",
+    "plan": {"repeats": 200, "seed": 42, "pi_draws": 20000, "pi_seed": 43, "bootstrap": 2000},
+    "bootstrap": "Survey unit bootstrap over the test split units, 2000 resamples, rng [42, 7]. Each resample gives the panel value on panel rows in those units, the real value on outside rows in those units, and their difference.",
+    "surrogate_test": "The stage 2 non-LLM stand-in panel unchanged: train split floor logistic on age band and sex, logit shift 1.2 with noise SD 0.3 as Terra C2 and C1, shift 0.8 with noise SD 0.5 as Luna C2 and C1, numpy rng seed 1, drawn in that order. Report the v1 and v2 counts per label.",
+    "positive_control_strengths": [0.25, 0.5, 1.0, 2.0],
+    "positive_control": "A rule that can never fire also discriminates nothing. The stand-in base (shift 1.2, noise SD 0.3, rng [1, 2]) plus strength*(2y-1) on the logit, where y is the respondent's real answer, for test panel and calibration pool. Shows at what person level signal the first branch fires. Answers no one could have in practice; no claim about any LLM.",
+    "multiplicity": "No correction across 12 combinations and 3 estimators. To be stated with the result.",
+    "interval_limits": "Intervals are across draws with the pool of 51 units and the test panel held fixed. They do not carry the sampling uncertainty of those."
+  },
+  "part2_ranking": {
+    "question": "The remaining possible LLM value is direction among several candidates. Can the panel order the A15 options better than a real n=200 or last year's public number?",
+    "frame_for_results": "Option ranking test, Terra only, frozen before any answer to this prompt. Truth is A15_1 psfwt shares on the test split outside the 1000 panel. Existing favourite drinks only; this measures no new product. Intervals for panel metrics are survey unit bootstrap over panel and truth rows together, 2000 resamples. Direct draws: intervals across 200 draws with the pool and truth held fixed. Paired differences use the same resamples with direct draws cycled. Pairs of options share options and are not independent, and no correction is made across sets, groups, bands or metrics.",
+    "respondents": "The gate's 300 test respondents, conditions C1 and C2, gate codes. They are in the 1000 panel and so are outside the truth.",
+    "weights": "The gate's panel_weight (psfwt over the Monte Carlo inclusion probability of the 300 draw), the same repair as the gate.",
+    "model": "gpt-6.1-terra only. 600 calls. One respondent per call, store=false, reasoning effort medium, same request settings as the gate, checked by the runner. Stored answers under the old prompt are not reused because they hold no per option answer.",
+    "budget_usd": 3.0,
+    "budget_scope": "This stage only, call log runs/stage3/logs/calls.jsonl. Stop at the budget and stop at once on an empty balance. A condition without a complete set of answers is not scored and is named as incomplete.",
+    "prompt": {
+      "file": "config/stage3_prompt.json",
+      "sha256": "4b493edab250d1eedecca76a4d3618f982907ac536fbaebb9c63a14686205011",
+      "wording": "Instruction, A15 stem and all 17 options byte identical to config/gate_prompt.json. A19 removed. Asks a probability for each of the 17 options being the first rank. No rates, no hints, no instruction that the values sum to 1.",
+      "normalise": "Code divides each respondent's 17 values by their sum and records the raw sum: mean, min, max, share within 0.01 of 1, share over 0.05 from 1. A zero sum is a bad answer and is retried."
+    },
+    "panel_estimate": "Weighted mean of the normalised probabilities with the gate's weights, overall and per age band. A probability average, not a count of each respondent's top option.",
+    "truth": {
+      "definition": "A15_1 psfwt weighted shares on the test split with all 1000 panel respondents removed, overall and per the 6 age bands of SQ2_range (19-29, 30-39, 40-49, 50-59, 60-69, 70+).",
+      "plain_psfwt": "Plain psfwt on the remaining rows, as the stage 2 outside truth. The panel was drawn with probability proportional to psfwt, so the remaining rows are a tilted subset. A sensitivity re-scales each of the 12 age by sex cells to the whole test split's psfwt total."
+    },
+    "comparators": {
+      "direct_row": "Weighted shares of real answers from n=200 row draws of the calibration pool, 200 draws, seed [42, 200, 0], inclusion repair 20000 draws seed 43. The same draws as stage 2. Primary direct comparator.",
+      "direct_cluster": "The same with cluster draws, seed [42, 200, 1]. Added because row draws understate survey unit variation. Realised n is reported.",
+      "empty_group": "An age band with no respondent in a draw takes that draw's overall shares.",
+      "krei_2024": "The 2024 wave of the same survey as last year's public value: A15_1 psfwt shares over all 5851 rows of a2024.sav, overall and per the same age bands. Scored only on option sets no_16 and merged_coffee_15."
+    },
+    "krei_2024_mapping": {
+      "checked": "Value labels read from a2024.sav and a2025.sav before this freeze, without looking at any share. Code by code the two files differ only in the wording of option 4: 2024 쵸코, 바나나맛 우유 등; 2025 초콜릿맛, 바나나맛 우유 등. Options 13 and 14 have the same wording in both files. The coffee split that differs is 2023 (10 커피, 14 테이크아웃 커피), not 2024. The brief expected the coffee options to differ between 2024 and 2025; the labels do not show that. Only labels were checked, not the printed 2024 questionnaire or fieldwork.",
+      "rule": "Follow the brief's stated caution as the primary comparison and show the labels' reading beside it. merged_coffee_15 merges options 13 and 14 into one category and drops 16; no_16 keeps 13 and 14 apart and drops 16. Both are fixed now and both are reported.",
+      "option_16": "2025 has no respondent on option 16 in the whole file while 2024 does, so 16 does not compare and is dropped for KREI. Option 4 is treated as the same option."
+    },
+    "option_sets": {
+      "all_17": "All 17 options as asked. Option 16 has a true share of exactly 0 in 2025, so its pairs with other options are easy and flatter this set. KREI is not scored here.",
+      "no_16": "Option 16 removed, the other 16 renormalised, for every estimator and the truth.",
+      "merged_coffee_15": "Options 13 and 14 merged, 16 removed, renormalised, for every estimator and the truth. Primary set for the head to head with KREI 2024 and for the operating rule."
+    },
+    "references_not_comparators": {
+      "train_reference": "The same shares on all 2921 train rows, a large real sample, to show what the truth's noise allows.",
+      "gate_300_real_reference": "The real answers of the same 300 respondents with the same weights, to show what those people's own answers give. They are outside the truth."
+    },
+    "metrics": {
+      "spearman": "Across categories of the set, ties on average ranks, unweighted.",
+      "pair_accuracy": "Over all pairs of categories with a true gap above zero. 1 when the estimate orders the pair as the truth, 0.5 when the estimate ties them (within 1e-12), 0 otherwise. Overall and within true gap bands.",
+      "true_gap_bands": "Absolute truth share difference in pp: 0 to under 1, 1 to under 3, 3 to under 5, 5 and over. The lower end of each band is included. The number of pairs is reported.",
+      "estimated_gap_bands_secondary": "The same bands on the estimate's own gap, because a user never sees the true gap. Added by the worker; not in the brief.",
+      "top3_overlap": "Size of the overlap of the top 3 categories, 0 to 3. A tie goes to the lower position.",
+      "share_mae": "Mean absolute share error over categories, pp.",
+      "per_option_bias": "Estimate minus truth, pp, per category."
+    },
+    "plan": {"draws": 200, "seed": 42, "pi_draws": 20000, "pi_seed": 43, "bootstrap": 2000},
+    "intervals": "Panel metrics: survey unit bootstrap over the 200 test split units, 2000 resamples, rng [42, 3], percentile 95 percent. Each resample recomputes panel shares on panel rows and truth shares on outside rows in those units, so band membership can change between resamples. The number of resamples with pairs in a band is reported.",
+    "differences": "Panel minus comparator on the same resampled truth, with direct draw r mod 200 in resample r. KREI 2024 is a fixed number; its own sampling error is not carried. Added by the worker so that the comparison is a stated interval.",
+    "operating_rule": "On merged_coffee_15, overall, per panel condition and gap band: above_chance if the lower bound of pair accuracy exceeds 0.5; beats_direct_row and beats_krei_2024 if the lower bound of the paired difference exceeds 0. The operating rule is the smallest band from which a condition satisfies all three in every higher band. If none, the rule is that panel order among these options adds nothing over the comparators. True gap bands are the primary reading; estimated gap bands are secondary.",
+    "allowlist_screen": "results/stage3/allowlist_option_screen.json. The C2 allowlist was screened on ever, weekly and carb only. It is re-checked on the train split against each option. The personas are not changed by this check; what it finds is disclosed.",
+    "no_tuning": "Prompt, weights, option sets, gap bands, metrics, seeds and the operating rule reading are not changed after answers are seen. Results may be bad and are reported as they are.",
+    "not_measured": "New products, purchase, other categories, anything beyond the first ranked favourite drink among existing options."
+  }
+}

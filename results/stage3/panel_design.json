@@ -1,0 +1,15 @@
+{
+  "respondents": 300,
+  "conditions": [
+    "C2",
+    "C1"
+  ],
+  "calls_needed": 600,
+  "units_of_respondents": 141,
+  "test_split_rows": 2321,
+  "panel_1000_rows_excluded_from_truth": 1000,
+  "truth_rows": 1321,
+  "truth_units": 198,
+  "respondents_in_truth": 0,
+  "gate_weight_max_over_median": 1.44
+}

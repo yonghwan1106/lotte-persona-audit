@@ -83,6 +83,24 @@ python src/main_run.py score          # results/main/main_score.json, main_score
 
 신뢰 지도 규칙은 `src/lotte_audit/verdict.py`, 추정기는 `src/lotte_audit/calibration.py`에 있습니다. 패널 원수치는 시장 수치로 쓰지 않습니다. 결과에는 집계만 남고, 응답자 코드와 페르소나 문장은 `runs/main/` 밖으로 나가지 않습니다.
 
+## 3단계
+
+2단계에서 패널 + 실제 200명은 평평한 수축(E2)은 이겼지만 같은 200명의 나이·성별 회귀(R1)는 이기지 못했습니다. 규칙 v1은 LLM이 아닌 대체 패널도 12개 중 11개를 통과시켰습니다. 3단계는 두 부분입니다. 계획은 `config/prereg_stage3.json`, 실행 설정은 `config/stage3_run.json`, 프롬프트는 `config/stage3_prompt.json`에 있고, `manifests/frozen_stage3.json`이 해시를 담습니다. 커밋 전이거나 해시가 다르면 호출, 판정, 채점이 모두 멈춥니다.
+
+```
+python src/stage3_run.py prepare        # 관문 300명, C1과 C2, 호출 없음
+python src/stage3_run.py screen         # 학습 분할에서 C2 허용 목록을 각 보기와 대조, 호출 없음
+python src/stage3_run.py freeze         # 해시 고정, 이후 커밋
+python src/stage3_run.py check          # 고정 확인, 호출 없음
+python src/stage3_run.py verdict        # 1부: 규칙 v1과 v2 비교, 저장된 2단계 답과 대체 패널, 호출 없음
+python src/stage3_run.py smoke          # 2부: C2 3건, C1 3건, 비용 추정
+python src/stage3_run.py run            # 2부: 600건, 이 단계 예산 3달러
+python src/stage3_run.py status --write # results/stage3/stage3_run_summary.json
+python src/stage3_run.py score          # 2부: results/stage3/option_ranking.json, option_ranking.md
+```
+
+1부의 규칙 v2(`src/lotte_audit/verdict_v2.py`)는 **2단계 답을 본 뒤에 썼으므로 그 답에 대해서는 사전 등록이 아닙니다.** v1(`verdict.py`)은 바꾸지 않았고 나란히 보여 줍니다. v1의 `level_trusted`는 E2를 이겼다는 뜻일 뿐이어서 v2 출력과 비교 표에서는 `beats_e2`로 부릅니다. 2부는 A15 보기 순서를 패널이 맞추는지 재며, 이 프롬프트의 답을 보기 전에 고정했습니다. 신제품은 재지 않습니다. 결과에는 집계만 남고, 호출 기록과 답은 `runs/stage3/` 밖으로 나가지 않습니다.
+
 ## 사전 등록
 
 `config/prereg.json`이 조건, 지표, 전환 규칙, 재현 패턴 정의를 담습니다. `manifests/frozen.json`이 설정 파일 해시를 담고, 설정이 바뀌면 채점이 멈춥니다. 답을 본 뒤에는 바꾸지 않습니다.
