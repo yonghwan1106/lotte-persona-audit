@@ -71,13 +71,27 @@ def test_the_named_groups_are_all_there(sheet):
         "scenarios.fix_stage.runs",
         "attacks.replay.live.total",
         "attacks.wf7.probe.kept_minus_clean_t2b_pp",
+        "spend.stage4",
+        "stage4.allocation.R1.panel_excluded.cell_mae.panel_neyman_minus_proportional.average.ci95",
+        "stage4.allocation.R1.panel_excluded.national_error.panel_minus_reference.average.mean_diff",
+        "stage4.flags.terra_minus_luna.spearman_ci95",
+        "stage4.flags.repeat_sd.overlap_top9.observed",
+        "stage4.duel.acceptance.passed",
+        "stage4.duel.row.terra_C2.pooled.panel_excluded.false_keep_rate",
+        "stage4.duel.row.control_s1.0.pooled.panel_excluded.keep_rate",
+        "stage4.duel.seed.draw_seed_99.acceptance_passed",
+        "stage4.detectable.between_mde_pp",
+        "stage4.detectable.needed.gap_5pp.between_total",
+        "stage4.demo7.action.A",
+        "stage4.ingest.decision",
+        "stage4.explore.A.objections.kept",
     ):
         assert needed in keys, needed
 
 
 def test_stage_spend_adds_up(sheet):
     rows = by_key(sheet)
-    parts = ("spend.gate", "spend.stage2", "spend.stage3", "spend.agent_stage", "spend.wf7_attacks", "spend.fix_stage")
+    parts = ("spend.gate", "spend.stage2", "spend.stage3", "spend.agent_stage", "spend.wf7_attacks", "spend.fix_stage", "spend.stage4")
     assert rows["spend.all_stages_including_attacks"]["value"] == pytest.approx(sum(rows[k]["value"] for k in parts), abs=1e-5)
 
 
@@ -97,3 +111,15 @@ def test_a_caveat_goes_with_the_numbers_that_need_one(sheet):
     assert "\uc2dc\ub4dc" in rows["verdict.gender_flag.count.stage2_seed"]["caveat"]
     assert "\uac00\uc0c1" in rows["demo.terra.noise_upper"]["caveat"]
     assert "\uc81c\ud488 \ub77c\ubca8" in rows["verdict.v3.acceptance_passed"]["caveat"]
+    assert "\uc2e4\uc81c \uc124\ubb38\uc744 \ub9cc\ub09c \uc801\uc774 \uc5c6\uc2b5\ub2c8\ub2e4" in rows["stage4.ingest.decision"]["caveat"]
+    assert "\ucf58\uc149\ud2b8" in rows["stage4.duel.acceptance.passed"]["caveat"]
+
+
+def test_stage4_values_equal_their_source_files(sheet):
+    rows = by_key(sheet)
+    alloc = json.loads((paths.RESULTS / "stage4" / "allocation.json").read_text(encoding="utf-8"))
+    r = alloc["reading"]["panel_minus_proportional_r1_average"]
+    assert rows["stage4.allocation.R1.panel_excluded.cell_mae.panel_neyman_minus_proportional.average.mean_diff"]["value"] == r["mean_diff"]
+    duel = json.loads((paths.RESULTS / "stage4" / "duel_validity.json").read_text(encoding="utf-8"))
+    assert rows["stage4.duel.row.terra_C2.pooled.panel_excluded.keep_rate"]["value"] == duel["row"]["terra_C2"]["pooled"]["panel_excluded"]["keep_rate"]
+    assert rows["stage4.duel.acceptance.label"]["value"] == duel["acceptance"]["label"]

@@ -2,6 +2,7 @@
 import asyncio
 import io
 import json
+import os
 import re
 from pathlib import Path
 
@@ -438,7 +439,7 @@ def run_dir(tmp_path):
 
 
 def validity(tmp_path, passed=True, surrogate=0.05):
-    doc = {"acceptance": {"passed": passed, "label": "decision_rule" if passed else "health_check", "surrogate_keep_rates": {"s": surrogate}, "positive_keep_rate": 0.9}, "row": {"terra_C2": {"pooled": {"panel_excluded": {"false_keep_rate": 0.4, "missed_keep_rate": 0.6}}}}}
+    doc = {"acceptance": {"passed": passed, "label": "decision_rule" if passed else "health_check", "surrogate_keep_rates": {"s": surrogate}, "positive_keep_rate": 0.9}, "row": {"terra_C2": {"pooled": {"panel_excluded": {"keep_rate": 0.3, "false_keep_rate": 0.4, "missed_keep_rate": 0.6}}}, "luna_C1": {"pooled": {"panel_excluded": {"keep_rate": 0.02}}}}}
     v = tmp_path / "v.json"
     v.write_text(json.dumps(doc), encoding="utf-8")
     return v
@@ -546,6 +547,22 @@ def test_approval_refuses_without_a_terminal():
         human.typed_approval(PLAN, stdin=io.StringIO(""), out=lambda *_: None)
 
 
+def test_the_null_device_is_no_terminal(tmp_path):
+    with open(os.devnull) as null:
+        assert human.is_real_terminal(null) is False
+    with pytest.raises(human.NotApproved, match="interactive terminal"):
+        with open(os.devnull) as null:
+            human.typed_approval(PLAN, stdin=null, out=lambda *_: None)
+
+
+def test_no_input_is_no_approval():
+    def eof(_prompt):
+        raise EOFError
+
+    with pytest.raises(human.NotApproved, match="no input"):
+        human.typed_approval(PLAN, stdin=Tty(), read=eof, out=lambda *_: None)
+
+
 def test_approval_needs_a_name_and_the_right_hash():
     answers = iter(["", "abcdef012345"])
     with pytest.raises(human.NotApproved, match="no name"):
@@ -588,6 +605,51 @@ def test_new_product_sources_are_ascii():
 
 
 # ---------- what was committed ----------
+
+
+def test_the_stand_in_ingest_gives_the_same_duel_as_the_validity_study_on_that_draw():
+    stored_doc = paths.RESULTS / "stage4" / "demo7" / "real_results.json"
+    if not stored_doc.exists() or not paths.SAV_2025.exists() or not (paths.ROOT / "runs" / "main" / "key.csv").exists():
+        pytest.skip("files not present")
+    import stage4_measures as sm
+    from lotte_audit import stage4
+
+    doc = json.loads(stored_doc.read_text(encoding="utf-8"))
+    assert doc["source_label"] == ingest.STANDIN_LABEL and doc["is_real_concept_survey"] is False
+    s = sm.setup()
+    draws = sm.stage2_draws(s, 0, "row")
+    index = RULES["ingest"]["standin_draw_index"]
+    raw = stage4.duel_study(s["ctx"], {"terra": sm.stored(s, sm.TERRA, "C2")}, [draws[index]], sm.A3_PLAN["fold_seed"])
+    assert raw["terra"]["pooled"]["keep"][0] == (doc["decision"] == "keep")
+    assert raw["terra"]["pooled"]["improvement"][0] == pytest.approx(doc["anchors"]["pooled"]["mean_improvement"], abs=1e-4)
+
+
+def test_demo7_keeps_the_demo6_verdict_and_reads_no_new_panel_answer():
+    root = paths.RESULTS / "stage4" / "demo7"
+    if not root.exists():
+        pytest.skip("demo7 not run")
+    a = json.loads((root / "verdict.json").read_text(encoding="utf-8"))
+    b = json.loads((paths.RESULTS / "fix_stage" / "demo6" / "verdict.json").read_text(encoding="utf-8"))
+    assert a["rows"] == b["rows"]
+    ad = json.loads((root / "diagnostics.json").read_text(encoding="utf-8"))
+    bd = json.loads((paths.RESULTS / "fix_stage" / "demo6" / "diagnostics.json").read_text(encoding="utf-8"))
+    assert ad["by_model"] == bd["by_model"]
+    summary = paths.RESULTS / "stage4" / "run_summary.json"
+    if summary.exists():
+        panel = json.loads(summary.read_text(encoding="utf-8"))["panel"]
+        assert not panel.get("models") or all(m.get("attempts", 0) == 0 for m in panel["models"].values())
+
+
+def test_no_person_is_claimed_for_the_demo_or_the_stand_in():
+    ledger = paths.RESULTS / "stage4" / "ledger.jsonl"
+    if not ledger.exists():
+        pytest.skip("no ledger")
+    rows = [json.loads(x) for x in ledger.read_text(encoding="utf-8").splitlines() if x.strip()]
+    for row in rows:
+        if row.get("run_id") == "demo7":
+            who = row.get("approver") or (row.get("approval") or {}).get("approver")
+            assert "no person" in who
+            assert (row.get("approval") or {}).get("channel") is None
 
 
 def committed_blob():

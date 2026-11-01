@@ -1,0 +1,37 @@
+{
+  "panel": {
+    "models": {},
+    "panel_total_usd": 0
+  },
+  "agent_models": {
+    "agent_model/manager/gpt-6.1-sol": {
+      "calls": 18,
+      "input_tokens": 71078,
+      "output_tokens": 568,
+      "cost_usd": 0.18335,
+      "stores_seen": [
+        "False"
+      ]
+    },
+    "agent_model/narrator/gpt-6.1-terra": {
+      "calls": 1,
+      "input_tokens": 1353,
+      "output_tokens": 678,
+      "cost_usd": 0.00508,
+      "stores_seen": [
+        "False"
+      ]
+    },
+    "explore/explore/gpt-6.1-terra": {
+      "calls": 3,
+      "input_tokens": 18366,
+      "output_tokens": 2318,
+      "cost_usd": 0.034545,
+      "stores_seen": [
+        "False"
+      ]
+    }
+  },
+  "stage_spent_usd": 0.222974,
+  "budget_usd": 3.0
+}

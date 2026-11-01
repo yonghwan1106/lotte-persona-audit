@@ -145,7 +145,7 @@ python -m venv --system-site-packages .venv
 .venv/Scripts/python.exe -m pytest tests -q
 ```
 
-이 단계 예산은 5달러이고 호출 전에 거부합니다. 도구 순서는 코드가 정합니다. 선행 조건이 없으면 도구가 `blocked`를 돌려주고 아무것도 하지 않습니다. `run_panel`은 SDK 승인(`needs_approval=True`)과 코드의 승인 기록을 모두 요구합니다. 승인은 계획 해시에 묶이고, 계획 해시는 카드별 정리된 문구, 앵커, 역할을 담습니다. 승인을 누가 했는지 코드는 확인하지 못합니다. 사람 승인 화면은 없고 CLI 인자뿐이며, 시연 승인도 사람이 하지 않았습니다.
+이 단계 예산은 5달러이고 호출 전에 거부합니다. 도구 순서는 코드가 정합니다. 선행 조건이 없으면 도구가 `blocked`를 돌려주고 아무것도 하지 않습니다. `run_panel`은 SDK 승인(`needs_approval=True`)과 코드의 승인 기록을 모두 요구합니다. 승인은 계획 해시에 묶이고, 계획 해시는 카드별 정리된 문구, 앵커, 역할을 담습니다. 승인을 누가 했는지 코드는 확인하지 못합니다. 사람 승인 화면은 없고 CLI 인자뿐이며(터미널 입력 명령은 아래 「4단계」), 지금까지의 모든 시연 승인은 사람이 하지 않았습니다.
 
 임계값이나 라벨을 인자로 받는 도구는 없습니다. 다만 카드의 `anchor_items`가 칸 라벨을 정합니다. 그래서 등록 카드의 앵커는 동결 파일에 있고, 미등록 카드에서 앵커를 줄이면 보고서와 원장에 표시합니다. 실행 기록이 생긴 뒤에는 `validate_card`가 막히므로 같은 답에 앵커를 바꿔 다시 판정할 수 없습니다. 앵커가 다른 카드끼리의 라벨 차이는 안의 차이가 아닙니다. 시연에서 A, B가 실측 전용이고 C가 방향만인 것은 carb 앵커 유무의 차이입니다.
 
@@ -159,7 +159,7 @@ python -m venv --system-site-packages .venv
 
 결과는 `results/agent/`에 있습니다. 최종 시연은 `demo5/`이고 `report.md`의 첫 줄이 매니페스트 해시, `transcript.jsonl`이 도구 호출 기록입니다. 패널 호출은 첫 실행 `demo/`에서만 일어났고, `demo2`~`demo5`는 서술과 기록을 고친 뒤 같은 캐시로 다시 돈 것입니다. 행동 시나리오는 `scenarios/results.md`에, 고치기 전의 실패 기록은 `scenarios/first_batch/`와 `dev_runs/`에 남겨 두었습니다. 시연 카드는 모두 가상이며 정답이 없습니다. 추적되는 `demo`~`demo5`의 `diagnostics.json`에는 숨긴 칸의 T2B 값이 그대로 있어, 그 실행들에서 「절대값 숨김」은 보고서 본문에만 해당합니다. 고친 뒤의 실행(`results/fix_stage/demo6/`)은 추적 파일에 절대값을 싣지 않고 쌍 차이만 남기며, 전체 값은 `runs/` 아래 저장 상태에만 있습니다.
 
-실측 경로는 만들지 않았습니다. 있는 것은 함수 `compare_panel_direct`(실측 200명의 단순 회귀를 패널이 못 이기면 패널 값을 뺌)뿐이고, 합성 실측 답으로만 시험했습니다. 실측 답을 받는 경로, 응답자별 패널 값을 만드는 경로, 결과를 보고서에 적는 코드는 없습니다. 원장의 `human_decision`, `real_results`, `launched`, `pos`는 항상 null입니다.
+이 단계에서는 실측 경로를 만들지 않았습니다. 있는 것은 함수 `compare_panel_direct`(실측 200명의 단순 회귀를 패널이 못 이기면 패널 값을 뺌)뿐이고, 합성 실측 답으로만 시험했습니다. 경로는 아래 「4단계」에서 만들었고 그 경로는 이 함수를 쓰지 않습니다. 이 단계 시연들의 원장에서 `human_decision`, `real_results`, `launched`, `pos`는 null입니다.
 
 `config/agent_text.json`(거절 패턴, 숫자 규칙, 매니저 지시)은 동결 대상이 아니고 매니페스트 해시로만 추적합니다. 이 단계의 시나리오 통과는 시험한 형태에서 조합당 3회의 결과이며 일반 방어의 증거가 아닙니다.
 
@@ -180,6 +180,61 @@ python -m venv --system-site-packages .venv
 
 결과물에 인용할 수 있는 수치는 `results/numbers_sheet.json`에 모았습니다. 스크립트가 결과 파일에서 읽어 만들며, 항목마다 값, 단위, 출처, 단계, 주의 문구가 있습니다.
 
+## 4단계
+
+질문은 넷입니다. 패널 값을 뺄 수도 있다면 패널을 왜 돌리는가, 200명을 더 잘 쓰게 해 주는가, 정답 없이 대결을 어떻게 판정하는가, 담당자는 무엇을 받는가. 측정은 저장된 답만 쓰고 새 페르소나 호출이 없습니다. 계획은 `config/prereg_stage4.json`, 해시는 `manifests/frozen_stage4.json`이고, 커밋 전이거나 해시가 다르면 계산이 멈춥니다. 결과는 `results/stage4/`에 있습니다.
+
+```
+python src/stage4_measures.py check
+python src/stage4_measures.py allocation    # 패널이 200명 배분을 돕는가
+python src/stage4_measures.py flags         # 실측 전에 틀린 칸을 지목하는가
+python src/stage4_measures.py duel          # 정답 없는 대결이 규칙으로 쓸 만한가
+python src/stage4_sensitivity.py            # 동결 결과를 본 뒤 돌린 시드 민감도, 규칙과 라벨을 바꾸지 않음
+```
+
+읽는 법은 `allocation.md`, `flags.md`, `duel_validity.md`에 표와 함께 있습니다.
+
+- 200명 배분: 패널로 계산한 배분은 비례 배분보다 나아지지 않았고, 이전 자료로 계산한 배분보다도 낫지 않았습니다. 사전 기준으로 도움 없음입니다. 패널 배분과 비례 배분의 칸별 인원 차이는 2명 이하입니다.
+- 틀린 칸 사전 지목: 세 신호 모두 사전 기준을 넘지 못했습니다. 모델 간 차이는 점추정이 오차와 반대 부호이고 구간이 0을 겨우 포함합니다.
+- 정답 없는 대결: 200명 안의 5겹 교차 검증에서 보정 패널과 R1의 로그 손실을 비교하고, 평균 개선 구간 전체가 0 위일 때만 패널 값을 남깁니다. 답을 일부 알려 준 양성 대조와 LLM이 아닌 대체 패널을 동결 시드에서 사전 기준대로 갈랐습니다. 다만 대체 패널 유지율이 기준 바로 아래이고, 동결 결과를 본 뒤 다른 시드 4개로 돌리자 2개에서 기준을 넘었습니다. 유지가 칸 오차의 승리를 뜻하지도 않습니다. Terra C2에서 R1을 패널 밖 truth 칸 오차로 이긴 비율은 유지된 추출이 62건 중 35건, 제외된 추출이 138건 중 69건입니다. 그래서 확정 판정이 아니라 기준 근처의 규칙으로 읽습니다.
+
+### 제품 기능
+
+에이전트 시연은 `src/stage4_run.py`이고 설정은 `config/stage4.json`, 문구는 `config/stage4_text.json`, 호출 기록은 `runs/stage4/logs/`, 예산은 이 단계 전체 3달러입니다. 패널 답은 앞 단계 캐시만 읽습니다. 앞 단계의 동결 산출물은 건드리지 않았습니다. 시연은 `results/stage4/demo7/`입니다.
+
+```
+.venv/Scripts/python.exe src/stage4_run.py check
+.venv/Scripts/python.exe src/stage4_run.py demo-start --run-id demo7
+.venv/Scripts/python.exe src/stage4_run.py demo-resume --run-id demo7 --approver "이름"
+.venv/Scripts/python.exe src/stage4_run.py make-standin --name krei_draw0
+.venv/Scripts/python.exe src/stage4_run.py ingest-real --run-id demo7 --real 파일 --panel 파일 --source-label "라벨" --approver "이름"
+.venv/Scripts/python.exe src/stage4_run.py status --write
+```
+
+**탐색 출력** `explore_card`: 후보 카드의 저장된 패널 이유 문장(LLM 출력)을 Terra 호출 한 번으로 묶어 반대 이유, 끌리는 점, 세그먼트 가설, 설문 문항 초안을 냅니다. 모두 「가설」 표시가 붙고 수치가 없습니다. 숫자 규칙과 차단 패턴에 걸리는 문장, 페르소나 문장이나 이유 원문과 긴 조각을 공유하는 문장은 코드가 뺍니다. 패턴은 나열된 형태만 잡습니다. 표본은 `results/explore/demo7/`에 있습니다. 응답자의 말이 아니고 실제 소비자에게 확인하지 않았습니다. 이유 문장이 캐시에 없는 카드에는 `blocked`를 돌려줍니다. 지시에 있던 60회 이내 새 실행 분기는 시연 카드에 필요 없어 만들지 않았습니다.
+
+**실측 회수** `ingest_real`: 앵커 문항과 콘셉트 문항의 실측 CSV를 받아 같은 응답자의 패널 값과 묶고, 위 대결을 돌려 유지나 제외와 이유를 보고서와 원장의 `real_results`에 씁니다. 행 단위 파일이 추적 폴더에 있으면 거부합니다. 패널 값이 없는 응답자가 있으면 멈추고 조용히 빼지 않습니다.
+
+```
+respondent_id,age_band,sex,weight,ever,weekly,carb,concept_A     # age_band는 SQ2_range 4~9, sex는 1, 2, 앵커는 0과 1, 콘셉트는 1~5
+respondent_id,p_ever,p_weekly,p_carb,p_concept_A                 # 같은 응답자의 패널 확률, p_concept는 보기 4와 5의 합
+```
+
+한 번 돌린 결과는 `results/stage4/demo7/real_results.json`이고 라벨은 「실측 대용 KREI」입니다. KREI 보정 풀의 한 추출을 앵커 문항에만 넣었고 실제 콘셉트 설문이 아니며, 기록자도 사람이 아닙니다. **콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다.** 콘셉트 열은 합성 답으로만 시험했습니다. 실제 응답자의 패널 값을 만들려면 그 응답자의 허용 문항으로 페르소나를 만들어 패널을 돌려야 하며, 이 단계는 그 파일을 받는 데까지입니다.
+
+**판단표**: 보고서 맨 앞에 안마다 탈락 제안, 실측 후보 유지, 판단 불가 중 하나와 코드가 쓴 이유를 냅니다(`action.py`). 규칙 라벨은 부록으로 옮겼고 결정에 쓰지 않습니다. 이 규칙은 시연 값을 본 뒤에 썼고 시연에는 정답이 없습니다. 탈락 제안 기준 5pp는 기존 음료에서 나온 사후 가설이며 탈락 제안의 효용은 재지 않았습니다. 안 사이의 순서는 두 모델 모두 잡음을 넘고 방향이 같을 때만 「방향 가설」로 적고, 선택이 아니라고 함께 적습니다. 200명을 두 안에 나눌 때 가려낼 수 있는 차이와 5pp, 10pp 차이에 필요한 인원은 코드가 계산합니다(`detectable.json`). 그보다 작은 차이는 원가와 라인 근거로 고르거나 표본을 늘립니다.
+
+### 사람 승인 명령
+
+시연의 승인은 지금까지 사람이 한 적이 없습니다. 작은 실행 한 번을 응모자 본인이 승인하려면 터미널에서 직접 입력합니다.
+
+```
+.venv/Scripts/python.exe src/stage4_run.py human-plan --run-id human1      # 계획만, 호출 없음. 100명, 카드 5장, 두 모델
+.venv/Scripts/python.exe src/stage4_run.py human-approve --run-id human1   # 사람이 이름과 계획 해시 앞 12자를 입력하면 실행. 새 호출과 비용이 생김
+```
+
+대화형 터미널이 아니면 거부합니다(Windows의 NUL도 거부). 입력한 이름은 원장에 그대로 남고 보고서에 터미널 입력으로 적지만, 그 이름이 누구인지 코드는 확인하지 못합니다. 이 명령은 아직 한 번도 실행되지 않았습니다. 비용 상한은 `human-plan`이 출력합니다.
+
 ## 사전 등록
 
 `config/prereg.json`이 조건, 지표, 전환 규칙, 재현 패턴 정의를 담습니다. `manifests/frozen.json`이 설정 파일 해시를 담고, 설정이 바뀌면 채점이 멈춥니다. 답을 본 뒤에는 바꾸지 않습니다.
@@ -194,10 +249,12 @@ python -m venv --system-site-packages .venv
 | `src/agent_run.py` | 감사 에이전트 실행기 |
 | `src/agent_fix_run.py` | 수정 단계 실행기 |
 | `src/verdict_v3_run.py` | 규칙 v3와 대조군, API 호출 없음 |
+| `src/stage4_measures.py`, `src/stage4_sensitivity.py` | 4단계 측정, API 호출 없음 |
+| `src/stage4_run.py` | 4단계 시연, 실측 회수, 사람 승인 명령 |
 | `src/make_numbers_sheet.py` | 수치 시트 생성 |
 | `config/` | 한국어 문구, 누출 정규식, 허용 목록, 사전 등록 |
 | `manifests/` | 분할 요약과 전체 해시, 설정 해시, 이력 대응표 |
-| `results/` | 집계 결과. `numbers_sheet.json`은 인용 수치, `verdict_v3/`는 규칙 비교, `fix_stage/`는 수정 단계 |
+| `results/` | 집계 결과. `numbers_sheet.json`은 인용 수치, `verdict_v3/`는 규칙 비교, `fix_stage/`는 수정 단계, `stage4/`는 4단계, `explore/`는 탐색 출력 표본 |
 | `runs/` | 페르소나 배치, 열쇠, 답. 커밋 제외 |
 | `tests/` | pytest |
 

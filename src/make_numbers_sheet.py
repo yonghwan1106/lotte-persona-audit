@@ -292,7 +292,11 @@ def spend(s):
     s.add("spend.fix_stage", fix_doc["stage_spent_usd"], "USD", "results/fix_stage/run_summary.json", "fix stage", "spend")
     s.add("spend.fix_stage.budget", fix_doc["budget_usd"], "USD", "results/fix_stage/run_summary.json", "fix stage", "spend")
     s.add("spend.fix_stage.panel_calls", fix_doc["panel"]["models"] and sum(m["attempts"] for m in fix_doc["panel"]["models"].values()) or 0, "calls", "results/fix_stage/run_summary.json", "fix stage", "spend")
-    total = gate_doc["gate_total_usd"] + main_doc["stage_total_usd"] + stage3_doc["stage_total_usd"] + agent_doc["stage_spent_usd"] + wf7["spend_usd"]["total"] + fix_doc["stage_spent_usd"]
+    stage4_doc = load("results/stage4/run_summary.json")
+    s.add("spend.stage4", stage4_doc["stage_spent_usd"], "USD", "results/stage4/run_summary.json", "stage 4", "spend")
+    s.add("spend.stage4.budget", stage4_doc["budget_usd"], "USD", "results/stage4/run_summary.json", "stage 4", "spend")
+    s.add("spend.stage4.panel_calls", stage4_doc["panel"]["models"] and sum(m["attempts"] for m in stage4_doc["panel"]["models"].values()) or 0, "calls", "results/stage4/run_summary.json", "stage 4", "spend")
+    total = gate_doc["gate_total_usd"] + main_doc["stage_total_usd"] + stage3_doc["stage_total_usd"] + agent_doc["stage_spent_usd"] + wf7["spend_usd"]["total"] + fix_doc["stage_spent_usd"] + stage4_doc["stage_spent_usd"]
     s.add("spend.all_stages_including_attacks", round(total, 6), "USD, sum of the entries above", "results/numbers_sheet.json", "all", "spend")
 
 
@@ -339,6 +343,119 @@ def attacks(s):
     s.add("attacks.replay.offline.plan_hash_covers_card_text", doc["plan_hash_covers_card_text"], "bool", src, "fix stage", "attacks")
 
 
+def stage4_allocation(s):
+    src = "results/stage4/allocation.json"
+    doc = load(src)
+    for name in ("equal", "proportional", "panel_neyman", "reference_neyman"):
+        s.add(f"stage4.allocation.n_per_cell.{name}", doc["allocations"][name], "respondents per cell", src, "stage 4", "stage4_allocation")
+    s.add("stage4.allocation.caps", doc["caps"], "pool rows per cell", src, "stage 4", "stage4_allocation")
+    s.add("stage4.allocation.reading.panel_helps_over_proportional", doc["reading"]["panel_helps_over_proportional"], "bool", src, "stage 4", "stage4_allocation")
+    s.add("stage4.allocation.reading.panel_adds_over_reference", doc["reading"]["panel_adds_over_reference"], "bool", src, "stage 4", "stage4_allocation")
+    for est, by_truth in doc["estimators"].items():
+        for truth, by_metric in by_truth.items():
+            for metric, block in by_metric.items():
+                base = f"stage4.allocation.{est}.{truth}.{metric}"
+                for alloc, by_item in block["mean"].items():
+                    for item, value in by_item.items():
+                        s.add(f"{base}.{alloc}.{item}.mean", value, "pp", src, "stage 4", "stage4_allocation")
+                for alloc, by_item in block["minus_proportional"].items():
+                    for item, diff in by_item.items():
+                        s.diff(f"{base}.{alloc}_minus_proportional.{item}", diff, "pp", src, "stage 4", "stage4_allocation")
+                for item, diff in block["panel_minus_reference"].items():
+                    s.diff(f"{base}.panel_minus_reference.{item}", diff, "pp", src, "stage 4", "stage4_allocation")
+
+
+def stage4_flags(s):
+    src = "results/stage4/flags.json"
+    doc = load(src)
+    for item, block in doc["error"].items():
+        s.add(f"stage4.flags.error.{item}.mean_pp", block["mean_pp"], "pp", src, "stage 4", "stage4_flags")
+        s.add(f"stage4.flags.error.{item}.max_pp", block["max_pp"], "pp", src, "stage 4", "stage4_flags")
+    for name, d in doc["signals"].items():
+        base = f"stage4.flags.{name}"
+        s.add(f"{base}.usable_units", d["usable_units"], "units", src, "stage 4", "stage4_flags")
+        s.add(f"{base}.spearman", d["spearman"], "Spearman", src, "stage 4", "stage4_flags")
+        s.add(f"{base}.spearman_ci95", d["spearman_ci"]["ci95"], "Spearman, percentile 95", src, "stage 4", "stage4_flags")
+        s.add(f"{base}.within_item_spearman", d["within_item_spearman"], "Spearman", src, "stage 4", "stage4_flags")
+        s.add(f"{base}.within_item_ci95", d["within_item_ci"]["ci95"], "Spearman, percentile 95", src, "stage 4", "stage4_flags")
+        o = d["overlap_top9"]
+        s.add(f"{base}.overlap_top9.observed", o["observed"], "of 9", src, "stage 4", "stage4_flags")
+        s.add(f"{base}.overlap_top9.random_mean", o["random_mean"], "of 9", src, "stage 4", "stage4_flags")
+        s.add(f"{base}.overlap_top9.p_one_sided", o["p_one_sided"], "p", src, "stage 4", "stage4_flags")
+        s.add(f"{base}.names_wrong_cells", d["names_wrong_cells"], "bool", src, "stage 4", "stage4_flags")
+        if "minus_level_ci" in d:
+            s.add(f"{base}.minus_level_ci95", d["minus_level_ci"]["ci95"], "Spearman, percentile 95", src, "stage 4", "stage4_flags")
+        s.add(f"{base}.whole_test_truth.spearman", d["whole_test_truth"]["spearman"], "Spearman", src, "stage 4", "stage4_flags")
+
+
+def stage4_duel(s):
+    src = "results/stage4/duel_validity.json"
+    doc = load(src)
+    a = doc["acceptance"]
+    s.add("stage4.duel.acceptance.passed", a["passed"], "bool", src, "stage 4", "stage4_duel")
+    s.add("stage4.duel.acceptance.label", a["label"], "label", src, "stage 4", "stage4_duel")
+    s.add("stage4.duel.acceptance.positive_keep_rate", a["positive_keep_rate"], "share of 200 draws", src, "stage 4", "stage4_duel")
+    s.add("stage4.duel.acceptance.margin", a["margin"], "share of 200 draws", src, "stage 4", "stage4_duel")
+    s.add("stage4.duel.acceptance.margin_ci95", a["margin_ci95"], "share, percentile 95", src, "stage 4", "stage4_duel")
+    for slot_name, rate in a["surrogate_keep_rates"].items():
+        s.add(f"stage4.duel.acceptance.{slot_name}.keep_rate", rate, "share of 200 draws", src, "stage 4", "stage4_duel")
+    for kind in ("row", "cluster"):
+        for panel, blocks in doc[kind].items():
+            for unit, b in blocks.items():
+                base = f"stage4.duel.{kind}.{panel}.{unit}"
+                s.add(f"{base}.mean_improvement", b["mean_improvement"], "log loss, R1 minus panel", src, "stage 4", "stage4_duel")
+                for truth in ("panel_excluded", "whole_test"):
+                    r = b[truth]
+                    for field in ("keep_rate", "beats_rate", "false_keep_rate", "false_keep_over_not_beating", "false_keep_over_all_draws", "missed_keep_rate", "missed_keep_over_all_draws"):
+                        s.add(f"{base}.{truth}.{field}", r[field], "share", src, "stage 4", "stage4_duel")
+                    s.add(f"{base}.{truth}.keep_rate_ci95", r["keep_rate_ci95"], "share, percentile 95", src, "stage 4", "stage4_duel")
+                    for field, value in r["counts"].items():
+                        s.add(f"{base}.{truth}.count.{field}", value, "draws", src, "stage 4", "stage4_duel")
+    src = "results/stage4/duel_seed_sensitivity.json"
+    doc = load(src)
+    for name, run in doc["runs"].items():
+        s.add(f"stage4.duel.seed.{name}.acceptance_passed", run["acceptance_passed"], "bool", src, "stage 4", "stage4_duel_seed")
+        for panel, rate in run["keep_rate"].items():
+            s.add(f"stage4.duel.seed.{name}.{panel}.keep_rate", rate, "share of 200 draws", src, "stage 4", "stage4_duel_seed")
+
+
+def stage4_product(s):
+    src = "results/stage4/detectable.json"
+    doc = load(src)
+    s.add("stage4.detectable.between_mde_pp", doc["between_mde_pp"], "pp", src, "stage 4", "stage4_detectable")
+    s.add("stage4.detectable.n_arm", doc["n_arm"], "respondents", src, "stage 4", "stage4_detectable")
+    for rho, value in doc["within_mde_pp"].items():
+        s.add(f"stage4.detectable.within_mde_pp.rho_{rho}", value, "pp", src, "stage 4", "stage4_detectable")
+    for row in doc["needed"]:
+        base = f"stage4.detectable.needed.gap_{row['gap_pp']}pp"
+        s.add(f"{base}.between_per_arm", row["between_per_arm"], "respondents", src, "stage 4", "stage4_detectable")
+        s.add(f"{base}.between_total", row["between_total"], "respondents", src, "stage 4", "stage4_detectable")
+        for rho, value in row["within"].items():
+            s.add(f"{base}.within.rho_{rho}", value, "respondents", src, "stage 4", "stage4_detectable")
+    src = "results/stage4/demo7/action.json"
+    doc = load(src)
+    for row in doc["action"]["rows"]:
+        s.add(f"stage4.demo7.action.{row['card']}", row["label"], "label", src, "stage 4", "stage4_action")
+    s.add("stage4.demo7.action.drop_gap_pp", doc["action"]["drop_gap_pp"], "pp, panel internal", src, "stage 4", "stage4_action")
+    src = "results/stage4/demo7/real_results.json"
+    doc = load(src)
+    s.add("stage4.ingest.source_label", doc["source_label"], "label", src, "stage 4", "stage4_ingest")
+    s.add("stage4.ingest.is_real_concept_survey", doc["is_real_concept_survey"], "bool", src, "stage 4", "stage4_ingest")
+    s.add("stage4.ingest.concept_duel", doc["concept_duel"], "label", src, "stage 4", "stage4_ingest")
+    s.add("stage4.ingest.n_respondents", doc["n_respondents"], "respondents", src, "stage 4", "stage4_ingest")
+    s.add("stage4.ingest.decision", doc["decision"], "label", src, "stage 4", "stage4_ingest")
+    s.add("stage4.ingest.pooled.mean_improvement", doc["anchors"]["pooled"]["mean_improvement"], "log loss, R1 minus panel", src, "stage 4", "stage4_ingest")
+    s.add("stage4.ingest.pooled.interval", doc["anchors"]["pooled"]["interval"], "log loss, t interval over 5 folds", src, "stage 4", "stage4_ingest")
+    for card in ("A", "B", "C"):
+        src = f"results/explore/demo7/{card}.json"
+        doc = load(src)
+        for section, items in doc["sections"].items():
+            s.add(f"stage4.explore.{card}.{section}.kept", len(items), "sentences", src, "stage 4", "stage4_explore")
+        s.add(f"stage4.explore.{card}.reasons_read", doc["source"]["reasons_read"], "sentences", src, "stage 4", "stage4_explore")
+        s.add(f"stage4.explore.{card}.cost_usd", doc["source"]["cost_usd"], "USD", src, "stage 4", "stage4_explore")
+        s.add(f"stage4.explore.{card}.echo_check_passed", doc["echo_check"]["passed"], "bool", src, "stage 4", "stage4_explore")
+
+
 def call_order(s):
     src = "results/fix_stage/call_order.json"
     doc = load(src)
@@ -370,7 +487,7 @@ def record_tests():
 
 def build():
     s = Sheet()
-    for fn in (gate, stage2, verdicts, ranking, demo, costs, spend, scenarios, attacks, call_order, tests):
+    for fn in (gate, stage2, verdicts, ranking, demo, costs, spend, scenarios, attacks, call_order, tests, stage4_allocation, stage4_flags, stage4_duel, stage4_product):
         fn(s)
     return {
         "note": "Every number a deliverable may cite, generated by src/make_numbers_sheet.py from the source files named per entry. Cite the caveat with the number. A number absent here has no source in the repo.",

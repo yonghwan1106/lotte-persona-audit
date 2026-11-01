@@ -118,6 +118,8 @@ def grade(text, validity_path=DUEL_VALIDITY, seed_path=SEED_CHECK):
         if failed:
             lines.append(t["grade_fragile"].format(runs=runs, failed=failed))
     terra = doc["row"]["terra_C2"]["pooled"]["panel_excluded"]
+    luna = doc["row"]["luna_C1"]["pooled"]["panel_excluded"]
+    lines.append(t["grade_rate"].format(terra=_pct(terra["keep_rate"]), luna=_pct(luna["keep_rate"])))
     lines.append(t["grade_limit"].format(false_keep=_pct(terra["false_keep_rate"]), missed=_pct(terra["missed_keep_rate"])))
     return {"label": a["label"], "lines": lines, "acceptance_passed": a["passed"], "seed_runs": runs, "seed_runs_failed": failed}
 

@@ -1,0 +1,982 @@
+{
+ "by_model": {
+  "gpt-6.1-terra": {
+   "n_personas": 150,
+   "noise": {
+    "mean": 0.24,
+    "ci95": [
+     -0.38,
+     0.882
+    ],
+    "n": 150
+   },
+   "noise_upper": 0.882,
+   "gaps": {
+    "A|B": {
+     "mean": -2.02,
+     "ci95": [
+      -2.608,
+      -1.43
+     ],
+     "n": 150,
+     "distinguishable": true
+    },
+    "A|C": {
+     "mean": -4.08,
+     "ci95": [
+      -4.664,
+      -3.5
+     ],
+     "n": 150,
+     "distinguishable": true
+    },
+    "B|C": {
+     "mean": -2.06,
+     "ci95": [
+      -2.71,
+      -1.413
+     ],
+     "n": 150,
+     "distinguishable": true
+    }
+   },
+   "rank": [
+    "C",
+    "B",
+    "A"
+   ],
+   "negative": {
+    "A": {
+     "mean": 35.849,
+     "ci95": [
+      34.994,
+      36.666
+     ],
+     "n": 150,
+     "separated": true
+    },
+    "B": {
+     "mean": 37.869,
+     "ci95": [
+      36.861,
+      38.848
+     ],
+     "n": 150,
+     "separated": true
+    },
+    "C": {
+     "mean": 39.929,
+     "ci95": [
+      39.224,
+      40.652
+     ],
+     "n": 150,
+     "separated": true
+    }
+   },
+   "brand": {
+    "mean": -0.033,
+    "ci95": [
+     -0.494,
+     0.453
+    ],
+    "n": 150,
+    "exceeds_noise": false,
+    "source": "A"
+   },
+   "segments": {
+    "19-39_f": {
+     "n": 19,
+     "determined": false
+    },
+    "19-39_m": {
+     "n": 24,
+     "determined": true,
+     "negative": {
+      "A": {
+       "mean": 39.521,
+       "ci95": [
+        38.368,
+        40.413
+       ],
+       "n": 24,
+       "separated": true
+      },
+      "B": {
+       "mean": 41.521,
+       "ci95": [
+        40.326,
+        42.613
+       ],
+       "n": 24,
+       "separated": true
+      },
+      "C": {
+       "mean": 43.062,
+       "ci95": [
+        41.368,
+        44.593
+       ],
+       "n": 24,
+       "separated": true
+      }
+     },
+     "gaps": {
+      "A|B": {
+       "mean": -2.0,
+       "ci95": [
+        -3.143,
+        -0.895
+       ],
+       "n": 24,
+       "distinguishable": true
+      },
+      "A|C": {
+       "mean": -3.542,
+       "ci95": [
+        -4.84,
+        -2.19
+       ],
+       "n": 24,
+       "distinguishable": true
+      },
+      "B|C": {
+       "mean": -1.542,
+       "ci95": [
+        -2.565,
+        -0.227
+       ],
+       "n": 24,
+       "distinguishable": true
+      }
+     }
+    },
+    "40-59_f": {
+     "n": 30,
+     "determined": true,
+     "negative": {
+      "A": {
+       "mean": 36.7,
+       "ci95": [
+        35.887,
+        37.552
+       ],
+       "n": 30,
+       "separated": true
+      },
+      "B": {
+       "mean": 40.233,
+       "ci95": [
+        39.161,
+        41.355
+       ],
+       "n": 30,
+       "separated": true
+      },
+      "C": {
+       "mean": 40.933,
+       "ci95": [
+        39.833,
+        41.985
+       ],
+       "n": 30,
+       "separated": true
+      }
+     },
+     "gaps": {
+      "A|B": {
+       "mean": -3.533,
+       "ci95": [
+        -4.587,
+        -2.5
+       ],
+       "n": 30,
+       "distinguishable": true
+      },
+      "A|C": {
+       "mean": -4.233,
+       "ci95": [
+        -5.517,
+        -2.931
+       ],
+       "n": 30,
+       "distinguishable": true
+      },
+      "B|C": {
+       "mean": -0.7,
+       "ci95": [
+        -1.94,
+        0.607
+       ],
+       "n": 30,
+       "distinguishable": false
+      }
+     }
+    },
+    "40-59_m": {
+     "n": 35,
+     "determined": true,
+     "negative": {
+      "A": {
+       "mean": 36.286,
+       "ci95": [
+        35.429,
+        37.206
+       ],
+       "n": 35,
+       "separated": true
+      },
+      "B": {
+       "mean": 37.914,
+       "ci95": [
+        37.111,
+        38.681
+       ],
+       "n": 35,
+       "separated": true
+      },
+      "C": {
+       "mean": 40.371,
+       "ci95": [
+        39.394,
+        41.353
+       ],
+       "n": 35,
+       "separated": true
+      }
+     },
+     "gaps": {
+      "A|B": {
+       "mean": -1.629,
+       "ci95": [
+        -2.677,
+        -0.5
+       ],
+       "n": 35,
+       "distinguishable": true
+      },
+      "A|C": {
+       "mean": -4.086,
+       "ci95": [
+        -5.211,
+        -2.971
+       ],
+       "n": 35,
+       "distinguishable": true
+      },
+      "B|C": {
+       "mean": -2.457,
+       "ci95": [
+        -3.611,
+        -1.229
+       ],
+       "n": 35,
+       "distinguishable": true
+      }
+     }
+    },
+    "60+_f": {
+     "n": 22,
+     "determined": true,
+     "negative": {
+      "A": {
+       "mean": 29.955,
+       "ci95": [
+        28.409,
+        31.568
+       ],
+       "n": 22,
+       "separated": true
+      },
+      "B": {
+       "mean": 31.182,
+       "ci95": [
+        29.0,
+        33.409
+       ],
+       "n": 22,
+       "separated": true
+      },
+      "C": {
+       "mean": 35.364,
+       "ci95": [
+        33.523,
+        37.046
+       ],
+       "n": 22,
+       "separated": true
+      }
+     },
+     "gaps": {
+      "A|B": {
+       "mean": -1.227,
+       "ci95": [
+        -2.773,
+        0.227
+       ],
+       "n": 22,
+       "distinguishable": false
+      },
+      "A|C": {
+       "mean": -5.409,
+       "ci95": [
+        -6.727,
+        -4.09
+       ],
+       "n": 22,
+       "distinguishable": true
+      },
+      "B|C": {
+       "mean": -4.182,
+       "ci95": [
+        -5.773,
+        -2.682
+       ],
+       "n": 22,
+       "distinguishable": true
+      }
+     }
+    },
+    "60+_m": {
+     "n": 20,
+     "determined": true,
+     "negative": {
+      "A": {
+       "mean": 29.815,
+       "ci95": [
+        28.704,
+        31.015
+       ],
+       "n": 20,
+       "separated": true
+      },
+      "B": {
+       "mean": 30.815,
+       "ci95": [
+        28.763,
+        32.789
+       ],
+       "n": 20,
+       "separated": true
+      },
+      "C": {
+       "mean": 35.515,
+       "ci95": [
+        34.29,
+        36.791
+       ],
+       "n": 20,
+       "separated": true
+      }
+     },
+     "gaps": {
+      "A|B": {
+       "mean": -1.0,
+       "ci95": [
+        -2.551,
+        0.7
+       ],
+       "n": 20,
+       "distinguishable": false
+      },
+      "A|C": {
+       "mean": -5.7,
+       "ci95": [
+        -6.85,
+        -4.526
+       ],
+       "n": 20,
+       "distinguishable": true
+      },
+      "B|C": {
+       "mean": -4.7,
+       "ci95": [
+        -6.351,
+        -3.105
+       ],
+       "n": 20,
+       "distinguishable": true
+      }
+     }
+    }
+   },
+   "missing": {
+    "A": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    },
+    "A_para": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    },
+    "A_brand": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    },
+    "B": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    },
+    "C": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    },
+    "N": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    }
+   }
+  },
+  "gpt-6-luna": {
+   "n_personas": 150,
+   "noise": {
+    "mean": 1.64,
+    "ci95": [
+     1.0,
+     2.231
+    ],
+    "n": 150
+   },
+   "noise_upper": 2.231,
+   "gaps": {
+    "A|B": {
+     "mean": -1.9,
+     "ci95": [
+      -2.57,
+      -1.252
+     ],
+     "n": 150,
+     "distinguishable": false
+    },
+    "A|C": {
+     "mean": -4.8,
+     "ci95": [
+      -5.503,
+      -4.115
+     ],
+     "n": 150,
+     "distinguishable": true
+    },
+    "B|C": {
+     "mean": -2.9,
+     "ci95": [
+      -3.564,
+      -2.25
+     ],
+     "n": 150,
+     "distinguishable": true
+    }
+   },
+   "rank": [
+    "C",
+    "B",
+    "A"
+   ],
+   "negative": {
+    "A": {
+     "mean": 29.077,
+     "ci95": [
+      27.87,
+      30.217
+     ],
+     "n": 150,
+     "separated": true
+    },
+    "B": {
+     "mean": 30.977,
+     "ci95": [
+      29.653,
+      32.222
+     ],
+     "n": 150,
+     "separated": true
+    },
+    "C": {
+     "mean": 33.877,
+     "ci95": [
+      32.704,
+      34.977
+     ],
+     "n": 150,
+     "separated": true
+    }
+   },
+   "brand": {
+    "mean": 2.327,
+    "ci95": [
+     1.66,
+     3.058
+    ],
+    "n": 150,
+    "exceeds_noise": true,
+    "source": "A"
+   },
+   "segments": {
+    "19-39_f": {
+     "n": 19,
+     "determined": false
+    },
+    "19-39_m": {
+     "n": 24,
+     "determined": true,
+     "negative": {
+      "A": {
+       "mean": 34.6,
+       "ci95": [
+        33.533,
+        35.745
+       ],
+       "n": 24,
+       "separated": true
+      },
+      "B": {
+       "mean": 37.35,
+       "ci95": [
+        35.578,
+        38.758
+       ],
+       "n": 24,
+       "separated": true
+      },
+      "C": {
+       "mean": 37.725,
+       "ci95": [
+        36.095,
+        39.014
+       ],
+       "n": 24,
+       "separated": true
+      }
+     },
+     "gaps": {
+      "A|B": {
+       "mean": -2.75,
+       "ci95": [
+        -4.125,
+        -1.304
+       ],
+       "n": 24,
+       "distinguishable": true
+      },
+      "A|C": {
+       "mean": -3.125,
+       "ci95": [
+        -4.607,
+        -1.474
+       ],
+       "n": 24,
+       "distinguishable": true
+      },
+      "B|C": {
+       "mean": -0.375,
+       "ci95": [
+        -1.852,
+        1.334
+       ],
+       "n": 24,
+       "distinguishable": false
+      }
+     }
+    },
+    "40-59_f": {
+     "n": 30,
+     "determined": true,
+     "negative": {
+      "A": {
+       "mean": 30.397,
+       "ci95": [
+        28.71,
+        31.939
+       ],
+       "n": 30,
+       "separated": true
+      },
+      "B": {
+       "mean": 32.763,
+       "ci95": [
+        31.096,
+        34.248
+       ],
+       "n": 30,
+       "separated": true
+      },
+      "C": {
+       "mean": 35.797,
+       "ci95": [
+        34.361,
+        37.164
+       ],
+       "n": 30,
+       "separated": true
+      }
+     },
+     "gaps": {
+      "A|B": {
+       "mean": -2.367,
+       "ci95": [
+        -3.621,
+        -1.2
+       ],
+       "n": 30,
+       "distinguishable": true
+      },
+      "A|C": {
+       "mean": -5.4,
+       "ci95": [
+        -7.179,
+        -3.71
+       ],
+       "n": 30,
+       "distinguishable": true
+      },
+      "B|C": {
+       "mean": -3.033,
+       "ci95": [
+        -4.552,
+        -1.581
+       ],
+       "n": 30,
+       "distinguishable": true
+      }
+     }
+    },
+    "40-59_m": {
+     "n": 35,
+     "determined": true,
+     "negative": {
+      "A": {
+       "mean": 30.437,
+       "ci95": [
+        29.109,
+        31.614
+       ],
+       "n": 35,
+       "separated": true
+      },
+      "B": {
+       "mean": 32.294,
+       "ci95": [
+        30.917,
+        33.605
+       ],
+       "n": 35,
+       "separated": true
+      },
+      "C": {
+       "mean": 34.237,
+       "ci95": [
+        32.956,
+        35.342
+       ],
+       "n": 35,
+       "separated": true
+      }
+     },
+     "gaps": {
+      "A|B": {
+       "mean": -1.857,
+       "ci95": [
+        -3.278,
+        -0.444
+       ],
+       "n": 35,
+       "distinguishable": false
+      },
+      "A|C": {
+       "mean": -3.8,
+       "ci95": [
+        -4.971,
+        -2.529
+       ],
+       "n": 35,
+       "distinguishable": true
+      },
+      "B|C": {
+       "mean": -1.943,
+       "ci95": [
+        -3.114,
+        -0.719
+       ],
+       "n": 35,
+       "distinguishable": false
+      }
+     }
+    },
+    "60+_f": {
+     "n": 22,
+     "determined": true,
+     "negative": {
+      "A": {
+       "mean": 21.205,
+       "ci95": [
+        18.727,
+        23.75
+       ],
+       "n": 22,
+       "separated": true
+      },
+      "B": {
+       "mean": 22.977,
+       "ci95": [
+        20.499,
+        25.318
+       ],
+       "n": 22,
+       "separated": true
+      },
+      "C": {
+       "mean": 27.341,
+       "ci95": [
+        24.272,
+        30.182
+       ],
+       "n": 22,
+       "separated": true
+      }
+     },
+     "gaps": {
+      "A|B": {
+       "mean": -1.773,
+       "ci95": [
+        -3.773,
+        0.227
+       ],
+       "n": 22,
+       "distinguishable": false
+      },
+      "A|C": {
+       "mean": -6.136,
+       "ci95": [
+        -8.045,
+        -4.136
+       ],
+       "n": 22,
+       "distinguishable": true
+      },
+      "B|C": {
+       "mean": -4.364,
+       "ci95": [
+        -5.819,
+        -2.818
+       ],
+       "n": 22,
+       "distinguishable": true
+      }
+     }
+    },
+    "60+_m": {
+     "n": 20,
+     "determined": true,
+     "negative": {
+      "A": {
+       "mean": 19.97,
+       "ci95": [
+        17.645,
+        22.079
+       ],
+       "n": 20,
+       "separated": true
+      },
+      "B": {
+       "mean": 20.42,
+       "ci95": [
+        18.295,
+        22.514
+       ],
+       "n": 20,
+       "separated": true
+      },
+      "C": {
+       "mean": 26.47,
+       "ci95": [
+        23.552,
+        29.396
+       ],
+       "n": 20,
+       "separated": true
+      }
+     },
+     "gaps": {
+      "A|B": {
+       "mean": -0.45,
+       "ci95": [
+        -2.211,
+        1.1
+       ],
+       "n": 20,
+       "distinguishable": false
+      },
+      "A|C": {
+       "mean": -6.5,
+       "ci95": [
+        -9.053,
+        -4.25
+       ],
+       "n": 20,
+       "distinguishable": true
+      },
+      "B|C": {
+       "mean": -6.05,
+       "ci95": [
+        -8.0,
+        -4.2
+       ],
+       "n": 20,
+       "distinguishable": true
+      }
+     }
+    }
+   },
+   "missing": {
+    "A": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    },
+    "A_para": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    },
+    "A_brand": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    },
+    "B": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    },
+    "C": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    },
+    "N": {
+     "overall": 0.0,
+     "19-39_f": 0.0,
+     "19-39_m": 0.0,
+     "40-59_f": 0.0,
+     "40-59_m": 0.0,
+     "60+_f": 0.0,
+     "60+_m": 0.0
+    }
+   }
+  }
+ },
+ "model_disagreement": {
+  "models": [
+   "gpt-6.1-terra",
+   "gpt-6-luna"
+  ],
+  "pairs": [],
+  "ranks": {
+   "gpt-6.1-terra": [
+    "C",
+    "B",
+    "A"
+   ],
+   "gpt-6-luna": [
+    "C",
+    "B",
+    "A"
+   ]
+  },
+  "flag": false
+ },
+ "c0": {
+  "calls_per_card": {
+   "A": 10,
+   "A_para": 10,
+   "B": 10,
+   "C": 10,
+   "N": 10
+  },
+  "c0_rank": [
+   "C",
+   "B",
+   "A"
+  ],
+  "c1_rank": [
+   "C",
+   "B",
+   "A"
+  ],
+  "same_rank": true,
+  "pairs": {
+   "A|B": {
+    "c1_gap": -2.02,
+    "c0_gap": -2.2,
+    "c1_minus_c0": 0.18,
+    "within_noise": true
+   },
+   "A|C": {
+    "c1_gap": -4.08,
+    "c0_gap": -3.0,
+    "c1_minus_c0": -1.08,
+    "within_noise": false
+   },
+   "B|C": {
+    "c1_gap": -2.06,
+    "c0_gap": -0.8,
+    "c1_minus_c0": -1.26,
+    "within_noise": false
+   }
+  },
+  "flag_no_personal_information": false
+ },
+ "c0_model": "gpt-6.1-terra",
+ "note": "panel internal values, no truth, not market numbers",
+ "absolute_values": "No absolute panel value is stored in this file, only paired differences. The full values stay in the saved run under runs/."
+}

@@ -1,8 +1,9 @@
 """compare_panel_direct: after the real 200 arrive, the panel must beat a simple regression on those 200 or its values are dropped.
 
 No real concept answers exist yet. The tests feed this function synthetic real answers and say so. Nothing in results/ has been
-produced from it. It is one function, not a path: nothing receives real survey answers, nothing builds a panel value per real
-respondent, and nothing writes its result into a report. Those steps are not built. Only the tests call this function.
+produced from it. It is one function, not a path: in this module, nothing receives real survey answers, nothing builds a panel value
+per real respondent, and nothing writes its result into a report. Those steps are not built here. Only the tests call this function.
+The stage 4 ingestion path does not use it: ingest.py runs the rule of duel.py, whose validity was measured with stage4_measures.py.
 
 Scoring is cross validation inside the real respondents. Each fold fits on the other folds only, so a respondent never scores their
 own fit. Folds keep survey units whole. The bootstrap resamples units and keeps the pairing of estimators.

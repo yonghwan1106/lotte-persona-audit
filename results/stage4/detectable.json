@@ -1,0 +1,38 @@
+{
+ "alpha_two_sided": 0.05,
+ "power": 0.8,
+ "p": 0.5,
+ "n_total": 200,
+ "n_arm": 100,
+ "z_alpha": 1.96,
+ "z_power": 0.8416,
+ "between_mde_pp": 19.8,
+ "within_mde_pp": {
+  "0.0": 14.0,
+  "0.3": 11.7,
+  "0.5": 9.9
+ },
+ "needed": [
+  {
+   "gap_pp": 5,
+   "between_per_arm": 1570,
+   "between_total": 3140,
+   "within": {
+    "0.0": 1570,
+    "0.3": 1099,
+    "0.5": 785
+   }
+  },
+  {
+   "gap_pp": 10,
+   "between_per_arm": 393,
+   "between_total": 786,
+   "within": {
+    "0.0": 393,
+    "0.3": 275,
+    "0.5": 197
+   }
+  }
+ ],
+ "arithmetic": "(1.960 + 0.842) x sqrt(2 x 0.5 x 0.5 / 100) x 100"
+}

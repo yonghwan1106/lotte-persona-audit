@@ -1,0 +1,82 @@
+{
+ "source_label": "실측 대용 KREI",
+ "is_real_concept_survey": false,
+ "n_respondents": 200,
+ "anchors_used": [
+  "ever",
+  "weekly",
+  "carb"
+ ],
+ "concepts_used": [],
+ "folds": 5,
+ "metric": "out of fold weighted log loss, R1 minus calibrated panel, positive favours the panel",
+ "decision": "keep",
+ "anchors": {
+  "pooled": {
+   "mean_improvement": 0.02267,
+   "interval": [
+    0.00533,
+    0.04001
+   ],
+   "keep": true,
+   "excludes_zero": true
+  },
+  "per_item": {
+   "ever": {
+    "mean_improvement": 0.02137,
+    "interval": [
+     0.0003,
+     0.04243
+    ],
+    "keep": true,
+    "excludes_zero": true,
+    "r1_loss": 0.59582,
+    "panel_loss": 0.57445
+   },
+   "weekly": {
+    "mean_improvement": 0.03197,
+    "interval": [
+     0.01415,
+     0.0498
+    ],
+    "keep": true,
+    "excludes_zero": true,
+    "r1_loss": 0.41813,
+    "panel_loss": 0.38616
+   },
+   "carb": {
+    "mean_improvement": 0.01467,
+    "interval": [
+     -0.01806,
+     0.0474
+    ],
+    "keep": false,
+    "excludes_zero": false,
+    "r1_loss": 0.24086,
+    "panel_loss": 0.22619
+   }
+  }
+ },
+ "concepts": {},
+ "concept_duel": "not_run_no_real_concept_answers",
+ "duel_grade": {
+  "label": "decision_rule",
+  "acceptance_passed": true
+ },
+ "seed_runs": 4,
+ "seed_runs_failed": 2,
+ "approver": "stage brief, no person at the keyboard",
+ "approver_note": "code cannot check who this is",
+ "lines": [
+  "실측 대용 KREI: 패널 값 유지. 평균 개선 +0.0227 [+0.0053, +0.0400] (R1 손실 빼기 보정 패널 손실, 5겹 교차 검증, 앵커 3개 평균, 응답자 200명).",
+  "구간 전체가 0 위에 있어 규칙대로 이번 결정에 패널 값을 남깁니다.",
+  "이것은 KREI 응답을 대신 넣은 것입니다. 실제 콘셉트 설문이 아니고, 앵커 문항만 있습니다.",
+  "콘셉트 문항 대결은 돌리지 않았습니다. 이 파일에 콘셉트 문항 실측이 없습니다. 콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다.",
+  "대결 규칙 등급: 동결한 시드에서 사전 기준을 넘었습니다(대체 패널 유지율 0.115, 양성 대조 유지율 1.0).",
+  "다만 답을 본 뒤 다른 시드 4개로 돌리자 2개에서 대체 패널 유지율이 기준을 넘었습니다. 기준 근처에 있으니 확정 판정처럼 읽지 않습니다.",
+  "같은 규칙을 KREI 보정 풀의 200회 추출에 돌리면 Terra C2는 31.0%에서 유지, Luna C1은 1.5%에서 유지였습니다. 이번 한 번의 유지나 제외는 그중 하나입니다.",
+  "유지가 나와도 칸 오차까지 낫다는 보장은 아닙니다. Terra C2에서 유지된 추출의 43.5%는 패널 밖 truth의 칸 오차로 R1을 이기지 못했고, 이긴 추출의 66.3%는 제외됐습니다.",
+  "기록자: stage brief, no person at the keyboard. 코드는 이 이름이 누구인지 확인하지 못합니다."
+ ],
+ "panel_rows_not_used": 0
+}

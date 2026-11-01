@@ -15,16 +15,36 @@ class NotApproved(SystemExit):
     """Nothing was approved and nothing ran."""
 
 
+def is_real_terminal(stream):
+    """isatty alone is not enough on Windows, where the null device also says yes. A console handle has a console mode; NUL has none."""
+    if not stream.isatty():
+        return False
+    if sys.platform != "win32":
+        return True
+    try:
+        fd = stream.fileno()
+    except (OSError, ValueError):
+        return True  # no file behind this stream: only a test double gets here, the command always passes the real stdin
+    import ctypes
+    import msvcrt
+
+    mode = ctypes.c_ulong()
+    return bool(ctypes.windll.kernel32.GetConsoleMode(msvcrt.get_osfhandle(fd), ctypes.byref(mode)))
+
+
 def typed_approval(plan, stdin=None, read=input, out=print):
     """Show the plan, take a name and the plan hash typed back. Returns the name."""
     stdin = stdin or sys.stdin
-    if not stdin.isatty():
+    if not is_real_terminal(stdin):
         raise NotApproved("human-approve needs a person at an interactive terminal; nothing was approved and nothing ran")
     out(json.dumps({"plan_hash": plan["plan_hash"], "calls_total": plan["calls_total"], "cost_cap_usd": plan["cost_cap_usd"], "formula": plan["formula"], "cards": plan["cards"]}, ensure_ascii=False, indent=2))
-    name = read("Your name: ").strip()
+    try:
+        name = read("Your name: ").strip()
+        typed = read(f"Type the first {HASH_CHARS} characters of the plan hash to approve this spend: ").strip() if name else ""
+    except EOFError as exc:
+        raise NotApproved("no input, nothing was approved") from exc
     if not name:
         raise NotApproved("no name, nothing was approved")
-    typed = read(f"Type the first {HASH_CHARS} characters of the plan hash to approve this spend: ").strip()
     if typed != plan["plan_hash"][:HASH_CHARS]:
         raise NotApproved("the hash does not match, nothing was approved")
     return name
