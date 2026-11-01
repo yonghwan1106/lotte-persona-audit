@@ -22,7 +22,8 @@ class AnswerValidationError(ValueError):
 
 
 def config_hashes():
-    return {name: hashlib.sha256((paths.CONFIG / name).read_bytes()).hexdigest() for name in FROZEN_FILES}
+    # Line endings are normalised so a Windows checkout with autocrlf does not trip the guard.
+    return {name: hashlib.sha256((paths.CONFIG / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest() for name in FROZEN_FILES}
 
 
 def freeze():
