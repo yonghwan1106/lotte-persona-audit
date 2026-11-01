@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Caveats, SourceLine } from "@/components/Notes";
 import { ReplaySteps, type Step } from "@/components/ReplaySteps";
-import { ActionTable, DetectableTable, DuelStatusTable, EXPLORE_SECTIONS, ExploreCard, OrderNotes, RealResultsPerItem } from "@/components/Stage4";
+import { ActionTable, DetectableTable, DuelStatusTable, EXPLORE_SECTIONS, ExploreCard, HealthCheckDecision, OrderNotes } from "@/components/Stage4";
 import demo from "@/data/demo.json";
 import stage4 from "@/data/stage4.json";
 import { any, bool, caveats, ciText, fixed, num, interval, signed, sources, usd } from "@/lib/numbers";
@@ -72,7 +72,7 @@ export default function RunPage() {
         감사 에이전트가 카드를 받아 계획, 패널, 진단, 판정, 탐색, 실측 200명 배분, 문항지, 원장까지 진행한 기록입니다. 페르소나 문장과 패널 이유 원문은 싣지 않습니다.
       </p>
       <p className="small">
-        재생 대상은 4단계 실행 <code>{demo.run_id}</code>(results/stage4/demo7)입니다. 판정표, 배분표, 문항지 파일은 앞 실행 results/agent/demo5와 바이트 단위로 같습니다. 매니페스트 <code>{demo.manifest_sha256.slice(0, 16)}…</code>, 규칙 {demo.rule_version}. 패널 호출은 첫 실행에서만 일어났고 4단계의 새 패널 호출은 {num("spend.stage4.panel_calls")}건입니다.
+        재생 대상은 4단계 실행 <code>{demo.run_id}</code>(results/stage4/{demo.run_id})입니다. 판정표와 문항지 파일은 앞 실행 results/agent/demo5와 바이트 단위로 같고, 배분표는 숫자가 같으며 카드별 용도 문장만 다릅니다. 탐색 호출도 앞 실행의 캐시를 읽어 이 실행에서는 0건입니다. 매니페스트 <code>{demo.manifest_sha256.slice(0, 16)}…</code>, 규칙 {demo.rule_version}. 패널 호출은 첫 실행에서만 일어났고 4단계의 새 패널 호출은 {num("spend.stage4.panel_calls")}건입니다.
       </p>
 
       <h2 id="action">안별 제안</h2>
@@ -80,7 +80,7 @@ export default function RunPage() {
       <ActionTable />
       <h3>안 사이의 방향</h3>
       <OrderNotes />
-      <Caveats items={caveats(["stage4.demo7.action.A"])} />
+      <Caveats items={caveats(["stage4.demo8.action.A", "stage4.pair_accuracy.1_to_3pp.pairs"])} />
 
       <h3>작은 차이를 가려내려면</h3>
       <p>
@@ -114,7 +114,7 @@ export default function RunPage() {
         </p>
       </div>
       <p>
-        후보 카드마다 저장된 Terra 이유 문장을 Terra 호출 한 번으로 묶었습니다. 숫자 규칙, 차단 패턴, 페르소나 문장이나 이유 원문과 긴 조각을 공유하는 문장은 코드가 뺍니다. 패턴은 나열된 형태만 잡습니다. 문장이 일반적이고 카드 문구를 되풀이하는 편입니다.
+        후보 카드마다 저장된 Terra 이유 문장을 Terra 호출 한 번으로 묶었습니다. 숫자 규칙, 차단 패턴, 페르소나 문장이나 이유 원문과 긴 조각을 공유하는 문장은 코드가 뺍니다. 패턴은 나열된 형태만 잡습니다. 합성 문장을 심는 필터 시험은 {num("stage4.explore_filter.passed")}/{num("stage4.explore_filter.total")} 통과했고 시험하지 않은 표현은 통과할 수 있습니다. 문장이 일반적이고 카드 문구를 되풀이하는 편입니다.
       </p>
       <div className="card-grid">
         {exploreCards.map((card) => (
@@ -134,21 +134,23 @@ export default function RunPage() {
               ))}
               <th className="num">페르소나 겹침</th>
               <th className="num">이유 원문 겹침</th>
-              <th className="num">비용</th>
+              <th className="num">이 실행의 호출</th>
+              <th className="num">앞 실행(demo7)의 비용</th>
             </tr>
           </thead>
           <tbody>
             {exploreCards.map((card) => (
               <tr key={card}>
                 <td>{card}</td>
-                <td className="num">{num(`stage4.explore.${card}.reasons_read`)}</td>
+                <td className="num">{stage4.explore.cards[card].reasons_read}</td>
                 {EXPLORE_SECTIONS.map((s) => (
                   <td className="num" key={s.id}>
-                    {num(`stage4.explore.${card}.${s.id}.kept`)}
+                    {num(`stage4.explore8.${card}.${s.id}.kept`)}
                   </td>
                 ))}
                 <td className="num">{stage4.explore.cards[card].echo.persona_echo}</td>
                 <td className="num">{stage4.explore.cards[card].echo.reason_echo}</td>
+                <td className="num">{num(`stage4.explore8.${card}.calls_this_card`)}</td>
                 <td className="num">{usd(num(`stage4.explore.${card}.cost_usd`))}</td>
               </tr>
             ))}
@@ -156,22 +158,23 @@ export default function RunPage() {
         </table>
       </div>
       <p className="small">상한은 반대 이유와 끌리는 점 각 5개, 세그먼트 가설 3개, 문항 초안 5개입니다. 코드가 뺀 문장은 카드마다 상한 초과 {stage4.explore.cards.A.dropped_by_code.over_limit}건입니다.</p>
-      <Caveats items={caveats(["stage4.explore.A.cost_usd"])} />
-      <SourceLine files={sources(["stage4.explore.A.cost_usd", "stage4.explore.B.cost_usd", "stage4.explore.C.cost_usd"])} keys="stage4.explore.*" />
+      <Caveats items={caveats(["stage4.explore.A.cost_usd", "stage4.explore_filter.total"])} />
+      <SourceLine files={sources(["stage4.explore8.A.objections.kept", "stage4.explore.A.cost_usd", "stage4.explore_filter.total"])} keys="stage4.explore8.*, stage4.explore.*, stage4.explore_filter.*" />
 
-      <h2 id="duel">실측 대결 경로 상태</h2>
-      <p>실측 200명이 오면 같은 응답자의 패널 값과 묶어 R1과 겨루고, 평균 개선 구간 전체가 0 위일 때만 이번 결정에 패널 값을 남기려는 경로입니다. 규칙의 신뢰도는 <a href="/results#duel">측정 결과 9절</a>에 있습니다.</p>
+      <h2 id="duel">실측 대결: 건강검진 기록</h2>
+      <HealthCheckDecision />
+      <p>실측 200명이 오면 같은 응답자의 패널 값과 묶어 R1과 겨루고, 결과를 건강검진으로 보고서와 원장에 적습니다. 규칙의 신뢰도는 <a href="/results#duel">측정 결과 9절</a>에 있습니다.</p>
       <DuelStatusTable />
-      <h3>실행 1회의 기록 (results/stage4/demo7/real_results.json)</h3>
+      <h3>이 실행의 기록 (results/stage4/{demo.run_id}/real_results.json)</h3>
       <ul>
         {stage4.real_results.lines.map((line) => (
           <li key={line}>{line}</li>
         ))}
       </ul>
-      <RealResultsPerItem />
-      <p className="small">받는 파일: 실측 파일은 respondent_id, age_band, sex, weight, ever, weekly, carb, concept_X(1~5), 패널 파일은 respondent_id, p_ever, p_weekly, p_carb, p_concept_X입니다. 대용 파일은 git이 무시하는 폴더에 있고 이 사이트와 저장소에는 집계만 있습니다.</p>
-      <Caveats items={caveats(["stage4.ingest.decision"])} />
-      <SourceLine files={sources(["stage4.ingest.decision"])} keys="stage4.ingest.*" />
+      <p className="small">항목별 결과는 싣지 않습니다. 같은 표본에서 접힘 시드만 바꿔도 항목별 keep이 크게 달라져(<a href="/results#same-sample">측정 결과 9절</a>) 한 번의 항목별 결과를 인용할 수 없습니다.</p>
+      <p className="small">받는 파일: 실측 파일은 respondent_id, age_band, sex, weight, ever, weekly, carb, concept_X(1~5), 있으면 unit_id, 패널 파일은 respondent_id, p_ever, p_weekly, p_carb, p_concept_X입니다. 대용 파일은 git이 무시하는 폴더에 있고 이 사이트와 저장소에는 집계만 있습니다.</p>
+      <Caveats items={caveats(["stage4.demo8.ingest.report_status"])} />
+      <SourceLine files={sources(["stage4.demo8.ingest.report_status"])} keys="stage4.demo8.ingest.*" />
 
       <h2>실측 200명 배분</h2>
       <p>{a.choose_note} 시스템은 설문을 보내지 않습니다(<code>sent: {String(demo.questionnaire.sent)}</code>). 발주는 조사 담당자가 합니다.</p>
@@ -238,7 +241,7 @@ export default function RunPage() {
         </li>
         <li>{a.benchmark_note}</li>
         <li>
-          칸별 인원은 설정의 고정 값과 카드의 표적 세그먼트로 정합니다. 패널 값으로 칸 인원을 계산한 배분은 비례 배분보다 나아지지 않았습니다(<a href="/results#allocation">측정 결과 7절</a>).
+          칸별 인원은 설정의 고정 값과 카드의 표적 세그먼트로 정합니다. 패널 값으로 칸 인원을 계산한 배분은 비례 배분과 실질적 차이가 없었습니다(<a href="/results#allocation">측정 결과 7절</a>).
         </li>
         <li>초대 명단이나 응답 여부를 받지 못하면 「보정 불가, 직접 추정만」으로 씁니다. 코드는 이 조건을 확인하지 못하고 담당자가 파일을 넣기 전에 확인합니다.</li>
       </ul>
@@ -266,6 +269,7 @@ export default function RunPage() {
         </table>
       </div>
       <p className="small">앵커 문항은 KREI 조사의 A15, A19와 같은 문구로 표본 치우침을 점검합니다. KREI 문항 원문은 이 사이트에 싣지 않습니다.</p>
+      <p className="small">이 문항지로는 응답자 단위 패널 값을 만들 수 없습니다. 인구 항목은 연령대, 성별, 거주 지역, 가구원 수뿐이고, 패널의 C1 페르소나 변수 9개 중 동 구분, 직업, 학력, 혼인 상태, 소득이 없으며 C2 허용 문항도 없습니다.</p>
       <ul className="small">
         {demo.questionnaire.fieldwork_rules.map((r) => (
           <li key={r}>{r}</li>

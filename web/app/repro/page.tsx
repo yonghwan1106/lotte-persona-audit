@@ -12,7 +12,7 @@ const SPEND = [
   { key: "spend.agent_stage", label: "감사 에이전트 단계" },
   { key: "spend.wf7_attacks", label: "실제 API 공격, 저장소 원장 밖" },
   { key: "spend.fix_stage", label: "수정 단계" },
-  { key: "spend.stage4", label: "4단계 (에이전트 모델과 탐색, 새 패널 호출 없음)" },
+  { key: "spend.stage4", label: "4단계 (에이전트 모델, 탐색, 시나리오, 새 패널 호출 없음)" },
   { key: "spend.all_stages_including_attacks", label: "합계" },
 ];
 
@@ -46,7 +46,7 @@ export default function ReproPage() {
         <li>API 키. 저장소 밖 파일에서 실행할 때 읽습니다.</li>
       </ul>
       <p className="small">
-        작업 브랜치 <code>gate-run</code>에는 분할 목록 <code>manifests/splits_seed42.csv</code>(응답자 전원의 행 번호, 행 해시, 분할)가 이력째 남아 있어 공개하지 않습니다. 공개용은 그 파일과 실제 응답자 코드를 전체 이력에서 뺀 로컬 브랜치 <code>public</code>이고, 분할은 시드로 다시 만들어 전체 해시로 대조합니다. 이 사이트의 코드(<code>web/</code>)도 <code>public</code>에만 커밋합니다. 아직 원격에 올리지 않았습니다.
+        작업 브랜치 <code>gate-run</code>에는 분할 목록 <code>manifests/splits_seed42.csv</code>(응답자 전원의 행 번호, 행 해시, 분할)가 이력째 남아 있어 공개하지 않습니다. 공개용은 그 파일과 실제 응답자 코드를 전체 이력에서 뺀 브랜치 <code>public</code>이고, 분할은 시드로 다시 만들어 전체 해시로 대조합니다. 이 사이트의 코드(<code>web/</code>)도 <code>public</code>에만 커밋합니다.
       </p>
 
       <h2>재현 방법</h2>
@@ -67,6 +67,8 @@ python src/stage4_measures.py allocation  # 패널이 200명 배분을 돕는가
 python src/stage4_measures.py flags       # 실측 전에 틀린 칸을 지목하는가
 python src/stage4_measures.py duel        # 정답 없는 대결이 규칙으로 쓸 만한가
 python src/stage4_sensitivity.py          # 동결 결과를 본 뒤 돌린 시드 민감도
+python src/stage4_posthoc.py              # 동결 결과를 본 뒤의 사후 계산: Terra C1, LLM 없는 floor, 조사 단위 온전 접힘, 접힘 시드 불안정
+python src/stage4_run.py explore-scenarios # 탐색 필터에 합성 문장을 심는 시험
 python -m pytest tests -q`}</pre>
       <h3>호출 있음: 답 생성 (키와 비용 필요, 단계별 예산에서 멈춤)</h3>
       <pre>{`python src/panel_run.py run --model gpt-6.1-terra
@@ -77,13 +79,14 @@ python src/stage3_run.py run
 .venv/Scripts/python.exe src/agent_run.py demo-resume --run-id demo5 --approver "이름"
 .venv/Scripts/python.exe src/agent_fix_run.py scenarios --runs 3 --demo-run demo6
 .venv/Scripts/python.exe src/agent_fix_run.py attacks --demo-run demo6
-.venv/Scripts/python.exe src/stage4_run.py demo-start --run-id demo7
-.venv/Scripts/python.exe src/stage4_run.py demo-resume --run-id demo7 --approver "이름"
+.venv/Scripts/python.exe src/stage4_run.py demo-start --run-id demo8
+.venv/Scripts/python.exe src/stage4_run.py demo-resume --run-id demo8 --approver "이름"
 .venv/Scripts/python.exe src/stage4_run.py make-standin --name krei_draw0
-.venv/Scripts/python.exe src/stage4_run.py ingest-real --run-id demo7 --real 파일 --panel 파일 --source-label "라벨" --approver "이름"`}</pre>
+.venv/Scripts/python.exe src/stage4_run.py ingest-real --run-id demo8 --real 파일 --panel 파일 --panel-model 모델 --panel-condition 조건 --source-label "라벨" --approver "이름"
+.venv/Scripts/python.exe src/stage4_run.py scenarios --runs 1 --demo-run demo8`}</pre>
       <h3>수치 시트와 이 사이트</h3>
       <pre>{`.venv/Scripts/python.exe src/make_numbers_sheet.py --record-tests  # results/numbers_sheet.json
-python web/scripts/build_data.py                                   # 집계만 web/data로 복사, 누출 점검
+python web/scripts/build_data.py --ref public                      # 집계만 web/data로 복사, 누출 점검
 cd web && npm install && npm run build && npm run start`}</pre>
       <p className="small">
         수치 시트는 {sheetEntries.toLocaleString("en-US")}개 항목이고 항목마다 값, 단위, 출처, 단계, 주의 문구가 있습니다. 오프라인 pytest는 {provenance.branch} 브랜치 기준 {num("tests.passed")}건 통과, 실패 {num("tests.failed")}건입니다.

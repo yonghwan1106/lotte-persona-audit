@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Caveats } from "@/components/Notes";
-import { ActionTable, DetectableTable, DuelStatusTable, ExploreCard, OrderNotes, seedRunsFailed, SEED_RUNS } from "@/components/Stage4";
+import { ActionTable, DetectableTable, DuelStatusTable, ExploreCard, HealthCheckDecision, HealthCheckReasons, OrderNotes, seedRunsFailed, SEED_RUNS } from "@/components/Stage4";
 import stage4 from "@/data/stage4.json";
-import { bool, caveats, ciText, fixed, interval, num, signed } from "@/lib/numbers";
+import { any, bool, caveats, ciText, fixed, interval, num, signed, usd } from "@/lib/numbers";
 
 type Row = { what: string; state: string; ok: boolean; scope: React.ReactNode };
 
@@ -11,6 +11,10 @@ export default function HomePage() {
   const e4c = "stage2.n200.cluster.terra_C2.E4.average.minus_R1";
   const rank = "ranking.merged_coffee_15";
   const alloc = "stage4.allocation.R1.panel_excluded.cell_mae";
+  const gate = stage4.gate_audit;
+  const negatives = (["terra", "luna"] as const).flatMap((m) => ["A", "B", "C"].map((c) => num(`demo.${m}.negative.${c}.mean`)));
+  const proportional = any<number[]>("stage4.allocation.n_per_cell.proportional");
+  const cellDiff = Math.max(...any<number[]>("stage4.allocation.n_per_cell.panel_neyman").map((n, i) => Math.abs(n - proportional[i])));
 
   const verified: Row[] = [
     {
@@ -47,7 +51,13 @@ export default function HomePage() {
       what: "감사 에이전트의 거절, 도구 순서, 승인, 예산",
       state: "시험한 형태 안에서",
       ok: true,
-      scope: `시나리오 ${num("scenarios.fix_stage.passed")}/${num("scenarios.fix_stage.runs")}회 통과(조합당 3회). 거절률 추정치가 아닙니다. 실제 API 공격에서 뚫린 것과 아직 통과하는 것은 공격 기록에 있습니다.`,
+      scope: `시나리오 ${num("scenarios.fix_stage.passed")}/${num("scenarios.fix_stage.runs")}회 통과(조합당 3회). 이번 단계 문구로 조합당 1회 다시 돌린 첫 묶음은 ${num("stage4.scenarios.first_batch.passed")}/${num("stage4.scenarios.first_batch.runs")}이었고, 실패 7건은 실행기 연결 오류여서 고친 뒤 그 7건을 다시 돌려 ${num("stage4.scenarios.rerun_of_crashed.passed")}/${num("stage4.scenarios.rerun_of_crashed.runs")}입니다. 거절률 추정치가 아닙니다. 실제 API 공격에서 뚫린 것과 아직 통과하는 것은 공격 기록에 있습니다.`,
+    },
+    {
+      what: "탐색 출력의 문장 필터",
+      state: "시험한 형태 안에서",
+      ok: true,
+      scope: `합성 문장을 심는 시험 ${num("stage4.explore_filter.passed")}/${num("stage4.explore_filter.total")} 통과, API 호출 없음. 나열된 형태만 시험했고 시험하지 않은 표현은 통과할 수 있습니다.`,
     },
   ];
   const notVerified: Row[] = [
@@ -65,48 +75,86 @@ export default function HomePage() {
     <tr key={row.what}>
       <td>{row.what}</td>
       <td data-label="상태">
-        <span className={row.ok ? "status" : "status no"}>{row.state}</span>
+        <span className={row.ok ? "status wrap-ok" : "status no wrap-ok"}>{row.state}</span>
       </td>
       <td>{row.scope}</td>
     </tr>
   );
 
   const signals = ["terra_minus_luna", "c1_minus_c2", "repeat_sd"];
-  const cite = [`stage2.stereotype.ever.terra_C2.bias_pp`, `${e4r}.mean_diff`, `${rank}.panel_C2.spearman.value`, "scenarios.fix_stage.passed", "attacks.wf7.probe.kept_minus_clean_t2b_pp", "attacks.replay.live.total"];
-  const measured: Row[] = [
+  const cite = [`stage2.stereotype.ever.terra_C2.bias_pp`, `${e4r}.mean_diff`, `${rank}.panel_C2.spearman.value`, "scenarios.fix_stage.passed", "stage4.scenarios.first_batch.runs", "stage4.explore_filter.total", "attacks.wf7.probe.kept_minus_clean_t2b_pp", "attacks.replay.live.total"];
+  const tried: Row[] = [
     {
       what: "패널로 실제 200명을 더 잘 나눌 수 있는가",
-      state: "도움 없음",
+      state: "실질적 차이 없음",
       ok: false,
-      scope: `패널 배분 - 비례 배분: 칸 오차 ${signed(num(`${alloc}.panel_neyman_minus_proportional.average.mean_diff`), 3)}pp ${ciText(interval(`${alloc}.panel_neyman_minus_proportional.average.ci95`), 3)}. 사전 기준 ${bool("stage4.allocation.reading.panel_helps_over_proportional") ? "통과" : "미달"}. 패널로 나눌 근거가 없습니다.`,
+      scope: `패널 배분과 비례 배분은 칸별로 최대 ${cellDiff}명 달랐고, 칸 오차 차이는 평균 ${signed(num(`${alloc}.panel_neyman_minus_proportional.average.mean_diff`), 3)}pp, 추출별 차이의 95% 범위 ${ciText(interval(`${alloc}.panel_neyman_minus_proportional.average.ci95`), 3)}입니다. 동결 기준은 ${bool("stage4.allocation.reading.panel_helps_over_proportional") ? "통과" : "미달"}이지만 이 기준은 정답을 아는 배분도 넘지 못해, 근거는 평균 차이의 크기로 봅니다.`,
     },
     {
       what: "실측 전에 틀린 칸을 집어내는가",
-      state: "지목 못 함",
+      state: "지목 증거 없음",
       ok: false,
-      scope: `신호 ${signals.length}개 중 사전 기준을 넘은 것 ${signals.filter((s) => bool(`stage4.flags.${s}.names_wrong_cells`)).length}개. 패널 신호로 실측 전에 틀린 칸을 고를 수 없습니다.`,
+      scope: `신호 ${signals.length}개 중 사전 기준을 넘은 것 ${signals.filter((s) => bool(`stage4.flags.${s}.names_wrong_cells`)).length}개. 칸이 36개이고 칸마다 truth 응답자가 적어 이 시험은 검정력이 낮습니다. 지목한다는 증거가 없다는 뜻이고, 신호가 쓸모없다는 증명은 아닙니다.`,
     },
     {
-      what: "실측 뒤 패널 값을 남길지 정하는 규칙",
-      state: "기준 근처",
+      what: "실측 뒤 패널 값을 남길지 정하는 판정 규칙",
+      state: "건강검진으로 내림",
       ok: false,
-      scope: `답을 넣은 대조와 대체 패널을 동결 시드에서 갈랐고(유지율 ${num("stage4.duel.acceptance.positive_keep_rate")}, ${num("stage4.duel.acceptance.surrogate_terra_slot.keep_rate")}), 다른 시드 ${SEED_RUNS.length}개 중 ${seedRunsFailed()}개에서 기준을 넘지 못했습니다. 패널을 검증하는 도구로 쓰지 않습니다.`,
+      scope: `동결 시드에서 사전 기준을 넘었지만(양성 대조 keep rate ${fixed(num("stage4.duel.acceptance.positive_keep_rate"), 1)}, 대체 패널 ${num("stage4.duel.acceptance.surrogate_terra_slot.keep_rate")}), 동결 뒤 다른 시드 ${SEED_RUNS.length}개 중 ${seedRunsFailed()}개에서 기준을 넘지 못했고 같은 표본에서 접힘 시드만 바꿔도 결정이 뒤집힙니다. 패널을 검증하는 도구로 쓰지 않습니다.`,
     },
   ];
 
   return (
     <>
       <h1>콘셉트를 실측 설문에 넘기기 전에, 어떤 안을 넣을지 판단 자료를 냅니다</h1>
-      <p className="lead">
-        콘셉트 카드를 넣으면 합성 패널(LLM 페르소나)이 먼저 읽습니다. 담당자는 안별 제안, 반대 이유와 문항 초안, 실제 200명 설문 계획을 받습니다. 패널은 탈락을 확정하지 못하고, 설문에 넣을 안은 담당자가 고릅니다. 신제품 성패를 예측하지 않습니다.
-      </p>
 
-      <h2 className="first-h2">시연 결과: 안별 제안</h2>
+      <dl className="opening">
+        <div>
+          <dt>무엇을 정하나</dt>
+          <dd>라인 확장 후보를 고르는 초기 단계에서 어느 안을 실측 설문에 보낼지 정합니다. 고르는 사람은 담당자이고, 패널은 탈락을 확정하지 못합니다. 판매량과 신제품 성패는 예측하지 않습니다.</dd>
+        </div>
+        <div>
+          <dt>무엇을 내나</dt>
+          <dd>
+            콘셉트 카드를 넣으면 합성 패널(LLM 페르소나)이 먼저 읽고, 안별 제안표(실측 후보 유지, 탈락 제안, 판단 불가와 이유), 반대 이유, 끌리는 점, 세그먼트 가설, 문항 초안, 실제 200명 배분표와 문항지를 냅니다. 설문은 보내지 않습니다. <a href="#demo">시연 출력 보기</a>
+          </dd>
+        </div>
+        <div>
+          <dt>왜 필요한가</dt>
+          <dd>
+            실제 설문이 가를 수 있는 차이에는 한계가 있습니다. 200명을 두 안에 {num("stage4.detectable.n_arm")}명씩 나누면 실제 차이가 {num("stage4.detectable.between_mde_pp")}pp보다 작을 때 가려내기 어려우므로, 설문에 넣을 안을 먼저 좁혀야 합니다. 그렇다고 패널 수치로 좁히면 안 됩니다. 기존 음료 행동에서 패널 원수치는 전국 값보다 {signed(num("stage2.stereotype.ever.terra_C2.bias_pp"))}, {signed(num("stage2.stereotype.weekly.terra_C2.bias_pp"))}, {signed(num("stage2.stereotype.carb.terra_C2.bias_pp"))}pp 치우쳤습니다(Terra C2). 수치 없이 쓸 수 있는 자료와, 패널을 어디까지 믿을지의 기록이 함께 필요합니다.
+          </dd>
+        </div>
+        <div>
+          <dt>그래도 왜 패널을 돌리나</dt>
+          <dd>
+            <strong>실측 추정치로 쓰는 패널 값은 보고서에 넣지 않고, 실제 200명과의 대결은 건강검진으로 기록만 합니다</strong>(사후 결정, <a href="#health-check">결정 내용</a>). 그래도 돌리는 이유는 수치가 아닙니다. 설문 전에 반대 이유와 문항 초안을 얻고, 사람이 어설픈 안을 훑을 재료를 얻고(시연의 음성 대조 카드는 세 후보보다 패널 내부 값이 {fixed(Math.min(...negatives), 1)}~{fixed(Math.max(...negatives), 1)}pp 낮았습니다. 대조 카드 한 장의 약한 점검입니다), 패널을 실제 응답과 겨뤄 기록하기 위해서입니다. 앞의 두 쓸모는 아직 재지 않았습니다.
+          </dd>
+        </div>
+        <div>
+          <dt>감사 비용 (잰 값)</dt>
+          <dd>
+            패널을 실제 응답과 대조하는 감사는 싸고 빠릅니다. 관문 1회에 Terra와 Luna 각 {gate.calls_answered.terra}건, {usd(num("spend.gate"))}, 실행 시간 Terra {gate.seconds.terra_from_call_log}초와 Luna {gate.seconds.luna}초였습니다. 이 한 번으로 12칸 평균 오차가 Terra C2 {num("gate.terra.C2.average_cell_mae")}pp, Luna C1 {num("gate.luna.C1.average_cell_mae")}pp로, 모든 칸에 전국 평균 하나를 넣은 {num("gate.terra.C2.average_constant_cell_mae")}pp보다 크다는 것이 나왔습니다. 호출 비용과 실행 시간만 잰 값이고, 자료 준비와 사람 시간은 빠져 있으며 실측 조사 비용과 비교하지 않았습니다.
+          </dd>
+        </div>
+        <div>
+          <dt>본선 가설 (재지 않음)</dt>
+          <dd>
+            위 성적은 공개 자료(KREI)로 만든 페르소나의 성적입니다. 가설: 롯데칠성음료의 조사 자료와 구매 이력을 붙이면 패널이 같은 시험을 넘을 수 있습니다. 같은 시험은 같은 200명의 회귀(R1)와의 비교, 그리고 조사 단위를 온전히 둔 건강검진입니다. 본선 현장 자료에 그런 자료가 있으면 합격선을 답을 보기 전에 고정하고 잽니다. 이 사이트에는 롯데 자료가 없습니다.
+          </dd>
+        </div>
+      </dl>
+      <p className="small">
+        Terra 실행 시간은 호출 로그에서 잰 값이고 수치 시트에 없습니다. results/gate_run_summary.json의 {gate.terra_wall_clock_in_summary_with_failed_attempts}초는 충전 전 실패 기록까지 합친 값입니다.
+      </p>
+      <Caveats items={caveats(["spend.gate", "gate.terra.C2.average_cell_mae", "stage4.detectable.between_mde_pp", "stage2.stereotype.ever.terra_C2.bias_pp", "demo.terra.negative.A.mean", "stage4.policy.default"])} />
+
+      <h2 id="demo">시연 결과: 안별 제안</h2>
       <p className="small">
         <strong>시연 전용, 정답 없음, 카드 3장은 가상.</strong> 아래 제안은 어느 안이 낫다는 뜻이 아닙니다. terra, luna는 패널을 돌린 두 모델이고 pp 값은 패널 내부 값입니다. 통과하지 못한 규칙은 <Link href="/results#failures">측정 결과 첫 표</Link>에 있습니다.
       </p>
       <ActionTable />
-      <Caveats items={caveats(["stage4.demo7.action.A"])} />
+      <Caveats items={caveats(["stage4.demo8.action.A", "stage4.pair_accuracy.1_to_3pp.pairs"])} />
 
       <h3>안 사이의 방향</h3>
       <OrderNotes />
@@ -126,12 +174,15 @@ export default function HomePage() {
         <ExploreCard card="C" only="objections" />
       </div>
 
-      <h2 id="duel-status">실측 뒤 대결: 어디까지 와 있는가</h2>
-      <p>실제 200명을 받으면 패널 값을 남길지 뺄지 규칙으로 정하려는 경로입니다. 경로는 있지만 실제 콘셉트 설문으로 돌린 적이 없습니다.</p>
+      <h2 id="health-check">제품 결정: 패널 값 제외, 대결은 건강검진</h2>
+      <HealthCheckDecision />
+      <h3>이렇게 정한 근거 (사후 계산)</h3>
+      <HealthCheckReasons />
+      <h3>경로가 어디까지 와 있는가</h3>
       <DuelStatusTable />
-      <Caveats items={caveats(["stage4.ingest.decision"])} />
+      <Caveats items={caveats(["stage4.demo8.ingest.report_status", "stage4.duel.acceptance.label", "stage4.posthoc.row.terra_C1.keep_rate"])} />
 
-      <h2>4단계에서 잰 것</h2>
+      <h2 id="tried">시도했지만 효과를 보지 못한 것</h2>
       <p>저장된 답으로 계산했고 새 페르소나 호출은 {num("spend.stage4.panel_calls")}건입니다. 기존 음료 행동에서 잰 값입니다.</p>
       <div className="table-wrap">
         <table className="stack">
@@ -142,7 +193,7 @@ export default function HomePage() {
               <th>내용</th>
             </tr>
           </thead>
-          <tbody>{measured.map(renderRow)}</tbody>
+          <tbody>{tried.map(renderRow)}</tbody>
         </table>
       </div>
       <p className="small">

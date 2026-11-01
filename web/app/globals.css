@@ -591,3 +591,36 @@ textarea {
 .site-foot p {
   margin: 0 0 6px;
 }
+
+/* the opening of the first screen, in the order of the application field */
+.opening {
+  margin: 18px 0 12px;
+  border-top: 1px solid var(--axis);
+}
+
+.opening > div {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  gap: 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.opening dt {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.opening dd {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.68;
+}
+
+@media (max-width: 640px) {
+  .opening > div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}

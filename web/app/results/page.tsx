@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DotRows, Legend, MaeExplorer, type DotRow, type MaeCell, type Pair } from "@/components/charts";
 import { COLOR } from "@/lib/colors";
 import { Caveats, SourceLine } from "@/components/Notes";
-import { rateOrDash, seedRunsFailed, SEED_RUNS } from "@/components/Stage4";
+import { HealthCheckDecision, rateOrDash, seedRunsFailed, SEED_RUNS } from "@/components/Stage4";
 import controls from "@/data/controls.json";
 import stage4 from "@/data/stage4.json";
 import { any, bool, caveats, caveatsOf, ciText, fixed, has, interval, num, signed, sources } from "@/lib/numbers";
@@ -118,9 +118,9 @@ const DESIGNS = [
   { id: "equal", label: "균등" },
   { id: "proportional", label: "비례" },
   { id: "panel_neyman", label: "패널 Neyman (3항목 평균 기준)" },
-  { id: "reference_neyman", label: "이전 자료 Neyman (3항목 평균 기준)" },
+  { id: "reference_neyman", label: "reference Neyman (3항목 평균 기준)" },
   { id: "panel_neyman_by_item", label: "패널 Neyman (항목별)" },
-  { id: "reference_neyman_by_item", label: "이전 자료 Neyman (항목별)" },
+  { id: "reference_neyman_by_item", label: "reference Neyman (항목별)" },
 ];
 const ALLOC_ITEMS = ["ever", "weekly", "carb", "average"];
 const ALLOC_COMBOS = [
@@ -159,7 +159,7 @@ function duelKeepRows(): DotRow[] {
       label: p.label,
       value: `${fixed(rate, 3)} ${ciText(ci, 3, false)}`,
       marks: [{ x: rate, lo: ci[0], hi: ci[1], fill: p.fill, hollow: p.hollow }],
-      tip: `${p.label}: 유지율 ${fixed(rate, 3)}, 구간 ${ciText(ci, 3, false)}, 칸 오차로 R1을 이긴 비율 ${fixed(num(`${base}.beats_rate`), 3)}`,
+      tip: `${p.label}: keep rate ${fixed(rate, 3)}, 구간 ${ciText(ci, 3, false)}, 칸 오차로 R1을 이긴 비율 ${fixed(num(`${base}.beats_rate`), 3)}`,
     };
   });
 }
@@ -212,18 +212,18 @@ export default function ResultsPage() {
     },
     {
       rule: "패널이 실측 200명 배분을 돕는가 (사전 기준 2개)",
-      result: `비례 대비 ${bool("stage4.allocation.reading.panel_helps_over_proportional") ? "통과" : "미달"}, 이전 자료 대비 ${bool("stage4.allocation.reading.panel_adds_over_reference") ? "통과" : "미달"}`,
-      read: `패널 배분 - 비례 ${signed(num(`${ALLOC}.panel_neyman_minus_proportional.average.mean_diff`), 3)}pp ${ciText(interval(`${ALLOC}.panel_neyman_minus_proportional.average.ci95`), 3)}. 7절`,
+      result: `비례 대비 ${bool("stage4.allocation.reading.panel_helps_over_proportional") ? "통과" : "미달"}, reference 대비 ${bool("stage4.allocation.reading.panel_adds_over_reference") ? "통과" : "미달"}`,
+      read: `패널 배분 - 비례 평균 ${signed(num(`${ALLOC}.panel_neyman_minus_proportional.average.mean_diff`), 3)}pp, 추출별 차이의 95% 범위 ${ciText(interval(`${ALLOC}.panel_neyman_minus_proportional.average.ci95`), 3)}. 이 기준은 정답을 아는 oracle 배분도 넘지 못하므로 미달을 패널 실패의 증거로 읽지 않습니다. 근거는 평균 차이의 크기입니다. 7절`,
     },
     {
       rule: "실측 전에 틀린 칸을 지목하는가 (신호 3개)",
       result: `사전 기준을 넘은 신호 ${namedCount}개`,
-      read: "모델 간 차이는 점추정 부호가 오차와 반대입니다. 8절",
+      read: "지목한다는 증거가 없다는 뜻이고, 이 시험은 검정력이 낮아 신호가 쓸모없다는 증명은 아닙니다. 8절",
     },
     {
       rule: "정답 없는 대결 규칙 (사전 기준)",
-      result: `동결 시드 통과, 다른 시드 ${SEED_RUNS.length}개 중 ${seedRunsFailed()}개 탈락`,
-      read: `대체 패널 유지율 ${num("stage4.duel.acceptance.surrogate_terra_slot.keep_rate")}, 기준 ${stage4.duel_bar.surrogate_max_keep} 이하. 기준 근처이므로 확정 판정처럼 읽지 않습니다. 9절`,
+      result: `동결 시드 통과, 건강검진으로 내림`,
+      read: `대체 패널 keep rate ${num("stage4.duel.acceptance.surrogate_terra_slot.keep_rate")}, 기준 ${stage4.duel_bar.surrogate_max_keep} 이하. 다른 시드 ${SEED_RUNS.length}개 중 ${seedRunsFailed()}개는 기준을 넘었고, 같은 표본에서 접힘 시드만 바꿔도 결정이 뒤집힙니다. 통과를 본 뒤의 사후 결정으로 패널 값은 기본 제외입니다. 9절`,
     },
     {
       rule: "콘셉트 문항 대결",
@@ -622,12 +622,15 @@ export default function ResultsPage() {
 
       <h2 id="stage4-plan">4단계를 읽기 전에</h2>
       <p>
-        아래 7~9절은 저장된 답으로 계산했고 새 페르소나 호출은 {num("spend.stage4.panel_calls")}건입니다. 계획과 측정 코드는 계산 전에 커밋하고 해시로 고정했습니다(config/prereg_stage4.json, manifests/frozen_stage4.json). 앞 단계 답과 결과, 시험 truth를 모두 본 뒤에 고정했으므로 눈가림 시험이 아닙니다. 사전 기준의 수치(약 10%를 0.12로, 양성 대조 s=1.0 등)도 고정 전에 스스로 정한 해석입니다. 다중 비교 보정은 없습니다.
+        아래 7~9절은 저장된 답으로 계산했고 새 페르소나 호출은 {num("spend.stage4.panel_calls")}건입니다. 계획과 측정 코드는 계산 전에 커밋하고 해시로 고정했습니다(config/prereg_stage4.json, manifests/frozen_stage4.json). 앞 단계 답과 결과, 시험 truth를 모두 본 뒤에 고정했으므로 눈가림 시험이 아닙니다. 사전 기준의 수치(약 10%를 0.12로, 양성 대조 s=1.0 등)도 고정 전에 스스로 정한 해석입니다. 다중 비교 보정은 없습니다. 「사후 계산」으로 표시한 값은 동결 결과를 본 뒤에 계산한 것입니다.
       </p>
 
       <h2 id="allocation">7. 패널이 실측 200명 배분을 돕는가</h2>
       <p>
-        도움의 증거가 나오지 않았습니다. 사전 기준 두 개 모두 미달입니다(<code>panel_helps_over_proportional: {String(bool("stage4.allocation.reading.panel_helps_over_proportional"))}</code>, <code>panel_adds_over_reference: {String(bool("stage4.allocation.reading.panel_adds_over_reference"))}</code>). 패널 배분 - 비례 배분은 {signed(num(`${ALLOC}.panel_neyman_minus_proportional.average.mean_diff`), 3)}pp {ciText(interval(`${ALLOC}.panel_neyman_minus_proportional.average.ci95`), 3)}, 패널 배분 - 이전 자료 배분은 {signed(num(`${ALLOC}.panel_minus_reference.average.mean_diff`), 3)}pp {ciText(interval(`${ALLOC}.panel_minus_reference.average.ci95`), 3)}입니다. 패널 배분과 비례 배분은 칸별로 최대 {cellDiff}명 차이여서 결과가 달라질 여지가 거의 없습니다.
+        비례 배분과 실질적 차이가 없었습니다. 패널 배분 - 비례 배분은 평균 {signed(num(`${ALLOC}.panel_neyman_minus_proportional.average.mean_diff`), 3)}pp(추출별 차이의 95% 범위 {ciText(interval(`${ALLOC}.panel_neyman_minus_proportional.average.ci95`), 3)}), 패널 배분 - reference 배분은 평균 {signed(num(`${ALLOC}.panel_minus_reference.average.mean_diff`), 3)}pp(범위 {ciText(interval(`${ALLOC}.panel_minus_reference.average.ci95`), 3)})입니다. 패널 배분과 비례 배분은 칸별로 최대 {cellDiff}명 차이여서 결과가 달라질 여지가 거의 없습니다. reference의 칸별 비율은 carb만 2024년 자료이고 ever와 weekly는 2025년 train 분할이어서, 패널에 불리한 비교입니다.
+      </p>
+      <p>
+        동결 기준(범위 전체가 0 아래)은 둘 다 미달입니다(<code>panel_helps_over_proportional: {String(bool("stage4.allocation.reading.panel_helps_over_proportional"))}</code>, <code>panel_adds_over_reference: {String(bool("stage4.allocation.reading.panel_adds_over_reference"))}</code>). 이 범위는 평균의 신뢰구간이 아니라 추출 사이의 퍼짐이어서, 이 기준은 정답을 아는 oracle 배분도 넘지 못합니다(사후 검증 계산, 이 저장소의 결과 파일에는 없는 점검입니다). 미달을 패널 실패의 증거로 읽지 않고, 근거는 평균 차이의 크기로 봅니다.
       </p>
       <h3>R1, 패널 밖 truth, 칸 MAE (pp, 200회 추출 평균)</h3>
       <div className="table-wrap" tabIndex={0}>
@@ -640,7 +643,7 @@ export default function ResultsPage() {
                   {i === "average" ? "3항목 평균" : i}
                 </th>
               ))}
-              <th className="num">평균 - 비례 [구간]</th>
+              <th className="num">평균 - 비례 [추출별 95% 범위]</th>
             </tr>
           </thead>
           <tbody>
@@ -677,7 +680,7 @@ export default function ResultsPage() {
                 { key: "stage4.allocation.n_per_cell.equal", label: "균등" },
                 { key: "stage4.allocation.n_per_cell.proportional", label: "비례" },
                 { key: "stage4.allocation.n_per_cell.panel_neyman", label: "패널 Neyman" },
-                { key: "stage4.allocation.n_per_cell.reference_neyman", label: "이전 자료 Neyman" },
+                { key: "stage4.allocation.n_per_cell.reference_neyman", label: "reference Neyman" },
                 { key: "stage4.allocation.caps", label: "풀 상한" },
               ].map((row) => (
                 <tr key={row.key}>
@@ -692,7 +695,7 @@ export default function ResultsPage() {
             </tbody>
           </table>
         </div>
-        <p className="small">칸 이름의 앞자리는 연령대 코드, 뒷자리는 성별 코드입니다. 상한에 걸린 칸은 없습니다. 이전 자료는 carb에 a2024, ever와 weekly에 학습 분할을 썼습니다. 문항 A19_1이 a2024에 없기 때문입니다.</p>
+        <p className="small">칸 이름의 앞자리는 연령대 코드, 뒷자리는 성별 코드입니다. 상한에 걸린 칸은 없습니다. reference는 carb에 a2024, ever와 weekly에 2025년 train 분할을 썼습니다. 문항 A19_1이 a2024에 없기 때문입니다.</p>
       </details>
       <details>
         <summary>다른 추정기와 truth로 본 3항목 평균 보기</summary>
@@ -703,8 +706,8 @@ export default function ResultsPage() {
                 <th>추정기, truth, 지표</th>
                 <th className="num">비례</th>
                 <th className="num">패널 Neyman</th>
-                <th className="num">패널 - 비례 [구간]</th>
-                <th className="num">패널 - 이전 자료 [구간]</th>
+                <th className="num">패널 - 비례 [범위]</th>
+                <th className="num">패널 - reference [범위]</th>
               </tr>
             </thead>
             <tbody>
@@ -727,14 +730,14 @@ export default function ResultsPage() {
             </tbody>
           </table>
         </div>
-        <p className="small">이 표의 어느 행에서도 구간이 0을 제외하지 않습니다.</p>
+        <p className="small">이 표의 어느 행에서도 추출별 95% 범위가 0을 제외하지 않습니다.</p>
       </details>
       <Caveats items={caveats([`${ALLOC}.proportional.average.mean`, "stage4.allocation.reading.panel_helps_over_proportional"])} />
       <SourceLine files={sources([`${ALLOC}.proportional.average.mean`])} keys="stage4.allocation.*" />
 
       <h2 id="flags">8. 패널이 실측 전에 틀린 칸을 지목하는가</h2>
       <p>
-        지목의 증거가 나오지 않았습니다. 세 신호 중 사전 기준을 넘은 것은 {namedCount}개입니다. 두 모델이 갈리는 칸이 더 틀린 칸이라는 가설은 지지되지 않았습니다. 점추정 부호가 반대이고 구간이 0을 겨우 포함합니다. 어느 신호도 오차 상위 9칸 겹침이 무작위 기대를 넘지 않습니다.
+        지목의 증거가 나오지 않았습니다. 세 신호 중 사전 기준을 넘은 것은 {namedCount}개입니다. 두 모델이 갈리는 칸이 더 틀린 칸이라는 가설은 지지되지 않았습니다. 점추정 부호가 반대이고 구간이 0을 겨우 포함합니다. 오차 상위 9칸 겹침은 모두 무작위 95 범위 {ciText(stage4.flags_random_95.terra_minus_luna as [number, number], 0, false)} 안이고, 단측 p는 {fixed(Math.min(...namingSignals.map((s) => num(`stage4.flags.${s.id}.overlap_top9.p_one_sided`))), 2)} 이상입니다. 칸이 36개이고 칸마다 truth 응답자가 적어 이 신호 시험은 검정력이 낮습니다. 지목한다는 증거가 없다는 뜻이고, 신호가 쓸모없다는 증명은 아닙니다.
       </p>
       <div className="table-wrap" tabIndex={0}>
         <table className="lead-col">
@@ -779,42 +782,43 @@ export default function ResultsPage() {
       <Caveats items={caveats(["stage4.flags.repeat_sd.spearman"])} />
       <SourceLine files={sources(["stage4.flags.repeat_sd.spearman"])} keys="stage4.flags.*" />
 
-      <h2 id="duel">9. 정답 없는 대결 규칙</h2>
+      <h2 id="duel">9. 대결 규칙: 건강검진으로 씁니다</h2>
+      <HealthCheckDecision />
       <p>
-        대결은 실제 200명 안의 5겹 교차 검증에서 보정 패널과 R1의 로그 손실을 비교하고, 평균 개선 구간 전체가 0 위일 때만 패널 값을 남깁니다. 이 절은 답이 있는 KREI 자료에서 그 규칙이 믿을 만한지 잰 값입니다. 앵커 문항에서 잰 값이고 콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다.
+        대결은 실제 200명 안의 5겹 교차 검증에서 보정 패널과 R1의 로그 손실을 비교하고, 평균 개선 구간 전체가 0 위이면 keep, 아니면 drop입니다. keep이어도 패널 값을 보고서에 넣지 않습니다. 이 절은 답이 있는 KREI 자료에서 그 규칙이 믿을 만한지 잰 값입니다. 앵커 문항에서 잰 값이고 콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다.
       </p>
       <p>
-        <strong>사전 기준:</strong> 대체 패널 유지율 {stage4.duel_bar.surrogate_max_keep} 이하, 양성 대조와의 차이 {stage4.duel_bar.positive_min_margin} 이상. 동결 시드에서는 넘었지만(대체 패널 {num("stage4.duel.acceptance.surrogate_terra_slot.keep_rate")}, {num("stage4.duel.acceptance.surrogate_luna_slot.keep_rate")}, 양성 대조 {num("stage4.duel.acceptance.positive_keep_rate")}, 차이 {num("stage4.duel.acceptance.margin")} {ciText(interval("stage4.duel.acceptance.margin_ci95"), 2, false)}) 넘은 폭이 {fixed(stage4.duel_bar.surrogate_max_keep - num("stage4.duel.acceptance.surrogate_terra_slot.keep_rate"), 3)}입니다. 동결 결과를 본 뒤 돌린 다른 시드 {SEED_RUNS.length}개 중 {seedRunsFailed()}개에서 대체 패널 유지율이 기준을 넘었습니다. 동결 결과대로 라벨은 <code>{any<string>("stage4.duel.acceptance.label")}</code>이고 답을 본 뒤에 바꾸지 않았지만, 확정 판정 규칙으로 읽지 않습니다.
+        <strong>동결 기록:</strong> 사전 기준은 대체 패널 keep rate {stage4.duel_bar.surrogate_max_keep} 이하, 양성 대조와의 차이 {stage4.duel_bar.positive_min_margin} 이상입니다. 동결 시드에서는 넘었습니다(대체 패널 {num("stage4.duel.acceptance.surrogate_terra_slot.keep_rate")}, {fixed(num("stage4.duel.acceptance.surrogate_luna_slot.keep_rate"), 1)}, 양성 대조 {fixed(num("stage4.duel.acceptance.positive_keep_rate"), 1)}, 차이 {num("stage4.duel.acceptance.margin")} {ciText(interval("stage4.duel.acceptance.margin_ci95"), 2, false)}). 넘은 폭은 {fixed(stage4.duel_bar.surrogate_max_keep - num("stage4.duel.acceptance.surrogate_terra_slot.keep_rate"), 3)}이고, 기준 {stage4.duel_bar.surrogate_max_keep}는 「약 10%」를 고정 전에 작업자가 해석한 값입니다. 동결 결과를 본 뒤 돌린 다른 시드 {SEED_RUNS.length}개 중 {seedRunsFailed()}개에서 대체 패널 keep rate가 기준을 넘었습니다. 시드가 적어 비율로 읽지 않고, 기준 근처에서 시드에 따라 갈린다는 뜻으로 읽습니다. 라벨 <code>{any<string>("stage4.duel.acceptance.label")}</code>은 기록으로 남기되 확정 판정으로 읽지 않습니다.
       </p>
       <p>
-        강한 신호를 넣은 패널과 신호 없는 패널은 뚜렷이 갈립니다. 그러나 Terra C2 수준의 신호에서는 추출마다의 판단이 칸 오차 결과와 거의 맞물리지 않습니다. 유지된 추출이 R1을 이긴 비율은 {num(`${duelT}.count.kept_and_beats`)}/{num(`${duelT}.count.kept_and_beats`) + num(`${duelT}.count.kept_not_beats`)}, 제외된 추출은 {num(`${duelT}.count.dropped_and_beats`)}/{num(`${duelT}.count.dropped_and_beats`) + num(`${duelT}.count.dropped_not_beats`)}입니다. 대결은 개인 수준 로그 손실을 보고, 칸 오차는 칸 수준을 봅니다. 대결은 강한 신호와 무신호를 가르지만 LLM 수준 신호에서 칸 오차 승패를 추출별로 맞히지는 못합니다.
+        <strong>칸 오차 불일치:</strong> Terra C2 수준의 신호에서는 추출마다의 keep과 칸 오차 결과가 거의 맞물리지 않습니다. keep인 추출이 R1을 칸 오차로 이긴 비율은 {num(`${duelT}.count.kept_and_beats`)}/{num(`${duelT}.count.kept_and_beats`) + num(`${duelT}.count.kept_not_beats`)}, drop인 추출은 {num(`${duelT}.count.dropped_and_beats`)}/{num(`${duelT}.count.dropped_and_beats`) + num(`${duelT}.count.dropped_not_beats`)}입니다. 대결은 개인 로그 손실을, 이 점검은 칸 오차를 보므로 이 불일치는 대결의 오류율이 아닙니다.
       </p>
       <div className="figure">
-        <div className="figure-title">패널 값 유지율, 95% 구간 (row 추출 200회, 3항목 통합 결정)</div>
-        <div className="figure-sub">세로선은 대체 패널 유지율의 사전 기준입니다. 유지율이 높아도 그 패널 값이 시장 수치라는 뜻은 아닙니다.</div>
+        <div className="figure-title">keep rate, 95% 구간 (row 추출 200회, 3항목 통합 결정)</div>
+        <div className="figure-sub">세로선은 대체 패널 keep rate의 사전 기준입니다. keep rate가 높아도 그 패널 값이 시장 수치라는 뜻은 아니고, 패널 값이 보고서에 들어간다는 뜻도 아닙니다.</div>
         <Legend
           items={[
             { label: "LLM 패널", fill: COLOR.panel },
             { label: "양성 대조 (답을 일부 알려 줌)", fill: COLOR.real },
-            { label: "대체 패널 (LLM 아님)", fill: COLOR.reference },
+            { label: "대체 패널 (LLM 아님, 나이와 성별 신호 있음)", fill: COLOR.reference },
           ]}
         />
-        <DotRows ariaLabel="패널별 유지율" rows={duelKeepRows()} domain={[0, 1]} ticks={[0, 0.25, 0.5, 0.75, 1]} refs={[{ x: stage4.duel_bar.surrogate_max_keep, label: `기준 ${stage4.duel_bar.surrogate_max_keep}` }]} axisLabel="유지율" />
+        <DotRows ariaLabel="패널별 keep rate" rows={duelKeepRows()} domain={[0, 1]} ticks={[0, 0.25, 0.5, 0.75, 1]} refs={[{ x: stage4.duel_bar.surrogate_max_keep, label: `기준 ${stage4.duel_bar.surrogate_max_keep}` }]} axisLabel="keep rate" />
       </div>
-      <h3>유지와 칸 오차의 맞물림 (패널 밖 truth, 200회)</h3>
+      <h3>keep과 칸 오차의 맞물림 (패널 밖 truth, 200회)</h3>
       <div className="table-wrap" tabIndex={0}>
         <table className="lead-col">
           <thead>
             <tr>
               <th>패널</th>
-              <th className="num">유지율</th>
+              <th className="num">keep rate</th>
               <th className="num">R1을 이긴 비율</th>
-              <th className="num">유지·이김</th>
-              <th className="num">유지·못 이김</th>
-              <th className="num">제외·이김</th>
-              <th className="num">제외·못 이김</th>
-              <th className="num">유지 중 못 이김</th>
-              <th className="num">이긴 것 중 제외</th>
+              <th className="num">keep·이김</th>
+              <th className="num">keep·못 이김</th>
+              <th className="num">drop·이김</th>
+              <th className="num">drop·못 이김</th>
+              <th className="num">불일치: keep 중 못 이김</th>
+              <th className="num">불일치: 이긴 것 중 drop</th>
               <th className="num">평균 개선</th>
             </tr>
           </thead>
@@ -841,7 +845,7 @@ export default function ResultsPage() {
         </table>
       </div>
       <details>
-        <summary>항목별 유지율과 cluster 추출 민감도 보기</summary>
+        <summary>항목별 keep rate와 cluster 추출 민감도 보기</summary>
         <div className="table-wrap" tabIndex={0}>
           <table className="lead-col">
             <thead>
@@ -912,11 +916,111 @@ export default function ResultsPage() {
           </tbody>
         </table>
       </div>
+
+      <h3 id="post-hoc">사후 계산: 같은 규칙, 동결 추출과 접힘 시드</h3>
+      <p className="small">아래 세 표는 동결 결과를 본 뒤에 계산했습니다. 사전 기준과 동결 라벨을 대체하지 않습니다. 시연 패널 조건은 C1이고, LLM 없는 floor는 학습 분할로 맞춘 나이·성별 모델입니다.</p>
+      <div className="table-wrap" tabIndex={0}>
+        <table className="lead-col">
+          <thead>
+            <tr>
+              <th>패널</th>
+              <th className="num">keep rate [구간]</th>
+              <th className="num">패널 밖 truth 칸 오차로 R1을 이긴 비율</th>
+              <th className="num">draw 0, 동결 접힘 시드</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              { label: "Terra C2 (동결 파일과 같음)", base: `stage4.duel.row.terra_C2.pooled.panel_excluded`, draw: "terra_C2" },
+              { label: "Terra C1 (시연 조건)", base: "stage4.posthoc.row.terra_C1", draw: "terra_C1" },
+              { label: "LLM 없는 floor", base: "stage4.posthoc.row.floor_no_llm", draw: "floor_no_llm" },
+            ].map((r) => (
+              <tr key={r.draw}>
+                <td>{r.label}</td>
+                <td className="num">
+                  {fixed(num(`${r.base}.keep_rate`), 3)} {ciText(interval(`${r.base}.keep_rate_ci95`), 3, false)}
+                </td>
+                <td className="num">{fixed(num(`${r.base}.beats_rate`), 3)}</td>
+                <td className="num">{bool(`stage4.posthoc.draw0_keep_at_frozen_fold_seed.${r.draw}`) ? "keep" : "drop"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <h3 id="unit-intact">사후 계산: 조사 단위를 온전히 둔 접힘의 keep rate</h3>
+      <div className="table-wrap" tabIndex={0}>
+        <table className="lead-col">
+          <thead>
+            <tr>
+              <th>패널</th>
+              <th className="num">row 추출, 평균 [범위]</th>
+              <th className="num">cluster 추출, 평균 [범위]</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              { id: "terra_C2", label: "Terra C2" },
+              { id: "terra_C1", label: "Terra C1" },
+              { id: "luna_C1", label: "Luna C1" },
+              { id: "surrogate_terra_slot", label: "대체 패널, Terra 자리" },
+              { id: "floor_no_llm", label: "LLM 없는 floor" },
+              { id: "control_s1.0", label: "양성 대조 s=1.0" },
+              { id: "control_s0.25", label: "양성 대조 s=0.25" },
+            ].map((r) => (
+              <tr key={r.id}>
+                <td>{r.label}</td>
+                {["row", "cluster"].map((kind) => (
+                  <td className="num" key={kind}>
+                    {fixed(num(`stage4.posthoc.unit_intact.${kind}.${r.id}.keep_rate_mean`), 3)} {ciText(interval(`stage4.posthoc.unit_intact.${kind}.${r.id}.keep_rate_range`), 3, false)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="small">접힘 시드 {num("stage4.posthoc.unit_intact.row.fold_seeds")}개 평균입니다. 이 접힘에서 Terra C2와 대체 패널은 구별되지 않습니다. 양성 대조의 keep rate는 유지되므로 규칙이 이 접힘에서 신호를 못 보는 것은 아닙니다.</p>
+      <h3 id="same-sample">사후 계산: 같은 표본에서 접힘 시드만 바꾸면</h3>
+      <div className="table-wrap" tabIndex={0}>
+        <table className="lead-col">
+          <thead>
+            <tr>
+              <th>패널</th>
+              <th className="num">draw 0 keep 비율</th>
+              <th className="num">결정이 바뀌는 추출</th>
+              <th className="num">keep 비율 25~75% 추출</th>
+              <th className="num">draw 0 ever, weekly, carb</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              { id: "terra_C2", label: "Terra C2" },
+              { id: "terra_C1", label: "Terra C1" },
+              { id: "surrogate_terra_slot", label: "대체 패널, Terra 자리" },
+            ].map((r) => {
+              const draw = `stage4.posthoc.same_sample.draw0.${r.id}`;
+              const all = `stage4.posthoc.same_sample.all_draws.${r.id}`;
+              return (
+                <tr key={r.id}>
+                  <td>{r.label}</td>
+                  <td className="num">{fixed(num(`${draw}.pooled_keep_share`), 3)}</td>
+                  <td className="num">{fixed(num(`${all}.share_draws_decision_changes`), 3)}</td>
+                  <td className="num">{fixed(num(`${all}.share_draws_between_25_75`), 3)}</td>
+                  <td className="num">
+                    {fixed(num(`${draw}.ever.keep_share`), 3)}, {fixed(num(`${draw}.weekly.keep_share`), 3)}, {fixed(num(`${draw}.carb.keep_share`), 3)}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <p className="small">draw 0은 접힘 시드 {num("stage4.posthoc.same_sample.draw0.terra_C2.fold_seeds")}개 기준이고, 나머지 두 열은 200회 추출에 접힘 시드 {num("stage4.posthoc.same_sample.all_draws.terra_C2.fold_seeds_per_draw")}개씩 적용한 비율입니다. 항목별 차이가 커서 한 번의 항목별 결과를 인용하지 않습니다.</p>
       <p className="small">
-        경로가 어디까지 왔는지와 KREI 대용 1회 실행은 <a href="/run#duel">실행 기록</a>에 있습니다.
+        경로가 어디까지 왔는지와 KREI 대용 실행은 <a href="/run#duel">실행 기록</a>에 있습니다. 실제 설문에 대결을 쓰려면 반복 접힘, 조사 단위를 온전히 둔 접힘, Terra C1, LLM 없는 floor, 상수 패널을 넣은 새 사전 등록을 계산 전에 커밋해야 합니다. 동결 계획은 고치지 않습니다.
       </p>
-      <Caveats items={caveats(["stage4.duel.acceptance.passed", "stage4.duel.seed.fold_seed_99.acceptance_passed"])} />
-      <SourceLine files={sources(["stage4.duel.acceptance.passed", "stage4.duel.seed.fold_seed_99.acceptance_passed"])} keys="stage4.duel.*" />
+      <Caveats items={caveats(["stage4.duel.acceptance.passed", "stage4.duel.acceptance.label", "stage4.duel.seed.fold_seed_99.acceptance_passed", "stage4.posthoc.row.terra_C1.keep_rate", "stage4.policy.default"])} />
+      <SourceLine files={sources(["stage4.duel.acceptance.passed", "stage4.duel.seed.fold_seed_99.acceptance_passed", "stage4.posthoc.row.terra_C1.keep_rate"])} keys="stage4.duel.*, stage4.posthoc.*" />
     </>
   );
 }

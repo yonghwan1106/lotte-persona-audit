@@ -21,17 +21,50 @@
    }
   ],
   "order": [
-   "방향 가설: C가 A보다 패널 내부 값에서 높게 나왔습니다(terra 4.1pp, luna 4.8pp, 두 모델 모두 잡음 초과). 선택이 아닙니다. 기존 음료 순서 시험에서 패널 격차 3~5pp 구간의 쌍 정확도는 0.444 [0.316, 0.556]였습니다.",
-   "방향 가설: C가 B보다 패널 내부 값에서 높게 나왔습니다(terra 2.1pp, luna 2.9pp, 두 모델 모두 잡음 초과). 선택이 아닙니다. 기존 음료 순서 시험에서 패널 격차 1~3pp 구간의 쌍 정확도는 0.806 [0.684, 0.849]였습니다."
+   "방향 가설: C가 A보다 패널 내부 값에서 높게 나왔습니다(terra 4.1pp, luna 4.8pp, 두 모델 모두 잡음 초과). 선택이 아닙니다. 기존 음료 순서 시험(Terra C1, 15범주 점유 격차)에서 Terra 격차 3~5pp 구간의 쌍 정확도는 8/18 = 0.444 [0.316, 0.556]였습니다.",
+   "방향 가설: C가 B보다 패널 내부 값에서 높게 나왔습니다(terra 2.1pp, luna 2.9pp, 두 모델 모두 잡음 초과). 선택이 아닙니다. 기존 음료 순서 시험(Terra C1, 15범주 점유 격차)에서 Terra 격차 1~3pp 구간의 쌍 정확도는 29/36 = 0.806 [0.684, 0.849]였습니다."
   ],
   "order_hidden_pairs": [
    "A, B"
   ],
+  "order_notes": [
+   "쌍 정확도는 기존 음료의 점유 격차에서 잰 값이고 Luna 값이나 구매 의향 격차에서 잰 것이 아닙니다. 구간 사이가 단조롭지 않아 1~5pp를 합치면 37/54입니다. 구간 값 하나를 이 쌍의 신뢰도로 읽지 않습니다. 출처: results/stage3/option_ranking.json, merged_coffee_15, panel_C1."
+  ],
   "notes": [
    "탈락 제안 기준 5pp는 기존 음료 순서 시험에서 나온 사후 가설이고, 신제품에서 검증한 적이 없습니다. 탈락 제안이 실제로 쓸모 있는지는 재지 않았습니다.",
-   "이 실행에는 정답이 없습니다. 패널 값은 시장 수치나 판매 전망이 아닙니다."
+   "이 실행에는 정답이 없습니다. 패널 값은 시장 수치나 판매 전망이 아닙니다.",
+   "기준값 민감도: 규칙은 시연 값을 본 뒤에 썼고 결론은 기준값에 달려 있습니다. 같은 진단에 기준을 바꿔 넣으면 5pp, 4.5pp는 세 안 모두 유지; 4pp, 3pp는 A 탈락 제안; 2pp는 A, B 탈락 제안입니다. 세 안 유지는 패널의 판단이 아니라 이 기준값의 결과입니다."
   ],
-  "drop_gap_pp": 5.0
+  "drop_gap_pp": 5.0,
+  "threshold_sensitivity": [
+   {
+    "limit_pp": 5.0,
+    "drop_proposed": []
+   },
+   {
+    "limit_pp": 4.5,
+    "drop_proposed": []
+   },
+   {
+    "limit_pp": 4.0,
+    "drop_proposed": [
+     "A"
+    ]
+   },
+   {
+    "limit_pp": 3.0,
+    "drop_proposed": [
+     "A"
+    ]
+   },
+   {
+    "limit_pp": 2.0,
+    "drop_proposed": [
+     "A",
+     "B"
+    ]
+   }
+  ]
  },
  "detectable": {
   "alpha_two_sided": 0.05,
@@ -72,7 +105,7 @@
   "arithmetic": "(1.960 + 0.842) x sqrt(2 x 0.5 x 0.5 / 100) x 100"
  },
  "explore": {
-  "marking": "아래는 LLM 출력입니다. 응답자의 말이 아닙니다. 모든 문장은 가설이며 수치가 없습니다.",
+  "marking": "아래는 LLM 출력입니다. 응답자의 말이 아닙니다. 모든 문장은 가설입니다. 이 표본에는 수치가 없지만, 코드는 나열된 형태만 걸러 내므로 도구가 모든 수치와 판정 표현을 막는다는 뜻은 아닙니다.",
   "cards": {
    "A": {
     "sections": {
@@ -103,7 +136,7 @@
     },
     "reasons_read": 150,
     "model_of_reasons": "gpt-6.1-terra",
-    "cost_usd": 0.011727,
+    "calls_this_card": 0,
     "dropped_by_code": {
      "over_limit": 3
     },
@@ -144,7 +177,7 @@
     },
     "reasons_read": 150,
     "model_of_reasons": "gpt-6.1-terra",
-    "cost_usd": 0.011633,
+    "calls_this_card": 0,
     "dropped_by_code": {
      "over_limit": 3
     },
@@ -187,7 +220,7 @@
     },
     "reasons_read": 150,
     "model_of_reasons": "gpt-6.1-terra",
-    "cost_usd": 0.011185,
+    "calls_this_card": 0,
     "dropped_by_code": {
      "over_limit": 3
     },
@@ -205,6 +238,10 @@
  "real_results": {
   "source_label": "실측 대용 KREI",
   "is_real_concept_survey": false,
+  "panel": {
+   "model": "gpt-6.1-terra",
+   "condition": "C2"
+  },
   "n_respondents": 200,
   "anchors_used": [
    "ever",
@@ -213,79 +250,96 @@
   ],
   "concepts_used": [],
   "folds": 5,
+  "fold_kind": "cell_stratified",
   "metric": "out of fold weighted log loss, R1 minus calibrated panel, positive favours the panel",
-  "decision": "keep",
-  "anchors": {
-   "pooled": {
-    "mean_improvement": 0.02267,
-    "interval": [
-     0.00533,
-     0.04001
-    ],
-    "keep": true,
-    "excludes_zero": true
-   },
-   "per_item": {
-    "ever": {
-     "mean_improvement": 0.02137,
-     "interval": [
-      0.0003,
-      0.04243
-     ],
-     "keep": true,
-     "excludes_zero": true,
-     "r1_loss": 0.59582,
-     "panel_loss": 0.57445
-    },
-    "weekly": {
-     "mean_improvement": 0.03197,
-     "interval": [
-      0.01415,
-      0.0498
-     ],
-     "keep": true,
-     "excludes_zero": true,
-     "r1_loss": 0.41813,
-     "panel_loss": 0.38616
-    },
-    "carb": {
-     "mean_improvement": 0.01467,
-     "interval": [
-      -0.01806,
-      0.0474
-     ],
-     "keep": false,
-     "excludes_zero": false,
-     "r1_loss": 0.24086,
-     "panel_loss": 0.22619
-    }
-   }
+  "duel_outcome": "keep",
+  "health_check": {
+   "recorded": true,
+   "outcome": "keep",
+   "fold_kind": "cell_stratified",
+   "counts_toward_run": false,
+   "consecutive_keeps": 0,
+   "consecutive_keeps_required": null
+  },
+  "panel_values_in_report": false,
+  "panel_values_may_enter": false,
+  "report_status": "패널 값 제외, 건강검진 기록만",
+  "policy": {
+   "file": "config/panel_value_policy.json",
+   "post_hoc": true,
+   "decided_on": "2026-11-02"
   },
   "concept_duel": "not_run_no_real_concept_answers",
   "duel_grade": {
    "label": "decision_rule",
-   "acceptance_passed": true
+   "acceptance_passed": true,
+   "label_caveat": "동결 시드에서 사전 기준을 넘어 나온 기록상 라벨입니다. 통과를 본 뒤의 사후 결정으로 대결은 건강검진으로 내렸고, 이 라벨을 확정 판정으로 읽지 않습니다. 근거는 같은 표본에서 접힘 시드만 바꿔도 결정이 뒤집히는 것과 조사 단위를 온전히 둔 접힘의 keep rate입니다(results/stage4/duel_post_hoc.json)."
   },
   "seed_runs": 4,
   "seed_runs_failed": 2,
   "approver": "stage brief, no person at the keyboard",
   "approver_note": "code cannot check who this is",
   "lines": [
-   "실측 대용 KREI: 패널 값 유지. 평균 개선 +0.0227 [+0.0053, +0.0400] (R1 손실 빼기 보정 패널 손실, 5겹 교차 검증, 앵커 3개 평균, 응답자 200명).",
-   "구간 전체가 0 위에 있어 규칙대로 이번 결정에 패널 값을 남깁니다.",
+   "실측 대용 KREI: 패널 값 제외, 건강검진 기록만. 이번 규칙 결과 keep, 평균 개선 +0.0227 [+0.0053, +0.0400] (R1 손실 빼기 보정 패널 손실, 칸 층화 5겹, 조사 단위를 온전히 두지 않아 연속 횟수에 세지 않음, 앵커 3개 평균, 응답자 200명, 패널 gpt-6.1-terra C2).",
+   "구간 전체가 0 위였습니다. 한 번의 keep은 패널 값을 보고서에 넣지 않습니다.",
    "이것은 KREI 응답을 대신 넣은 것입니다. 실제 콘셉트 설문이 아니고, 앵커 문항만 있습니다.",
+   "이 대용 실행의 패널은 Terra C2입니다. 시연 패널 조건은 C1이고, C1이면 이 추출의 규칙 결과는 drop입니다(동결 접힘 시드, 사후 계산).",
    "콘셉트 문항 대결은 돌리지 않았습니다. 이 파일에 콘셉트 문항 실측이 없습니다. 콘셉트 문항 대결은 실제 설문을 만난 적이 없습니다.",
-   "대결 규칙 등급: 동결한 시드에서 사전 기준을 넘었습니다(대체 패널 유지율 0.115, 양성 대조 유지율 1.0).",
-   "다만 답을 본 뒤 다른 시드 4개로 돌리자 2개에서 대체 패널 유지율이 기준을 넘었습니다. 기준 근처에 있으니 확정 판정처럼 읽지 않습니다.",
-   "같은 규칙을 KREI 보정 풀의 200회 추출에 돌리면 Terra C2는 31.0%에서 유지, Luna C1은 1.5%에서 유지였습니다. 이번 한 번의 유지나 제외는 그중 하나입니다.",
-   "유지가 나와도 칸 오차까지 낫다는 보장은 아닙니다. Terra C2에서 유지된 추출의 43.5%는 패널 밖 truth의 칸 오차로 R1을 이기지 못했고, 이긴 추출의 66.3%는 제외됐습니다.",
+   "연속 keep 기록: 0회, 합의한 횟수: 아직 합의하지 않음. 대용 자료와 조사 단위 열이 없는 실행은 세지 않습니다.",
+   "이 표시는 동결 결과의 통과를 본 뒤에 정한 사후 결정입니다. 동결 라벨 decision_rule은 기록으로 남기되 확정 판정으로 읽지 않습니다.",
+   "동결 기록: 동결 시드에서 사전 기준을 넘었습니다(대체 패널 keep rate 0.115, 양성 대조 keep rate 1.0, 라벨 decision_rule). 기준 0.12는 「약 10%」를 고정 전에 작업자가 해석한 값이고, 대체 패널 값은 그 바로 아래입니다.",
+   "동결 뒤 다른 시드 4개로 돌리자 2개에서 대체 패널 keep rate가 기준을 넘었습니다. 시드가 적어 비율로 읽지 않고, 기준 근처에서 시드에 따라 갈린다는 뜻으로 읽습니다.",
+   "같은 규칙을 KREI 보정 풀의 200회 추출에 돌리면 Terra C2의 keep 비율은 31.0%입니다. 이번 한 번의 결과는 그중 하나입니다. 재어 둔 다른 조건: Luna C1 1.5%, Terra C1 13.0%.",
+   "칸 오차 불일치: Terra C2에서 keep인 추출의 43.5%는 패널 밖 truth의 칸 오차로 R1을 이기지 못했고, R1을 이긴 추출의 66.3%는 drop이었습니다. 대결은 개인 로그 손실을, 이 점검은 칸 오차를 보므로 이 값은 대결의 오류율이 아닙니다.",
+   "접힘 시드 불안정: 같은 표본에서 접힘 시드만 바꿔도 결정이 뒤집힙니다. KREI 풀의 draw 0에서 Terra C2의 keep 비율은 접힘 시드 500개 기준 49.0%이고, 200회 추출에 접힘 시드 30개씩 적용하면 93.5%의 추출에서 결정이 바뀝니다(사후 계산).",
+   "조사 단위를 온전히 둔 접힘의 row 추출 keep rate는 Terra C2 0.06, Terra C1 0.027, 대체 패널 0.067, LLM 없는 floor 0.07, 양성 대조 0.987입니다(접힘 시드 5개 평균, 사후 계산). 이 접힘에서 Terra C2와 대체 패널은 구별되지 않습니다.",
+   "LLM 없는 나이·성별 floor는 동결 추출과 접힘 시드에서 19.0% keep, 패널 밖 truth 칸 오차로 R1을 이긴 비율 63.5%입니다(사후 계산). keep은 LLM 신호만으로 나오는 값이 아닙니다.",
    "기록자: stage brief, no person at the keyboard. 코드는 이 이름이 누구인지 확인하지 못합니다."
   ]
  },
  "ledger": {
-  "rows": 2,
+  "rows": 4,
   "human_decision": null,
   "approver": "stage brief, no person at the keyboard"
+ },
+ "policy": {
+  "decided_on": "2026-11-02",
+  "post_hoc": true,
+  "default": "excluded",
+  "duel_role": "health_check",
+  "fold_kind_counted": "unit_intact",
+  "consecutive_keeps_required": null,
+  "frozen_label": "decision_rule",
+  "frozen_label_caveat": "동결 시드에서 사전 기준을 넘어 나온 기록상 라벨입니다. 통과를 본 뒤의 사후 결정으로 대결은 건강검진으로 내렸고, 이 라벨을 확정 판정으로 읽지 않습니다. 근거는 같은 표본에서 접힘 시드만 바꿔도 결정이 뒤집히는 것과 조사 단위를 온전히 둔 접힘의 keep rate입니다(results/stage4/duel_post_hoc.json)."
+ },
+ "flags_random_95": {
+  "terra_minus_luna": [
+   0,
+   5
+  ],
+  "c1_minus_c2": [
+   0,
+   5
+  ],
+  "repeat_sd": [
+   0,
+   5
+  ],
+  "panel_level": [
+   0,
+   5
+  ]
+ },
+ "gate_audit": {
+  "calls_answered": {
+   "terra": 700,
+   "luna": 700
+  },
+  "seconds": {
+   "terra_from_call_log": 208.4,
+   "luna": 347.1
+  },
+  "terra_wall_clock_in_summary_with_failed_attempts": 1366.7
  },
  "duel_bar": {
   "surrogate_max_keep": 0.12,

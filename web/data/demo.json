@@ -1,6 +1,6 @@
 {
- "run_id": "demo7",
- "manifest_sha256": "42a6c93961c00c47605244eb1f1d432c502e94d0f1616a63e70e6a4283996083",
+ "run_id": "demo8",
+ "manifest_sha256": "b9a6e4f2ce6012ed3c15b7d923d87687a9b7e55d8da3c3afc50b35fc5d1e2188",
  "plan_hash": "8af98bbc9ec480884607bd22462b11cb68cdbd7093ed5832c38942c904d12f51",
  "rule_version": "agent-1 on v2",
  "models": {
@@ -15,17 +15,22 @@
  },
  "same_bytes_as_results_agent_demo5": {
   "verdict.json": true,
-  "allocation.json": true,
   "questionnaire.json": true
+ },
+ "allocation_compared_with_demo5": {
+  "same_numbers_as_results_agent_demo5": true,
+  "only_field_changed": [
+   "cards"
+  ]
  },
  "approval": {
   "approver": "stage brief, no person at the keyboard",
-  "at": "2026-11-01T19:23:00+00:00"
+  "at": "2026-11-01T20:42:46+00:00"
  },
  "cost_of_this_rerun": {
   "stage_panel_usd": 0.0,
-  "stage_agent_models_usd": 0.208768,
-  "stage_total_usd": 0.208768,
+  "stage_agent_models_usd": 0.448788,
+  "stage_total_usd": 0.448788,
   "stage_budget_usd": 3.0,
   "this_run_panel_usd": 0.0
  },
@@ -190,7 +195,7 @@
    }
   },
   {
-   "seconds": 4.2,
+   "seconds": 2.7,
    "event": "tool_call",
    "tool": "validate_card",
    "detail": {
@@ -198,7 +203,7 @@
    }
   },
   {
-   "seconds": 4.2,
+   "seconds": 2.7,
    "event": "tool_output",
    "tool": "validate_card",
    "detail": {
@@ -211,7 +216,7 @@
    }
   },
   {
-   "seconds": 8.4,
+   "seconds": 5.3,
    "event": "tool_call",
    "tool": "validate_card",
    "detail": {
@@ -219,7 +224,7 @@
    }
   },
   {
-   "seconds": 8.4,
+   "seconds": 5.3,
    "event": "tool_output",
    "tool": "validate_card",
    "detail": {
@@ -232,7 +237,7 @@
    }
   },
   {
-   "seconds": 10.7,
+   "seconds": 8.0,
    "event": "tool_call",
    "tool": "validate_card",
    "detail": {
@@ -240,7 +245,7 @@
    }
   },
   {
-   "seconds": 10.7,
+   "seconds": 8.0,
    "event": "tool_output",
    "tool": "validate_card",
    "detail": {
@@ -253,7 +258,7 @@
    }
   },
   {
-   "seconds": 13.2,
+   "seconds": 9.9,
    "event": "tool_call",
    "tool": "validate_card",
    "detail": {
@@ -261,7 +266,7 @@
    }
   },
   {
-   "seconds": 13.2,
+   "seconds": 9.9,
    "event": "tool_output",
    "tool": "validate_card",
    "detail": {
@@ -274,7 +279,7 @@
    }
   },
   {
-   "seconds": 15.5,
+   "seconds": 11.6,
    "event": "tool_call",
    "tool": "validate_card",
    "detail": {
@@ -282,7 +287,7 @@
    }
   },
   {
-   "seconds": 15.5,
+   "seconds": 11.6,
    "event": "tool_output",
    "tool": "validate_card",
    "detail": {
@@ -295,7 +300,7 @@
    }
   },
   {
-   "seconds": 17.0,
+   "seconds": 13.7,
    "event": "tool_call",
    "tool": "validate_card",
    "detail": {
@@ -303,7 +308,7 @@
    }
   },
   {
-   "seconds": 17.0,
+   "seconds": 13.7,
    "event": "tool_output",
    "tool": "validate_card",
    "detail": {
@@ -316,7 +321,7 @@
    }
   },
   {
-   "seconds": 19.0,
+   "seconds": 15.5,
    "event": "tool_call",
    "tool": "plan_run",
    "detail": {
@@ -329,7 +334,7 @@
    }
   },
   {
-   "seconds": 19.0,
+   "seconds": 15.5,
    "event": "tool_output",
    "tool": "plan_run",
    "detail": {
@@ -380,7 +385,7 @@
    }
   },
   {
-   "seconds": 21.2,
+   "seconds": 17.7,
    "event": "approval_requested",
    "tool": "run_panel",
    "detail": {
@@ -388,19 +393,19 @@
    }
   },
   {
-   "seconds": 21.2,
+   "seconds": 17.7,
    "event": "approval_pending",
    "tool": "run_panel"
   },
   {
-   "seconds": 29.9,
+   "seconds": 27.6,
    "event": "approval_recorded",
    "detail": {
     "approver": "stage brief, no person at the keyboard"
    }
   },
   {
-   "seconds": 29.9,
+   "seconds": 27.6,
    "event": "approval_granted",
    "tool": "run_panel",
    "detail": {
@@ -408,7 +413,7 @@
    }
   },
   {
-   "seconds": 29.9,
+   "seconds": 27.6,
    "event": "tool_call",
    "tool": "run_panel",
    "detail": {
@@ -416,7 +421,7 @@
    }
   },
   {
-   "seconds": 32.9,
+   "seconds": 30.5,
    "event": "tool_output",
    "tool": "run_panel",
    "detail": {
@@ -475,12 +480,12 @@
    }
   },
   {
-   "seconds": 35.0,
+   "seconds": 32.9,
    "event": "tool_call",
    "tool": "diagnose_run"
   },
   {
-   "seconds": 35.2,
+   "seconds": 33.2,
    "event": "tool_output",
    "tool": "diagnose_run",
    "detail": {
@@ -528,12 +533,12 @@
    }
   },
   {
-   "seconds": 37.0,
+   "seconds": 34.8,
    "event": "tool_call",
    "tool": "decide_verdict"
   },
   {
-   "seconds": 37.1,
+   "seconds": 34.8,
    "event": "tool_output",
    "tool": "decide_verdict",
    "detail": {
@@ -542,27 +547,27 @@
    }
   },
   {
-   "seconds": 41.1,
+   "seconds": 37.3,
    "event": "tool_call",
    "tool": "narrate_verdict"
   },
   {
-   "seconds": 50.1,
+   "seconds": 46.0,
    "event": "narrator_output",
    "detail": {
     "accepted": true,
     "reasons": [],
     "sentences": [
-     "A의 무설탕 설명을 바꿔 쓰면서 감미료에 대한 관심이 달라질 수 있다.",
-     "복숭아와 홍차, 유자 같은 소재의 친숙함이 후보 간 반응 차이에 영향을 줄 수 있다.",
-     "C와 부정 대조 문구에 대한 가격 인식이 맞물려 응답 차이가 달라질 수 있다.",
-     "브랜드 표시는 모델마다 문구 해석에 다르게 작용할 수 있다.",
-     "페르소나의 가격 민감성이 후보 간 상대적 인식에 영향을 줄 수 있다."
+     "표현을 바꾸면 무설탕과 감미료에 대한 주목이 달라져 관찰된 반응의 확장성이 제한될 수 있다.",
+     "후보 C와 부정 대조는 가격에 대한 우려를 함께 떠올리게 했을 수 있다.",
+     "로즈메리, 복숭아, 유자에 대한 친숙함이 후보별 반응에 차이를 만들 수 있다.",
+     "브랜드 표시는 모델마다 브랜드 친숙도에 대한 가정을 다르게 자극할 수 있다.",
+     "페르소나에 부여된 가격 민감도가 후보별 문구에 대한 반응을 다르게 이끌 수 있다."
     ]
    }
   },
   {
-   "seconds": 51.9,
+   "seconds": 47.7,
    "event": "tool_call",
    "tool": "explore_card",
    "detail": {
@@ -570,7 +575,7 @@
    }
   },
   {
-   "seconds": 62.1,
+   "seconds": 47.7,
    "event": "tool_output",
    "tool": "explore_card",
    "detail": {
@@ -589,7 +594,7 @@
    }
   },
   {
-   "seconds": 64.3,
+   "seconds": 49.6,
    "event": "tool_call",
    "tool": "explore_card",
    "detail": {
@@ -597,7 +602,7 @@
    }
   },
   {
-   "seconds": 74.4,
+   "seconds": 49.6,
    "event": "tool_output",
    "tool": "explore_card",
    "detail": {
@@ -616,7 +621,7 @@
    }
   },
   {
-   "seconds": 76.3,
+   "seconds": 52.0,
    "event": "tool_call",
    "tool": "explore_card",
    "detail": {
@@ -624,7 +629,7 @@
    }
   },
   {
-   "seconds": 85.9,
+   "seconds": 52.1,
    "event": "tool_output",
    "tool": "explore_card",
    "detail": {
@@ -643,12 +648,12 @@
    }
   },
   {
-   "seconds": 87.7,
+   "seconds": 53.7,
    "event": "tool_call",
    "tool": "allocate_real_sample"
   },
   {
-   "seconds": 87.7,
+   "seconds": 53.7,
    "event": "tool_output",
    "tool": "allocate_real_sample",
    "detail": {
@@ -657,12 +662,12 @@
    }
   },
   {
-   "seconds": 89.6,
+   "seconds": 55.5,
    "event": "tool_call",
    "tool": "build_questionnaire"
   },
   {
-   "seconds": 89.6,
+   "seconds": 55.5,
    "event": "tool_output",
    "tool": "build_questionnaire",
    "detail": {
@@ -671,21 +676,21 @@
    }
   },
   {
-   "seconds": 91.5,
+   "seconds": 57.2,
    "event": "tool_call",
    "tool": "write_ledger"
   },
   {
-   "seconds": 91.5,
+   "seconds": 57.2,
    "event": "tool_output",
    "tool": "write_ledger",
    "detail": {
     "status": "done",
-    "manifest_sha256": "42a6c93961c00c47605244eb1f1d432c502e94d0f1616a63e70e6a4283996083"
+    "manifest_sha256": "b9a6e4f2ce6012ed3c15b7d923d87687a9b7e55d8da3c3afc50b35fc5d1e2188"
    }
   },
   {
-   "seconds": 94.4,
+   "seconds": 59.9,
    "event": "final",
    "detail": {
     "status": "complete",
@@ -693,7 +698,7 @@
     "status_corrected_by_code": false,
     "refused_classes": [],
     "by": "manager",
-    "note": "감사 절차와 원장 기록을 완료했습니다. 판정과 탐색 가설은 보고서에 정리되어 있으며, 탐색 가설은 판정이 아닙니다.",
+    "note": "감사 보고서 작성과 원장 기록이 완료되었습니다. 탐색 결과는 가설이며 판정이 아닙니다.",
     "note_dropped": false
    }
   }
@@ -1558,15 +1563,15 @@
   "cards": [
    {
     "card": "A",
-    "use": "패널 순서를 쓸 수 없어 담당자 선택이 필요한 후보"
+    "use": "방향 가설은 순서나 선택이 아니어서 담당자 선택이 필요한 후보"
    },
    {
     "card": "B",
-    "use": "패널 순서를 쓸 수 없어 담당자 선택이 필요한 후보"
+    "use": "방향 가설은 순서나 선택이 아니어서 담당자 선택이 필요한 후보"
    },
    {
     "card": "C",
-    "use": "패널 순서를 쓸 수 없어 담당자 선택이 필요한 후보"
+    "use": "방향 가설은 순서나 선택이 아니어서 담당자 선택이 필요한 후보"
    }
   ],
   "benchmark_note": "기존 제품 기준 카드가 이 시연에는 없습니다. 담당자가 넣어야 합니다.",

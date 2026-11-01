@@ -22,9 +22,13 @@ REPO = WEB.parent
 OUT = WEB / "data"
 RESULTS = REPO / "results"
 AGENT_DEMO = RESULTS / "agent" / "demo5"
-FINAL_DEMO = RESULTS / "stage4" / "demo7"
+FINAL_DEMO = RESULTS / "stage4" / "demo8"
 STAGE4 = RESULTS / "stage4"
-EXPLORE = RESULTS / "explore" / "demo7"
+EXPLORE = RESULTS / "explore" / "demo8"
+# Terra's gate run, from the first to the last answered call in the ignored call log. Not in the numbers sheet: the
+# summary file's wall_clock_s for Terra also holds the failed attempts from before the account was funded. check() compares
+# this value with the log when the log is present.
+GATE_TERRA_SECONDS_FROM_CALL_LOG = 208.4
 FIX = RESULTS / "fix_stage"
 USED = {}
 REF = None
@@ -141,14 +145,20 @@ def compact_step(row, t0):
 
 
 def build_demo():
-    # These three are byte for byte the same in the first demo run and in demo7, which is the run the page replays.
+    # The verdict and the questionnaire are byte for byte the same in the first demo run and in demo8, the run the page
+    # replays. The allocation differs only in the sentence that says what each card is for, which is checked here.
     same = {}
-    for name in ("verdict.json", "allocation.json", "questionnaire.json"):
+    for name in ("verdict.json", "questionnaire.json"):
         same[name] = read_bytes(AGENT_DEMO / name) == read_bytes(FINAL_DEMO / name)
         if not same[name]:
-            raise SystemExit(f"{name} differs between demo5 and demo7")
+            raise SystemExit(f"{name} differs between demo5 and demo8")
     verdict = read_json(FINAL_DEMO / "verdict.json")
     allocation = read_json(FINAL_DEMO / "allocation.json")
+    first_allocation = read_json(AGENT_DEMO / "allocation.json")
+    moved = sorted(k for k in set(allocation) | set(first_allocation) if allocation.get(k) != first_allocation.get(k))
+    if moved != ["cards"] or [c["card"] for c in allocation["cards"]] != [c["card"] for c in first_allocation["cards"]]:
+        raise SystemExit(f"allocation differs beyond the card sentence: {moved}")
+    allocation_note = {"same_numbers_as_results_agent_demo5": True, "only_field_changed": moved}
     questionnaire = read_json(FINAL_DEMO / "questionnaire.json")
     manifest = read_json(FINAL_DEMO / "manifest.json")
     transcript = read_jsonl(FINAL_DEMO / "transcript.jsonl")
@@ -156,7 +166,7 @@ def build_demo():
     report = read_text(FINAL_DEMO / "report.md")
 
     if "internal" in json.dumps(diagnostics["by_model"]) or "t2b" in json.dumps(diagnostics["by_model"]):
-        raise SystemExit("demo7 diagnostics hold an absolute value")
+        raise SystemExit("demo8 diagnostics hold an absolute value")
     verdict_keys = ("card", "model", "segment", "n", "base_label_v2", "base_by_item", "run_status", "label", "flags", "absolute_shown", "order_allowed")
     rows = [{k: r[k] for k in verdict_keys} for r in verdict["rows"]]
 
@@ -191,6 +201,7 @@ def build_demo():
         "models": manifest["models"],
         "versions": manifest["versions"],
         "same_bytes_as_results_agent_demo5": same,
+        "allocation_compared_with_demo5": allocation_note,
         "approval": {"approver": approved["approver"], "at": at.group(2) if at else None},
         "cost_of_this_rerun": json.loads(cost.group(1)) if cost else None,
         "cards": cards,
@@ -214,7 +225,7 @@ def build_stage4():
     action, detectable = action_doc["action"], action_doc["detectable"]
     sheet = {r["key"]: r["value"] for r in read_json(RESULTS / "numbers_sheet.json")["rows"]}
     for row in action["rows"]:
-        if sheet[f"stage4.demo7.action.{row['card']}"] != row["label"]:
+        if sheet[f"stage4.demo8.action.{row['card']}"] != row["label"]:
             raise SystemExit("action table differs from the numbers sheet")
 
     cards = {}
@@ -232,26 +243,40 @@ def build_stage4():
             "sections": doc["sections"],
             "reasons_read": doc["source"]["reasons_read"],
             "model_of_reasons": doc["source"]["model_of_reasons"],
-            "cost_usd": doc["source"]["cost_usd"],
+            "calls_this_card": doc["source"]["calls_this_card"],
             "dropped_by_code": doc["dropped_by_code"],
             "echo": {k: doc["echo_check"][k] for k in ("sentences_checked", "personas_compared", "reasons_compared", "persona_echo", "reason_echo", "passed")},
         }
 
     real = read_json(FINAL_DEMO / "real_results.json")
-    real_keys = ("source_label", "is_real_concept_survey", "n_respondents", "anchors_used", "concepts_used", "folds", "metric", "decision", "anchors", "concept_duel", "duel_grade", "seed_runs", "seed_runs_failed", "approver", "approver_note", "lines")
+    # Per item results stay out: the same respondents flip with the fold seed, so a per item keep is not quoted.
+    real_keys = ("source_label", "is_real_concept_survey", "panel", "n_respondents", "anchors_used", "concepts_used", "folds", "fold_kind", "metric", "duel_outcome", "health_check", "panel_values_in_report", "panel_values_may_enter", "report_status", "policy", "concept_duel", "duel_grade", "seed_runs", "seed_runs_failed", "approver", "approver_note", "lines")
     duel = read_json(STAGE4 / "duel_validity.json")
     sensitivity = read_json(STAGE4 / "duel_seed_sensitivity.json")
     allocation = read_json(STAGE4 / "allocation.json")
     ledger = read_jsonl(STAGE4 / "ledger.jsonl")
-    ingest_rows = [r for r in ledger if r.get("kind") == "real_results"]
+    ingest_rows = [r for r in ledger if r.get("kind") == "real_results" and r.get("run_id") == FINAL_DEMO.name]
     if len(ingest_rows) != 1:
-        raise SystemExit("expected one real_results row in the stage 4 ledger")
+        raise SystemExit("expected one real_results row of the final demo in the stage 4 ledger")
+    policy = read_json(REPO / "config" / "panel_value_policy.json")
+    flags = read_json(STAGE4 / "flags.json")["signals"]
+    gate = read_json(RESULTS / "gate_run_summary.json")
+    luna, terra = gate["models"]["gpt-6-luna"], gate["models"]["gpt-6.1-terra"]
+    if abs(gate["gate_total_usd"] - sheet["spend.gate"]) > 1e-9:
+        raise SystemExit("gate spend differs from the numbers sheet")
     return {
-        "action": {k: action[k] for k in ("rows", "order", "order_hidden_pairs", "notes", "drop_gap_pp")},
+        "action": {k: action[k] for k in ("rows", "order", "order_hidden_pairs", "order_notes", "notes", "drop_gap_pp", "threshold_sensitivity")},
         "detectable": detectable,
         "explore": {"marking": marking, "cards": cards},
         "real_results": {k: real[k] for k in real_keys},
         "ledger": {"rows": len(ledger), "human_decision": ingest_rows[0]["human_decision"], "approver": ingest_rows[0]["approver"]},
+        "policy": {k: policy[k] for k in ("decided_on", "post_hoc", "default", "duel_role", "fold_kind_counted", "consecutive_keeps_required", "frozen_label", "frozen_label_caveat")},
+        "flags_random_95": {name: signal["overlap_top9"]["random_95"] for name, signal in flags.items()},
+        "gate_audit": {
+            "calls_answered": {"terra": terra["statuses"]["ok"], "luna": luna["statuses"]["ok"]},
+            "seconds": {"terra_from_call_log": GATE_TERRA_SECONDS_FROM_CALL_LOG, "luna": luna["wall_clock_s"]},
+            "terra_wall_clock_in_summary_with_failed_attempts": terra["wall_clock_s"],
+        },
         "duel_bar": duel["bar"],
         "duel_reading": duel["reading"],
         "seed_note": sensitivity["note"],
@@ -367,6 +392,23 @@ def collect_strings(node, out):
             collect_strings(value, out)
 
 
+def gate_seconds_check():
+    """Terra's seconds against the ignored call log, when it is here. Prints the two numbers only."""
+    log = REPO / "runs" / "gate" / "logs" / "calls.jsonl"
+    if not log.exists():
+        return
+    stamps = []
+    for line in log.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            row = json.loads(line)
+            if row["model"] == "gpt-6.1-terra" and row["status"] == "ok":
+                stamps.append(row["ts"])
+    span = round(max(stamps) - min(stamps), 1)
+    print(json.dumps({"gate_terra_seconds_log": span, "gate_terra_seconds_page": GATE_TERRA_SECONDS_FROM_CALL_LOG}))
+    if span != GATE_TERRA_SECONDS_FROM_CALL_LOG:
+        raise SystemExit("gate seconds differ from the call log")
+
+
 def forbidden_material():
     """Codes and persona sentences from the ignored folder. Held in memory and never printed."""
     codes = set()
@@ -389,6 +431,7 @@ def forbidden_material():
 
 
 def check():
+    gate_seconds_check()
     codes, sentences = forbidden_material()
     token = re.compile(r"[A-Z0-9]{8}")
     findings = {"files": 0, "code_hits": 0, "persona_hits": 0, "key_shaped": 0, "local_path": 0, "brand_card": 0, "microdata_cols": 0}
