@@ -1762,6 +1762,20 @@ svg text {
 
 /* results */
 
+/* The intake page stays a plain single column. */
+.plain-page {
+  padding: 20px 0 72px;
+}
+
+.plain-page h1 {
+  font-size: clamp(32px, 3.6vw, 44px);
+  margin-bottom: 10px;
+}
+
+.plain-page h2 {
+  margin-top: 44px;
+}
+
 /* An inner page starts with one line of title and one paragraph, so its first picture is on the first screen. */
 .page-head {
   padding: 14px 0 12px;
