@@ -9,6 +9,7 @@ The check reads the respondent codes and persona sentences in the ignored runs/ 
 reached web/data or the build, and prints only counts.
 """
 import argparse
+import csv
 import datetime
 import hashlib
 import json
@@ -29,6 +30,7 @@ EXPLORE = RESULTS / "explore" / "demo8"
 # summary file's wall_clock_s for Terra also holds the failed attempts from before the account was funded. check() compares
 # this value with the log when the log is present.
 GATE_TERRA_SECONDS_FROM_CALL_LOG = 208.4
+HUMAN = STAGE4 / "human2"
 FIX = RESULTS / "fix_stage"
 USED = {}
 REF = None
@@ -284,6 +286,44 @@ def build_stage4():
     }
 
 
+def build_human_run():
+    """The small run a person approved at a terminal. Chosen field by field; the explore sentences and diagnostics stay in results/."""
+    action = read_json(HUMAN / "action.json")["action"]
+    manifest = read_json(HUMAN / "manifest.json")
+    counts = read_json(STAGE4 / "human2_call_counts.json")
+    sheet = {r["key"]: r["value"] for r in read_json(RESULTS / "numbers_sheet.json")["rows"]}
+    rows = [r for r in read_jsonl(STAGE4 / "ledger.jsonl") if r.get("run_id") == HUMAN.name and r.get("approval")]
+    if len(rows) != 1:
+        raise SystemExit("expected one ledger row of the person approved run")
+    row = rows[0]
+    if row["manifest_sha256"] != manifest["manifest_sha256"] or row["approval"]["channel"] != "terminal":
+        raise SystemExit("the ledger row and the manifest of the person approved run differ")
+    # The page describes A, B and C with the demo's cards. The two runs hold a different set of cards in all, so their card hashes differ.
+    def concept_text(run):
+        return {i["id"]: i["card_text"] for i in read_json(run / "questionnaire.json")["items"] if i["kind"] == "concept"}
+    shown, demo_cards = concept_text(HUMAN), concept_text(FINAL_DEMO)
+    if not shown or any(demo_cards.get(k) != v for k, v in shown.items()):
+        raise SystemExit("the person approved run and the demo differ in the text of a candidate card")
+    for item in action["rows"]:
+        if sheet[f"stage4.human2.action.{item['card']}"] != item["label"]:
+            raise SystemExit("human run action table differs from the numbers sheet")
+    report = read_text(HUMAN / "report.md")
+    if "\uc774 \uc2b9\uc778\uc740 \ud130\ubbf8\ub110\uc5d0\uc11c \uc0ac\ub78c\uc774 \uc774\ub984\uacfc \uacc4\ud68d \ud574\uc2dc\ub97c \uc785\ub825\ud55c \uae30\ub85d\uc785\ub2c8\ub2e4" not in report:
+        raise SystemExit("the report of the person approved run lost its approval sentence")
+    return {
+        "run_id": manifest["run_id"],
+        "manifest_sha256": manifest["manifest_sha256"],
+        "plan_hash": manifest["plan_hash"],
+        "models": counts["models"],
+        "cards": counts["cards"],
+        "n_personas": counts["n_personas"],
+        "approval": {k: row["approval"][k] for k in ("approver", "note", "at", "channel", "cost_cap_usd")},
+        "action": {k: action[k] for k in ("rows", "order", "order_hidden_pairs", "notes", "drop_gap_pp", "threshold_sensitivity")},
+        "human_decision": row["human_decision"],
+        "real_results": row["real_results"],
+    }
+
+
 TABLE_ROW = re.compile(r"^\| (\w+) \| (\w+) \| (\d+) \| (\d+) \| ([0-9.]+) \|")
 
 
@@ -415,10 +455,10 @@ def forbidden_material():
     for name in ("gate", "main", "stage3"):
         key = REPO / "runs" / name / "key.csv"
         if key.exists():
-            for line in key.read_text(encoding="utf-8").splitlines()[1:]:
-                parts = line.split(",")
-                if len(parts) > 1:
-                    codes.add(parts[1])
+            # By column name: the three files do not put the code in the same column.
+            with key.open(encoding="utf-8", newline="") as handle:
+                for row in csv.DictReader(handle):
+                    codes.update(row[col] for col in ("code", "gate_code") if row.get(col))
     sentences = set()
     personas = REPO / "runs" / "main" / "inputs" / "personas.jsonl"
     if personas.exists():
@@ -472,7 +512,7 @@ def main():
         write("attacks.json", build_attacks())
         write("intake.json", build_intake())
         write("controls.json", build_controls())
-        write("stage4.json", build_stage4())
+        write("stage4.json", {**build_stage4(), "human_run": build_human_run()})
         write("provenance.json", build_provenance())
         for path in sorted(OUT.glob("*.json")):
             print(path.name, path.stat().st_size)

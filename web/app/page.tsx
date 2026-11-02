@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Caveats } from "@/components/Notes";
 import { ActionTable, DetectableTable, DuelStatusTable, ExploreCard, HealthCheckDecision, HealthCheckReasons, OrderNotes, seedRunsFailed, SEED_RUNS } from "@/components/Stage4";
 import stage4 from "@/data/stage4.json";
-import { any, bool, caveats, ciText, fixed, interval, num, signed, usd } from "@/lib/numbers";
+import { any, bool, caveats, ciText, fixed, interval, num, signed, str, usd } from "@/lib/numbers";
 
 type Row = { what: string; state: string; ok: boolean; scope: React.ReactNode };
 
@@ -67,7 +67,7 @@ export default function HomePage() {
     { what: "내부 콘셉트 테스트 대비 정확도", state: "재지 않음", ok: false, scope: "롯데칠성음료 내부 자료를 쓰지 않았습니다." },
     { what: "독립 표본 검증", state: "못 함", ok: false, scope: `시험 truth의 psfwt ${fixed(num("stage2.panel_share_of_test_psfwt"))}%가 패널 본인입니다. 패널 밖 truth로 다시 본 값은 측정 결과에 따로 있습니다.` },
     { what: "모집단 불확실성", state: "못 함", ok: false, scope: "2단계 구간은 보정 풀과 시험 패널을 고정한 채 추출만 반복한 값입니다." },
-    { what: "사람 승인 화면", state: "없음", ok: false, scope: "시연 승인은 CLI 인자이고 사람이 하지 않았습니다. 사람이 터미널에서 입력하는 명령은 만들었지만 실행한 적이 없고, 입력한 이름이 누구인지 코드는 확인하지 못합니다." },
+    { what: "사람 승인 화면", state: "없음", ok: false, scope: "시연 승인은 CLI 인자이고 사람이 하지 않았습니다. 사람이 터미널에서 이름과 계획 해시를 입력하는 명령이 있고, 작은 실행 한 번(human2)을 그렇게 승인했습니다. 입력한 사람이 누구인지 코드는 확인하지 못합니다." },
     { what: "조사 단위 군집 효과의 원인", state: "확인 못 함", ok: false, scope: "주 1회 항목은 정답 자체가 조사 단위 효과를 담을 수 있어 모델이 틀린 것과 조사가 흔들린 것을 완전히 가르지 못합니다." },
   ];
 
@@ -154,7 +154,13 @@ export default function HomePage() {
         <strong>시연 전용, 정답 없음, 카드 3장은 가상.</strong> 아래 제안은 어느 안이 낫다는 뜻이 아닙니다. terra, luna는 패널을 돌린 두 모델이고 pp 값은 패널 내부 값입니다. 통과하지 못한 규칙은 <Link href="/results#failures">측정 결과 첫 표</Link>에 있습니다.
       </p>
       <ActionTable />
-      <Caveats items={caveats(["stage4.demo8.action.A", "stage4.pair_accuracy.1_to_3pp.pairs"])} />
+      <Caveats items={caveats(["stage4.demo8.action.A", "stage4.human2.action.A", "stage4.pair_accuracy.1_to_3pp.pairs"])} />
+
+      <div className="band" id="human-approved">
+        <p>
+          <strong>사람이 승인한 작은 실행 한 번:</strong> 위 표는 사람이 승인하지 않은 시연입니다. 따로 {num("stage4.human2.plan.n_personas")}명, 카드 {any<string[]>("stage4.human2.plan.cards").length}장, 두 모델의 실행 한 번(human2)을 사람이 터미널에서 이름과 계획 해시를 입력해 승인했고, 세 안 모두 {str("stage4.human2.action.A")}로 시연과 같은 결론이 나왔습니다. 코드는 입력한 사람이 누구인지 확인하지 못하고, 정답이 없어 이 실행으로도 안을 고를 수 없습니다. <Link href="/run#human-run">기록 보기</Link>
+        </p>
+      </div>
 
       <h3>안 사이의 방향</h3>
       <OrderNotes />
@@ -183,7 +189,7 @@ export default function HomePage() {
       <Caveats items={caveats(["stage4.demo8.ingest.report_status", "stage4.duel.acceptance.label", "stage4.posthoc.row.terra_C1.keep_rate"])} />
 
       <h2 id="tried">시도했지만 효과를 보지 못한 것</h2>
-      <p>저장된 답으로 계산했고 새 페르소나 호출은 {num("spend.stage4.panel_calls")}건입니다. 기존 음료 행동에서 잰 값입니다.</p>
+      <p>저장된 답으로 계산했고 이 측정들의 새 페르소나 호출은 {num("spend.stage4.panel_calls")}건입니다. 기존 음료 행동에서 잰 값입니다.</p>
       <div className="table-wrap">
         <table className="stack">
           <thead>

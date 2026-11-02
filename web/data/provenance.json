@@ -1,8 +1,8 @@
 {
  "note": "Written by web/scripts/build_data.py. Each file below was read from this repo at this commit.",
- "commit": "91640b4860a96bf5b889f10fc62c6f537e68beac",
+ "commit": "68a941c141ef58b61ebc4fbc9a8c29f0ccf7b888",
  "branch": "public",
- "generated_at": "2026-11-01T21:01:42+00:00",
+ "generated_at": "2026-11-02T02:35:14+00:00",
  "files": {
   "config/agent_run.json": "851dba7cfd41c66f2318b11f2cb1365f4d064835e7db527797a35678dc31f751",
   "config/agent_text.json": "bacb4bea030d1a7604dbfff900e4f9ea95b0aaca719b71e2cd249345b7ff1e83",
@@ -21,7 +21,7 @@
   "results/fix_stage/scenarios/results.md": "18bd4dd69696ea82aa97e6a44f25414febd348fe7883a94b948f670b50f565e9",
   "results/fix_stage/wf7_attack_record.json": "08bfb9fe417cf757d1337c13341bf0b74a786322944eb407cabdc12cb62397b6",
   "results/gate_run_summary.json": "975c9723047edc317675820687d1cf04df2dc3fc05b9499d4b278deb0f4ed16e",
-  "results/numbers_sheet.json": "180c72d356ef1c0b5833b5fca126733c4f27cbea6a34cac20a806ce6370f3f0e",
+  "results/numbers_sheet.json": "f3bcd621359faacf42b8eaf00d9c6b8c3f7227dddded002616b99dbf76719c84",
   "results/stage4/allocation.json": "0e45bbf267d3c3d08f45e549516f8290f730b91517c82729e942a48144ccadcf",
   "results/stage4/demo8/action.json": "9489d376a73e9ff1f3ffaee7ca65c546441b7865fc7b0c6b6745336cabd9c1a9",
   "results/stage4/demo8/allocation.json": "d1c967d06fc98ecfb8eb70452638b45402e136d90206e58a0dbd06d967e1829f",
@@ -35,7 +35,12 @@
   "results/stage4/duel_seed_sensitivity.json": "eea819302a72dacfbc34c55d373814aa73ab0b80fed7b30c1fc4b85c1e8de38d",
   "results/stage4/duel_validity.json": "d7325ba48ee98957098af7c5d01c3712f8120f887f52295c1f600fcb914a5d32",
   "results/stage4/flags.json": "1efc50c0090f016d7b16fba1f01c94a4b3f10d72ced547277f32636f0b5cf195",
-  "results/stage4/ledger.jsonl": "7894589302a5e586c00bb932789b2ed73796f7fb819108c3b969a92bd990a883",
+  "results/stage4/human2/action.json": "962ea8f3c8323a795b5543d36bd57795daca40f7cda0f12bc6ba294a469904ee",
+  "results/stage4/human2/manifest.json": "24d08f53dc74bc8ddfa1040cec38bc263dc46bcea1870991ae521dd8a177cab3",
+  "results/stage4/human2/questionnaire.json": "9054bdfa559be81e7a60784f42286942b190e48cc91aff47d277e14d463b5100",
+  "results/stage4/human2/report.md": "c0083398f5d76e85de3f5b45f163426012e734b335552037fca31bb5c55dcbbc",
+  "results/stage4/human2_call_counts.json": "51be4e7513f0fa383e29e11cb38412e930151f25f42554c44bfde3493121220a",
+  "results/stage4/ledger.jsonl": "fdda0b2ec026567585315f055b532c11bec8d71aa9c6dda7e542f2dd9896b1bb",
   "results/verdict_v3/verdict_v3.json": "c6d37b39c9568a4f611168903c761c5cfbde0054d15d1e76c61d353550c78b8e"
  }
 }

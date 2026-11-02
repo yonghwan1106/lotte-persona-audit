@@ -28,6 +28,37 @@ function cardSummary(id: string): string {
   return `${card.attributes.join(", ")}. ${card.price_band}`;
 }
 
+/** The small run a person approved at a terminal. Its label comes from the numbers sheet, as in the demo's table. */
+export function HumanActionTable() {
+  return (
+    <div className="table-wrap">
+      <table className="stack action-table">
+        <thead>
+          <tr>
+            <th style={{ width: "27%" }}>안</th>
+            <th style={{ width: "14%" }}>제안</th>
+            <th>이유</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stage4.human_run.action.rows.map((row) => (
+            <tr key={row.card}>
+              <td>
+                <strong>안 {row.card}</strong>
+                <div className="small">{cardSummary(row.card)}</div>
+              </td>
+              <td data-label="제안">
+                <span className="status">{str(`stage4.human2.action.${row.card}`)}</span>
+              </td>
+              <td>{row.reason}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export function ActionTable() {
   return (
     <div className="table-wrap">
@@ -232,7 +263,7 @@ function duelRows(): StatusRow[] {
       what: "기록자와 사람의 결정",
       state: "사람이 하지 않음",
       ok: false,
-      scope: `기록자 값은 「${stage4.ledger.approver}」이고 코드는 이 이름이 누구인지 확인하지 못합니다. 원장의 human_decision은 ${stage4.ledger.human_decision === null ? "비어 있습니다" : "채워져 있습니다"}. 사람이 터미널에서 입력하는 승인 명령 human-approve를 만들었지만 한 번도 실행하지 않았습니다.`,
+      scope: `기록자 값은 「${stage4.ledger.approver}」이고 코드는 이 이름이 누구인지 확인하지 못합니다. 원장의 human_decision은 ${stage4.ledger.human_decision === null ? "비어 있습니다" : "채워져 있습니다"}. 사람이 터미널에서 입력하는 승인 명령 human-approve는 작은 실행 한 번(human2)에 썼고, 그 실행은 실측 대결을 돌리지 않아 이 기록과 무관합니다.`,
     },
   ];
 }

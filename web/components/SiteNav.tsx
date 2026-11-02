@@ -9,14 +9,15 @@ const LINKS = [
   { href: "/run", label: "실행 기록" },
   { href: "/attacks", label: "공격 기록" },
   { href: "/repro", label: "재현과 자료" },
-  { href: "/intake", label: "접수 시험" },
 ];
+const INTAKE_LINK = { href: "/intake", label: "접수 시험" };
 
-export function SiteNav() {
+/** The intake page works only with a server key, so the link appears only in a build that has one. */
+export function SiteNav({ showIntake }: { showIntake: boolean }) {
   const path = usePathname();
   return (
     <nav className="site-nav" aria-label="주요 페이지">
-      {LINKS.map((link) => (
+      {[...LINKS, ...(showIntake ? [INTAKE_LINK] : [])].map((link) => (
         <Link key={link.href} href={link.href} prefetch={false} aria-current={path === link.href ? "page" : undefined}>
           {link.label}
         </Link>

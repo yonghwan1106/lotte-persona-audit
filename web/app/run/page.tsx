@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Caveats, SourceLine } from "@/components/Notes";
 import { ReplaySteps, type Step } from "@/components/ReplaySteps";
-import { ActionTable, DetectableTable, DuelStatusTable, EXPLORE_SECTIONS, ExploreCard, HealthCheckDecision, OrderNotes } from "@/components/Stage4";
+import { ActionTable, DetectableTable, DuelStatusTable, EXPLORE_SECTIONS, ExploreCard, HealthCheckDecision, HumanActionTable, OrderNotes } from "@/components/Stage4";
 import demo from "@/data/demo.json";
 import stage4 from "@/data/stage4.json";
-import { any, bool, caveats, ciText, fixed, num, interval, signed, sources, usd } from "@/lib/numbers";
+import { any, bool, caveats, ciText, fixed, num, interval, signed, sources, str, usd } from "@/lib/numbers";
 
 export const metadata: Metadata = { title: "실행 기록 · 합성 패널 감사 기록" };
 
@@ -59,20 +59,21 @@ export default function RunPage() {
   const pairs = ["A_minus_B", "A_minus_C", "B_minus_C"];
   const models = ["terra", "luna"] as const;
   const exploreCards = ["A", "B", "C"] as const;
+  const human = stage4.human_run;
 
   return (
     <>
       <h1>실행 기록</h1>
       <div className="band">
         <p>
-          <strong>시연 전용, 정답 없음.</strong> 카드 6장은 모두 가상입니다. 구매 의향은 패널 내부 값이고 시장 수치나 판매 전망이 아닙니다. 승인은 사람이 하지 않았습니다. 이 실행으로 안을 고를 수 없습니다.
+          <strong>시연 전용, 정답 없음.</strong> 카드 6장은 모두 가상입니다. 구매 의향은 패널 내부 값이고 시장 수치나 판매 전망이 아닙니다. 이 페이지가 재생하는 시연의 승인은 사람이 하지 않았습니다. 사람이 승인한 작은 실행 한 번은 <a href="#human-run">별도 절</a>에 있습니다. 어느 실행으로도 안을 고를 수 없습니다.
         </p>
       </div>
       <p className="lead">
         감사 에이전트가 카드를 받아 계획, 패널, 진단, 판정, 탐색, 실측 200명 배분, 문항지, 원장까지 진행한 기록입니다. 페르소나 문장과 패널 이유 원문은 싣지 않습니다.
       </p>
       <p className="small">
-        재생 대상은 4단계 실행 <code>{demo.run_id}</code>(results/stage4/{demo.run_id})입니다. 판정표와 문항지 파일은 앞 실행 results/agent/demo5와 바이트 단위로 같고, 배분표는 숫자가 같으며 카드별 용도 문장만 다릅니다. 탐색 호출도 앞 실행의 캐시를 읽어 이 실행에서는 0건입니다. 매니페스트 <code>{demo.manifest_sha256.slice(0, 16)}…</code>, 규칙 {demo.rule_version}. 패널 호출은 첫 실행에서만 일어났고 4단계의 새 패널 호출은 {num("spend.stage4.panel_calls")}건입니다.
+        재생 대상은 4단계 실행 <code>{demo.run_id}</code>(results/stage4/{demo.run_id})입니다. 판정표와 문항지 파일은 앞 실행 results/agent/demo5와 바이트 단위로 같고, 배분표는 숫자가 같으며 카드별 용도 문장만 다릅니다. 탐색 호출도 앞 실행의 캐시를 읽어 이 실행에서는 0건입니다. 매니페스트 <code>{demo.manifest_sha256.slice(0, 16)}…</code>, 규칙 {demo.rule_version}. 이 재생의 패널 답은 앞 실행의 것이고, 이 실행까지 4단계의 새 패널 호출은 {num("spend.stage4.panel_calls")}건입니다.
       </p>
 
       <h2 id="action">안별 제안</h2>
@@ -89,6 +90,28 @@ export default function RunPage() {
       <DetectableTable />
       <p className="small">산식: {stage4.detectable.arithmetic}</p>
       <Caveats items={caveats(["stage4.detectable.between_mde_pp"])} />
+
+      <h2 id="human-run">사람이 터미널에서 승인한 실행</h2>
+      <div className="band">
+        <p>
+          <strong>작은 실행 한 번을 사람이 승인했습니다.</strong> run <code>{human.run_id}</code>, {human.approval.at.slice(0, 10)}, 터미널에 입력한 이름 {str("stage4.human2.approval.typed_name")}. 이름과 계획 해시를 입력하는 명령이고, <strong>코드는 입력한 사람이 누구인지 확인하지 못합니다.</strong> 위 시연을 포함한 앞선 시연 승인은 사람이 하지 않았습니다.
+        </p>
+        <p>
+          첫 시도 <code>human1</code>은 이름을 입력한 뒤 패널 호출 전에 코드 버그로 멈췄습니다. 고친 뒤 다시 실행한 것이 이 기록이고, 첫 시도의 기록도 저장소에 있습니다(results/stage4/human1).
+        </p>
+      </div>
+      <p>
+        {human.n_personas}명, 카드 {human.cards.join(", ")}, 두 모델({human.models.map((m) => MODEL[m] ?? m).join(", ")})입니다. 계획은 답 {num("stage4.human2.plan.answers").toLocaleString("en-US")}건이고, {num("stage4.human2.calls.answers_from_cache")}건은 앞 실행의 캐시에 있던 답이며 새로 받은 답은 {num("stage4.human2.calls.new_answers")}건입니다. 이 실행의 비용은 {usd(num("spend.stage4.human2.run"))}(패널 {usd(num("spend.stage4.human2.panel"))}, 탐색 {usd(num("spend.stage4.human2.explore"))})이고, {num("stage4.human2.plan.answers").toLocaleString("en-US")}건을 모두 새로 부를 때의 비용이 아닙니다. 매니페스트 <code>{human.manifest_sha256}</code>.
+      </p>
+      <HumanActionTable />
+      <ul className="small">
+        {human.action.notes.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
+        <li>이 실행도 시연 카드이고 정답이 없어 시연과 같은 결론을 내도 안을 고를 수 없습니다. 실측 대결을 돌리지 않아 원장의 real_results와 human_decision은 비어 있습니다.</li>
+      </ul>
+      <Caveats items={caveats(["stage4.human2.action.A", "stage4.human2.calls.new_answers", "spend.stage4.human2.run"])} />
+      <SourceLine files={sources(["stage4.human2.action.A", "stage4.human2.calls.new_answers", "spend.stage4.human2.run"])} keys="stage4.human2.*, spend.stage4.human2.*" />
 
       <h2>카드</h2>
       <div className="card-grid">

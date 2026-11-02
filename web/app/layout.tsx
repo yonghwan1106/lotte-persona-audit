@@ -26,7 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <a className="site-name" href="/">
               합성 패널 감사 기록
             </a>
-            <SiteNav />
+            <SiteNav showIntake={Boolean(process.env.OPENAI_API_KEY)} />
           </div>
         </header>
         <main>
@@ -36,7 +36,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <div className="wrap">
             <p>롯데 자료를 쓰지 않았고, 롯데와 제휴 관계가 없습니다. 수치 출처는 저장소의 results/numbers_sheet.json입니다.</p>
             <p>
-              자료: 한국농촌경제연구원 식품소비행태조사 원시자료 집계. 원자료와 응답자 단위 파생본은 이 사이트에 없습니다. <a href="/repro">출처와 이용 조건</a>
+              자료: 한국농촌경제연구원, 식품소비행태조사 2025 원자료(2023, 2024 원자료 포함)의 집계입니다. 공공누리 제4유형이고, 이 응모 이용은 KREI 학술정보팀 메일 회신(2026-11-02)을 따랐습니다. 원자료와 응답자 단위 파생본은 이 사이트에 없습니다. <a href="/repro">출처와 이용 조건</a>
+            </p>
+            <p>
+              코드와 집계: <a href="https://github.com/yonghwan1106/lotte-persona-audit" rel="noreferrer">github.com/yonghwan1106/lotte-persona-audit</a>
             </p>
           </div>
         </footer>

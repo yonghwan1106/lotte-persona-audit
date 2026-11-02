@@ -12,8 +12,10 @@ const SPEND = [
   { key: "spend.agent_stage", label: "감사 에이전트 단계" },
   { key: "spend.wf7_attacks", label: "실제 API 공격, 저장소 원장 밖" },
   { key: "spend.fix_stage", label: "수정 단계" },
-  { key: "spend.stage4", label: "4단계 (에이전트 모델, 탐색, 시나리오, 새 패널 호출 없음)" },
-  { key: "spend.all_stages_including_attacks", label: "합계" },
+  { key: "spend.stage4", label: "4단계, 사람 승인 실행 전 (에이전트 모델, 탐색, 시나리오, 새 패널 호출 없음)" },
+  { key: "spend.all_stages_including_attacks", label: "합계, 사람 승인 실행 전" },
+  { key: "spend.stage4.human2.run", label: "사람 승인 실행 human2 (패널과 탐색, 캐시에 없던 답만 호출)" },
+  { key: "spend.all_stages_through_human2", label: "합계, human2까지" },
 ];
 
 export default function ReproPage() {
@@ -25,18 +27,38 @@ export default function ReproPage() {
       <h2>자료 출처와 이용 조건</h2>
       <div className="band">
         <p>
-          <strong>출처:</strong> 한국농촌경제연구원, 식품소비행태조사 원시자료 2023~2025,{" "}
+          <strong>인용:</strong> 한국농촌경제연구원, 식품소비행태조사 2025 원자료. 2023, 2024 원자료도 같은 조사의 것을 썼습니다. 받는 곳:{" "}
           <a href="https://krei.re.kr/foodSurvey/page/460" rel="noreferrer">
             https://krei.re.kr/foodSurvey/page/460
           </a>
         </p>
         <p>
-          <strong>공공누리 제4유형(출처표시, 상업적 이용금지, 변경금지).</strong> 자료 게시글에 이 표시가 붙어 있습니다. 같은 표시가 공지사항과 문의 게시글에도 붙어 있어, 자료별로 정한 것인지 게시판 기본값인지는 확인하지 못했습니다.
+          <strong>공공누리 제4유형(출처표시, 상업적 이용금지, 변경금지).</strong> 자료 게시글에 이 표시가 붙어 있습니다.
         </p>
+        <p>
+          <strong>KREI 학술정보팀 메일 회신(2026-11-02)의 요지</strong>
+        </p>
+        <ul>
+          <li>연구원 홈페이지 등으로 공개하는 연구성과물에는 모두 공공누리 제4유형을 적용합니다.</li>
+          <li>공개 원시자료의 응답 일부를 문장으로 바꿔 외부 AI 서비스(OpenAI API)에 입력해 활용하는 것은 가능합니다. 다만 AI 분석 결과는 연구자가 점검하고 확인해 활용해야 하고, 원자료가 한국농촌경제연구원의 식품소비행태조사 원자료임을 분명히 밝혀야 합니다. AI 분석 결과 등의 책임은 연구자에게 있습니다.</li>
+          <li>이 경진대회 응모를 위해 연구원 자료를 쓰는 것은 상업적 이용에 해당하지 않는다고 판단한다는 회신입니다. 데이터 출처와 인용 표기는 정확해야 합니다.</li>
+        </ul>
+        <p>상업적 이용 판단은 이 응모에 대한 것입니다. 실제 서비스로 쓰려면 KREI와 별도로 협의하거나 자료를 바꿔야 합니다.</p>
         <p>이 사이트에는 집계값만 있습니다. 원자료와 응답자 단위 파생본은 재배포하지 않습니다. 「2024 원자료 집계」는 공개 원자료를 직접 집계한 값이고 공표 통계와 대조하지 않았습니다.</p>
       </div>
       <p>
         <strong>롯데 자료를 쓰지 않았습니다.</strong> 롯데칠성음료 등 그룹사의 내부 자료, 판매 자료, 조사 자료는 어디에도 들어 있지 않습니다. 이 사이트는 롯데와 제휴 관계가 없습니다. 시연 카드는 모두 가상입니다.
+      </p>
+
+      <h2 id="deployment">이 배포의 상태</h2>
+      <ul>
+        <li>
+          <strong>실시간 접수 시험은 이 배포에서 꺼져 있습니다.</strong> 서버에 OPENAI_API_KEY를 올리지 않았습니다. 그래서 메뉴에 넣지 않았고, <code>/intake</code> 주소로 들어가면 안내문만 보입니다. 저장소를 받아 서버 환경 변수에 키를 넣으면 켜집니다.
+        </li>
+        <li>이 사이트의 다른 페이지는 저장된 집계를 보여 주며 모델을 호출하지 않습니다.</li>
+      </ul>
+      <p>
+        코드와 집계: <a href="https://github.com/yonghwan1106/lotte-persona-audit" rel="noreferrer">github.com/yonghwan1106/lotte-persona-audit</a>
       </p>
 
       <h2>저장소에 없는 것</h2>
@@ -83,7 +105,9 @@ python src/stage3_run.py run
 .venv/Scripts/python.exe src/stage4_run.py demo-resume --run-id demo8 --approver "이름"
 .venv/Scripts/python.exe src/stage4_run.py make-standin --name krei_draw0
 .venv/Scripts/python.exe src/stage4_run.py ingest-real --run-id demo8 --real 파일 --panel 파일 --panel-model 모델 --panel-condition 조건 --source-label "라벨" --approver "이름"
-.venv/Scripts/python.exe src/stage4_run.py scenarios --runs 1 --demo-run demo8`}</pre>
+.venv/Scripts/python.exe src/stage4_run.py scenarios --runs 1 --demo-run demo8
+.venv/Scripts/python.exe src/stage4_run.py human-plan --run-id 새이름      # 계획만
+.venv/Scripts/python.exe src/stage4_run.py human-approve --run-id 새이름   # 사람이 터미널에서 이름과 계획 해시를 입력`}</pre>
       <h3>수치 시트와 이 사이트</h3>
       <pre>{`.venv/Scripts/python.exe src/make_numbers_sheet.py --record-tests  # results/numbers_sheet.json
 python web/scripts/build_data.py --ref public                      # 집계만 web/data로 복사, 누출 점검
@@ -111,7 +135,7 @@ cd web && npm install && npm run build && npm run start`}</pre>
           </tbody>
         </table>
       </div>
-      <Caveats items={caveats(["spend.gate", "spend.wf7_attacks", "tests.passed"])} />
+      <Caveats items={caveats(["spend.gate", "spend.wf7_attacks", "spend.stage4", "spend.stage4.human2.run", "tests.passed"])} />
 
       <h2>이 사이트의 데이터 출처</h2>
       <p className="small">
