@@ -22,6 +22,11 @@ function pct(x: number, digits = 1): string {
   return (x * 100).toFixed(digits);
 }
 
+/** The result files write sentences with their internal names. Only how they are shown changes here, never a number. */
+function plain(text: string): string {
+  return text.replace(/\bterra\b/g, "Terra").replace(/\bluna\b/g, "Luna").replace(/(\d)pp\b/g, "$1%⁠포인트");
+}
+
 function cardSummary(id: string): string {
   const card = demo.cards.find((c) => c.id === id);
   if (!card) throw new Error(`no card ${id}`);
@@ -50,7 +55,7 @@ export function HumanActionTable() {
               <td data-label="제안">
                 <span className="status">{str(`stage4.human2.action.${row.card}`)}</span>
               </td>
-              <td>{row.reason}</td>
+              <td>{plain(row.reason)}</td>
             </tr>
           ))}
         </tbody>
@@ -80,7 +85,7 @@ export function ActionTable() {
               <td data-label="제안">
                 <span className="status">{str(`stage4.demo8.action.${row.card}`)}</span>
               </td>
-              <td>{row.reason}</td>
+              <td>{plain(row.reason)}</td>
             </tr>
           ))}
         </tbody>
@@ -94,13 +99,13 @@ export function OrderNotes() {
     <>
       <ul>
         {stage4.action.order.map((line) => (
-          <li key={line}>{line}</li>
+          <li key={line}>{plain(line)}</li>
         ))}
         <li>두 모델의 방향이 맞지 않거나 잡음 안에 있는 쌍은 적지 않았습니다: {stage4.action.order_hidden_pairs.join(", ")}.</li>
       </ul>
       <ul className="small">
         {[...stage4.action.order_notes, ...stage4.action.notes].map((line) => (
-          <li key={line}>{line}</li>
+          <li key={line}>{plain(line)}</li>
         ))}
       </ul>
     </>
@@ -213,7 +218,7 @@ function duelRows(): StatusRow[] {
   return [
     {
       what: "실측 파일을 받아 규칙을 돌리고 보고서와 원장에 기록하는 경로",
-      state: "만듦, 대용 자료로 실행",
+      state: "구현됨, 대용 자료로 실행",
       ok: true,
       scope: "CSV 두 개(실측 응답, 같은 응답자의 패널 값)를 받아 200명 안의 5겹 교차 검증으로 R1과 겨룹니다. 패널 모델과 조건을 함께 받아 원장에 남기고, unit_id 열이 있으면 조사 단위를 온전히 둔 접힘으로 돌려 연속 횟수에 셉니다. 패널 값 없는 응답자, 중복, 코드 이상, 추적 폴더 안의 행 단위 파일은 거부합니다.",
     },

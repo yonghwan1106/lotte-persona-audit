@@ -1,5 +1,6 @@
 // Charts drawn on the server. Each is an image with a written summary and takes its numbers as props from the sheet or web/data.
 import { COLOR } from "@/lib/colors";
+import { spoken } from "@/lib/format";
 import { Figure, TwoUp } from "@/components/viz/Scene";
 
 const INK = "#12323B";
@@ -8,18 +9,19 @@ const INK3 = "#567079";
 const GRID = "#D9E7EA";
 const AXIS = "#9FBAC0";
 
-export type LadderStep = { id: string; label: string; note: string; value: number; fill: string; tab?: string };
+export type LadderStep = { id: string; label: string; note: string; value: number; fill: string; tab?: string; flag?: string };
 
 /** The error ladder. Lengths share one scale from zero; the last two rungs are bracketed as not separable. */
-function LadderDrawing({ steps, width, gapText }: { steps: LadderStep[]; width: number; gapText: string }) {
+function LadderDrawing({ steps, width, gapText, axis }: { steps: LadderStep[]; width: number; gapText: string; axis: string }) {
   const narrow = width < 500;
   const left = 0;
-  const right = narrow ? width - 58 : width - 340;
+  const right = narrow ? width - 58 : 540;
   const scale = (v: number) => (v / 16) * (right - left);
   const rowH = narrow ? 92 : 78;
   const top = 8;
   const barH = 30;
-  const height = top + rowH * steps.length + 34;
+  const height = top + rowH * steps.length + 54;
+  const axisY = top + rowH * steps.length + 8;
   const bracketFrom = top + rowH * 2 + (narrow ? 30 : 10);
   const bracketTo = top + rowH * 3 + (narrow ? 30 + barH : 10 + barH);
   const bracketX = narrow ? width - 6 : 590;
@@ -28,12 +30,15 @@ function LadderDrawing({ steps, width, gapText }: { steps: LadderStep[]; width: 
     <svg viewBox={`0 0 ${width} ${height}`} width="100%">
       {[0, 5, 10, 15].map((t) => (
         <g key={t}>
-          <line x1={scale(t)} x2={scale(t)} y1={top} y2={height - 26} stroke={t === 0 ? AXIS : GRID} />
-          <text x={scale(t)} y={height - 8} textAnchor={t === 0 ? "start" : "middle"} className="axis-text">
+          <line x1={scale(t)} x2={scale(t)} y1={top} y2={axisY} stroke={t === 0 ? AXIS : GRID} />
+          <text x={scale(t)} y={axisY + 18} textAnchor={t === 0 ? "start" : "middle"} className="axis-text">
             {t}
           </text>
         </g>
       ))}
+      <text x={0} y={axisY + 38} className="axis-text">
+        {axis}
+      </text>
       {steps.map((s, i) => {
         const y = top + rowH * i;
         const barY = narrow ? y + 30 : y + 10;
@@ -42,6 +47,11 @@ function LadderDrawing({ steps, width, gapText }: { steps: LadderStep[]; width: 
             {narrow ? (
               <text x={0} y={y + 20} className="ladder-label">
                 {s.label}
+                {s.flag ? (
+                  <tspan dx={8} className="ladder-flag">
+                    {s.flag}
+                  </tspan>
+                ) : null}
               </text>
             ) : null}
             <path d={`M${left} ${barY} H${scale(s.value) - 4} q4 0 4 4 V${barY + barH - 4} q0 4 -4 4 H${left} Z`} fill={s.fill} />
@@ -57,6 +67,11 @@ function LadderDrawing({ steps, width, gapText }: { steps: LadderStep[]; width: 
               <>
                 <text x={scale(s.value) + 74} y={barY + 14} className="ladder-label">
                   {s.label}
+                  {s.flag ? (
+                    <tspan dx={8} className="ladder-flag">
+                      {s.flag}
+                    </tspan>
+                  ) : null}
                 </text>
                 <text x={scale(s.value) + 74} y={barY + 33} className="ladder-note">
                   {s.note}
@@ -93,11 +108,11 @@ function LadderDrawing({ steps, width, gapText }: { steps: LadderStep[]; width: 
   );
 }
 
-export function ErrorLadder({ steps, gapText }: { steps: LadderStep[]; gapText: string }) {
+export function ErrorLadder({ steps, gapText, axis }: { steps: LadderStep[]; gapText: string; axis: string }) {
   const summary = `12칸 평균 오차 사다리, 낮을수록 실제에 가깝습니다. ${steps.map((s) => `${s.label} ${s.value}%⁠포인트`).join(", ")}. 마지막 두 값은 구별되지 않습니다. ${gapText}`;
   return (
     <Figure label={summary} className="ladder">
-      <TwoUp wide={<LadderDrawing steps={steps} width={1000} gapText={gapText} />} narrow={<LadderDrawing steps={steps} width={358} gapText={gapText} />} />
+      <TwoUp wide={<LadderDrawing steps={steps} width={1000} gapText={gapText} axis={axis} />} narrow={<LadderDrawing steps={steps} width={358} gapText={gapText} axis={axis} />} />
     </Figure>
   );
 }
@@ -197,7 +212,7 @@ function SlopeDrawing({ rows, width, emphasis }: { rows: SlopeRow[]; width: numb
       {order.map((row) => {
         const big = isBig(row);
         const up = row.panel_rank < row.real_rank;
-        const color = big ? (up ? COLOR.panel : COLOR.real) : AXIS;
+        const color = big ? (up ? COLOR.panel : COLOR.calibrated) : AXIS;
         return (
           <g key={row.id} data-tip={`${row.label}: 실제 ${row.real_rank}위 ${row.real_share.toFixed(1)}%, 패널 ${row.panel_rank}위 ${row.panel_share.toFixed(1)}%`}>
             <line x1={x1} x2={x2} y1={y(row.real_rank)} y2={y(row.panel_rank)} stroke={color} strokeWidth={big ? 3 : 1.5} />
@@ -296,7 +311,7 @@ export function GenderDumbbell({ rows, label }: { rows: GenderRow[]; label: stri
 /** A strip of squares, one per run or one per rule label. */
 export function Strip({ cells, label, className = "" }: { cells: { color: string; hollow?: boolean; tip?: string }[]; label: string; className?: string }) {
   return (
-    <div className={`strip ${className}`} role="img" aria-label={label}>
+    <div className={`strip ${className}`} role="img" aria-label={spoken(label)}>
       {cells.map((cell, i) => (
         <i key={i} title={cell.tip} style={cell.hollow ? { boxShadow: `inset 0 0 0 2px ${cell.color}` } : { background: cell.color }} />
       ))}
@@ -304,22 +319,51 @@ export function Strip({ cells, label, className = "" }: { cells: { color: string
   );
 }
 
-export function Waffle({ groups, label }: { groups: { name: string; n: number; color: string; note?: string }[]; label: string }) {
+type WafflePart = { name: string; n: number; margin: string };
+
+function WaffleDrawing({ parts, width }: { parts: [WafflePart, WafflePart]; width: number }) {
+  const narrow = width < 500;
+  const cols = 20;
+  const rows = 10;
+  const step = width / cols;
+  const r = step * 0.36;
+  const top = narrow ? 50 : 62;
+  const height = top + rows * step + 6;
+  const splitCol = Math.ceil(parts[0].n / rows);
+  const splitX = splitCol * step;
+  const heads: [number, WafflePart][] = [
+    [0, parts[0]],
+    [splitX + (narrow ? 5 : 10), parts[1]],
+  ];
   return (
-    <div role="img" aria-label={label} className="waffle">
-      {groups.map((group) => (
-        <div key={group.name} className="waffle-group">
-          <div className="waffle-name">
-            <strong>{group.name}</strong> {group.n}명{group.note ? <span> {group.note}</span> : null}
-          </div>
-          <div className="waffle-dots">
-            {Array.from({ length: group.n }, (_, i) => (
-              <i key={i} style={{ background: group.color }} />
-            ))}
-          </div>
-        </div>
+    <svg viewBox={`0 0 ${width} ${height}`} width="100%">
+      {heads.map(([x, part]) => (
+        <g key={part.name} data-tip={`${part.name} ${part.n}명, 오차 ±${part.margin}%⁠포인트`}>
+          <text x={x} y={narrow ? 18 : 26} className="waffle-head">
+            {part.name} {part.n}명
+          </text>
+          <text x={x} y={narrow ? 38 : 50} className="waffle-sub">
+            ±{part.margin}%⁠포인트
+          </text>
+        </g>
       ))}
-    </div>
+      {Array.from({ length: parts[0].n + parts[1].n }, (_, i) => {
+        const col = Math.floor(i / rows);
+        const row = i % rows;
+        const inFirst = i < parts[0].n;
+        return <circle key={i} cx={col * step + step / 2} cy={top + row * step + step / 2} r={inFirst ? r : r - 1} fill={inFirst ? COLOR.real : "none"} stroke={COLOR.real} strokeWidth={inFirst ? 0 : 2} />;
+      })}
+      <line x1={splitX} x2={splitX} y1={2} y2={height} stroke={INK} strokeWidth={2} />
+    </svg>
+  );
+}
+
+/** Two hundred people in one block, cut once where the survey budget is split. */
+export function AllocationWaffle({ parts, label }: { parts: [WafflePart, WafflePart]; label: string }) {
+  return (
+    <Figure label={label} className="waffle-block">
+      <TwoUp wide={<WaffleDrawing parts={parts} width={640} />} narrow={<WaffleDrawing parts={parts} width={358} />} />
+    </Figure>
   );
 }
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Caveats } from "@/components/Notes";
 import { ActionTable, DetectableTable, DuelStatusTable, ExploreCard, HealthCheckDecision, HealthCheckReasons, OrderNotes, seedRunsFailed, SEED_RUNS } from "@/components/Stage4";
 import { ErrorLadder, type LadderStep } from "@/components/viz/Charts";
-import { FlowLine } from "@/components/viz/FlowLine";
+import { FlowLine, FlowTable } from "@/components/viz/FlowLine";
 import { HeroGlasses, type GlassItem } from "@/components/viz/HeroGlasses";
 import { ReportGate } from "@/components/viz/ReportGate";
 import { SampleSlider } from "@/components/viz/SampleSlider";
@@ -11,6 +11,7 @@ import { Vessel } from "@/components/viz/Vessel";
 import demo from "@/data/demo.json";
 import stage4 from "@/data/stage4.json";
 import { COLOR } from "@/lib/colors";
+import { halfUp } from "@/lib/format";
 import { any, bool, caveats, ciText, fixed, interval, num, signed, str, usd } from "@/lib/numbers";
 
 type Row = { what: string; state: string; ok: boolean; scope: React.ReactNode };
@@ -39,7 +40,7 @@ export default function HomePage() {
 
   const ladder: LadderStep[] = [
     { id: "E3", label: "패널 그대로", note: "실제 응답 없이 패널 값만", value: Number(fixed(num("stage2.n200.row.terra_C2.E3.average.cell_mae"), 1)), fill: COLOR.yuzu },
-    { id: "E2", label: "실제 200명 평균", note: "칸 평균을 전체 평균 쪽으로 줄인 값", value: Number(fixed(num("stage2.n200.row.E2.average.cell_mae"))), fill: COLOR.real },
+    { id: "E2", label: "실제 200명 평균", flag: "약한 비교 상대", note: "실제 200명을 전체 평균 쪽으로 줄인 값", value: Number(fixed(num("stage2.n200.row.E2.average.cell_mae"))), fill: COLOR.real },
     { id: "E4", label: "패널 보정", note: "패널을 실제 200명으로 맞춘 값", value: Number(fixed(num("stage2.n200.row.terra_C2.E4.average.cell_mae"))), fill: COLOR.real, tab: COLOR.yuzu },
     { id: "R1", label: "패널 없는 단순 통계", note: "같은 200명의 나이·성별 회귀", value: Number(fixed(num("stage2.n200.row.R1.average.cell_mae"))), fill: COLOR.real },
   ];
@@ -63,7 +64,7 @@ export default function HomePage() {
 
   const verified: Row[] = [
     {
-      what: "기존 음료 행동 3개 항목의 12칸 재현",
+      what: "패널이 기존 음료 행동 3개 항목의 12칸을 얼마나 맞히는지",
       state: "측정함",
       ok: true,
       scope: "KREI 2025 시험 분할. 제로 음료 경험, 주 1회 이상, 1순위 탄산. 시험 truth는 앞 단계부터 본 값이어서 눈가림 시험이 아닙니다.",
@@ -152,14 +153,39 @@ export default function HomePage() {
   return (
     <>
       <Scene className="hero">
-        <h1>패널은 실제보다 더 마신다고 답합니다</h1>
+        <h1>
+          GPT 패널은 <span className="nb">제로 음료와 탄산을</span> 실제보다 높게 답합니다
+        </h1>
+        <HeroGlasses items={glasses} initial="weekly" />
         <div className="hero-copy">
-          <p className="lead">이 서비스는 콘셉트를 실제 200명 조사에 보내기 전에 GPT 패널로 안을 훑어 반대 이유와 문항 초안을 내고, 패널 값은 보고서에서 빼고, 결정은 담당자에게 남깁니다.</p>
+          <p className="lead">패널은 GPT로 만든 가상 응답자입니다. 이 서비스는 콘셉트를 실제 200명 조사에 보내기 전에 패널로 안을 훑어 반대 이유와 문항 초안을 내고, 패널 절대값은 보고서 본문에 넣지 않으며, 결정은 담당자에게 남깁니다.</p>
           <div className="hero-links">
             <a href="#receive">담당자가 받는 것</a>
             <Link href="/results">측정 결과</Link>
           </div>
-          <Evidence summary="이 서비스가 정하는 것과 내는 것 보기">
+          <Evidence summary="유리잔 값 표와 이 서비스가 내는 것 보기">
+            <div className="table-wrap" tabIndex={0}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>항목</th>
+                    <th className="num">실제 응답 %</th>
+                    <th className="num">GPT 패널 %</th>
+                    <th className="num">차이 %⁠포인트</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {glasses.map((g) => (
+                    <tr key={g.id}>
+                      <td>{g.label}</td>
+                      <td className="num">{halfUp(g.real)}</td>
+                      <td className="num">{halfUp(g.panel)}</td>
+                      <td className="num">+{halfUp(g.panel - g.real)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <dl className="opening">
               <dt>무엇을 정하나</dt>
               <dd>라인 확장 후보를 고르는 초기 단계에서 어느 안을 실측 설문에 보낼지 정합니다. 고르는 사람은 담당자이고, 패널은 탈락을 확정하지 못합니다. 판매량과 신제품 성패는 예측하지 않습니다.</dd>
@@ -167,27 +193,31 @@ export default function HomePage() {
               <dd>콘셉트 카드를 넣으면 합성 패널(LLM 페르소나)이 먼저 읽고, 안별 제안표(실측 후보 유지, 탈락 제안, 판단 불가와 이유), 반대 이유, 끌리는 점, 세그먼트 가설, 문항 초안, 실제 200명 배분표와 문항지를 냅니다. 설문은 보내지 않습니다.</dd>
               <dt>왜 필요한가</dt>
               <dd>
-                실제 설문이 가를 수 있는 차이에는 한계가 있습니다. 200명을 두 안에 {num("stage4.detectable.n_arm")}명씩 나누면 실제 차이가 {num("stage4.detectable.between_mde_pp")}%⁠포인트보다 작을 때 가려내기 어려우므로, 설문에 넣을 안을 먼저 좁혀야 합니다. 그렇다고 패널 수치로 좁히면 안 됩니다. 기존 음료 행동에서 패널 원수치는 전국 값보다 {signed(num("stage2.stereotype.ever.terra_C2.bias_pp"))}, {signed(num("stage2.stereotype.weekly.terra_C2.bias_pp"))}, {signed(num("stage2.stereotype.carb.terra_C2.bias_pp"))}%⁠포인트 치우쳤습니다. 수치 없이 쓸 수 있는 자료와, 패널을 어디까지 믿을지의 기록이 함께 필요합니다.
+                실제 설문이 가를 수 있는 차이에는 한계가 있습니다. 200명을 두 안에 {num("stage4.detectable.n_arm")}명씩 나누면 실제 차이가 {num("stage4.detectable.between_mde_pp")}%⁠포인트보다 작을 때 가려내기 어려우므로, 설문에 넣을 안을 먼저 좁혀야 합니다. 그렇다고 패널 수치로 좁히면 안 됩니다. 기존 음료 행동에서 패널 원수치는 전국 값보다 {signed(num("stage2.stereotype.ever.terra_C2.bias_pp"))}, {signed(num("stage2.stereotype.weekly.terra_C2.bias_pp"))}, {signed(num("stage2.stereotype.carb.terra_C2.bias_pp"))}%⁠포인트 치우쳤습니다. 패널 절대값 없이 쓸 수 있는 자료와, 패널을 어디까지 믿을지의 기록이 함께 필요합니다.
               </dd>
             </dl>
             <p className="small">세 항목은 제로 음료 경험, 제로 음료 주 1회 이상, 탄산 1순위입니다. 패널은 gpt-6.1-terra의 페르소나 조건 C2이고, 패널 값은 시험 truth 전체의 실제 값에 치우침을 더한 값입니다. 시험 truth의 일부는 패널 본인입니다.</p>
             <Caveats items={caveats(["stage2.stereotype.weekly.terra_C2.bias_pp"])} />
           </Evidence>
         </div>
-        <HeroGlasses items={glasses} initial="weekly" />
       </Scene>
 
       <Scene tone="glass" id="flow">
-        <h2>패널은 조사 앞에서 훑기만 하고, 네 곳은 사람이 정합니다</h2>
-        <p className="say">시스템은 설문을 보내지 않습니다. 점선은 설계 단계로, 실제 조사를 만난 적이 없습니다.</p>
-        <p className="say">시연 승인은 사람이 하지 않았습니다. 작은 실행 한 번은 응모자가 터미널에서 승인했고, 입력한 사람이 누구인지 코드는 확인하지 못합니다. <Link href="/run#human-run">승인 기록</Link></p>
+        <h2>패널은 훑고, 네 곳은 사람이 정합니다</h2>
+        <p className="say">시스템은 설문을 보내지 않습니다. 점선은 아직 설계이고, 실제 조사를 만난 적이 없습니다.</p>
         <FlowLine />
+        <p className="small figure-note">
+          시연 승인은 사람이 하지 않았고, 작은 실행 한 번만 응모자가 터미널에서 승인했으며, 입력한 사람이 누구인지 코드는 확인하지 못합니다. <Link href="/run#human-run">승인 기록</Link>
+        </p>
+        <Evidence summary="흐름을 표로 보기">
+          <FlowTable />
+        </Evidence>
       </Scene>
 
       <Scene id="receive">
-        <h2>담당자는 수치 대신 제안과 반대 이유를 받습니다</h2>
+        <h2 className="h-long">담당자는 패널 절대값 대신 제안과 반대 이유를 받습니다</h2>
         <p className="say">
-          <strong>시연 전용, 정답 없음.</strong> 카드는 모두 가상이고, 이 시연은 후보를 하나도 줄이지 못했습니다. 세 안 유지는 패널의 판단이 아니라 시연 값을 본 뒤 쓴 5%⁠포인트 기준의 결과입니다.
+          <strong>시연 전용, 정답 없음:</strong> 카드는 모두 가상이고, 이 시연은 후보를 하나도 줄이지 못했습니다. 세 안 유지는 패널의 판단이 아니라 시연 값을 본 뒤 쓴 5%⁠포인트 기준의 결과입니다.
         </p>
         <div className="shelf">
           {bubbles.map(({ card, kind, line }) => {
@@ -224,14 +254,15 @@ export default function HomePage() {
             </figcaption>
           </figure>
         </div>
-        <p className="small shelf-note" style={{ maxWidth: "36em" }}>
-          패널은 탈락을 확정하지 못하고, 실측 대상은 담당자가 고릅니다. 세 후보를 같은 선반에 둔 것은 안 사이 차이가 고를 근거가 아니기 때문입니다. 선반 높이는 그림이고 비율이 아닙니다.
-        </p>
+        <p className="small shelf-note">패널은 탈락을 확정하지 못하고, 실측 대상은 담당자가 고릅니다. 선반 높이는 그림이고 비율이 아닙니다.</p>
         <Evidence summary="안별 제안표, 방향 메모, 반대 이유 전체 보기">
           <Glossary />
+          <p className="small">
+            보고서 본문에는 패널 절대값이 없습니다. 아래 제안표와 방향 메모처럼 패널 내부 차이는 보고서에 그대로 있습니다. 세 후보를 같은 선반에 둔 것은 안 사이 차이가 고를 근거가 아니기 때문입니다.
+          </p>
           <h3>시연 결과: 안별 제안</h3>
           <p className="small">
-            <strong>시연 전용, 정답 없음, 카드 3장은 가상.</strong> 아래 제안은 어느 안이 낫다는 뜻이 아닙니다. terra, luna는 패널을 돌린 두 모델이고 pp 값은 패널 내부 값입니다. 통과하지 못한 규칙은 <Link href="/results#failures">측정 결과 첫 표</Link>에 있습니다.
+            <strong>시연 전용, 정답 없음, 카드 3장은 가상.</strong> 아래 제안은 어느 안이 낫다는 뜻이 아닙니다. Terra, Luna는 패널을 돌린 두 모델이고 %⁠포인트 값은 패널 내부 값입니다. 통과하지 못한 규칙은 <Link href="/results#failures">측정 결과 첫 표</Link>에 있습니다.
           </p>
           <ActionTable />
           <Caveats items={caveats(["stage4.demo8.action.A", "stage4.human2.action.A", "stage4.pair_accuracy.1_to_3pp.pairs"])} />
@@ -253,13 +284,13 @@ export default function HomePage() {
       </Scene>
 
       <Scene tone="glass" id="ladder">
-        <h2>패널을 실제 200명으로 보정해도 단순 통계와 구별되지 않습니다</h2>
-        <p className="say">막대는 12칸(연령대와 성별) 평균 오차, %⁠포인트입니다. 짧을수록 실제에 가깝습니다.</p>
-        <p className="say">응답자 본인의 실제 답을 넣은 패널도 같은 규칙을 넘지 못해, 이 결과를 LLM 실패의 증거로 읽지 않습니다.</p>
-        <ErrorLadder steps={ladder} gapText={ladderGap} />
-        <p className="small" style={{ marginTop: 10, maxWidth: "46em" }}>
-          세 음료 항목의 평균이고 패널 값은 시장 수치가 아닙니다. 새 콘셉트의 정확도와 판매량은 재지 않았습니다.
+        <h2>보정해도 단순 통계와 구별되지 않습니다</h2>
+        <p className="say">응답자 본인의 실제 답을 넣은 패널도 단순 통계를 이기는지 보는 규칙을 넘지 못해, 이 결과를 LLM 실패의 증거로 읽지 않습니다.</p>
+        <ErrorLadder steps={ladder} gapText={ladderGap} axis="12칸(연령대와 성별) 평균 오차, %⁠포인트. 짧을수록 실제에 가깝습니다." />
+        <p className="ladder-read">
+          패널 보정이 실제 200명 평균보다 짧아 보여도, 이 차이 {fixed(Math.abs(num(`stage2.n200.row.terra_C2.E4.average.minus_E2.mean_diff`)))}은 사전 등록 잡음 기준 {fixed(num("stage2.noise_floor.average"))}보다 작아 패널 이득으로 읽지 않습니다.
         </p>
+        <p className="small">세 음료 항목의 평균이고 패널 값은 시장 수치가 아닙니다. 새 콘셉트의 정확도와 판매량은 재지 않았습니다.</p>
         <Evidence summary="비교 상대와 구간, 앞선 측정 요약 보기">
           <Glossary />
           <h3>실제 200명에 패널을 더해도 같은 200명의 나이·성별 회귀와 구별되지 않습니다</h3>
@@ -303,8 +334,8 @@ export default function HomePage() {
       </Scene>
 
       <Scene tone="mist" id="detectable">
-        <h2>실제 200명으로는 작은 차이를 가려내지 못합니다</h2>
-        <p className="say">두 카드에 {d.n_arm}명씩이면 {d.between_mde_pp}%⁠포인트보다 작은 차이는 가려내기 어렵습니다. 그 아래 차이는 원가와 라인 구성 같은 다른 근거로 고르거나 표본을 늘립니다.</p>
+        <h2>실제 200명은 작은 차이를 못 가립니다</h2>
+        <p className="say">가려낼 수 있는 선 아래의 차이는 원가와 라인 구성 같은 다른 근거로 고르거나 표본을 늘립니다.</p>
         <SampleSlider params={{ z_alpha: d.z_alpha, z_power: d.z_power, p: d.p }} marks={marks} />
         <Evidence summary="필요 인원 표와 한 사람이 두 안을 볼 때 보기">
           <p>
@@ -317,19 +348,19 @@ export default function HomePage() {
       </Scene>
 
       <Scene tone="glass" id="why">
-        <h2>그래도 돌리는 이유는 수치가 아니라 재료와 기록입니다</h2>
+        <h2>그래도 돌리는 이유는 재료와 기록입니다</h2>
         <p className="say">설문 전에 반대 이유와 문항 초안을 얻고, 어설픈 안을 훑을 재료를 얻고, 패널을 실제 응답과 겨룬 기록을 남깁니다. 앞의 두 쓸모는 아직 재지 않았습니다.</p>
         <div className="cost">
           <div>
-            <Figure label={`패널 감사 한 번의 측정 비용. 호출 비용 ${usd(num("spend.gate"), 2)}, 실행 시간 합계 약 ${Math.round(totalSeconds / 60)}분, Terra ${gate.seconds.terra_from_call_log}초와 Luna ${gate.seconds.luna}초. 300명, 두 모델.`}>
+            <Figure label={`패널 감사 한 번의 측정 비용. 호출 비용 ${usd(num("spend.gate"), 2)}, 실행 시간 합계 ${totalSeconds.toFixed(1)}초로 약 ${Math.round(totalSeconds / 60)}분, Terra ${gate.seconds.terra_from_call_log}초와 Luna ${gate.seconds.luna}초. 300명, 두 모델.`}>
               <div className="cost-big">
                 <div>
                   USD {fixed(num("spend.gate"))}
                   <small>호출 비용, 잰 값</small>
                 </div>
                 <div>
-                  약 10분
-                  <small>300명, 모델 2개 한 번, 잰 값</small>
+                  약 {Math.round(totalSeconds / 60)}분
+                  <small>300명, 모델 2개 한 번, {totalSeconds.toFixed(1)}초를 잰 값</small>
                 </div>
               </div>
               <div className="time-bar">
@@ -337,13 +368,20 @@ export default function HomePage() {
                 <div style={{ flex: gate.seconds.luna }}>Luna {gate.seconds.luna}초</div>
               </div>
             </Figure>
-            <p className="small" style={{ marginTop: 10 }}>
-              자료 준비와 사람 시간은 빠져 있고, 실측 조사 비용과 비교하지 않았습니다.
-            </p>
+            <p className="small figure-note">Terra와 Luna는 패널을 돌린 두 모델입니다. 자료 준비와 사람 시간은 빠져 있고, 실측 조사 비용과 비교하지 않았습니다.</p>
           </div>
           <div className="camp">
-            <strong>본선 가설, 재지 않음</strong>
-            지금 성적은 공개 자료로 만든 페르소나의 것입니다. 롯데칠성음료의 조사 자료와 구매 이력을 붙이면 같은 시험을 넘을 수 있다는 가설이고, 합격선은 답을 보기 전에 고정합니다.
+            <svg viewBox="0 0 72 96" aria-hidden="true" className="camp-glass">
+              <ellipse cx={36} cy={8} rx={30} ry={5} fill="none" stroke="#12323B" strokeWidth={2.5} strokeDasharray="5 5" />
+              <path d="M6 8 L12 88 Q12.5 92 16 92 L56 92 Q59.5 92 60 88 L66 8" fill="none" stroke="#12323B" strokeWidth={2.5} strokeDasharray="5 5" />
+              <text x={36} y={62} textAnchor="middle" className="camp-mark">
+                ?
+              </text>
+            </svg>
+            <div>
+              <strong>본선 가설, 재지 않음</strong>
+              지금 성적은 공개 자료로 만든 페르소나의 것입니다. 롯데칠성음료의 조사 자료와 구매 이력을 붙이면 같은 시험을 넘을 수 있다는 가설이고, 합격선은 답을 보기 전에 고정합니다.
+            </div>
           </div>
         </div>
         <Evidence summary="감사 비용과 이번 측정의 전체 설명 보기">
@@ -365,8 +403,8 @@ export default function HomePage() {
       </Scene>
 
       <Scene tone="deep" id="health-check">
-        <h2>패널 값은 보고서에 넣지 않고, 실제 200명과의 대결은 건강검진으로만 기록합니다</h2>
-        <p className="say">한 번 이겨도 값은 들어가지 않고, 몇 번 연속이어야 하는지도 아직 합의하지 않았습니다. 건강검진은 실제 설문을 만난 적이 없고, 이 결정은 결과를 본 뒤에 정한 사후 결정입니다.</p>
+        <h2>패널 절대값은 보고서에 넣지 않습니다</h2>
+        <p className="say">실제 200명과의 대결은 건강검진으로만 기록합니다. 건강검진은 실제 설문을 만난 적이 없고, 이 결정은 결과를 본 뒤에 정한 사후 결정입니다.</p>
         <ReportGate keeps={health.consecutive_keeps} />
         <Evidence summary="결정 내용, 근거, 경로 상태 보기">
           <Glossary />
@@ -385,7 +423,7 @@ export default function HomePage() {
           <div>
             <h3>검증한 것</h3>
             <ul>
-              <li><span>기존 음료 행동 3개 항목의 12칸 재현</span></li>
+              <li><span>패널이 기존 음료 행동 3개 항목의 12칸을 얼마나 맞히는지 측정</span></li>
               <li><span>패널 보정과 단순 통계의 비교: 구별되지 않음</span></li>
               <li><span>음료 15개 순서: 패널이 실제 200명과 지난해 집계보다 낮음</span></li>
               <li><span>응답자, 가구, 조사 단위의 분할과 누출</span></li>

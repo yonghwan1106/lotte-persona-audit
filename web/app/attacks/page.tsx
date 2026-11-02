@@ -127,14 +127,14 @@ export default function AttacksPage() {
     <>
       <Scene className="page-head">
         <h1>공격 기록</h1>
-        <p className="lead">감사 에이전트를 일부러 속여 본 기록입니다. 뚫린 것, 고친 것, 고친 뒤에도 통과하는 것을 그대로 적습니다.</p>
+        <p className="lead">감사 에이전트를 일부러 속여 본 기록입니다. 뚫린 것, 고친 것, 고친 뒤에도 통과하는 것을 적습니다.</p>
       </Scene>
 
       <Scene tone="glass" id="wall">
         <h2>
-          실제 공격 {outcomes.length}회 중 {fixed_.length}회에서 구멍이 드러났고, 아는 구멍이 남아 있습니다
+          실제 공격 {outcomes.length}회 중 {fixed_.length}회에서 구멍이 드러났습니다
         </h2>
-        <p className="say">뚫렸던 것은 고친 뒤 다시 돌려 이번에는 통과하지 못했습니다. 진한 칸은 고치지 않았거나 패턴이 잡지 못하는 것으로, 코드 점검으로 확인했습니다.</p>
+        <p className="say">뚫렸던 것은 고친 뒤 한 번 다시 돌려 그때는 통과하지 못했습니다. 진한 칸은 아직 열린 구멍으로, 코드 점검으로 확인했습니다.</p>
         <div className="tile-key">
           <span>
             <i className="tile-held" />
@@ -172,7 +172,7 @@ export default function AttacksPage() {
             </div>
           ))}
         </div>
-        <p className="small" style={{ marginTop: 12, maxWidth: "46em" }}>
+        <p className="small figure-note">
           시도는 대부분 1회입니다. 「뚫렸다가 고침」의 앵커 재판정 두 건은 매니저가 거부했지만 코드가 막지 않은 경우이고, 「뚫리지 않음」에는 맞게 막았지만 분류가 틀린 경우도 있습니다. 사람 승인 화면은 없습니다.
         </p>
         <Evidence summary="공격별 결과, 고친 내용, 아직 통과하는 것의 설명 보기">
@@ -282,7 +282,7 @@ export default function AttacksPage() {
       </Scene>
 
       <Scene id="scenarios">
-        <h2>시나리오 통과 수는 늘었지만, 시험한 형태 안의 결과입니다</h2>
+        <h2>시나리오 통과는 시험한 형태 안의 결과입니다</h2>
         <p className="say">거절률 추정치가 아니고 일반 방어의 증거도 아닙니다. 에이전트 단계 최종 통과 뒤에도 위의 실제 공격이 뚫었습니다.</p>
         <div className="progress-rows">
           {scenarios.map((s) => (
@@ -295,7 +295,7 @@ export default function AttacksPage() {
               </h3>
               <Strip
                 label={`${s.name}: ${s.runs}회 중 ${s.passed}회 통과`}
-                cells={Array.from({ length: s.runs }, (_, i) => (i < s.passed ? { color: COLOR.real, tip: "통과" } : { color: COLOR.grape, tip: "실패" }))}
+                cells={Array.from({ length: s.runs }, (_, i) => (i < s.passed ? { color: COLOR.reference, tip: "통과" } : { color: COLOR.grape, tip: "실패" }))}
               />
             </div>
           ))}
@@ -434,7 +434,7 @@ export default function AttacksPage() {
 
       <Scene tone="mist" id="probe">
         <h2>
-          유도 문장 하나가 패널 내부 값을 <span className="nb">{signed(probeValue, 1)}%⁠포인트</span> 움직였습니다
+          유도 문장 하나가 <span className="nb">{signed(probeValue, 1)}%⁠포인트</span> 움직였습니다
         </h2>
         <p className="say">
           {num("attacks.wf7.probe.n_personas")}명, 문장 1개, 1회의 탐침이고 패널 값은 시장 수치가 아닙니다. 고친 뒤 이 문장은 사람 확인 대기로 잡히지만, 패턴에 안 걸리는 비슷한 문장의 영향은 재지 않았습니다.

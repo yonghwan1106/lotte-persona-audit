@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DotRows, Legend, MaeExplorer, type DotRow, type MaeCell, type Pair } from "@/components/charts";
 import { COLOR } from "@/lib/colors";
+import { halfUp } from "@/lib/format";
 import { Caveats, SourceLine } from "@/components/Notes";
 import { HealthCheckDecision, rateOrDash, seedRunsFailed, SEED_RUNS } from "@/components/Stage4";
 import { AgePanel, GenderDumbbell, Key, SlopeChart, Strip, type GenderRow } from "@/components/viz/Charts";
@@ -128,10 +129,10 @@ const SIGNALS = [
 const DUEL_PANELS = [
   { id: "terra_C2", label: "Terra C2", fill: COLOR.panel, hollow: false },
   { id: "luna_C1", label: "Luna C1", fill: COLOR.panel, hollow: true },
-  { id: "control_s0.25", label: "양성 대조 s=0.25", fill: COLOR.real, hollow: true },
-  { id: "control_s0.5", label: "양성 대조 s=0.5", fill: COLOR.real, hollow: true },
-  { id: "control_s1.0", label: "양성 대조 s=1.0 (기준)", fill: COLOR.real, hollow: false },
-  { id: "control_s2.0", label: "양성 대조 s=2.0", fill: COLOR.real, hollow: true },
+  { id: "control_s0.25", label: "양성 대조 s=0.25", fill: COLOR.calibrated, hollow: true },
+  { id: "control_s0.5", label: "양성 대조 s=0.5", fill: COLOR.calibrated, hollow: true },
+  { id: "control_s1.0", label: "양성 대조 s=1.0 (기준)", fill: COLOR.calibrated, hollow: false },
+  { id: "control_s2.0", label: "양성 대조 s=2.0", fill: COLOR.calibrated, hollow: true },
   { id: "surrogate_terra_slot", label: "대체 패널, Terra 자리", fill: COLOR.reference, hollow: false },
   { id: "surrogate_luna_slot", label: "대체 패널, Luna 자리", fill: COLOR.reference, hollow: true },
 ];
@@ -209,6 +210,8 @@ export default function ResultsPage() {
   const ageExceptions = ageItems.flatMap((item) =>
     Object.entries(viz.age_bands[item]).flatMap(([combo, block]) => block.rows.filter((row) => row.panel <= row.real).map((row) => `${combo} ${ITEM_NAME[item]} ${row.band}`)),
   );
+  if (ageExceptions.some((row) => row.startsWith("terra"))) throw new Error("the age heading says Terra is above the real line in every band");
+  const lunaLow = [...new Set(ageItems.flatMap((item) => (["luna_C1", "luna_C2"] as const).flatMap((combo) => viz.age_bands[item][combo].rows.filter((row) => row.panel <= row.real).map((row) => `${ITEM_NAME[item]} ${row.band}`))))].join(", ");
   const forestRows: DotRow[] = [
     { heading: "패널을 실제 200명에 맞추는 세 방법" },
     ...[
@@ -263,17 +266,13 @@ export default function ResultsPage() {
   });
   const everGap = genderData[0];
   const aucRows: DotRow[] = ITEMS.map((item) => {
-    const auc = num(`stage2.person.${item.id}.terra_C2.auc`);
-    const floor = num(`stage2.person.${item.id}.floor_auc`);
+    const diff = num(`stage2.person.${item.id}.terra_C2.auc_minus_floor`);
+    const ci = interval(`stage2.person.${item.id}.terra_C2.diff_ci95`);
     return {
       label: ITEM_NAME[item.id],
-      value: `패널 ${fixed(auc, 3)}, 바닥 ${fixed(floor, 3)}`,
-      link: [floor, auc] as [number, number],
-      marks: [
-        { x: floor, fill: COLOR.reference },
-        { x: auc, fill: COLOR.panel },
-      ],
-      tip: `${ITEM_NAME[item.id]}: 패널 ${fixed(auc, 4)}, 나이·성별 바닥 ${fixed(floor, 4)}`,
+      value: `${signed(diff, 4)} ${ciText(ci, 4)}`,
+      marks: [{ x: diff, lo: ci[0], hi: ci[1], fill: COLOR.panel, hollow: ci[0] <= 0 }],
+      tip: `${ITEM_NAME[item.id]}: 패널 AUC에서 나이·성별만 쓴 모델의 AUC를 뺀 값 ${signed(diff, 4)}, 95% 구간 ${ciText(ci, 4)}`,
     };
   });
   const keepPanel = (label: string, base: string, fill: string, hollow = false) => {
@@ -287,15 +286,15 @@ export default function ResultsPage() {
     keepPanel("Terra, 인구 특성만 (시연 조건)", "stage4.posthoc.row.terra_C1", COLOR.panel),
     keepPanel("Luna, 인구 특성만", "stage4.duel.row.luna_C1.pooled.panel_excluded", COLOR.panel, true),
     { heading: "LLM이 아닌 비교 대상" },
-    keepPanel("답을 일부 알려 준 양성 대조", "stage4.duel.row.control_s1.0.pooled.panel_excluded", COLOR.real),
+    keepPanel("답을 일부 알려 준 양성 대조", "stage4.duel.row.control_s1.0.pooled.panel_excluded", COLOR.calibrated),
     keepPanel("대체 패널, Terra 자리", "stage4.duel.row.surrogate_terra_slot.pooled.panel_excluded", COLOR.reference),
     keepPanel("대체 패널, Luna 자리", "stage4.duel.row.surrogate_luna_slot.pooled.panel_excluded", COLOR.reference, true),
     keepPanel("LLM 없는 나이·성별 모델", "stage4.posthoc.row.floor_no_llm", COLOR.reference),
   ];
   const RULE_COLOR: Record<string, { color: string; hollow?: boolean }> = {
-    "보정 후 참고": { color: COLOR.real },
-    방향만: { color: "#8CC7D3" },
-    "실측 전용": { color: "#567079" },
+    "보정 후 참고": { color: "#12323B" },
+    방향만: { color: "#6F8D95" },
+    "실측 전용": { color: "#B9CDD2" },
     "판정 불가": { color: "#12323B", hollow: true },
   };
   const ruleCell = (prefix: string, rule: string) => {
@@ -310,7 +309,7 @@ export default function ResultsPage() {
   };
   const allocRows: DotRow[] = DESIGNS.slice(0, 4).map((design) => {
     const value = num(`${ALLOC}.${design.id}.average.mean`);
-    return { label: design.label.replace(" (3항목 평균 기준)", "").replace("Neyman", "배분").replace("reference", "참고 자료"), value: fixed(value, 2), marks: [{ x: value, fill: design.id.startsWith("panel") ? COLOR.panel : COLOR.real }], tip: `${design.label}: ${fixed(value, 3)}%⁠포인트` };
+    return { label: design.label.replace(" (3항목 평균 기준)", "").replace("Neyman", "배분").replace("reference", "참고 자료"), value: halfUp(value, 2), marks: [{ x: value, fill: design.id.startsWith("panel") ? COLOR.panel : COLOR.reference }], tip: `${design.label}: ${fixed(value, 3)}%⁠포인트` };
   });
   const flagRows: DotRow[] = namingSignals.map((s) => {
     const observed = num(`stage4.flags.${s.id}.overlap_top9.observed`);
@@ -327,7 +326,7 @@ export default function ResultsPage() {
     <>
       <Scene className="page-head" id="failures">
         <h1>측정 결과</h1>
-        <p className="lead">기존 음료 행동을 KREI 2025 시험 분할로 쟀습니다. 3개 항목과 12칸(연령대와 성별)이고, 신제품 성패와 새 콘셉트 반응은 재지 않았습니다.</p>
+        <p className="lead">기존 음료 행동 3개 항목을 KREI 2025 시험 분할로 쟀습니다. 신제품 성패와 새 콘셉트 반응은 재지 않았습니다.</p>
         <Evidence summary="넘지 못한 규칙과 읽는 법, 표기 보기">
           <p>수치는 수치 시트(results/numbers_sheet.json)에서 읽고, 대결 규칙의 기준값과 칸 이름만 그 출처 파일에서 읽습니다. 규칙과 기준을 넘지 못한 것, 넘었지만 그렇게 읽으면 안 되는 것을 먼저 적습니다. 자세한 값은 아래 절에 있습니다.</p>
       <div className="table-wrap">
@@ -385,12 +384,12 @@ export default function ResultsPage() {
       </Scene>
 
       <Scene tone="glass" id="age">
-        <h2>패널은 모든 연령대에서 실제보다 높게 답합니다</h2>
-        <p className="say">나이에 따른 방향은 비슷하지만 크기가 다릅니다. 색칠한 폭이 실제 응답과의 차이이고, 패널 값은 시장 수치가 아닙니다.</p>
+        <h2>Terra 패널은 전 연령대에서 실제보다 높습니다</h2>
+        <p className="say">색칠한 폭이 실제 응답과의 차이이고, 패널 값은 시장 수치가 아닙니다. 다른 모델 Luna는 {lunaLow}에서 실제보다 낮았습니다.</p>
         <Key
           items={[
             { label: "실제 응답", color: COLOR.real },
-            { label: "GPT 패널 300명", color: COLOR.panel },
+            { label: "GPT 패널: Terra, 음료 외 문항 더함, 관문 300명", color: COLOR.panel },
             { label: "차이", color: COLOR.yuzu, shape: "area" },
           ]}
         />
@@ -403,8 +402,8 @@ export default function ResultsPage() {
         </Figure>
         <Evidence summary="연령대 표와 수준 편향 보기">
           <Glossary />
-          <p>위 그림의 패널은 관문 실행의 Terra C2 300명이고, 실제 응답은 시험 truth 전체입니다. 그림은 results/gate/gate_explore_gpt-6.1-terra.json의 탐색 집계이고 사전 등록한 지표가 아닙니다. 같은 파일의 칸 상관은 {ageItems.map((item) => `${ITEM_NAME[item]} ${viz.age_bands[item].terra_C2.cell_pearson_r}`).join(", ")}입니다.</p>
-          <p>패널이 실제보다 낮거나 같은 연령대: {ageExceptions.length ? ageExceptions.join(", ") : "없음"}. 그래서 제목의 「모든 연령대」는 Terra C2와 Terra C1에 대한 말입니다.</p>
+          <p>첫 화면 유리잔은 본실행 값이고 이 그림은 관문 실행 값이라 수치가 조금 다릅니다. 위 그림의 패널은 관문 실행의 Terra C2 300명이고, 실제 응답은 시험 truth 전체입니다. 그림은 results/gate/gate_explore_gpt-6.1-terra.json의 탐색 집계이고 사전 등록한 지표가 아닙니다. 같은 파일의 칸 상관은 {ageItems.map((item) => `${ITEM_NAME[item]} ${viz.age_bands[item].terra_C2.cell_pearson_r}`).join(", ")}입니다.</p>
+          <p>패널이 실제보다 낮거나 같은 연령대: {ageExceptions.length ? ageExceptions.join(", ") : "없음"}. 그래서 제목의 「전 연령대」는 Terra C2와 Terra C1에 대한 말입니다.</p>
           <div className="table-wrap" tabIndex={0}>
             <table>
               <thead>
@@ -484,17 +483,17 @@ export default function ResultsPage() {
         </Evidence>
       </Scene>
 
-      <Scene id="forest">
+      <Scene id="forest" className="split">
         <h2>보정한 패널은 단순 통계와 구별되지 않습니다</h2>
         <p className="say">점이 0보다 왼쪽이면 패널 쪽 오차가 작습니다. 칸별로 맞춘 경우만 응답자 단위 추출에서 오차가 더 컸고, 조사 단위 추출에서는 구별되지 않았습니다.</p>
-        <div className="chart-narrow">
+        <div className="split-figure">
           <DotRows
             ariaLabel={`보정한 패널과 패널 없는 단순 통계의 오차 차이. ${forestRows.filter((r) => r.label).map((r) => `${r.label} ${r.value}`).join(", ")}. 세 항목 평균, 단위는 %⁠포인트입니다.`}
             rows={forestRows}
             domain={[-2.5, 2.5]}
             ticks={[-2, -1, 0, 1, 2]}
             tickStyle="signed"
-            axisLabel="단순 통계와의 오차 차이, %⁠포인트"
+            axisLabel="단순 통계와의 오차 차이, %⁠포인트. 선은 95% 구간"
             refs={[{ x: 0, label: "차이 없음" }]}
           />
         </div>
@@ -532,14 +531,14 @@ export default function ResultsPage() {
       </Scene>
 
       <Scene tone="glass" id="ranking">
-        <h2>음료 순서는 실제 200명과 지난해 집계보다 덜 맞습니다</h2>
+        <h2>음료 순서는 실제 200명보다 덜 맞습니다</h2>
         <p className="say">
-          패널은 {zero.label}을 {zero.real_rank}위에서 {zero.panel_rank}위로 올리고, {milk.label}를 {milk.real_rank}위에서 {milk.panel_rank}위로 내립니다. 기존 음료의 1순위 점유이고, 신제품 순서가 아닙니다.
+          패널은 {zero.label}을 {zero.real_rank}위에서 {zero.panel_rank}위로 올리고, {milk.label}를 {milk.real_rank}위에서 {milk.panel_rank}위로 내립니다. 기존 음료의 1순위 점유이고 신제품 순서가 아니며, 패널 값은 시장 수치가 아닙니다.
         </p>
         <Key
           items={[
             { label: "패널이 4계단 이상 올린 음료", color: COLOR.panel },
-            { label: "패널이 4계단 이상 내린 음료", color: COLOR.real },
+            { label: "패널이 4계단 이상 내린 음료", color: COLOR.calibrated },
           ]}
         />
         <div className="slope-wrap">
@@ -562,7 +561,7 @@ export default function ResultsPage() {
               rows={pairRows}
               domain={[0.5, 1]}
               ticks={[0.5, 0.75, 1]}
-              axisLabel="쌍 정확도"
+              axisLabel="쌍 정확도. 선은 95% 구간"
             />
           </div>
         </div>
@@ -672,18 +671,18 @@ export default function ResultsPage() {
         </Evidence>
       </Scene>
 
-      <Scene id="gender">
-        <h2>제로 음료 경험의 성별 차이는 방향이 반대입니다</h2>
+      <Scene id="gender" className="split flip">
+        <h2>제로 음료 경험은 성별 방향이 반대입니다</h2>
         <p className="say">
           실제는 여성이 {everGap.real.toFixed(1)}%⁠포인트 높게 나왔지만 그 구간은 0을 포함합니다. 패널은 여성이 {Math.abs(everGap.panel).toFixed(1)}%⁠포인트 낮게 답했고, 탄산 1순위는 방향이 같습니다.
         </p>
-        <div className="chart-narrow">
+        <div className="split-figure">
           <GenderDumbbell
             rows={genderData}
             label={`성별 차이, 여성에서 남성을 뺀 %⁠포인트와 95% 구간. ${genderData.map((r) => `${r.label}: 실제 ${signed(r.real, 1)} [${r.realCi[0].toFixed(1)}, ${r.realCi[1].toFixed(1)}]${r.zeroInReal ? ", 구간이 0을 포함" : ""}, 패널 ${signed(r.panel, 1)} [${r.panelCi[0].toFixed(1)}, ${r.panelCi[1].toFixed(1)}]${r.opposite ? ", 방향 반대" : ""}`).join(". ")}.`}
           />
-          <p className="small" style={{ maxWidth: "46em" }}>
-            실제 구간이 0을 포함하는 항목은 {genderData.filter((r) => r.zeroInReal).map((r) => r.label).join(", ")}이고, {genderData.filter((r) => !r.zeroInReal).map((r) => r.label).join(", ")}는 포함하지 않습니다. 보라색은 방향이 반대인 항목입니다.
+          <p className="small figure-note">
+            실제 구간이 0을 포함하는 항목은 {genderData.filter((r) => r.zeroInReal).map((r) => r.label).join(", ")}이고, {genderData.filter((r) => !r.zeroInReal).map((r) => r.label).join(", ")}는 포함하지 않습니다. 보라색은 방향이 반대인 항목이고, 패널 값은 시장 수치가 아닙니다.
           </p>
         </div>
         <Evidence summary="성별 차이 표 보기">
@@ -727,20 +726,24 @@ export default function ResultsPage() {
         </Evidence>
       </Scene>
 
-      <Scene tone="mist" id="person">
-        <h2>사람 한 명씩 맞히는 힘은 제로 음료 경험만 바닥을 넘었습니다</h2>
-        <p className="say">바닥은 나이와 성별만 쓴 모델입니다. 주 1회 이상과 탄산 1순위는 차이가 있다고 말할 수 없었습니다.</p>
-        <div className="chart-narrow">
-          <Key
-            items={[
-              { label: "GPT 패널", color: COLOR.panel, shape: "dot" },
-              { label: "나이·성별 바닥", color: COLOR.reference, shape: "dot" },
-            ]}
+      <Scene tone="mist" id="person" className="split">
+        <h2>제로 음료 경험만 나이·성별 모델을 넘었습니다</h2>
+        <p className="say">사람 한 명씩 맞히는 힘을 나이와 성별만 쓴 모델과 비교했습니다. 구간이 0 오른쪽에 떨어진 것은 제로 음료 경험뿐이고, 주 1회 이상은 평균 차이가 더 커도 구간이 0을 포함합니다.</p>
+        <div className="split-figure">
+          <DotRows
+            ariaLabel={`패널 AUC에서 나이와 성별만 쓴 모델의 AUC를 뺀 값과 95% 구간. ${aucRows.map((r) => `${r.label} ${r.value}`).join(", ")}. 제로 음료 경험만 구간이 0을 포함하지 않습니다.`}
+            rows={aucRows}
+            domain={[-0.02, 0.06]}
+            ticks={[-0.02, 0, 0.02, 0.04, 0.06]}
+            tickStyle="signed"
+            refs={[{ x: 0, label: "차이 없음" }]}
+            axisLabel="AUC 차이(패널 - 나이·성별만 쓴 모델). 선은 95% 구간"
           />
-          <DotRows ariaLabel={`개인 수준 AUC, 패널과 나이·성별 바닥. ${aucRows.map((r) => `${r.label} ${r.value}`).join(", ")}.`} rows={aucRows} domain={[0.5, 0.85]} ticks={[0.5, 0.6, 0.7, 0.8]} axisLabel="AUC" />
+          <p className="small figure-note">채운 점은 구간이 0을 포함하지 않는 항목입니다. AUC는 0.5가 찍기와 같고 1이 완벽입니다.</p>
         </div>
         <Evidence summary="AUC 표 보기">
           <Glossary />
+      <p className="small">표의 floor는 나이와 성별만 쓴 모델입니다.</p>
       <h3>6. 개인 수준: 연령·성별 바닥과의 AUC 차이</h3>
       <p>
         개인 수준에서는 Terra C2 ever만 Holm 보정 후 floor를 넘었고({signed(num("stage2.person.ever.terra_C2.auc_minus_floor"), 4)}, Holm p {num("stage2.person.ever.terra_C2.holm_p")}), weekly와 carb는 기각되지 않았습니다.
@@ -777,9 +780,9 @@ export default function ResultsPage() {
       </Scene>
 
       <Scene tone="glass" id="duel">
-        <h2>대결 결과는 나누는 방식에 흔들려 건강검진으로만 씁니다</h2>
+        <h2>대결 결과는 건강검진으로만 씁니다</h2>
         <p className="say">
-          같은 표본에서 교차 검증을 나누는 방식만 바꿔도 추출의 {fixed(num("stage4.posthoc.same_sample.all_draws.terra_C2.share_draws_decision_changes") * 100, 1)}%에서 결정이 바뀌었습니다. 패널 값은 기본으로 보고서에서 빼고, 이 결정은 결과를 본 뒤에 정한 사후 결정입니다.
+          같은 표본에서 교차 검증을 나누는 방식만 바꿔도 추출의 {fixed(num("stage4.posthoc.same_sample.all_draws.terra_C2.share_draws_decision_changes") * 100, 1)}%에서 결정이 바뀌었습니다. 패널 절대값은 기본으로 보고서 본문에서 빼고, 이 결정은 결과를 본 뒤에 정한 사후 결정입니다.
         </p>
         <div className="chart-narrow">
           <DotRows
@@ -788,15 +791,15 @@ export default function ResultsPage() {
             domain={[0, 1]}
             ticks={[0, 0.25, 0.5, 0.75, 1]}
             refs={[{ x: stage4.duel_bar.surrogate_max_keep, label: `대체 패널 기준 ${stage4.duel_bar.surrogate_max_keep}` }]}
-            axisLabel="패널 값을 남기는 쪽으로 나온 비율 (200회 추출)"
+            axisLabel="패널 값을 남기는 쪽으로 나온 비율 (200회 추출). 선은 95% 구간"
           />
         </div>
-        <p className="small" style={{ maxWidth: "46em" }}>
+        <p className="small figure-note">
           이 비율이 높아도 패널 값이 시장 수치라는 뜻은 아니고, 보고서에 들어간다는 뜻도 아닙니다. 앵커 문항에서 잰 값이고, 건강검진은 실제 설문을 만난 적이 없습니다.
         </p>
         <div className="rules">
           <h3>규칙 세 개 모두 제품 라벨로 쓰지 않습니다</h3>
-          <p className="small" style={{ maxWidth: "46em" }}>
+          <p className="small">
             v1은 미리 고정했고, v2와 v3는 답을 본 뒤에 썼습니다. 응답자 본인의 답을 넣은 패널도 v2를 넘지 못해 LLM 실패의 증거로 읽지 않습니다.
           </p>
           <div className="rule-key">

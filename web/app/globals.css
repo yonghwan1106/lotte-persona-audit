@@ -40,13 +40,14 @@ body {
   overflow-wrap: break-word;
 }
 
+/* Teal means real responses, so links stay ink. The underline is what marks them. */
 a {
-  color: var(--real-text);
+  color: var(--ink);
   text-underline-offset: 3px;
 }
 
 a:hover {
-  color: var(--ink);
+  color: var(--real-text);
 }
 
 :focus-visible {
@@ -156,19 +157,79 @@ a:hover {
 
 .tone-water {
   background: var(--water);
+  --scene-bg: var(--water);
 }
 
 .tone-glass {
   background: var(--glass);
+  --scene-bg: var(--glass);
 }
 
 .tone-mist {
   background: var(--mist);
+  --scene-bg: var(--mist);
 }
 
 .tone-deep {
   background: var(--deep);
+  --scene-bg: var(--deep);
   color: #e9f4f5;
+}
+
+/* a long sentence heading drops out of the display face */
+h2.h-long {
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: clamp(24px, 2.5vw, 32px);
+  line-height: 1.38;
+  max-width: 24em;
+}
+
+/* a scene that sets its words beside the picture instead of above it */
+@media (min-width: 981px) {
+  .split .scene-in {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    grid-auto-rows: min-content;
+    column-gap: clamp(32px, 4vw, 64px);
+  }
+  .split .scene-in > h2 {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: clamp(26px, 2.6vw, 34px);
+  }
+  .split .scene-in > .say {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 17px;
+  }
+  .split .scene-in > .split-figure {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    min-width: 0;
+  }
+  .split .scene-in > .evidence {
+    grid-column: 1 / -1;
+    grid-row: 4;
+  }
+  .split.flip .scene-in {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  }
+  .split.flip .scene-in > h2,
+  .split.flip .scene-in > .say {
+    grid-column: 2;
+  }
+  .split.flip .scene-in > .split-figure {
+    grid-column: 1;
+  }
+}
+
+.split-figure {
+  margin-top: 8px;
+}
+
+.figure-note {
+  margin-top: 12px;
 }
 
 .tone-deep a {
@@ -194,7 +255,7 @@ h2 {
   font-size: clamp(27px, 3.2vw, 41px);
   line-height: 1.28;
   margin: 0 0 18px;
-  max-width: 17em;
+  max-width: 23em;
 }
 
 h3 {
@@ -211,12 +272,19 @@ h4 {
   margin: 22px 0 6px;
 }
 
+/* Korean prose stays under about 45 characters a line. The limit is in em, so it follows each text size. */
+p,
+li,
+dd {
+  max-width: 32em;
+}
+
 p {
   margin: 0 0 14px;
 }
 
 .say {
-  max-width: 35em;
+  max-width: 32em;
   font-size: 18px;
   margin-bottom: 8px;
 }
@@ -226,7 +294,7 @@ p {
 }
 
 .lead {
-  max-width: 35em;
+  max-width: 32em;
   font-size: 18px;
   color: var(--ink-2);
 }
@@ -269,7 +337,6 @@ ul,
 ol {
   padding-left: 20px;
   margin: 8px 0 14px;
-  max-width: 44em;
 }
 
 li {
@@ -302,12 +369,14 @@ li {
 
 .evidence > summary::before {
   content: "+";
-  font-family: var(--display);
-  font-size: 18px;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 1;
 }
 
 .evidence[open] > summary::before {
-  content: "-";
+  content: "\2212";
 }
 
 .tone-deep .evidence > summary {
@@ -346,7 +415,7 @@ li {
 }
 
 .tone-deep .evidence-body .band {
-  border-left-color: var(--ink);
+  border-top-color: var(--ink);
 }
 
 .tone-deep .evidence-body code {
@@ -361,7 +430,7 @@ li {
   font-size: 14px;
   line-height: 1.7;
   color: var(--ink-2);
-  max-width: 54em;
+  max-width: 32em;
   padding: 0 0 12px;
   border-bottom: 1px solid var(--line);
   margin-bottom: 16px;
@@ -375,7 +444,7 @@ details:not(.evidence) > summary {
   cursor: pointer;
   font-weight: 500;
   font-size: 15px;
-  color: var(--real-text);
+  color: var(--ink);
 }
 
 .caveats {
@@ -505,17 +574,15 @@ table.lead-col th:first-child {
   }
 }
 
-.page-head h2 {
-  margin-top: 44px;
-}
+
 
 /* older parts kept for the evidence and the intake page */
 
 .band {
-  border-left: 4px solid var(--ink);
-  padding: 2px 0 2px 16px;
+  border-top: 2px solid var(--ink);
+  padding: 10px 0 2px;
   margin: 14px 0 18px;
-  max-width: 46em;
+  max-width: 32em;
 }
 
 .band p:last-child {
@@ -523,7 +590,7 @@ table.lead-col th:first-child {
 }
 
 .tone-deep .band {
-  border-left-color: #ffffff;
+  border-top-color: #ffffff;
 }
 
 .figure {
@@ -539,7 +606,6 @@ table.lead-col th:first-child {
   font-size: 13.5px;
   color: var(--ink-2);
   margin: 2px 0 6px;
-  max-width: 50em;
 }
 
 .legend {
@@ -813,7 +879,10 @@ svg text {
 
 .hero h1 {
   grid-area: title;
-  padding-top: clamp(20px, 5vw, 76px);
+  padding-top: clamp(16px, 3vw, 44px);
+  font-size: clamp(36px, 4.3vw, 56px);
+  line-height: 1.18;
+  max-width: 9.6em;
 }
 
 .hero-copy {
@@ -826,7 +895,7 @@ svg text {
 
 .hero-copy .lead {
   color: var(--ink);
-  font-size: 19px;
+  font-size: 18px;
   margin-bottom: 18px;
 }
 
@@ -884,7 +953,7 @@ svg text {
   display: block;
   width: 100%;
   height: auto;
-  max-height: min(68vh, 620px);
+  max-height: min(70vh, 630px);
 }
 
 .glasses-caption {
@@ -945,10 +1014,10 @@ svg text {
     opacity: 0;
   }
   15% {
-    opacity: 0.55;
+    opacity: 0.85;
   }
   85% {
-    opacity: 0.45;
+    opacity: 0.7;
   }
   100% {
     transform: translateY(var(--travel));
@@ -1014,6 +1083,13 @@ svg text {
     font-size: 14px;
     padding: 7px 12px;
   }
+  /* The drawing shrinks to about half on a phone; these keep its smallest type at 13px. */
+  .glass-tick {
+    font-size: 25px;
+  }
+  .gap-unit {
+    font-size: 25px;
+  }
 }
 
 /* service line */
@@ -1023,7 +1099,7 @@ svg text {
 }
 
 .flow-label {
-  font-size: 17.5px;
+  font-size: 16px;
   font-weight: 700;
   fill: var(--ink);
 }
@@ -1160,12 +1236,10 @@ svg text {
 }
 
 .shelf-note {
-  margin-top: 124px;
+  margin-top: 34px;
 }
 
 .shelf-gap {
-  border-left: 3px solid var(--ink);
-  padding: 0 0 0 12px;
   margin: 0 0 14px;
   font-size: 15px;
   line-height: 1.55;
@@ -1255,6 +1329,25 @@ svg text {
   fill: var(--ink-2);
 }
 
+.ladder-flag {
+  font-size: 13.5px;
+  font-weight: 700;
+  fill: var(--ink-2);
+}
+
+.ladder-read {
+  font-size: 17px;
+  font-weight: 500;
+  margin-top: 16px;
+}
+
+.ladder text {
+  paint-order: stroke;
+  stroke: var(--scene-bg);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
 .ladder-value {
   font-family: var(--display);
   font-size: 26px;
@@ -1267,15 +1360,7 @@ svg text {
   fill: var(--ink);
 }
 
-.scene-ladder .scene-in > h2,
-.scene-ladder .scene-in > .say {
-  margin-left: auto;
-  margin-right: 0;
-}
 
-.scene-ladder .scene-in {
-  display: block;
-}
 
 /* sample slider */
 
@@ -1353,6 +1438,22 @@ svg text {
   font-size: 13.5px;
   color: var(--ink-2);
   margin: 6px 0 0 52px;
+}
+
+.slider-key {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 8px 0 0 52px;
+}
+
+.slider-key i {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background: var(--ink);
 }
 
 .slider-control {
@@ -1502,8 +1603,8 @@ svg text {
 }
 
 .time-bar div {
-  background: var(--real);
-  color: #ffffff;
+  background: var(--yuzu);
+  color: var(--ink);
   font-size: 13.5px;
   font-weight: 700;
   line-height: 28px;
@@ -1513,14 +1614,28 @@ svg text {
 }
 
 .time-bar div:last-child {
-  background: var(--ink);
+  background: #fbdd9e;
 }
 
 .camp {
-  border: 2px dashed var(--ink);
-  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
   font-size: 15.5px;
   line-height: 1.6;
+}
+
+.camp-glass {
+  display: block;
+  width: 78px;
+  height: auto;
+}
+
+.camp-mark {
+  font-family: var(--display);
+  font-size: 34px;
+  fill: var(--ink);
 }
 
 .camp strong {
@@ -1538,12 +1653,33 @@ svg text {
 /* health check */
 
 .gate {
-  max-width: 720px;
-  margin: 26px 0 6px;
+  max-width: 950px;
+  margin: 30px 0 6px;
 }
 
 .gate-svg text {
   fill: #ffffff;
+}
+
+.gate-svg .gate-in-liquid {
+  fill: var(--ink);
+  font-family: var(--display);
+  font-size: 30px;
+}
+
+.gate-closed {
+  font-family: var(--display);
+  font-size: 22px;
+}
+
+.gate-count {
+  font-family: var(--display);
+  font-size: 24px;
+}
+
+.gate-unknown {
+  font-family: var(--display);
+  font-size: 26px;
 }
 
 .gate-label {
@@ -1552,7 +1688,22 @@ svg text {
 }
 
 .gate-note {
-  font-size: 13.5px;
+  font-size: 15px;
+}
+
+@media (max-width: 760px) {
+  .gate-svg .gate-in-liquid {
+    font-size: 19px;
+  }
+  .gate-label {
+    font-size: 14px;
+  }
+  .gate-note {
+    font-size: 14px;
+  }
+  .gate-count {
+    font-size: 20px;
+  }
 }
 
 /* checked and not checked */
@@ -1595,7 +1746,7 @@ svg text {
   height: 11px;
   border-radius: 50%;
   margin-top: 7px;
-  background: var(--real);
+  background: var(--ink);
 }
 
 .pair .pair-no li::before {
@@ -1611,8 +1762,58 @@ svg text {
 
 /* results */
 
+/* An inner page starts with one line of title and one paragraph, so its first picture is on the first screen. */
 .page-head {
-  padding: clamp(28px, 4vw, 52px) 0 clamp(40px, 5vw, 64px);
+  padding: 14px 0 12px;
+}
+
+.page-head .scene-in {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: clamp(24px, 4vw, 56px);
+  align-items: baseline;
+}
+
+.page-head .scene-in > h1 {
+  font-size: clamp(32px, 3.6vw, 44px);
+  margin: 0;
+  max-width: none;
+  white-space: nowrap;
+}
+
+.page-head .scene-in > .lead {
+  font-size: 16.5px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 34em;
+}
+
+.page-head .scene-in > .evidence,
+.page-head .scene-in > .pipeline,
+.page-head .scene-in > .small {
+  grid-column: 1 / -1;
+}
+
+.page-head .scene-in > .evidence {
+  margin-top: 6px;
+}
+
+.page-head + .scene {
+  padding-top: 26px;
+}
+
+.page-head + .scene h2 {
+  margin-bottom: 8px;
+  max-width: none;
+}
+
+@media (max-width: 760px) {
+  .page-head .scene-in {
+    display: block;
+  }
+  .page-head .scene-in > .lead {
+    margin-top: 6px;
+  }
 }
 
 .age-grid {
@@ -1704,7 +1905,7 @@ svg text {
 }
 
 .chart-narrow {
-  max-width: 860px;
+  max-width: 1000px;
   margin-top: 22px;
 }
 
@@ -1858,7 +2059,7 @@ svg text {
 }
 
 .is-person .toolpath-dot {
-  box-shadow: inset 0 0 0 4px var(--yuzu-mark);
+  box-shadow: inset 0 0 0 5px var(--ink);
 }
 
 .toolpath-detail {
@@ -1923,62 +2124,28 @@ svg text {
   margin-top: 6px;
 }
 
-.waffle {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px 34px;
-  margin-top: 22px;
-  align-items: flex-start;
+.waffle-block {
+  max-width: 640px;
+  margin-top: 14px;
 }
 
-.waffle-group {
-  flex: 0 1 auto;
-}
-
-.waffle-name {
-  font-size: 15px;
-  margin-bottom: 6px;
-}
-
-.waffle-name span {
-  color: var(--ink-2);
-  font-size: 13.5px;
-}
-
-.waffle-dots {
-  display: grid;
-  grid-template-columns: repeat(10, 13px);
-  gap: 4px;
-}
-
-.waffle-dots i {
-  display: block;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-}
-
-.waffle-split {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
-  gap: 26px clamp(24px, 4vw, 56px);
-  margin-top: 24px;
-}
-
-.waffle-split h3 {
-  margin: 0 0 2px;
+.waffle-head {
   font-family: var(--display);
-  font-weight: 400;
-  font-size: 26px;
+  font-size: 22px;
+  fill: var(--ink);
 }
 
-.waffle-split .waffle {
-  margin-top: 8px;
+.waffle-sub {
+  font-size: 15px;
+  fill: var(--ink-2);
 }
 
 @media (max-width: 760px) {
-  .waffle-split {
-    grid-template-columns: minmax(0, 1fr);
+  .waffle-head {
+    font-size: 16px;
+  }
+  .waffle-sub {
+    font-size: 13px;
   }
 }
 
@@ -2109,7 +2276,7 @@ svg text {
 }
 
 .plain {
-  max-width: 48em;
+  max-width: 33em;
 }
 
 .plain h2 {
@@ -2136,15 +2303,7 @@ svg text {
   max-width: 900px;
 }
 
-.tone-deep .time-bar div {
-  color: #ffffff;
-}
 
-.waffle-split small {
-  font-family: var(--body);
-  font-size: 14px;
-  color: var(--ink-2);
-}
 
 .tile-key .tile-held {
   background: var(--mist);

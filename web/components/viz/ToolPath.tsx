@@ -47,7 +47,9 @@ export function ToolPath({ steps }: { steps: Step[] }) {
           {here
             .filter((s) => s.event !== "tool_call" || here.length === 1)
             .map((s, i) => {
-              const { head, body } = stepSummary(s);
+              const { head, body: full } = stepSummary(s);
+              // The opening request names every tool. The first sentence is enough here and the full text stays in the record below.
+              const body = s.event === "user_message" && full ? `${full.split(". ")[0]}. 전체 문장은 아래 기록에 있습니다.` : full;
               return (
                 <li key={i}>
                   <strong>{head}</strong> {body}

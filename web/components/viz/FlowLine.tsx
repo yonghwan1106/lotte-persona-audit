@@ -6,19 +6,19 @@ type Person = { label: string; note: string; at: number };
 
 const STATIONS: Station[] = [
   { id: "card", label: "콘셉트 카드", note: "담당자가 넣음", zone: "panel", built: true },
-  { id: "scan", label: "패널 훑기", note: "만듦", zone: "panel", built: true },
-  { id: "action", label: "안별 제안", note: "만듦", zone: "panel", built: true },
-  { id: "survey", label: "실제 200명 조사", note: "설계, 배분표와 문항지만 만듦", zone: "real", built: false },
+  { id: "scan", label: "패널 훑기", note: "구현됨", zone: "panel", built: true },
+  { id: "action", label: "안별 제안", note: "구현됨", zone: "panel", built: true },
+  { id: "survey", label: "실제 200명 조사", note: "설계, 표와 문항지만 구현됨", zone: "real", built: false },
   { id: "health", label: "건강검진", note: "설계, 대용 자료로만 실행", zone: "real", built: false },
   { id: "decide", label: "사람의 결정", note: "설계", zone: "person", built: false },
 ];
 
-const CENTER = [80, 250, 420, 716, 892, 1068];
+const CENTER = [72, 298, 440, 766, 906, 1046];
 const PEOPLE: (Person & { x: number })[] = [
-  { label: "비용 승인", note: "터미널 명령, 1회 사용", at: 1, x: 165 },
-  { label: "실측 대상 선택", note: "설계", at: 3, x: 530 },
-  { label: "조사 발주", note: "설계", at: 3, x: 618 },
-  { label: "최종 결정", note: "설계", at: 5, x: 1068 },
+  { label: "비용 승인", note: "터미널 명령, 1회 사용", at: 1, x: 185 },
+  { label: "실측 대상 선택", note: "설계", at: 3, x: 548 },
+  { label: "조사 발주", note: "설계", at: 3, x: 652 },
+  { label: "최종 결정", note: "설계", at: 5, x: 1046 },
 ];
 
 const BELT: Record<Zone, string> = { panel: "#F0A81E", real: "#00829B", person: "#12323B" };
@@ -53,16 +53,26 @@ function Icon({ id, x, y }: { id: string; x: number; y: number }) {
       </g>
     );
   if (id === "health") return <polyline transform={`translate(${x} ${y})`} points="-16,1 -7,1 -3,-8 3,9 7,1 16,1" fill="none" stroke="#00829B" strokeWidth={2.2} strokeLinejoin="round" />;
-  return <PersonMark x={x} y={y + 2} scale={0.72} />;
+  return <polyline transform={`translate(${x} ${y})`} points="-11,0 -3,8 12,-8" fill="none" stroke={ink} strokeWidth={3.5} strokeLinejoin="round" strokeLinecap="round" />;
 }
 
 function Wide() {
-  const beltY = 222;
-  const blockTop = 124;
-  const blockH = 90;
-  const blockW = 150;
+  const beltY = 240;
+  const blockTop = 112;
+  const blockH = 106;
+  const blockW = 132;
   return (
     <svg viewBox="0 0 1150 300" width="100%">
+      {/* belt, coloured by whose work it carries */}
+      <rect x={5} y={beltY - 7} width={515} height={14} fill={BELT.panel} />
+      <rect x={520} y={beltY - 7} width={455} height={14} fill={BELT.real} />
+      <rect x={975} y={beltY - 7} width={170} height={14} fill={BELT.person} />
+      {Array.from({ length: 24 }, (_, i) => (
+        <path key={i} d={`M${22 + i * 47} ${beltY - 4} l6 4 l-6 4`} fill="none" stroke={i >= 11 ? "#ffffff" : "#12323B"} strokeWidth={2} />
+      ))}
+      {Array.from({ length: 16 }, (_, i) => (
+        <circle key={i} cx={30 + i * 73} cy={beltY + 16} r={7} fill="none" stroke="#567079" strokeWidth={2} />
+      ))}
       {PEOPLE.map((p) => (
         <g key={p.label}>
           <text x={p.x} y={22} textAnchor="middle" className="flow-person">
@@ -75,39 +85,35 @@ function Wide() {
           <line x1={p.x} x2={p.x} y1={80} y2={p.at === 5 ? blockTop : beltY - 7} stroke="#12323B" strokeWidth={1.5} />
         </g>
       ))}
-      {/* belt, coloured by whose work it carries */}
-      <rect x={5} y={beltY - 7} width={495} height={14} fill={BELT.panel} />
-      <rect x={500} y={beltY - 7} width={480} height={14} fill={BELT.real} />
-      <rect x={980} y={beltY - 7} width={165} height={14} fill={BELT.person} />
-      {Array.from({ length: 24 }, (_, i) => (
-        <path key={i} d={`M${22 + i * 47} ${beltY - 4} l6 4 l-6 4`} fill="none" stroke="#ffffff" strokeWidth={2} />
-      ))}
-      {Array.from({ length: 16 }, (_, i) => (
-        <circle key={i} cx={30 + i * 73} cy={beltY + 16} r={7} fill="none" stroke="#567079" strokeWidth={2} />
-      ))}
       {STATIONS.map((s, i) => {
         const x = CENTER[i];
+        const [first, second] = s.note.split(", ");
         return (
           <g key={s.id} data-tip={`${s.label}: ${s.note}`}>
+            <line x1={x} x2={x} y1={blockTop + blockH} y2={beltY - 7} stroke="#12323B" strokeWidth={2} />
             <rect x={x - blockW / 2} y={blockTop} width={blockW} height={blockH} fill="#ffffff" stroke="#12323B" strokeWidth={s.built ? 2.5 : 1.5} strokeDasharray={s.built ? undefined : "6 5"} />
             <Icon id={s.id} x={x} y={blockTop + 22} />
-            <text x={x} y={blockTop + 58} textAnchor="middle" className="flow-label">
+            <text x={x} y={blockTop + 56} textAnchor="middle" className="flow-label">
               {s.label}
             </text>
-            <text x={x} y={blockTop + 77} textAnchor="middle" className="flow-note">
-              {s.note.split(",")[0]}
+            <text x={x} y={blockTop + 75} textAnchor="middle" className="flow-note">
+              {first}
             </text>
-            <line x1={x} x2={x} y1={blockTop + blockH} y2={beltY - 7} stroke="#12323B" strokeWidth={2} />
+            {second ? (
+              <text x={x} y={blockTop + 92} textAnchor="middle" className="flow-note">
+                {second}
+              </text>
+            ) : null}
           </g>
         );
       })}
-      <text x={5} y={272} className="flow-zone">
+      <text x={5} y={290} className="flow-zone">
         패널이 하는 일
       </text>
-      <text x={500} y={272} className="flow-zone">
+      <text x={520} y={290} className="flow-zone">
         실제 응답으로 하는 일
       </text>
-      <text x={1144} y={272} textAnchor="end" className="flow-zone">
+      <text x={1144} y={290} textAnchor="end" className="flow-zone">
         사람이 하는 일
       </text>
     </svg>
@@ -135,9 +141,6 @@ function Narrow() {
         const zone = row.kind === "station" ? row.s.zone : row.p.at >= 5 ? "person" : row.p.at >= 3 ? "real" : "panel";
         return <rect key={`b${n}`} x={beltX - 6} y={top} width={12} height={next - top} fill={BELT[zone]} />;
       })}
-      {Array.from({ length: Math.floor(total / 46) }, (_, i) => (
-        <path key={i} d={`M${beltX - 3} ${16 + i * 46} l3 5 l3 -5`} fill="none" stroke="#ffffff" strokeWidth={1.8} />
-      ))}
       {placed.map(({ row, top }) => {
         if (row.kind === "person") {
           return (
@@ -177,5 +180,37 @@ export function FlowLine() {
     <Figure label="서비스 흐름. 콘셉트 카드, 패널 훑기, 안별 제안, 실제 200명 조사, 건강검진, 사람의 결정 순서입니다. 사람은 비용 승인, 실측 대상 선택, 조사 발주, 최종 결정의 네 곳에서 정합니다. 실제 조사, 건강검진, 사람의 결정과 세 사람 표시는 설계이고, 비용 승인은 터미널 명령으로 작은 실행 한 번에 썼습니다." className="flow">
       <TwoUp wide={<Wide />} narrow={<Narrow />} />
     </Figure>
+  );
+}
+
+/** The table behind the drawing. */
+export function FlowTable() {
+  return (
+    <div className="table-wrap" tabIndex={0}>
+      <table>
+        <thead>
+          <tr>
+            <th>순서</th>
+            <th>단계</th>
+            <th>지금 상태</th>
+            <th>이 앞에서 사람이 정하는 것</th>
+          </tr>
+        </thead>
+        <tbody>
+          {STATIONS.map((s, i) => (
+            <tr key={s.id}>
+              <td>{i + 1}</td>
+              <td>{s.label}</td>
+              <td>{s.note}</td>
+              <td>
+                {PEOPLE.filter((p) => p.at === i)
+                  .map((p) => `${p.label}(${p.note})`)
+                  .join(", ") || "없음"}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

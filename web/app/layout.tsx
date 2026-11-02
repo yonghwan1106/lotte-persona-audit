@@ -9,7 +9,7 @@ const body = IBM_Plex_Sans_KR({ weight: ["400", "500", "700"], preload: false, d
 
 export const metadata: Metadata = {
   title: "합성 패널 감사 기록",
-  description: "GPT 패널은 기존 음료 행동을 실제 응답보다 높게 답했습니다. 콘셉트를 실제 200명 조사에 넘기기 전에 패널로 안을 훑어 판단 자료를 내고, 패널을 실제 응답과 겨룬 기록을 남기는 서비스의 시연과 측정 기록입니다.",
+  description: "GPT 패널은 제로 음료와 탄산을 실제 응답보다 높게 답했습니다. 콘셉트를 실제 200명 조사에 넘기기 전에 패널로 안을 훑어 판단 자료를 내고, 패널을 실제 응답과 겨룬 기록을 남기는 서비스의 시연과 측정 기록입니다.",
   robots: { index: false, follow: false },
 };
 

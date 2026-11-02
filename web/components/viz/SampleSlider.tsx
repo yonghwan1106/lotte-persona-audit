@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { smallestGap, type DetectableParams } from "@/lib/detectable";
+import { spoken } from "@/lib/format";
 
 const MIN = 100;
 const MAX = 1570;
@@ -11,7 +12,7 @@ export function SampleSlider({ params, marks }: { params: DetectableParams; mark
   const gap = smallestGap(n, params);
   const base = 50;
   const left = (v: number) => `${((v - MIN) / (MAX - MIN)) * 100}%`;
-  const valueText = `카드당 ${n.toLocaleString("en-US")}명, 전체 ${(n * 2).toLocaleString("en-US")}명, 가려낼 수 있는 가장 작은 차이 ${gap.toFixed(1)}%⁠포인트`;
+  const valueText = spoken(`카드당 ${n.toLocaleString("en-US")}명, 전체 ${(n * 2).toLocaleString("en-US")}명, 가려낼 수 있는 가장 작은 차이 ${gap.toFixed(1)}%⁠포인트`);
 
   return (
     <div className="slider">
@@ -44,6 +45,10 @@ export function SampleSlider({ params, marks }: { params: DetectableParams; mark
           <span>50</span>
           <span>100%</span>
         </div>
+        <p className="slider-key">
+          <i aria-hidden="true" />
+          진한 칸: 이만큼 벌어져야 가려낼 수 있는 차이
+        </p>
         <p className="slider-note">안 A를 50%로 둔 계산 그림이며, 어느 안의 예상값도 아닙니다. 유의수준 5%, 검정력 80%입니다.</p>
       </div>
 
@@ -52,7 +57,7 @@ export function SampleSlider({ params, marks }: { params: DetectableParams; mark
         <input id="sample-n" type="range" min={MIN} max={MAX} step={1} value={n} onChange={(event) => setN(Number(event.target.value))} aria-valuetext={valueText} />
         <div className="slider-marks">
           {marks.map((mark) => (
-            <button key={mark.perCard} type="button" style={{ left: left(mark.perCard) }} className={n === mark.perCard ? "slider-mark is-on" : "slider-mark"} onClick={() => setN(mark.perCard)} aria-label={`카드당 ${mark.perCard.toLocaleString("en-US")}명으로 옮기기, 전체 ${mark.total.toLocaleString("en-US")}명이면 ${mark.gap}%⁠포인트`}>
+            <button key={mark.perCard} type="button" style={{ left: left(mark.perCard) }} className={n === mark.perCard ? "slider-mark is-on" : "slider-mark"} onClick={() => setN(mark.perCard)} aria-label={spoken(`카드당 ${mark.perCard.toLocaleString("en-US")}명으로 옮기기, 전체 ${mark.total.toLocaleString("en-US")}명이면 ${mark.gap}%⁠포인트`)}>
               <strong>전체 {mark.total.toLocaleString("en-US")}명</strong>
               <span>{mark.gap}%⁠포인트</span>
             </button>

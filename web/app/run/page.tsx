@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Caveats, SourceLine } from "@/components/Notes";
 import { ReplaySteps, type Step } from "@/components/ReplaySteps";
 import { ActionTable, DetectableTable, DuelStatusTable, EXPLORE_SECTIONS, ExploreCard, HealthCheckDecision, HumanActionTable, OrderNotes } from "@/components/Stage4";
-import { Waffle } from "@/components/viz/Charts";
+import { AllocationWaffle } from "@/components/viz/Charts";
 import { Evidence, Figure, Glossary, Scene } from "@/components/viz/Scene";
 import { ToolPath } from "@/components/viz/ToolPath";
 import { Vessel } from "@/components/viz/Vessel";
@@ -73,7 +73,7 @@ export default function RunPage() {
       <Scene className="page-head">
         <h1>실행 기록</h1>
         <p className="lead">
-          <strong>시연 전용, 정답 없음.</strong> 카드 6장은 모두 가상이고, 구매 의향은 패널 내부 값이며 시장 수치가 아닙니다. 이 페이지가 재생하는 시연의 승인은 사람이 하지 않았습니다. 어느 실행으로도 안을 고를 수 없습니다.
+          <strong>시연 전용, 정답 없음:</strong> 카드 6장은 모두 가상이고 패널 값은 시장 수치가 아니며, 이 재생의 승인은 사람이 하지 않았습니다.
         </p>
         <Evidence summary="재생 대상과 해시 보기">
       <p className="small">
@@ -83,8 +83,8 @@ export default function RunPage() {
       </Scene>
 
       <Scene tone="glass" id="path">
-        <h2>카드 한 장이 지나는 길을 한 단계씩 따라가 볼 수 있습니다</h2>
-        <p className="say">순서는 코드가 정하고, 선행 조건이 없으면 도구가 멈춥니다. 시험한 형태 안에서 확인한 결과입니다.</p>
+        <h2>순서는 코드가 정하고, 승인에서 멈춥니다</h2>
+        <p className="say">단계를 눌러 따라가 보세요. 선행 조건이 없으면 도구가 멈춘다는 것은 시험한 형태 안에서 확인한 결과입니다.</p>
         <ToolPath steps={demo.steps as Step[]} />
         <Evidence summary="전체 기록 값과 재생 보기">
       <h3>부록: 도구 호출 순서</h3>
@@ -130,11 +130,12 @@ export default function RunPage() {
       </Scene>
 
       <Scene tone="glass" id="action">
-        <h2>세 안 모두 실측 후보로 남았고, 후보는 줄지 않았습니다</h2>
-        <p className="say">패널은 탈락을 확정하지 못합니다. 아래는 제안이고, 어느 안이 낫다는 뜻이 아닙니다. 실측 대상은 담당자가 고릅니다.</p>
-        <Glossary />
+        <h2>세 안 모두 남았고, 후보는 줄지 않았습니다</h2>
+        <p className="say">패널은 탈락을 확정하지 못합니다. 아래는 제안이고 어느 안이 낫다는 뜻이 아니며, 실측 대상은 담당자가 고릅니다.</p>
         <ActionTable />
-        <Evidence summary="안 사이의 방향과 작은 차이 가려내기 보기">
+        <p className="small">Terra와 Luna는 패널을 돌린 두 모델이고, %⁠포인트 값은 패널 내부 값이며 시장 수치가 아닙니다.</p>
+        <Evidence summary="표기, 안 사이의 방향과 작은 차이 가려내기 보기">
+          <Glossary />
       <h3>안 사이의 방향</h3>
       <OrderNotes />
       <Caveats items={caveats(["stage4.demo8.action.A", "stage4.pair_accuracy.1_to_3pp.pairs"])} />
@@ -149,30 +150,22 @@ export default function RunPage() {
         </Evidence>
       </Scene>
 
-      <Scene id="allocation">
+      <Scene id="allocation" className="split">
         <h2>실제 200명 중 140명을 표적 연령에 씁니다</h2>
         <p className="say">
-          시스템은 표만 내고 설문을 보내지 않습니다. 발주는 조사 담당자가 하고, 칸별 오차는 {fixed(a.cells[0].margin_pp, 1)}~{fixed(a.cells[a.cells.length - 1].margin_pp, 1)}%⁠포인트로 칸을 재는 표가 아닙니다.
+          시스템은 표만 내고 설문을 보내지 않으며, 발주는 조사 담당자가 합니다. 칸별 오차는 {fixed(a.cells[0].margin_pp, 1)}~{fixed(a.cells[a.cells.length - 1].margin_pp, 1)}%⁠포인트로, 칸을 재는 표가 아닙니다.
         </p>
-        <div className="waffle-split">
-          <div>
-            <h3>
-              표적 {a.target.n}명 <small>오차 ±{fixed(a.target.margin_pp, 1)}%⁠포인트</small>
-            </h3>
-            <Waffle
-              label={`표적 19~39세 ${a.target.n}명, 남성과 여성 각 ${a.cells[0].n}명. 점 하나가 한 사람입니다.`}
-              groups={a.cells.slice(0, 2).map((c) => ({ name: SEGMENT[c.cell] ?? c.cell, n: c.n, color: COLOR.real }))}
-            />
-          </div>
-          <div>
-            <h3>
-              나머지 {a.rest.n}명 <small>오차 ±{fixed(a.rest.margin_pp, 1)}%⁠포인트</small>
-            </h3>
-            <Waffle
-              label={`나머지 ${a.rest.n}명, 40~59세와 60세 이상의 남녀 각 ${a.cells[2].n}명. 점 하나가 한 사람입니다.`}
-              groups={a.cells.slice(2).map((c) => ({ name: SEGMENT[c.cell] ?? c.cell, n: c.n, color: COLOR.reference }))}
-            />
-          </div>
+        <div className="split-figure">
+          <AllocationWaffle
+            parts={[
+              { name: "표적", n: a.target.n, margin: fixed(a.target.margin_pp, 1) },
+              { name: "나머지", n: a.rest.n, margin: fixed(a.rest.margin_pp, 1) },
+            ]}
+            label={`실제 200명을 점 200개로 그린 그림입니다. 표적 19~39세 ${a.target.n}명은 남녀 각 ${a.cells[0].n}명, 오차 ±${fixed(a.target.margin_pp, 1)}%⁠포인트이고, 나머지 ${a.rest.n}명은 40~59세와 60세 이상의 남녀 각 ${a.cells[2].n}명, 오차 ±${fixed(a.rest.margin_pp, 1)}%⁠포인트입니다.`}
+          />
+          <p className="small figure-note">
+            점 하나가 한 사람입니다. 표적은 19~39세 남녀 각 {a.cells[0].n}명, 나머지는 40~59세와 60세 이상의 남녀 각 {a.cells[2].n}명입니다.
+          </p>
         </div>
         <Evidence summary="배분표, 유효 표본, 문항지 구성 보기">
       <p>{a.choose_note} 시스템은 설문을 보내지 않습니다(<code>sent: {String(demo.questionnaire.sent)}</code>). 발주는 조사 담당자가 합니다.</p>
@@ -277,18 +270,18 @@ export default function RunPage() {
       </Scene>
 
       <Scene tone="deep" id="human-run">
-        <h2>작은 실행 한 번은 응모자가 터미널에서 승인했습니다</h2>
+        <h2>작은 실행 한 번만 응모자가 승인했습니다</h2>
         <p className="say">
-          이름과 계획 해시를 입력하는 명령이고, <strong>코드는 입력한 사람이 누구인지 확인하지 못합니다.</strong> 정답이 없어 이 실행으로도 안을 고를 수 없습니다.
+          터미널에서 이름과 계획 해시를 입력하는 명령이고, <strong>코드는 입력한 사람이 누구인지 확인하지 못합니다.</strong> 정답이 없어 이 실행으로도 안을 고를 수 없습니다.
         </p>
         <Figure label={`사람 승인 실행의 계획 답 ${num("stage4.human2.plan.answers")}건 가운데 캐시 답 ${cachedAnswers}건, 새로 받은 답 ${newAnswers}건입니다.`} className="human-bar">
           <div className="time-bar">
-            <div style={{ flex: cachedAnswers, background: "#567079" }}>앞 실행 캐시 {cachedAnswers}건</div>
-            <div style={{ flex: newAnswers, background: "#00829B" }}>새로 받은 답 {newAnswers}건</div>
+            <div style={{ flex: cachedAnswers, background: "#567079", color: "#ffffff" }}>앞 실행 캐시 {cachedAnswers}건</div>
+            <div style={{ flex: newAnswers, background: COLOR.yuzu, color: "#12323B" }}>새로 받은 답 {newAnswers}건</div>
           </div>
         </Figure>
-        <p className="small" style={{ marginTop: 10, maxWidth: "46em" }}>
-          이 실행의 비용 {usd(num("spend.stage4.human2.run"))}은 새로 받은 답의 비용이고, 답 {num("stage4.human2.plan.answers").toLocaleString("en-US")}건을 모두 새로 부를 때의 비용이 아닙니다.
+        <p className="small figure-note">
+          이 실행의 비용 USD {num("spend.stage4.human2.run")}는 새 답 {num("spend.stage4.human2.panel")}과 탐색 {num("spend.stage4.human2.explore")}의 합이고, 답 {num("stage4.human2.plan.answers").toLocaleString("en-US")}건을 모두 새로 부를 때의 비용이 아닙니다.
         </p>
         <Evidence summary="승인 기록과 안별 제안 보기">
       <div className="band">
@@ -315,7 +308,7 @@ export default function RunPage() {
       </Scene>
 
       <Scene id="explore">
-        <h2>탐색 출력은 모두 가설 문장이고, 쓸모는 아직 재지 않았습니다</h2>
+        <h2>탐색 출력은 가설이고, 쓸모는 재지 않았습니다</h2>
         <p className="say">응답자의 말이 아닙니다. 실제 소비자에게 확인하지 않았고, 문장이 일반적이며 카드 문구를 되풀이하는 편입니다.</p>
         <div className="bubble-row">
           {hypothesisBubbles.map((line) => (
@@ -386,7 +379,7 @@ export default function RunPage() {
         <p className="say">경로는 만들었지만 실제 설문을 만난 적이 없습니다. 지금 문항지로는 응답자 단위 패널 값을 만들 수도 없습니다.</p>
         <ol className="pipeline" aria-label="실측 대결 경로의 상태">
           <li>
-            <span>실측 파일 받기, 만듦</span>
+            <span>실측 파일 받기, 구현됨</span>
           </li>
           <li>
             <span>대용 자료로 실행, 한 번</span>

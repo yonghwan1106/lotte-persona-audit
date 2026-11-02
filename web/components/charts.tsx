@@ -2,12 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { COLOR } from "@/lib/colors";
+import { spoken } from "@/lib/format";
 
 const SURFACE = "#ffffff";
 const INK = "#12323B";
 const INK2 = "#3E5B64";
 const MUTED = "#48656E";
-const GRID = "#D9E7EA";
+const GRID = "#C6DADE";
 const AXIS = "#9FBAC0";
 
 export type Mark = { x: number; lo?: number; hi?: number; fill: string; hollow?: boolean; small?: boolean };
@@ -76,7 +77,8 @@ export function DotRows({
   const labelW = wide ? Math.min(250, longestLabel * 13 + 12) : 0;
   const valueW = wide ? Math.min(290, longestValue * 7.4 + 16) : 0;
   const narrowTwoTier = !wide && longestLabel * 13 + longestValue * 7.2 > width - 10;
-  const rowH = wide ? 30 : narrowTwoTier ? 60 : 44;
+  // Narrow rows read top down inside one band: label, then the dot close under it, then a rule and air before the next label.
+  const rowH = wide ? 30 : narrowTwoTier ? 74 : 58;
   const headH = 28;
   const topPad = refs.length ? 20 : 4;
   const bottomPad = 44;
@@ -103,10 +105,10 @@ export function DotRows({
 
   return (
     <div className="chart-box" ref={ref}>
-      <svg width={width} height={height} role="img" aria-label={ariaLabel}>
+      <svg width={width} height={height} role="img" aria-label={spoken(ariaLabel)}>
         {ticks.map((t) => (
           <g key={t}>
-            <line x1={xs(t)} x2={xs(t)} y1={topPad} y2={plotBottom} stroke={t === 0 ? AXIS : GRID} strokeWidth="1" />
+            {wide ? <line x1={xs(t)} x2={xs(t)} y1={topPad} y2={plotBottom} stroke={t === 0 ? AXIS : GRID} strokeWidth="1" /> : null}
             <text x={xs(t)} y={plotBottom + 16} textAnchor="middle" fontSize="12" fill={MUTED} style={{ fontVariantNumeric: "tabular-nums" }}>
               {tickFormat(t)}
             </text>
@@ -120,7 +122,7 @@ export function DotRows({
           const nearRight = x > plotLeft + plotW * 0.6;
           return (
             <g key={line.label}>
-              <line x1={x} x2={x} y1={topPad - 2} y2={plotBottom} stroke={INK2} strokeWidth="1" />
+              {wide ? <line x1={x} x2={x} y1={topPad - 2} y2={plotBottom} stroke={INK2} strokeWidth="1" /> : null}
               <text x={x + (nearRight ? -4 : 4)} y={topPad - 8} textAnchor={nearRight ? "end" : "start"} fontSize="12" fill={INK2}>
                 {line.label}
               </text>
@@ -135,9 +137,9 @@ export function DotRows({
               </text>
             );
           }
-          const midY = wide ? top + rowH / 2 : top + rowH - 11;
-          const textY = wide ? midY + 4.5 : top + 15;
-          const valueY = wide ? midY + 4.5 : narrowTwoTier ? top + 32 : top + 15;
+          const midY = wide ? top + rowH / 2 : top + rowH - 20;
+          const textY = wide ? midY + 4.5 : top + 16;
+          const valueY = wide ? midY + 4.5 : narrowTwoTier ? top + 33 : top + 16;
           const open = (event: React.MouseEvent) => {
             const box = (event.currentTarget as SVGGElement).ownerSVGElement?.getBoundingClientRect();
             if (box) show(row.tip, event.clientX - box.left, event.clientY - box.top);
@@ -150,6 +152,18 @@ export function DotRows({
               onClick={open}
             >
               <rect x={0} y={top} width={width} height={rowH} fill="transparent" />
+              {!wide ? (
+                <>
+                  <line x1={0} x2={width} y1={top + rowH - 1} y2={top + rowH - 1} stroke={GRID} strokeWidth="1" />
+                  {/* Grid and reference lines stop inside the dot band, so they never cross the label above. */}
+                  {ticks.map((t) => (
+                    <line key={`t${t}`} x1={xs(t)} x2={xs(t)} y1={midY - 10} y2={midY + 10} stroke={t === 0 ? MUTED : AXIS} strokeWidth="1" />
+                  ))}
+                  {refs.map((line) => (
+                    <line key={line.label} x1={xs(line.x)} x2={xs(line.x)} y1={midY - 12} y2={midY + 12} stroke={INK2} strokeWidth="1" />
+                  ))}
+                </>
+              ) : null}
               {row.label ? (
                 <text x={0} y={textY} fontSize="13.5" fill={INK}>
                   {row.label}

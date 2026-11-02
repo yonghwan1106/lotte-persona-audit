@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { spoken } from "@/lib/format";
 
 /** Shows the data-tip of the mark under the pointer. It adds nothing a table does not hold: every value is in the scene's evidence. */
 export function TipLayer({ label, className, children }: { label: string; className?: string; children: React.ReactNode }) {
@@ -17,7 +18,7 @@ export function TipLayer({ label, className, children }: { label: string; classN
     setTip({ x: Math.max(0, Math.min(event.clientX - frame.left + 12, frame.width - 240)), y: event.clientY - frame.top + 14, text });
   };
   return (
-    <div ref={box} role="img" aria-label={label} className={className} onPointerMove={move} onPointerDown={move} onPointerLeave={() => setTip(null)}>
+    <div ref={box} role="img" aria-label={spoken(label)} className={className} onPointerMove={move} onPointerDown={move} onPointerLeave={() => setTip(null)}>
       {children}
       {tip ? (
         <div className="chart-tip" style={{ left: tip.x, top: tip.y }}>
