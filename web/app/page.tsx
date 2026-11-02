@@ -352,14 +352,14 @@ export default function HomePage() {
         <p className="say">설문 전에 반대 이유와 문항 초안을 얻고, 어설픈 안을 훑을 재료를 얻고, 패널을 실제 응답과 겨룬 기록을 남깁니다. 앞의 두 쓸모는 아직 재지 않았습니다.</p>
         <div className="cost">
           <div>
-            <Figure label={`패널 감사 한 번의 측정 비용. 호출 비용 ${usd(num("spend.gate"), 2)}, 실행 시간 합계 ${totalSeconds.toFixed(1)}초로 약 ${Math.round(totalSeconds / 60)}분, Terra ${gate.seconds.terra_from_call_log}초와 Luna ${gate.seconds.luna}초. 300명, 두 모델.`}>
+            <Figure label={`패널 감사 한 번의 측정 비용. 호출 비용 ${usd(num("spend.gate"), 2)}, 실행 시간 합계 ${totalSeconds.toFixed(1)}초로 10분 미만, Terra ${gate.seconds.terra_from_call_log}초와 Luna ${gate.seconds.luna}초. 300명, 두 모델.`}>
               <div className="cost-big">
                 <div>
                   USD {fixed(num("spend.gate"))}
                   <small>호출 비용, 잰 값</small>
                 </div>
                 <div>
-                  약 {Math.round(totalSeconds / 60)}분
+                  10분 미만
                   <small>300명, 모델 2개 한 번, {totalSeconds.toFixed(1)}초를 잰 값</small>
                 </div>
               </div>
