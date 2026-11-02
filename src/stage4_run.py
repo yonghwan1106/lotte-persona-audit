@@ -204,12 +204,13 @@ def cmd_human_approve(args):
     ctx.stage4 = True
     if ctx.approval:
         raise SystemExit("this plan was approved already")
-    name = human.typed_approval(ctx.plan)
+    # The freeze covers the whole demo panel. Check it here, before a person types anything. A small run draws a smaller panel, whose own hash can never equal the frozen one, so the backend must not repeat this check on it.
     settings.check_frozen(agent_run.load_panel_hash(cfg))
     settings.require_committed()
     require_committed()
+    name = human.typed_approval(ctx.plan)
     api_key = panel_run.read_api_key(cfg["api_key_file"])
-    ctx.backend = panel_module.RealBackend(cfg, api_key)
+    ctx.backend = panel_module.RealBackend(cfg, api_key, enforce_freeze=False)
     ctx.explorer = explore.Explorer(cfg, api_key)
     toolimpl.record_approval(ctx, ctx.plan["plan_hash"], name, "typed at a terminal", channel=human.CHANNEL)
     ctx.save(p["ctx"])

@@ -687,3 +687,11 @@ def test_explore_samples_hold_no_persona_text_and_no_number():
                 body = sentence[len("\uac00\uc124: ") :]
                 assert not guard_text.check_sentence(body, set()), sentence
                 assert not explore.shared_run(body, runs, card, explore.PERSONA_RUN), sentence
+
+
+def test_human_approve_checks_the_frozen_panel_before_asking_and_not_again_on_the_small_panel():
+    # A small run draws fewer people, so its panel hash can never equal the frozen one. The first real approval failed on this after the person had typed.
+    text = (paths.ROOT / "src" / "stage4_run.py").read_text(encoding="utf-8")
+    body = text[text.index("def cmd_human_approve"):text.index("def main")]
+    assert body.index("check_frozen") < body.index("typed_approval")
+    assert "RealBackend(cfg, api_key, enforce_freeze=False)" in body
