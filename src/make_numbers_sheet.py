@@ -293,11 +293,11 @@ def spend(s):
     s.add("spend.fix_stage.budget", fix_doc["budget_usd"], "USD", "results/fix_stage/run_summary.json", "fix stage", "spend")
     s.add("spend.fix_stage.panel_calls", fix_doc["panel"]["models"] and sum(m["attempts"] for m in fix_doc["panel"]["models"].values()) or 0, "calls", "results/fix_stage/run_summary.json", "fix stage", "spend")
     stage4_doc = load("results/stage4/run_summary.json")
-    s.add("spend.stage4", stage4_doc["stage_spent_usd"], "USD", "results/stage4/run_summary.json", "stage 4", "spend")
+    s.add("spend.stage4", stage4_doc["stage_spent_usd"], "USD", "results/stage4/run_summary.json", "stage 4", "spend_before_human")
     s.add("spend.stage4.budget", stage4_doc["budget_usd"], "USD", "results/stage4/run_summary.json", "stage 4", "spend")
-    s.add("spend.stage4.panel_calls", stage4_doc["panel"]["models"] and sum(m["attempts"] for m in stage4_doc["panel"]["models"].values()) or 0, "calls", "results/stage4/run_summary.json", "stage 4", "spend")
+    s.add("spend.stage4.panel_calls", stage4_doc["panel"]["models"] and sum(m["attempts"] for m in stage4_doc["panel"]["models"].values()) or 0, "calls", "results/stage4/run_summary.json", "stage 4", "spend_before_human")
     total = gate_doc["gate_total_usd"] + main_doc["stage_total_usd"] + stage3_doc["stage_total_usd"] + agent_doc["stage_spent_usd"] + wf7["spend_usd"]["total"] + fix_doc["stage_spent_usd"] + stage4_doc["stage_spent_usd"]
-    s.add("spend.all_stages_including_attacks", round(total, 6), "USD, sum of the entries above", "results/numbers_sheet.json", "all", "spend")
+    s.add("spend.all_stages_including_attacks", round(total, 6), "USD, sum of the entries above", "results/numbers_sheet.json", "all", "spend_before_human")
 
 
 def scenarios(s):
@@ -545,6 +545,61 @@ def stage4_demo8(s):
         s.add(f"stage4.scenarios.{tag}.cost_usd", round(sum(r["cost_usd"] for r in rows), 6), "USD", src, "stage 4", "spend")
 
 
+def stage4_human(s):
+    """The small run a person approved at a terminal. run_summary.json was written before it, so its spend is taken from the ledger."""
+    src = "results/stage4/ledger.jsonl"
+    rows = [json.loads(line) for line in (paths.ROOT / src).read_text(encoding="utf-8").splitlines() if line.strip()]
+    row = next(r for r in rows if r.get("run_id") == "human2" and r.get("approval"))
+    if any(r.get("run_id") == "human1" for r in rows):
+        raise ValueError("the first attempt stopped before the ledger and should have no row")
+    base = "stage4.human2"
+    approval = row["approval"]
+    s.add(f"{base}.approval.typed_name", approval["approver"], "name as typed", src, "stage 4, human run", "stage4_human")
+    s.add(f"{base}.approval.note", approval["note"], "label", src, "stage 4, human run", "stage4_human")
+    s.add(f"{base}.approval.channel", approval["channel"], "label", src, "stage 4, human run", "stage4_human")
+    s.add(f"{base}.approval.at", approval["at"], "time", src, "stage 4, human run", "stage4_human")
+    s.add(f"{base}.plan_hash", row["plan_hash"], "sha256", src, "stage 4, human run", "stage4_human")
+    s.add(f"{base}.manifest_sha256", row["manifest_sha256"], "sha256", src, "stage 4, human run", "stage4_human")
+    s.add(f"{base}.demo_only", row["demo_only"], "bool", src, "stage 4, human run", "stage4_human")
+    s.add(f"{base}.human_decision_is_empty", row["human_decision"] is None, "bool", src, "stage 4, human run", "stage4_human")
+    s.add(f"{base}.real_results_is_empty", row["real_results"] is None, "bool", src, "stage 4, human run", "stage4_human")
+    s.add(f"{base}.plan.cost_cap_usd", approval["cost_cap_usd"], "USD", src, "stage 4, human run", "stage4_human_calls")
+    counts = "results/stage4/human2_call_counts.json"
+    doc = load(counts)
+    s.add(f"{base}.plan.answers", doc["plan_answers"], "answers", counts, "stage 4, human run", "stage4_human_calls")
+    s.add(f"{base}.plan.n_personas", doc["n_personas"], "personas", counts, "stage 4, human run", "stage4_human_calls")
+    s.add(f"{base}.plan.cards", doc["cards"], "cards", counts, "stage 4, human run", "stage4_human_calls")
+    s.add(f"{base}.plan.models", doc["models"], "models", counts, "stage 4, human run", "stage4_human_calls")
+    s.add(f"{base}.calls.new_answers", doc["new_answers"], "answers", counts, "stage 4, human run", "stage4_human_calls")
+    s.add(f"{base}.calls.answers_from_cache", doc["answers_from_cache"], "answers", counts, "stage 4, human run", "stage4_human_calls")
+    s.add(f"{base}.calls.log_rows", doc["log_rows"], "calls", counts, "stage 4, human run", "stage4_human_calls")
+    s.add(f"{base}.calls.bad_answer_rows", doc["log_rows_by_status"].get("bad_answer", 0), "calls", counts, "stage 4, human run", "stage4_human_calls")
+    action_src = "results/stage4/human2/action.json"
+    action = load(action_src)["action"]
+    for item in action["rows"]:
+        s.add(f"{base}.action.{item['card']}", item["label"], "label", action_src, "stage 4, human run", "stage4_human")
+    s.add(f"{base}.action.drop_gap_pp", action["drop_gap_pp"], "pp, panel internal", action_src, "stage 4, human run", "stage4_human")
+    for item in action["threshold_sensitivity"]:
+        s.add(f"{base}.threshold.{item['limit_pp']:g}pp.drop_proposed", item["drop_proposed"], "cards", action_src, "stage 4, human run", "stage4_human")
+    explore_cost = 0
+    for card in ("A", "B", "C"):
+        explore_src = f"results/explore/human2/{card}.json"
+        explored = load(explore_src)
+        s.add(f"{base}.explore.{card}.calls_this_card", explored["source"]["calls_this_card"], "calls", explore_src, "stage 4, human run", "stage4_explore")
+        s.add(f"{base}.explore.{card}.cost_usd", explored["source"]["cost_usd"], "USD", explore_src, "stage 4, human run", "spend_human")
+        s.add(f"{base}.explore.{card}.echo_check_passed", explored["echo_check"]["passed"], "bool", explore_src, "stage 4, human run", "stage4_explore")
+        explore_cost += explored["source"]["cost_usd"]
+    summary = "results/stage4/run_summary.json"
+    before = load(summary)["stage_spent_usd"]
+    through = row["cost"]["stage_total_usd"]
+    s.add("spend.stage4.through_human2", through, "USD", src, "stage 4, human run", "spend_human")
+    s.add("spend.stage4.human2.run", round(through - before, 6), "USD, stage spend after the run minus before it", src, "stage 4, human run", "spend_human")
+    s.add("spend.stage4.human2.panel", row["cost"]["this_run_panel_usd"], "USD", src, "stage 4, human run", "spend_human")
+    s.add("spend.stage4.human2.explore", round(explore_cost, 6), "USD", "results/explore/human2/A.json", "stage 4, human run", "spend_human")
+    total = next(r["value"] for r in s.rows if r["key"] == "spend.all_stages_including_attacks")
+    s.add("spend.all_stages_through_human2", round(total + through - before, 6), "USD, the total before the run plus the run", "results/numbers_sheet.json", "all", "spend_human")
+
+
 def call_order(s):
     src = "results/fix_stage/call_order.json"
     doc = load(src)
@@ -576,7 +631,7 @@ def record_tests():
 
 def build():
     s = Sheet()
-    for fn in (gate, stage2, verdicts, ranking, demo, costs, spend, scenarios, attacks, call_order, tests, stage4_allocation, stage4_flags, stage4_duel, stage4_product, stage4_post_hoc, stage4_demo8):
+    for fn in (gate, stage2, verdicts, ranking, demo, costs, spend, scenarios, attacks, call_order, tests, stage4_allocation, stage4_flags, stage4_duel, stage4_product, stage4_post_hoc, stage4_demo8, stage4_human):
         fn(s)
     return {
         "note": "Every number a deliverable may cite, generated by src/make_numbers_sheet.py from the source files named per entry. Cite the caveat with the number. A number absent here has no source in the repo.",

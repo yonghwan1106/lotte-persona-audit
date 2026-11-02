@@ -20,6 +20,20 @@ def by_key(sheet):
     return {r["key"]: r for r in sheet["rows"]}
 
 
+def test_the_person_approved_run_has_its_own_entries_and_its_spend_adds_up(sheet):
+    rows = {r["key"]: r["value"] for r in sheet["rows"]}
+    ledger = [json.loads(x) for x in (paths.RESULTS / "stage4" / "ledger.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+    row = next(r for r in ledger if r.get("run_id") == "human2")
+    before = json.loads((paths.RESULTS / "stage4" / "run_summary.json").read_text(encoding="utf-8"))["stage_spent_usd"]
+    assert rows["stage4.human2.approval.channel"] == "terminal" and rows["stage4.human2.manifest_sha256"] == row["manifest_sha256"]
+    assert rows["spend.stage4.through_human2"] == row["cost"]["stage_total_usd"]
+    assert rows["spend.stage4.human2.run"] == pytest.approx(row["cost"]["stage_total_usd"] - before, abs=1e-6)
+    assert rows["spend.stage4.human2.panel"] + rows["spend.stage4.human2.explore"] == pytest.approx(rows["spend.stage4.human2.run"], abs=2e-6)
+    assert rows["spend.all_stages_through_human2"] == pytest.approx(rows["spend.all_stages_including_attacks"] + rows["spend.stage4.human2.run"], abs=1e-6)
+    assert rows["stage4.human2.calls.new_answers"] + rows["stage4.human2.calls.answers_from_cache"] == rows["stage4.human2.plan.answers"]
+    assert rows["stage4.human2.real_results_is_empty"] is True and rows["stage4.human2.human_decision_is_empty"] is True
+
+
 def test_every_entry_has_all_fields_and_a_tracked_source(sheet):
     assert sheet["entries"] == len(sheet["rows"]) > 500
     assert len({r["key"] for r in sheet["rows"]}) == len(sheet["rows"])

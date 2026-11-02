@@ -1,0 +1,28 @@
+{
+ "note": "Counts only, from runs/ which git ignores. An answer already in the cache of an earlier run is not called again, so the panel cost of this run is not the cost of calling the whole plan.",
+ "run_id": "human2",
+ "plan_answers": 1000,
+ "n_personas": 100,
+ "cards": [
+  "A",
+  "A_para",
+  "B",
+  "C",
+  "N"
+ ],
+ "models": [
+  "gpt-6.1-terra",
+  "gpt-6-luna"
+ ],
+ "plan_expected_usd": 0.769,
+ "new_answers": 560,
+ "answers_from_cache": 440,
+ "log_rows": 561,
+ "log_rows_by_status": {
+  "bad_answer": 1,
+  "ok": 560
+ },
+ "panel_cost_usd_from_log": 0.357798,
+ "complete": true,
+ "codes_failed": 0
+}
