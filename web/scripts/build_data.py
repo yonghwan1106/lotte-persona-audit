@@ -395,6 +395,56 @@ def build_controls():
     return {"real_answer_labels": labels, "note": doc["real_answers"]["note"]}
 
 
+# Short names of my own for the A15 options on the chart. The survey's wording stays off the site.
+RANK_LABELS = {
+    "1": "과일 주스", "2": "저과즙 음료", "3": "흰우유", "4": "가공우유", "5": "발효유",
+    "6": "두유", "7": "가당 탄산", "8": "제로 탄산", "9": "이온 음료", "10": "차",
+    "11": "기능성 음료", "12": "탄산수", "13+14": "커피", "15": "전문점 음료", "17": "물 외 안 마심",
+}
+AGE_LABELS = ["19~29세", "30~39세", "40~49세", "50~59세", "60~69세", "70세 이상"]
+
+
+def build_viz():
+    """Aggregates the charts need that the numbers sheet does not hold. Group means and shares only, checked against the sheet."""
+    sheet = {r["key"]: r["value"] for r in read_json(RESULTS / "numbers_sheet.json")["rows"]}
+
+    # Age band lines: the gate run's 300 person panel against the whole test truth.
+    age = {}
+    for slug, model in (("terra", "gpt-6.1-terra"), ("luna", "gpt-6-luna")):
+        doc = read_json(RESULTS / "gate" / f"gate_explore_{model}.json")
+        for condition in ("C1", "C2"):
+            for item, block in doc["conditions"][condition]["items"].items():
+                bands = block["by_age_band_pct"]
+                if len(bands) != len(AGE_LABELS):
+                    raise SystemExit("unexpected age bands in the gate exploration")
+                rows = [{"band": label, "real": bands[key]["real"], "panel": bands[key]["panel"]} for label, key in zip(AGE_LABELS, sorted(bands))]
+                age.setdefault(item, {})[f"{slug}_{condition}"] = {"rows": rows, "cell_pearson_r": block["cell_pearson_r"]}
+
+    # Slope chart: shares of the 15 categories, real outside the 1000 panel against Terra C2, overall.
+    ranking = read_json(RESULTS / "stage3" / "option_ranking.json")
+    overall = ranking["sets"]["merged_coffee_15"]["groups"]["overall"]["estimators"]["panel_C2"]
+    panel_shares = overall["_shares_pct"]
+    truth = ranking["truth_shares_pct"]["overall"]
+    real_shares = {key: (truth["13"] + truth["14"] if key == "13+14" else truth[key]) for key in panel_shares}
+    for key, value in panel_shares.items():
+        if abs(value - real_shares[key] - overall[f"bias|{key}"]["value"]) > 0.02:
+            raise SystemExit(f"option {key}: panel minus truth differs from the stored bias")
+    order_real = sorted(real_shares, key=lambda k: -real_shares[k])
+    order_panel = sorted(panel_shares, key=lambda k: -panel_shares[k])
+    categories = [{"id": k, "label": RANK_LABELS[k], "real_share": round(real_shares[k], 2), "panel_share": panel_shares[k], "real_rank": order_real.index(k) + 1, "panel_rank": order_panel.index(k) + 1} for k in order_real]
+
+    # Gender gaps: the panel's own interval is in the stage 2 score file, not in the sheet.
+    main = read_json(RESULTS / "main" / "main_score.json")["stereotypes"]
+    gender = {}
+    for item, block in main.items():
+        by_panel = block["by_panel"]["gpt-6.1-terra|C2"]
+        if by_panel["gender_gap_pp"] != sheet[f"stage2.stereotype.{item}.terra_C2.gender_gap_pp"]:
+            raise SystemExit("gender gap differs from the numbers sheet")
+        gender[item] = {"panel_ci95": by_panel["gender_gap_ci95"]}
+
+    return {"age_bands": age, "ranking": categories, "gender": gender}
+
+
 def git_output(*args):
     return subprocess.run(["git", "-C", str(REPO), *args], capture_output=True, text=True, encoding="utf-8", check=True).stdout.strip()
 
@@ -513,6 +563,7 @@ def main():
         write("intake.json", build_intake())
         write("controls.json", build_controls())
         write("stage4.json", {**build_stage4(), "human_run": build_human_run()})
+        write("viz.json", build_viz())
         write("provenance.json", build_provenance())
         for path in sorted(OUT.glob("*.json")):
             print(path.name, path.stat().st_size)

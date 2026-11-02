@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Caveats } from "@/components/Notes";
+import { Scene } from "@/components/viz/Scene";
 import { IntakeForm } from "@/components/IntakeForm";
 import rules from "@/data/intake.json";
 import { CAPS } from "@/lib/caps";
@@ -15,7 +16,7 @@ export default function IntakePage() {
   const cheap = rules.models.cheap;
   const costKeys = ["cost.concept_prompt.terra.six_cards.per_respondent_usd", "cost.concept_prompt.luna.six_cards.per_respondent_usd"];
   return (
-    <>
+    <Scene className="page-head">
       <h1>접수 시험</h1>
       <p className="lead">콘셉트 카드 문장 하나를 넣으면 받은 항목, 거절한 항목, 호출 수와 비용 계획을 돌려줍니다. 페르소나를 돌리지 않고, 판정도 내지 않습니다. 맛 평가, 패키지 시안, 판매량, 성공 확률, 단일 점수는 거절합니다.</p>
 
@@ -45,6 +46,6 @@ export default function IntakePage() {
         <li>사람 승인 화면은 없습니다. 이 화면의 계획은 미리보기이고, 어떤 패널도 시작하지 않습니다.</li>
       </ul>
       <Caveats items={caveats(costKeys)} />
-    </>
+    </Scene>
   );
 }

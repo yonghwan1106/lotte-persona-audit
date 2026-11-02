@@ -1,8 +1,8 @@
 {
  "note": "Written by web/scripts/build_data.py. Each file below was read from this repo at this commit.",
- "commit": "68a941c141ef58b61ebc4fbc9a8c29f0ccf7b888",
+ "commit": "09d80cc4a980c0f45fc2c803c5f1364f685fe06e",
  "branch": "public",
- "generated_at": "2026-11-02T02:35:14+00:00",
+ "generated_at": "2026-11-02T03:28:51+00:00",
  "files": {
   "config/agent_run.json": "851dba7cfd41c66f2318b11f2cb1365f4d064835e7db527797a35678dc31f751",
   "config/agent_text.json": "bacb4bea030d1a7604dbfff900e4f9ea95b0aaca719b71e2cd249345b7ff1e83",
@@ -20,8 +20,12 @@
   "results/fix_stage/decisions_store_probe.json": "c51ed227911506a99f868fd93bfc7b3f3817624e91efa2a2deef58b4e84670b9",
   "results/fix_stage/scenarios/results.md": "18bd4dd69696ea82aa97e6a44f25414febd348fe7883a94b948f670b50f565e9",
   "results/fix_stage/wf7_attack_record.json": "08bfb9fe417cf757d1337c13341bf0b74a786322944eb407cabdc12cb62397b6",
+  "results/gate/gate_explore_gpt-6-luna.json": "fd3dca3b3bf227f8db958f1768cdace6893c27b9645aca2601a399da4c81f4c9",
+  "results/gate/gate_explore_gpt-6.1-terra.json": "8708d1c47d97b7ac1af6ad958e32ca755944b9a58c4b39d06f72f30651ac29ed",
   "results/gate_run_summary.json": "975c9723047edc317675820687d1cf04df2dc3fc05b9499d4b278deb0f4ed16e",
+  "results/main/main_score.json": "5780b6580c5a767ada03dce36218c7bf8737bdf2975d18fcaf1ee5bf6fba9d10",
   "results/numbers_sheet.json": "f3bcd621359faacf42b8eaf00d9c6b8c3f7227dddded002616b99dbf76719c84",
+  "results/stage3/option_ranking.json": "e8eea042d4c9c7cd1f003bbc859e0c4348125358b372f88d857746f8e79d6334",
   "results/stage4/allocation.json": "0e45bbf267d3c3d08f45e549516f8290f730b91517c82729e942a48144ccadcf",
   "results/stage4/demo8/action.json": "9489d376a73e9ff1f3ffaee7ca65c546441b7865fc7b0c6b6745336cabd9c1a9",
   "results/stage4/demo8/allocation.json": "d1c967d06fc98ecfb8eb70452638b45402e136d90206e58a0dbd06d967e1829f",

@@ -1,0 +1,572 @@
+{
+ "age_bands": {
+  "ever": {
+   "terra_C1": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 86.42,
+      "panel": 88.5
+     },
+     {
+      "band": "30~39세",
+      "real": 71.38,
+      "panel": 85.05
+     },
+     {
+      "band": "40~49세",
+      "real": 57.52,
+      "panel": 80.11
+     },
+     {
+      "band": "50~59세",
+      "real": 52.46,
+      "panel": 71.84
+     },
+     {
+      "band": "60~69세",
+      "real": 32.88,
+      "panel": 58.9
+     },
+     {
+      "band": "70세 이상",
+      "real": 21.23,
+      "panel": 40.29
+     }
+    ],
+    "cell_pearson_r": 0.936
+   },
+   "terra_C2": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 86.42,
+      "panel": 89.85
+     },
+     {
+      "band": "30~39세",
+      "real": 71.38,
+      "panel": 85.63
+     },
+     {
+      "band": "40~49세",
+      "real": 57.52,
+      "panel": 79.36
+     },
+     {
+      "band": "50~59세",
+      "real": 52.46,
+      "panel": 71.2
+     },
+     {
+      "band": "60~69세",
+      "real": 32.88,
+      "panel": 57.22
+     },
+     {
+      "band": "70세 이상",
+      "real": 21.23,
+      "panel": 41.62
+     }
+    ],
+    "cell_pearson_r": 0.953
+   },
+   "luna_C1": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 86.42,
+      "panel": 89.29
+     },
+     {
+      "band": "30~39세",
+      "real": 71.38,
+      "panel": 84.29
+     },
+     {
+      "band": "40~49세",
+      "real": 57.52,
+      "panel": 81.7
+     },
+     {
+      "band": "50~59세",
+      "real": 52.46,
+      "panel": 76.04
+     },
+     {
+      "band": "60~69세",
+      "real": 32.88,
+      "panel": 61.6
+     },
+     {
+      "band": "70세 이상",
+      "real": 21.23,
+      "panel": 38.7
+     }
+    ],
+    "cell_pearson_r": 0.911
+   },
+   "luna_C2": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 86.42,
+      "panel": 88.27
+     },
+     {
+      "band": "30~39세",
+      "real": 71.38,
+      "panel": 86.43
+     },
+     {
+      "band": "40~49세",
+      "real": 57.52,
+      "panel": 82.41
+     },
+     {
+      "band": "50~59세",
+      "real": 52.46,
+      "panel": 76.97
+     },
+     {
+      "band": "60~69세",
+      "real": 32.88,
+      "panel": 63.7
+     },
+     {
+      "band": "70세 이상",
+      "real": 21.23,
+      "panel": 46.14
+     }
+    ],
+    "cell_pearson_r": 0.919
+   }
+  },
+  "weekly": {
+   "terra_C1": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 27.73,
+      "panel": 48.46
+     },
+     {
+      "band": "30~39세",
+      "real": 15.77,
+      "panel": 42.61
+     },
+     {
+      "band": "40~49세",
+      "real": 8.4,
+      "panel": 35.1
+     },
+     {
+      "band": "50~59세",
+      "real": 9.17,
+      "panel": 27.49
+     },
+     {
+      "band": "60~69세",
+      "real": 7.34,
+      "panel": 19.72
+     },
+     {
+      "band": "70세 이상",
+      "real": 3.27,
+      "panel": 12.35
+     }
+    ],
+    "cell_pearson_r": 0.845
+   },
+   "terra_C2": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 27.73,
+      "panel": 48.06
+     },
+     {
+      "band": "30~39세",
+      "real": 15.77,
+      "panel": 40.1
+     },
+     {
+      "band": "40~49세",
+      "real": 8.4,
+      "panel": 32.38
+     },
+     {
+      "band": "50~59세",
+      "real": 9.17,
+      "panel": 26.0
+     },
+     {
+      "band": "60~69세",
+      "real": 7.34,
+      "panel": 17.86
+     },
+     {
+      "band": "70세 이상",
+      "real": 3.27,
+      "panel": 12.26
+     }
+    ],
+    "cell_pearson_r": 0.874
+   },
+   "luna_C1": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 27.73,
+      "panel": 44.97
+     },
+     {
+      "band": "30~39세",
+      "real": 15.77,
+      "panel": 39.69
+     },
+     {
+      "band": "40~49세",
+      "real": 8.4,
+      "panel": 34.53
+     },
+     {
+      "band": "50~59세",
+      "real": 9.17,
+      "panel": 29.8
+     },
+     {
+      "band": "60~69세",
+      "real": 7.34,
+      "panel": 20.37
+     },
+     {
+      "band": "70세 이상",
+      "real": 3.27,
+      "panel": 11.63
+     }
+    ],
+    "cell_pearson_r": 0.819
+   },
+   "luna_C2": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 27.73,
+      "panel": 45.11
+     },
+     {
+      "band": "30~39세",
+      "real": 15.77,
+      "panel": 42.13
+     },
+     {
+      "band": "40~49세",
+      "real": 8.4,
+      "panel": 35.17
+     },
+     {
+      "band": "50~59세",
+      "real": 9.17,
+      "panel": 30.03
+     },
+     {
+      "band": "60~69세",
+      "real": 7.34,
+      "panel": 22.21
+     },
+     {
+      "band": "70세 이상",
+      "real": 3.27,
+      "panel": 14.01
+     }
+    ],
+    "cell_pearson_r": 0.805
+   }
+  },
+  "carb": {
+   "terra_C1": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 12.36,
+      "panel": 29.11
+     },
+     {
+      "band": "30~39세",
+      "real": 16.38,
+      "panel": 22.5
+     },
+     {
+      "band": "40~49세",
+      "real": 10.69,
+      "panel": 19.71
+     },
+     {
+      "band": "50~59세",
+      "real": 6.8,
+      "panel": 15.94
+     },
+     {
+      "band": "60~69세",
+      "real": 4.94,
+      "panel": 13.12
+     },
+     {
+      "band": "70세 이상",
+      "real": 3.66,
+      "panel": 10.44
+     }
+    ],
+    "cell_pearson_r": 0.854
+   },
+   "terra_C2": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 12.36,
+      "panel": 29.13
+     },
+     {
+      "band": "30~39세",
+      "real": 16.38,
+      "panel": 22.43
+     },
+     {
+      "band": "40~49세",
+      "real": 10.69,
+      "panel": 19.87
+     },
+     {
+      "band": "50~59세",
+      "real": 6.8,
+      "panel": 15.39
+     },
+     {
+      "band": "60~69세",
+      "real": 4.94,
+      "panel": 12.77
+     },
+     {
+      "band": "70세 이상",
+      "real": 3.66,
+      "panel": 10.87
+     }
+    ],
+    "cell_pearson_r": 0.844
+   },
+   "luna_C1": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 12.36,
+      "panel": 17.21
+     },
+     {
+      "band": "30~39세",
+      "real": 16.38,
+      "panel": 14.06
+     },
+     {
+      "band": "40~49세",
+      "real": 10.69,
+      "panel": 13.27
+     },
+     {
+      "band": "50~59세",
+      "real": 6.8,
+      "panel": 11.12
+     },
+     {
+      "band": "60~69세",
+      "real": 4.94,
+      "panel": 9.12
+     },
+     {
+      "band": "70세 이상",
+      "real": 3.66,
+      "panel": 7.02
+     }
+    ],
+    "cell_pearson_r": 0.867
+   },
+   "luna_C2": {
+    "rows": [
+     {
+      "band": "19~29세",
+      "real": 12.36,
+      "panel": 18.19
+     },
+     {
+      "band": "30~39세",
+      "real": 16.38,
+      "panel": 15.07
+     },
+     {
+      "band": "40~49세",
+      "real": 10.69,
+      "panel": 13.77
+     },
+     {
+      "band": "50~59세",
+      "real": 6.8,
+      "panel": 11.2
+     },
+     {
+      "band": "60~69세",
+      "real": 4.94,
+      "panel": 8.99
+     },
+     {
+      "band": "70세 이상",
+      "real": 3.66,
+      "panel": 7.34
+     }
+    ],
+    "cell_pearson_r": 0.89
+   }
+  }
+ },
+ "ranking": [
+  {
+   "id": "13+14",
+   "label": "커피",
+   "real_share": 37.02,
+   "panel_share": 36.23,
+   "real_rank": 1,
+   "panel_rank": 1
+  },
+  {
+   "id": "3",
+   "label": "흰우유",
+   "real_share": 9.67,
+   "panel_share": 4.73,
+   "real_rank": 2,
+   "panel_rank": 6
+  },
+  {
+   "id": "1",
+   "label": "과일 주스",
+   "real_share": 8.58,
+   "panel_share": 6.43,
+   "real_rank": 3,
+   "panel_rank": 5
+  },
+  {
+   "id": "5",
+   "label": "발효유",
+   "real_share": 7.67,
+   "panel_share": 4.02,
+   "real_rank": 4,
+   "panel_rank": 8
+  },
+  {
+   "id": "7",
+   "label": "가당 탄산",
+   "real_share": 6.37,
+   "panel_share": 8.44,
+   "real_rank": 5,
+   "panel_rank": 3
+  },
+  {
+   "id": "6",
+   "label": "두유",
+   "real_share": 6.04,
+   "panel_share": 3.76,
+   "real_rank": 6,
+   "panel_rank": 9
+  },
+  {
+   "id": "10",
+   "label": "차",
+   "real_share": 5.02,
+   "panel_share": 8.56,
+   "real_rank": 7,
+   "panel_rank": 2
+  },
+  {
+   "id": "17",
+   "label": "물 외 안 마심",
+   "real_share": 4.62,
+   "panel_share": 2.03,
+   "real_rank": 8,
+   "panel_rank": 14
+  },
+  {
+   "id": "9",
+   "label": "이온 음료",
+   "real_share": 3.73,
+   "panel_share": 3.25,
+   "real_rank": 9,
+   "panel_rank": 11
+  },
+  {
+   "id": "11",
+   "label": "기능성 음료",
+   "real_share": 2.63,
+   "panel_share": 2.54,
+   "real_rank": 10,
+   "panel_rank": 13
+  },
+  {
+   "id": "8",
+   "label": "제로 탄산",
+   "real_share": 2.35,
+   "panel_share": 7.54,
+   "real_rank": 11,
+   "panel_rank": 4
+  },
+  {
+   "id": "15",
+   "label": "전문점 음료",
+   "real_share": 2.11,
+   "panel_share": 4.59,
+   "real_rank": 12,
+   "panel_rank": 7
+  },
+  {
+   "id": "4",
+   "label": "가공우유",
+   "real_share": 1.71,
+   "panel_share": 3.55,
+   "real_rank": 13,
+   "panel_rank": 10
+  },
+  {
+   "id": "12",
+   "label": "탄산수",
+   "real_share": 1.57,
+   "panel_share": 1.72,
+   "real_rank": 14,
+   "panel_rank": 15
+  },
+  {
+   "id": "2",
+   "label": "저과즙 음료",
+   "real_share": 0.94,
+   "panel_share": 2.6,
+   "real_rank": 15,
+   "panel_rank": 12
+  }
+ ],
+ "gender": {
+  "ever": {
+   "panel_ci95": [
+    -6.827,
+    -2.352
+   ]
+  },
+  "weekly": {
+   "panel_ci95": [
+    -5.77,
+    -2.388
+   ]
+  },
+  "carb": {
+   "panel_ci95": [
+    -6.792,
+    -5.103
+   ]
+  }
+ }
+}

@@ -17,7 +17,7 @@ const CARD_ROLE: Record<string, string> = {
   negative_control: "음성 대조",
 };
 
-function summary(step: Step): { head: string; body?: string } {
+export function stepSummary(step: Step): { head: string; body?: string } {
   const d = (step.detail ?? {}) as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   switch (step.event) {
     case "user_message":
@@ -83,7 +83,7 @@ export function ReplaySteps({ steps }: { steps: Step[] }) {
       </div>
       <ol className="steps">
         {visible.map((step, i) => {
-          const { head, body } = summary(step);
+          const { head, body } = stepSummary(step);
           return (
             <li key={i}>
               <span className="step-no">{i + 1}</span>

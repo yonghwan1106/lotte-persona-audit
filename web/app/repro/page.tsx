@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Caveats } from "@/components/Notes";
+import { Scene } from "@/components/viz/Scene";
 import provenance from "@/data/provenance.json";
 import { caveats, num, sheetEntries, usd } from "@/lib/numbers";
 
@@ -21,9 +22,33 @@ const SPEND = [
 export default function ReproPage() {
   return (
     <>
-      <h1>재현과 자료</h1>
-      <p className="lead">채점과 규칙 비교에는 API 키가 필요 없습니다. 답을 새로 만드는 단계만 키와 비용이 듭니다. 원자료는 직접 받아야 합니다.</p>
-
+      <Scene className="page-head">
+        <h1>재현과 자료</h1>
+        <p className="lead">채점과 규칙 비교에는 API 키가 필요 없습니다. 답을 새로 만드는 단계만 키와 비용이 듭니다. 원자료는 직접 받아야 합니다.</p>
+        <ol className="pipeline" aria-label="자료가 이 사이트까지 오는 길. 앞의 세 단계는 저장소 밖에 있고, 뒤의 세 단계는 공개 저장소에 있습니다.">
+          <li className="is-out">
+            <span>KREI 원자료, 직접 받기</span>
+          </li>
+          <li className="is-out">
+            <span>분할과 페르소나, 저장소 밖</span>
+          </li>
+          <li className="is-out">
+            <span>패널 답과 호출 기록, 저장소 밖</span>
+          </li>
+          <li>
+            <span>집계와 채점 결과</span>
+          </li>
+          <li>
+            <span>수치 시트</span>
+          </li>
+          <li>
+            <span>이 사이트</span>
+          </li>
+        </ol>
+        <p className="small">테두리가 옅은 단계는 공개 저장소에 없습니다. 행 단위 자료는 이 사이트로 오지 않습니다.</p>
+      </Scene>
+      <Scene tone="glass">
+        <div className="plain">
       <h2>자료 출처와 이용 조건</h2>
       <div className="band">
         <p>
@@ -166,6 +191,8 @@ cd web && npm install && npm run build && npm run start`}</pre>
           </table>
         </div>
       </details>
+        </div>
+      </Scene>
     </>
   );
 }

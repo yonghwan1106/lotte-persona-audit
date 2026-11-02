@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import { Caveats, SourceLine } from "@/components/Notes";
 import { ReplaySteps, type Step } from "@/components/ReplaySteps";
 import { ActionTable, DetectableTable, DuelStatusTable, EXPLORE_SECTIONS, ExploreCard, HealthCheckDecision, HumanActionTable, OrderNotes } from "@/components/Stage4";
+import { Waffle } from "@/components/viz/Charts";
+import { Evidence, Figure, Glossary, Scene } from "@/components/viz/Scene";
+import { ToolPath } from "@/components/viz/ToolPath";
+import { Vessel } from "@/components/viz/Vessel";
+import { COLOR } from "@/lib/colors";
 import demo from "@/data/demo.json";
 import stage4 from "@/data/stage4.json";
 import { any, bool, caveats, ciText, fixed, num, interval, signed, sources, str, usd } from "@/lib/numbers";
-
 export const metadata: Metadata = { title: "실행 기록 · 합성 패널 감사 기록" };
 
 const ROLE: Record<string, string> = { candidate: "후보", paraphrase: "바꿔 쓴 카드", brand: "브랜드 표시 카드", negative_control: "음성 대조" };
@@ -60,60 +64,53 @@ export default function RunPage() {
   const models = ["terra", "luna"] as const;
   const exploreCards = ["A", "B", "C"] as const;
   const human = stage4.human_run;
+  const newAnswers = num("stage4.human2.calls.new_answers");
+  const cachedAnswers = num("stage4.human2.calls.answers_from_cache");
+  const hypothesisBubbles = [stage4.explore.cards.A.sections.segment_hypotheses[2], stage4.explore.cards.B.sections.attractions[3], stage4.explore.cards.C.sections.survey_questions[4]];
 
   return (
     <>
-      <h1>실행 기록</h1>
-      <div className="band">
-        <p>
-          <strong>시연 전용, 정답 없음.</strong> 카드 6장은 모두 가상입니다. 구매 의향은 패널 내부 값이고 시장 수치나 판매 전망이 아닙니다. 이 페이지가 재생하는 시연의 승인은 사람이 하지 않았습니다. 사람이 승인한 작은 실행 한 번은 <a href="#human-run">별도 절</a>에 있습니다. 어느 실행으로도 안을 고를 수 없습니다.
+      <Scene className="page-head">
+        <h1>실행 기록</h1>
+        <p className="lead">
+          <strong>시연 전용, 정답 없음.</strong> 카드 6장은 모두 가상이고, 구매 의향은 패널 내부 값이며 시장 수치가 아닙니다. 이 페이지가 재생하는 시연의 승인은 사람이 하지 않았습니다. 어느 실행으로도 안을 고를 수 없습니다.
         </p>
-      </div>
-      <p className="lead">
-        감사 에이전트가 카드를 받아 계획, 패널, 진단, 판정, 탐색, 실측 200명 배분, 문항지, 원장까지 진행한 기록입니다. 페르소나 문장과 패널 이유 원문은 싣지 않습니다.
-      </p>
+        <Evidence summary="재생 대상과 해시 보기">
       <p className="small">
         재생 대상은 4단계 실행 <code>{demo.run_id}</code>(results/stage4/{demo.run_id})입니다. 판정표와 문항지 파일은 앞 실행 results/agent/demo5와 바이트 단위로 같고, 배분표는 숫자가 같으며 카드별 용도 문장만 다릅니다. 탐색 호출도 앞 실행의 캐시를 읽어 이 실행에서는 0건입니다. 매니페스트 <code>{demo.manifest_sha256.slice(0, 16)}…</code>, 규칙 {demo.rule_version}. 이 재생의 패널 답은 앞 실행의 것이고, 이 실행까지 4단계의 새 패널 호출은 {num("spend.stage4.panel_calls")}건입니다.
       </p>
+        </Evidence>
+      </Scene>
 
-      <h2 id="action">안별 제안</h2>
-      <p>패널은 탈락을 확정하지 못합니다. 아래는 제안이며 어느 안이 낫다는 뜻이 아닙니다. 실측 대상은 담당자가 고릅니다. 이유 문장은 코드가 씁니다.</p>
-      <ActionTable />
-      <h3>안 사이의 방향</h3>
-      <OrderNotes />
-      <Caveats items={caveats(["stage4.demo8.action.A", "stage4.pair_accuracy.1_to_3pp.pairs"])} />
-
-      <h3>작은 차이를 가려내려면</h3>
-      <p>
-        200명을 두 안에 {num("stage4.detectable.n_arm")}명씩 나누면 실제 차이가 {num("stage4.detectable.between_mde_pp")}pp보다 작을 때 가려내기 어렵습니다. 한 사람이 두 안을 모두 보면 {num("stage4.detectable.within_mde_pp.rho_0.0")}pp(상관 0), {num("stage4.detectable.within_mde_pp.rho_0.3")}pp(0.3), {num("stage4.detectable.within_mde_pp.rho_0.5")}pp(0.5)이고, 순서 효과를 막으려 첫 카드만 보면 다시 {num("stage4.detectable.between_mde_pp")}pp입니다.
+      <Scene tone="glass" id="path">
+        <h2>카드 한 장이 지나는 길을 한 단계씩 따라가 볼 수 있습니다</h2>
+        <p className="say">순서는 코드가 정하고, 선행 조건이 없으면 도구가 멈춥니다. 시험한 형태 안에서 확인한 결과입니다.</p>
+        <ToolPath steps={demo.steps as Step[]} />
+        <Evidence summary="전체 기록 값과 재생 보기">
+      <h3>부록: 도구 호출 순서</h3>
+      <p>순서는 코드가 정합니다. 선행 조건이 없으면 도구가 <code>blocked</code>를 돌려줍니다. 시간은 첫 기록에서 잰 초입니다.</p>
+      <ReplaySteps steps={demo.steps as Step[]} />
+      <p className="small">
+        승인 기록 값: {demo.approval.approver}, {demo.approval.at}. 이 승인은 사람이 키보드에서 한 것이 아니라 작업 지시서의 예산 범위에 따른 시연 승인입니다.
       </p>
-      <DetectableTable />
-      <p className="small">산식: {stage4.detectable.arithmetic}</p>
-      <Caveats items={caveats(["stage4.detectable.between_mde_pp"])} />
+        </Evidence>
+      </Scene>
 
-      <h2 id="human-run">사람이 터미널에서 승인한 실행</h2>
-      <div className="band">
-        <p>
-          <strong>작은 실행 한 번을 사람이 승인했습니다.</strong> run <code>{human.run_id}</code>, {human.approval.at.slice(0, 10)}, 터미널에 입력한 이름 {str("stage4.human2.approval.typed_name")}. 이름과 계획 해시를 입력하는 명령이고, <strong>코드는 입력한 사람이 누구인지 확인하지 못합니다.</strong> 위 시연을 포함한 앞선 시연 승인은 사람이 하지 않았습니다.
-        </p>
-        <p>
-          첫 시도 <code>human1</code>은 이름을 입력한 뒤 패널 호출 전에 코드 버그로 멈췄습니다. 고친 뒤 다시 실행한 것이 이 기록이고, 첫 시도의 기록도 저장소에 있습니다(results/stage4/human1).
-        </p>
-      </div>
-      <p>
-        {human.n_personas}명, 카드 {human.cards.join(", ")}, 두 모델({human.models.map((m) => MODEL[m] ?? m).join(", ")})입니다. 계획은 답 {num("stage4.human2.plan.answers").toLocaleString("en-US")}건이고, {num("stage4.human2.calls.answers_from_cache")}건은 앞 실행의 캐시에 있던 답이며 새로 받은 답은 {num("stage4.human2.calls.new_answers")}건입니다. 이 실행의 비용은 {usd(num("spend.stage4.human2.run"))}(패널 {usd(num("spend.stage4.human2.panel"))}, 탐색 {usd(num("spend.stage4.human2.explore"))})이고, {num("stage4.human2.plan.answers").toLocaleString("en-US")}건을 모두 새로 부를 때의 비용이 아닙니다. 매니페스트 <code>{human.manifest_sha256}</code>.
-      </p>
-      <HumanActionTable />
-      <ul className="small">
-        {human.action.notes.map((line) => (
-          <li key={line}>{line}</li>
-        ))}
-        <li>이 실행도 시연 카드이고 정답이 없어 시연과 같은 결론을 내도 안을 고를 수 없습니다. 실측 대결을 돌리지 않아 원장의 real_results와 human_decision은 비어 있습니다.</li>
-      </ul>
-      <Caveats items={caveats(["stage4.human2.action.A", "stage4.human2.calls.new_answers", "spend.stage4.human2.run"])} />
-      <SourceLine files={sources(["stage4.human2.action.A", "stage4.human2.calls.new_answers", "spend.stage4.human2.run"])} keys="stage4.human2.*, spend.stage4.human2.*" />
-
-      <h2>카드</h2>
+      <Scene id="cards">
+        <h2>카드 여섯 장 중 세 장이 후보입니다</h2>
+        <p className="say">나머지는 점검용입니다. 바꿔 쓴 카드로 잡음을, 브랜드 표시 카드로 표시 효과를, 대조 카드로 어설픈 안을 잽니다.</p>
+        <div className="card-row">
+          {demo.cards.map((card) => (
+            <figure key={card.id}>
+              <Vessel letter={card.id === "A_para" ? "A′" : card.id === "A_brand" ? "A″" : card.id} kind={card.id === "C" ? "pet" : "can"} dim={card.role !== "candidate"} />
+              <figcaption>
+                <strong>{ROLE[card.role] ?? card.role}</strong>
+                {card.attributes.join(", ")}. {card.price_band}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <Evidence summary="카드 문구와 표적 보기">
       <div className="card-grid">
         {demo.cards.map((card) => (
           <div key={card.id}>
@@ -129,77 +126,55 @@ export default function RunPage() {
         ))}
       </div>
       <p className="small">A_brand는 브랜드 효과 측정용 문구이고 실제 제품이나 계획이 아닙니다. 앵커가 다른 카드끼리의 라벨 차이는 안의 차이가 아닙니다.</p>
+        </Evidence>
+      </Scene>
 
-      <h2 id="explore">탐색 출력 표본</h2>
-      <div className="band">
-        <p>
-          <strong>{stage4.explore.marking}</strong> 실제 소비자에게 확인하지 않았고 쓸모도 재지 않았습니다.
-        </p>
-      </div>
+      <Scene tone="glass" id="action">
+        <h2>세 안 모두 실측 후보로 남았고, 후보는 줄지 않았습니다</h2>
+        <p className="say">패널은 탈락을 확정하지 못합니다. 아래는 제안이고, 어느 안이 낫다는 뜻이 아닙니다. 실측 대상은 담당자가 고릅니다.</p>
+        <Glossary />
+        <ActionTable />
+        <Evidence summary="안 사이의 방향과 작은 차이 가려내기 보기">
+      <h3>안 사이의 방향</h3>
+      <OrderNotes />
+      <Caveats items={caveats(["stage4.demo8.action.A", "stage4.pair_accuracy.1_to_3pp.pairs"])} />
+
+      <h3>작은 차이를 가려내려면</h3>
       <p>
-        후보 카드마다 저장된 Terra 이유 문장을 Terra 호출 한 번으로 묶었습니다. 숫자 규칙, 차단 패턴, 페르소나 문장이나 이유 원문과 긴 조각을 공유하는 문장은 코드가 뺍니다. 패턴은 나열된 형태만 잡습니다. 합성 문장을 심는 필터 시험은 {num("stage4.explore_filter.passed")}/{num("stage4.explore_filter.total")} 통과했고 시험하지 않은 표현은 통과할 수 있습니다. 문장이 일반적이고 카드 문구를 되풀이하는 편입니다.
+        200명을 두 안에 {num("stage4.detectable.n_arm")}명씩 나누면 실제 차이가 {num("stage4.detectable.between_mde_pp")}pp보다 작을 때 가려내기 어렵습니다. 한 사람이 두 안을 모두 보면 {num("stage4.detectable.within_mde_pp.rho_0.0")}pp(상관 0), {num("stage4.detectable.within_mde_pp.rho_0.3")}pp(0.3), {num("stage4.detectable.within_mde_pp.rho_0.5")}pp(0.5)이고, 순서 효과를 막으려 첫 카드만 보면 다시 {num("stage4.detectable.between_mde_pp")}pp입니다.
       </p>
-      <div className="card-grid">
-        {exploreCards.map((card) => (
-          <ExploreCard card={card} key={card} />
-        ))}
-      </div>
-      <div className="table-wrap" tabIndex={0}>
-        <table>
-          <thead>
-            <tr>
-              <th>안</th>
-              <th className="num">읽은 이유</th>
-              {EXPLORE_SECTIONS.map((s) => (
-                <th className="num" key={s.id}>
-                  {s.label}
-                </th>
-              ))}
-              <th className="num">페르소나 겹침</th>
-              <th className="num">이유 원문 겹침</th>
-              <th className="num">이 실행의 호출</th>
-              <th className="num">앞 실행(demo7)의 비용</th>
-            </tr>
-          </thead>
-          <tbody>
-            {exploreCards.map((card) => (
-              <tr key={card}>
-                <td>{card}</td>
-                <td className="num">{stage4.explore.cards[card].reasons_read}</td>
-                {EXPLORE_SECTIONS.map((s) => (
-                  <td className="num" key={s.id}>
-                    {num(`stage4.explore8.${card}.${s.id}.kept`)}
-                  </td>
-                ))}
-                <td className="num">{stage4.explore.cards[card].echo.persona_echo}</td>
-                <td className="num">{stage4.explore.cards[card].echo.reason_echo}</td>
-                <td className="num">{num(`stage4.explore8.${card}.calls_this_card`)}</td>
-                <td className="num">{usd(num(`stage4.explore.${card}.cost_usd`))}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="small">상한은 반대 이유와 끌리는 점 각 5개, 세그먼트 가설 3개, 문항 초안 5개입니다. 코드가 뺀 문장은 카드마다 상한 초과 {stage4.explore.cards.A.dropped_by_code.over_limit}건입니다.</p>
-      <Caveats items={caveats(["stage4.explore.A.cost_usd", "stage4.explore_filter.total"])} />
-      <SourceLine files={sources(["stage4.explore8.A.objections.kept", "stage4.explore.A.cost_usd", "stage4.explore_filter.total"])} keys="stage4.explore8.*, stage4.explore.*, stage4.explore_filter.*" />
+      <DetectableTable />
+      <p className="small">산식: {stage4.detectable.arithmetic}</p>
+      <Caveats items={caveats(["stage4.detectable.between_mde_pp"])} />
+        </Evidence>
+      </Scene>
 
-      <h2 id="duel">실측 대결: 건강검진 기록</h2>
-      <HealthCheckDecision />
-      <p>실측 200명이 오면 같은 응답자의 패널 값과 묶어 R1과 겨루고, 결과를 건강검진으로 보고서와 원장에 적습니다. 규칙의 신뢰도는 <a href="/results#duel">측정 결과 9절</a>에 있습니다.</p>
-      <DuelStatusTable />
-      <h3>이 실행의 기록 (results/stage4/{demo.run_id}/real_results.json)</h3>
-      <ul>
-        {stage4.real_results.lines.map((line) => (
-          <li key={line}>{line}</li>
-        ))}
-      </ul>
-      <p className="small">항목별 결과는 싣지 않습니다. 같은 표본에서 접힘 시드만 바꿔도 항목별 keep이 크게 달라져(<a href="/results#same-sample">측정 결과 9절</a>) 한 번의 항목별 결과를 인용할 수 없습니다.</p>
-      <p className="small">받는 파일: 실측 파일은 respondent_id, age_band, sex, weight, ever, weekly, carb, concept_X(1~5), 있으면 unit_id, 패널 파일은 respondent_id, p_ever, p_weekly, p_carb, p_concept_X입니다. 대용 파일은 git이 무시하는 폴더에 있고 이 사이트와 저장소에는 집계만 있습니다.</p>
-      <Caveats items={caveats(["stage4.demo8.ingest.report_status"])} />
-      <SourceLine files={sources(["stage4.demo8.ingest.report_status"])} keys="stage4.demo8.ingest.*" />
-
-      <h2>실측 200명 배분</h2>
+      <Scene id="allocation">
+        <h2>실제 200명 중 140명을 표적 연령에 씁니다</h2>
+        <p className="say">
+          시스템은 표만 내고 설문을 보내지 않습니다. 발주는 조사 담당자가 하고, 칸별 오차는 {fixed(a.cells[0].margin_pp, 1)}~{fixed(a.cells[a.cells.length - 1].margin_pp, 1)}%⁠포인트로 칸을 재는 표가 아닙니다.
+        </p>
+        <div className="waffle-split">
+          <div>
+            <h3>
+              표적 {a.target.n}명 <small>오차 ±{fixed(a.target.margin_pp, 1)}%⁠포인트</small>
+            </h3>
+            <Waffle
+              label={`표적 19~39세 ${a.target.n}명, 남성과 여성 각 ${a.cells[0].n}명. 점 하나가 한 사람입니다.`}
+              groups={a.cells.slice(0, 2).map((c) => ({ name: SEGMENT[c.cell] ?? c.cell, n: c.n, color: COLOR.real }))}
+            />
+          </div>
+          <div>
+            <h3>
+              나머지 {a.rest.n}명 <small>오차 ±{fixed(a.rest.margin_pp, 1)}%⁠포인트</small>
+            </h3>
+            <Waffle
+              label={`나머지 ${a.rest.n}명, 40~59세와 60세 이상의 남녀 각 ${a.cells[2].n}명. 점 하나가 한 사람입니다.`}
+              groups={a.cells.slice(2).map((c) => ({ name: SEGMENT[c.cell] ?? c.cell, n: c.n, color: COLOR.reference }))}
+            />
+          </div>
+        </div>
+        <Evidence summary="배분표, 유효 표본, 문항지 구성 보기">
       <p>{a.choose_note} 시스템은 설문을 보내지 않습니다(<code>sent: {String(demo.questionnaire.sent)}</code>). 발주는 조사 담당자가 합니다.</p>
       <div className="table-wrap" tabIndex={0}>
         <table>
@@ -298,15 +273,154 @@ export default function RunPage() {
           <li key={r}>{r}</li>
         ))}
       </ul>
+        </Evidence>
+      </Scene>
 
-      <h2>부록: 도구 호출 순서</h2>
-      <p>순서는 코드가 정합니다. 선행 조건이 없으면 도구가 <code>blocked</code>를 돌려줍니다. 시간은 첫 기록에서 잰 초입니다.</p>
-      <ReplaySteps steps={demo.steps as Step[]} />
-      <p className="small">
-        승인 기록 값: {demo.approval.approver}, {demo.approval.at}. 이 승인은 사람이 키보드에서 한 것이 아니라 작업 지시서의 예산 범위에 따른 시연 승인입니다.
+      <Scene tone="deep" id="human-run">
+        <h2>작은 실행 한 번은 응모자가 터미널에서 승인했습니다</h2>
+        <p className="say">
+          이름과 계획 해시를 입력하는 명령이고, <strong>코드는 입력한 사람이 누구인지 확인하지 못합니다.</strong> 정답이 없어 이 실행으로도 안을 고를 수 없습니다.
+        </p>
+        <Figure label={`사람 승인 실행의 계획 답 ${num("stage4.human2.plan.answers")}건 가운데 캐시 답 ${cachedAnswers}건, 새로 받은 답 ${newAnswers}건입니다.`} className="human-bar">
+          <div className="time-bar">
+            <div style={{ flex: cachedAnswers, background: "#567079" }}>앞 실행 캐시 {cachedAnswers}건</div>
+            <div style={{ flex: newAnswers, background: "#00829B" }}>새로 받은 답 {newAnswers}건</div>
+          </div>
+        </Figure>
+        <p className="small" style={{ marginTop: 10, maxWidth: "46em" }}>
+          이 실행의 비용 {usd(num("spend.stage4.human2.run"))}은 새로 받은 답의 비용이고, 답 {num("stage4.human2.plan.answers").toLocaleString("en-US")}건을 모두 새로 부를 때의 비용이 아닙니다.
+        </p>
+        <Evidence summary="승인 기록과 안별 제안 보기">
+      <div className="band">
+        <p>
+          <strong>작은 실행 한 번을 사람이 승인했습니다.</strong> run <code>{human.run_id}</code>, {human.approval.at.slice(0, 10)}, 터미널에 입력한 이름 {str("stage4.human2.approval.typed_name")}. 이름과 계획 해시를 입력하는 명령이고, <strong>코드는 입력한 사람이 누구인지 확인하지 못합니다.</strong> 위 시연을 포함한 앞선 시연 승인은 사람이 하지 않았습니다.
+        </p>
+        <p>
+          첫 시도 <code>human1</code>은 이름을 입력한 뒤 패널 호출 전에 코드 버그로 멈췄습니다. 고친 뒤 다시 실행한 것이 이 기록이고, 첫 시도의 기록도 저장소에 있습니다(results/stage4/human1).
+        </p>
+      </div>
+      <p>
+        {human.n_personas}명, 카드 {human.cards.join(", ")}, 두 모델({human.models.map((m) => MODEL[m] ?? m).join(", ")})입니다. 계획은 답 {num("stage4.human2.plan.answers").toLocaleString("en-US")}건이고, {num("stage4.human2.calls.answers_from_cache")}건은 앞 실행의 캐시에 있던 답이며 새로 받은 답은 {num("stage4.human2.calls.new_answers")}건입니다. 이 실행의 비용은 {usd(num("spend.stage4.human2.run"))}(패널 {usd(num("spend.stage4.human2.panel"))}, 탐색 {usd(num("spend.stage4.human2.explore"))})이고, {num("stage4.human2.plan.answers").toLocaleString("en-US")}건을 모두 새로 부를 때의 비용이 아닙니다. 매니페스트 <code>{human.manifest_sha256}</code>.
       </p>
+      <HumanActionTable />
+      <ul className="small">
+        {human.action.notes.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
+        <li>이 실행도 시연 카드이고 정답이 없어 시연과 같은 결론을 내도 안을 고를 수 없습니다. 실측 대결을 돌리지 않아 원장의 real_results와 human_decision은 비어 있습니다.</li>
+      </ul>
+      <Caveats items={caveats(["stage4.human2.action.A", "stage4.human2.calls.new_answers", "spend.stage4.human2.run"])} />
+      <SourceLine files={sources(["stage4.human2.action.A", "stage4.human2.calls.new_answers", "spend.stage4.human2.run"])} keys="stage4.human2.*, spend.stage4.human2.*" />
+        </Evidence>
+      </Scene>
 
-      <h2>부록: 앞 단계 규칙의 판정표</h2>
+      <Scene id="explore">
+        <h2>탐색 출력은 모두 가설 문장이고, 쓸모는 아직 재지 않았습니다</h2>
+        <p className="say">응답자의 말이 아닙니다. 실제 소비자에게 확인하지 않았고, 문장이 일반적이며 카드 문구를 되풀이하는 편입니다.</p>
+        <div className="bubble-row">
+          {hypothesisBubbles.map((line) => (
+            <blockquote className="bubble" key={line}>
+              {line}
+              <span className="bubble-mark">LLM 문장, 응답자의 말이 아님</span>
+            </blockquote>
+          ))}
+        </div>
+        <Evidence summary="탐색 출력 전체와 필터 시험 보기">
+      <div className="band">
+        <p>
+          <strong>{stage4.explore.marking}</strong> 실제 소비자에게 확인하지 않았고 쓸모도 재지 않았습니다.
+        </p>
+      </div>
+      <p>
+        후보 카드마다 저장된 Terra 이유 문장을 Terra 호출 한 번으로 묶었습니다. 숫자 규칙, 차단 패턴, 페르소나 문장이나 이유 원문과 긴 조각을 공유하는 문장은 코드가 뺍니다. 패턴은 나열된 형태만 잡습니다. 합성 문장을 심는 필터 시험은 {num("stage4.explore_filter.passed")}/{num("stage4.explore_filter.total")} 통과했고 시험하지 않은 표현은 통과할 수 있습니다. 문장이 일반적이고 카드 문구를 되풀이하는 편입니다.
+      </p>
+      <div className="card-grid">
+        {exploreCards.map((card) => (
+          <ExploreCard card={card} key={card} />
+        ))}
+      </div>
+      <div className="table-wrap" tabIndex={0}>
+        <table>
+          <thead>
+            <tr>
+              <th>안</th>
+              <th className="num">읽은 이유</th>
+              {EXPLORE_SECTIONS.map((s) => (
+                <th className="num" key={s.id}>
+                  {s.label}
+                </th>
+              ))}
+              <th className="num">페르소나 겹침</th>
+              <th className="num">이유 원문 겹침</th>
+              <th className="num">이 실행의 호출</th>
+              <th className="num">앞 실행(demo7)의 비용</th>
+            </tr>
+          </thead>
+          <tbody>
+            {exploreCards.map((card) => (
+              <tr key={card}>
+                <td>{card}</td>
+                <td className="num">{stage4.explore.cards[card].reasons_read}</td>
+                {EXPLORE_SECTIONS.map((s) => (
+                  <td className="num" key={s.id}>
+                    {num(`stage4.explore8.${card}.${s.id}.kept`)}
+                  </td>
+                ))}
+                <td className="num">{stage4.explore.cards[card].echo.persona_echo}</td>
+                <td className="num">{stage4.explore.cards[card].echo.reason_echo}</td>
+                <td className="num">{num(`stage4.explore8.${card}.calls_this_card`)}</td>
+                <td className="num">{usd(num(`stage4.explore.${card}.cost_usd`))}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="small">상한은 반대 이유와 끌리는 점 각 5개, 세그먼트 가설 3개, 문항 초안 5개입니다. 코드가 뺀 문장은 카드마다 상한 초과 {stage4.explore.cards.A.dropped_by_code.over_limit}건입니다.</p>
+      <Caveats items={caveats(["stage4.explore.A.cost_usd", "stage4.explore_filter.total"])} />
+      <SourceLine files={sources(["stage4.explore8.A.objections.kept", "stage4.explore.A.cost_usd", "stage4.explore_filter.total"])} keys="stage4.explore8.*, stage4.explore.*, stage4.explore_filter.*" />
+        </Evidence>
+      </Scene>
+
+      <Scene tone="glass" id="duel">
+        <h2>실측 대결은 대용 자료로만 돌렸습니다</h2>
+        <p className="say">경로는 만들었지만 실제 설문을 만난 적이 없습니다. 지금 문항지로는 응답자 단위 패널 값을 만들 수도 없습니다.</p>
+        <ol className="pipeline" aria-label="실측 대결 경로의 상태">
+          <li>
+            <span>실측 파일 받기, 만듦</span>
+          </li>
+          <li>
+            <span>대용 자료로 실행, 한 번</span>
+          </li>
+          <li className="is-out">
+            <span>응답자 단위 패널 값 만들기, 코드 없음</span>
+          </li>
+          <li className="is-out">
+            <span>실제 설문으로 실행, 없음</span>
+          </li>
+        </ol>
+        <Evidence summary="건강검진 기록과 경로 상태 전체 보기">
+          <Glossary />
+      <HealthCheckDecision />
+      <p>실측 200명이 오면 같은 응답자의 패널 값과 묶어 R1과 겨루고, 결과를 건강검진으로 보고서와 원장에 적습니다. 규칙의 신뢰도는 <a href="/results#duel">측정 결과 9절</a>에 있습니다.</p>
+      <DuelStatusTable />
+      <h3>이 실행의 기록 (results/stage4/{demo.run_id}/real_results.json)</h3>
+      <ul>
+        {stage4.real_results.lines.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
+      </ul>
+      <p className="small">항목별 결과는 싣지 않습니다. 같은 표본에서 접힘 시드만 바꿔도 항목별 keep이 크게 달라져(<a href="/results#same-sample">측정 결과 9절</a>) 한 번의 항목별 결과를 인용할 수 없습니다.</p>
+      <p className="small">받는 파일: 실측 파일은 respondent_id, age_band, sex, weight, ever, weekly, carb, concept_X(1~5), 있으면 unit_id, 패널 파일은 respondent_id, p_ever, p_weekly, p_carb, p_concept_X입니다. 대용 파일은 git이 무시하는 폴더에 있고 이 사이트와 저장소에는 집계만 있습니다.</p>
+      <Caveats items={caveats(["stage4.demo8.ingest.report_status"])} />
+      <SourceLine files={sources(["stage4.demo8.ingest.report_status"])} keys="stage4.demo8.ingest.*" />
+        </Evidence>
+      </Scene>
+
+      <Scene id="appendix">
+        <h2>부록: 앞 단계 규칙의 판정표</h2>
+        <p className="say">이 라벨은 앞 단계 규칙의 기록이고 결정에 쓰지 않습니다.</p>
+        <Evidence summary="판정표, 판정 문장, 실행 안의 진단 보기">
+          <Glossary />
       <p>이 라벨은 앞 단계 규칙의 기록입니다. 결정에 쓰지 않습니다. {demo.verdict.header} 칸 라벨은 동결된 규칙 v2와 카드의 앵커로 정해지고, 규칙 v2는 답을 본 뒤에 썼습니다.</p>
       <VerdictTable rows={overall} />
       <details>
@@ -326,7 +440,7 @@ export default function RunPage() {
         </ul>
       </details>
 
-      <h3>실행 안의 진단 (정답과 무관한 잡음 점검)</h3>
+      <h4>실행 안의 진단 (정답과 무관한 잡음 점검)</h4>
       <div className="table-wrap" tabIndex={0}>
         <table>
           <thead>
@@ -388,7 +502,7 @@ export default function RunPage() {
         잡음을 넘는 차이도 실측에서 보일 만한 크기라는 뜻은 아닙니다. 실측 200명 전체의 단일 비율 오차는 ±{num("demo.allocation.overall.margin_pp")}pp입니다. 바꿔 쓴 카드는 후보 A 하나뿐이라 이 잡음이 다른 후보에도 같다고 가정합니다. 이 실행의 추적 파일에는 절대값을 싣지 않고 쌍 차이만 남겼습니다. 앞 실행 demo~demo5의 추적 파일에는 숨긴 칸의 값이 남아 있어, 그 실행들에서 「절대값 숨김」은 보고서 본문에만 해당합니다.
       </p>
 
-      <h3>왜 그럴 수 있나 (가설, 근거 아님)</h3>
+      <h4>왜 그럴 수 있나 (가설, 근거 아님)</h4>
       <ul>
         {hypotheses.map((s) => (
           <li key={s}>가설: {s}</li>
@@ -397,6 +511,8 @@ export default function RunPage() {
 
       <Caveats items={caveats(demoKeys)} />
       <SourceLine files={sources(demoKeys)} keys="demo.*" />
+        </Evidence>
+      </Scene>
     </>
   );
 }

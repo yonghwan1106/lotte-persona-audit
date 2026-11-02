@@ -3,12 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { COLOR } from "@/lib/colors";
 
-const SURFACE = "#fcfcfb";
-const INK = "#1a1a19";
-const INK2 = "#52514e";
-const MUTED = "#6b6a65";
-const GRID = "#e1e0d9";
-const AXIS = "#c3c2b7";
+const SURFACE = "#ffffff";
+const INK = "#12323B";
+const INK2 = "#3E5B64";
+const MUTED = "#48656E";
+const GRID = "#D9E7EA";
+const AXIS = "#9FBAC0";
 
 export type Mark = { x: number; lo?: number; hi?: number; fill: string; hollow?: boolean; small?: boolean };
 export type DotRow = { label?: string; value?: string; marks?: Mark[]; link?: [number, number]; tip?: string; heading?: string };
@@ -103,7 +103,7 @@ export function DotRows({
 
   return (
     <div className="chart-box" ref={ref}>
-      <svg width={width} height={height} role="group" aria-label={ariaLabel}>
+      <svg width={width} height={height} role="img" aria-label={ariaLabel}>
         {ticks.map((t) => (
           <g key={t}>
             <line x1={xs(t)} x2={xs(t)} y1={topPad} y2={plotBottom} stroke={t === 0 ? AXIS : GRID} strokeWidth="1" />
@@ -145,24 +145,18 @@ export function DotRows({
           return (
             <g
               key={`r${index}`}
-              tabIndex={row.tip ? 0 : undefined}
-              role={row.tip ? "img" : undefined}
-              aria-label={row.tip}
               onMouseMove={open}
               onMouseLeave={() => setTip(null)}
               onClick={open}
-              onFocus={() => show(row.tip, plotLeft, top)}
-              onBlur={() => setTip(null)}
-              style={{ outline: "none" }}
             >
               <rect x={0} y={top} width={width} height={rowH} fill="transparent" />
               {row.label ? (
-                <text x={0} y={textY} fontSize="13" fill={INK} stroke={SURFACE} strokeWidth="3" style={{ paintOrder: "stroke" }}>
+                <text x={0} y={textY} fontSize="13.5" fill={INK}>
                   {row.label}
                 </text>
               ) : null}
               {row.value ? (
-                <text x={wide ? width : narrowTwoTier ? 0 : width} y={valueY} textAnchor={wide || !narrowTwoTier ? "end" : "start"} fontSize="12.5" fill={INK2} stroke={SURFACE} strokeWidth="3" style={{ fontVariantNumeric: "tabular-nums", paintOrder: "stroke" }}>
+                <text x={wide ? width : narrowTwoTier ? 0 : width} y={valueY} textAnchor={wide || !narrowTwoTier ? "end" : "start"} fontSize="12.5" fill={INK2} style={{ fontVariantNumeric: "tabular-nums" }}>
                   {row.value}
                 </text>
               ) : null}
