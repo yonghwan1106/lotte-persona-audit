@@ -1,0 +1,840 @@
+{
+ "rule_version": "agent-1 on v2",
+ "header": "판정은 코드가 내고, 임계값은 답을 보기 전에 고정했습니다.",
+ "rows": [
+  {
+   "card": "A",
+   "model": "gpt-6.1-terra",
+   "segment": "all",
+   "n": 100,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6.1-terra",
+   "segment": "19-39_f",
+   "n": 12,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6.1-terra",
+   "segment": "19-39_m",
+   "n": 16,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6.1-terra",
+   "segment": "40-59_f",
+   "n": 20,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6.1-terra",
+   "segment": "40-59_m",
+   "n": 24,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "구분 불가",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6.1-terra",
+   "segment": "60+_f",
+   "n": 15,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6.1-terra",
+   "segment": "60+_m",
+   "n": 13,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6.1-terra",
+   "segment": "all",
+   "n": 100,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6.1-terra",
+   "segment": "19-39_f",
+   "n": 12,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6.1-terra",
+   "segment": "19-39_m",
+   "n": 16,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6.1-terra",
+   "segment": "40-59_f",
+   "n": 20,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "구분 불가",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6.1-terra",
+   "segment": "40-59_m",
+   "n": 24,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "구분 불가",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6.1-terra",
+   "segment": "60+_f",
+   "n": 15,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6.1-terra",
+   "segment": "60+_m",
+   "n": 13,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6.1-terra",
+   "segment": "all",
+   "n": 100,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "유효",
+   "label": "방향만",
+   "flags": [
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": true,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6.1-terra",
+   "segment": "19-39_f",
+   "n": 12,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6.1-terra",
+   "segment": "19-39_m",
+   "n": 16,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6.1-terra",
+   "segment": "40-59_f",
+   "n": 20,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "유효",
+   "label": "방향만",
+   "flags": [
+    "구분 불가",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": true,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6.1-terra",
+   "segment": "40-59_m",
+   "n": 24,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "유효",
+   "label": "방향만",
+   "flags": [
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": true,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6.1-terra",
+   "segment": "60+_f",
+   "n": 15,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6.1-terra",
+   "segment": "60+_m",
+   "n": 13,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6-luna",
+   "segment": "all",
+   "n": 100,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6-luna",
+   "segment": "19-39_f",
+   "n": 12,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6-luna",
+   "segment": "19-39_m",
+   "n": 16,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6-luna",
+   "segment": "40-59_f",
+   "n": 20,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6-luna",
+   "segment": "40-59_m",
+   "n": 24,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "구분 불가",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6-luna",
+   "segment": "60+_f",
+   "n": 15,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "A",
+   "model": "gpt-6-luna",
+   "segment": "60+_m",
+   "n": 13,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6-luna",
+   "segment": "all",
+   "n": 100,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6-luna",
+   "segment": "19-39_f",
+   "n": 12,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6-luna",
+   "segment": "19-39_m",
+   "n": 16,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6-luna",
+   "segment": "40-59_f",
+   "n": 20,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "구분 불가",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6-luna",
+   "segment": "40-59_m",
+   "n": 24,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "유효",
+   "label": "실측 전용",
+   "flags": [
+    "구분 불가",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6-luna",
+   "segment": "60+_f",
+   "n": 15,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "B",
+   "model": "gpt-6-luna",
+   "segment": "60+_m",
+   "n": 13,
+   "base_label_v2": "실측 전용",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만",
+    "carb": "실측 전용"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6-luna",
+   "segment": "all",
+   "n": 100,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "유효",
+   "label": "방향만",
+   "flags": [
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": true,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6-luna",
+   "segment": "19-39_f",
+   "n": 12,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6-luna",
+   "segment": "19-39_m",
+   "n": 16,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6-luna",
+   "segment": "40-59_f",
+   "n": 20,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "유효",
+   "label": "방향만",
+   "flags": [
+    "구분 불가",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": true,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6-luna",
+   "segment": "40-59_m",
+   "n": 24,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "유효",
+   "label": "방향만",
+   "flags": [
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": true,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6-luna",
+   "segment": "60+_f",
+   "n": 15,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  },
+  {
+   "card": "C",
+   "model": "gpt-6-luna",
+   "segment": "60+_m",
+   "n": 13,
+   "base_label_v2": "방향만",
+   "base_by_item": {
+    "ever": "방향만",
+    "weekly": "방향만"
+   },
+   "run_status": "미확정",
+   "label": "실측 전용",
+   "flags": [
+    "응답자 수 부족",
+    "성별 차이 사용 금지"
+   ],
+   "absolute_shown": false,
+   "order_allowed": false
+  }
+ ],
+ "sentences": [
+  "terra에서 브랜드 표시 효과는 바꿔 쓴 차이를 넘지 않았습니다.",
+  "terra에서 후보 A와 B의 차이는 같은 안을 바꿔 쓴 차이를 넘습니다. 이 칸의 사용 범위는 판정표를 따릅니다.",
+  "terra에서 후보 A와 C의 차이는 같은 안을 바꿔 쓴 차이를 넘습니다. 이 칸의 사용 범위는 판정표를 따릅니다.",
+  "terra에서 후보 B와 C의 차이는 같은 안을 바꿔 쓴 차이를 넘습니다. 이 칸의 사용 범위는 판정표를 따릅니다.",
+  "후보 A는 terra all에서 실측 전용입니다.",
+  "후보 B는 terra all에서 실측 전용입니다.",
+  "후보 C는 terra all에서 방향만입니다.",
+  "luna에서 브랜드 표시 효과는 바꿔 쓴 차이를 넘지 않았습니다.",
+  "luna에서 후보 A와 B의 차이는 같은 안을 바꿔 쓴 차이를 넘습니다. 이 칸의 사용 범위는 판정표를 따릅니다.",
+  "luna에서 후보 A와 C의 차이는 같은 안을 바꿔 쓴 차이를 넘습니다. 이 칸의 사용 범위는 판정표를 따릅니다.",
+  "luna에서 후보 B와 C의 차이는 같은 안을 바꿔 쓴 차이를 넘습니다. 이 칸의 사용 범위는 판정표를 따릅니다.",
+  "후보 A는 luna all에서 실측 전용입니다.",
+  "후보 B는 luna all에서 실측 전용입니다.",
+  "후보 C는 luna all에서 방향만입니다."
+ ],
+ "any_order_allowed": false,
+ "raw_panel_number_as_market_number": false
+}

@@ -1,0 +1,56 @@
+{
+ "status": "done",
+ "card": "C",
+ "marking": "아래는 LLM 출력입니다. 응답자의 말이 아닙니다. 모든 문장은 가설입니다. 이 표본에는 수치가 없지만, 코드는 나열된 형태만 걸러 내므로 도구가 모든 수치와 판정 표현을 막는다는 뜻은 아닙니다.",
+ "source": {
+  "model_of_reasons": "gpt-6.1-terra",
+  "reasons_read": 100,
+  "calls_this_card": 1,
+  "cost_usd": 0.008608
+ },
+ "sections": {
+  "objections": [
+   "가설: 제시된 가격대가 부담으로 느껴져 구매를 망설일 수 있다.",
+   "가설: 유자 향이 있는 음료를 선호하지 않아 선택을 망설일 수 있다."
+  ],
+  "attractions": [
+   "가설: 당류가 없다는 점이 음료를 고를 때 매력으로 작용할 수 있다.",
+   "가설: 칼로리가 없다는 점이 선택 이유가 될 수 있다.",
+   "가설: 유자 향이라는 표현이 관심을 끌 수 있다.",
+   "가설: 탄산이 없다는 점이 음용 상황에 맞는 특징으로 여겨질 수 있다.",
+   "가설: 운동 뒤나 일상에서 마실 수 있다는 쓰임새가 관심을 끌 수 있다."
+  ],
+  "segment_hypotheses": [
+   "가설: 젊은 층과 고령층에서 제시된 가격대에 대한 반응이 다를 수 있다.",
+   "가설: 중년층과 고령층에서 유자 향 음료에 대한 관심이 다를 수 있다.",
+   "가설: 운동 뒤 음료를 찾는 생활 습관에 따라 콘셉트에 대한 관심이 달라질 수 있다."
+  ],
+  "survey_questions": [
+   "가설: 콘셉트에 제시된 가격대를 어떻게 평가하시나요?",
+   "가설: 유자 향이 나는 음료에 대해 어떻게 생각하시나요?",
+   "가설: 당류가 없다는 점은 음료 선택에 어떤 영향을 미치나요?",
+   "가설: 칼로리가 없다는 점은 음료 선택에 어떤 영향을 미치나요?",
+   "가설: 탄산이 없다는 점은 음료 선택에 어떤 영향을 미치나요?"
+  ]
+ },
+ "returned_by_model": {
+  "objections": 3,
+  "attractions": 6,
+  "segment_hypotheses": 4,
+  "survey_questions": 7
+ },
+ "dropped_by_code": {
+  "taste": 1,
+  "over_limit": 4
+ },
+ "echo_check": {
+  "sentences_checked": 15,
+  "personas_compared": 100,
+  "reasons_compared": 100,
+  "persona_echo": 0,
+  "reason_echo": 0,
+  "passed": true,
+  "persona_run_chars": 10,
+  "reason_run_chars": 15
+ }
+}
