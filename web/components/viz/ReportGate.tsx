@@ -25,7 +25,7 @@ function Drawing({ width, keeps }: { width: number; keeps: number }) {
     <svg viewBox={`0 0 ${width} ${height}`} className="gate-svg">
       {/* the pipe up to the door, full of panel liquid */}
       <rect x={left} y={pipeTop} width={door - left} height={pipeH} fill={YUZU} />
-      {FIZZ.map((f, i) => (
+      {FIZZ.filter((f) => f > (narrow ? 0.6 : 0.3)).map((f, i) => (
         <circle key={f} cx={left + f * (door - left)} cy={pipeTop + pipeH * (i % 2 ? 0.28 : 0.74)} r={i % 3 === 0 ? 5 : 3.5} fill="#ffffff" opacity={0.72} />
       ))}
       <path d={`M${left} ${pipeTop} H${door} M${left} ${pipeTop + pipeH} H${door}`} stroke="#ffffff" strokeWidth={3} fill="none" />
